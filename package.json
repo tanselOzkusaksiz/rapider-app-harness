@@ -1,0 +1,22 @@
+{
+  "name": "rapider-app-harness",
+  "version": "1.0.0",
+  "description": "Standalone test harness and local runner for Rappider applications",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "rappider",
+    "harness",
+    "runner",
+    "local-test"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2"
+  }
+}

@@ -1,0 +1,225 @@
+/* ==========================================================================
+   TAILWIND V4 REAL-TIME BROWSER COMPILER THEME
+========================================================================== */
+@theme {
+  /* Backgrounds */
+  --color-body-background: var(--body-background-color);
+  --color-component-header: var(--component-header-background-color);
+  --color-component-inner: var(--component-inner-background-color);
+  --color-alt-background: var(--alternative-background-color);
+  --color-alt-bold-background: var(--alternative-bold-background-color);
+  --color-input-background: var(--input-background-color);
+  --color-navbar-background: var(--navbar-background-color);
+  --color-section-background: var(--section-background-color);
+  --color-table-background: var(--table-background-color);
+  --color-table-header-background: var(--table-header-background-color);
+  --color-nav-layout-background: var(--navigation-layout-background-color);
+  --color-inner-layout-background: var(--inner-layout-background-color);
+  --color-active-pill-background: var(--active-pill-background-color);
+
+  /* Borders */
+  --color-primary-border: var(--primary-border-color);
+  --color-secondary-border: var(--secondary-border-color);
+
+  /* Text */
+  --color-text-main: var(--text-color);
+  --color-primary-text: var(--primary-text-color);
+  --color-secondary-text: var(--secondary-text-color);
+  --color-alt-text: var(--alternative-text-color);
+  --color-placeholder: var(--placeholder-color);
+  --color-heading: var(--h1-color) !important;
+  --color-h2: var(--h2-color) !important;
+  --color-h3: var(--h3-color) !important;
+  --color-h4: var(--h4-color) !important;
+  --color-h5: var(--h5-color) !important;
+  --color-h6: var(--h6-color) !important;
+  --color-link: var(--link-color) !important;
+
+  /* Buttons & Interactive */
+  --color-button-bg: var(--button-background-color);
+  --color-primary-button-text: var(--primary-button-text-color);
+  --color-secondary-button-text: var(--secondary-button-text-color);
+  --color-disabled-bg: var(--disabled-color);
+  --color-disabled-text: var(--disabled-text-color);
+
+  /* Semantics & States */
+  --color-primary: var(--primary-color);
+  --color-default: var(--default-color);
+  --color-danger: var(--danger-color);
+  --color-success: var(--success-color);
+  --color-warning: var(--warning-color);
+  --color-info: var(--info-color);
+  --color-progress: var(--progress-color);
+
+  /* Hovers */
+  --color-hover-default: var(--default-hover-color);
+  --color-hover-primary: var(--primary-hover-color);
+  --color-hover-danger: var(--danger-hover-color);
+  --color-hover-success: var(--success-hover-color);
+  --color-hover-warning: var(--warning-hover-color);
+  --color-hover-info: var(--info-hover-color);
+  --color-hover-table: var(--table-hover-color);
+  --color-hover-comment: var(--comment-hover-color);
+  --color-highlight: var(--highlight-background-color);
+  --color-on-highlight: var(--highlight-text-color);
+
+  /* Focus */
+  --color-focus-ring: var(--focus-color);
+
+  /* Shadows */
+  --shadow-default: var(--box-shadow);
+  --shadow-thick: var(--thick-box-shadow);
+  --shadow-high: var(--high-box-shadow);
+}
+
+/* ==========================================================================
+   LIGHT MODE DESIGN VALUES
+========================================================================== */
+:root {
+  color-scheme: light;
+
+  --body-background-color: #f9fbfd;
+  --component-header-background-color: #f7f7f7;
+  --component-inner-background-color: #ffffff;
+  --alternative-background-color: #f4f5f7;
+  --alternative-bold-background-color: #f4f5f7;
+  --input-background-color: #ffffff;
+  --navbar-background-color: #f7f7f7;
+  --section-background-color: #ffffff;
+  --table-background-color: #fff;
+  --table-header-background-color: rgba(0, 0, 0, 0.02);
+  --navigation-layout-background-color: rgba(77, 107, 254, 0.05);
+  --inner-layout-background-color: #f9fbfd;
+  --active-pill-background-color: #e6e8eb;
+
+  --primary-border-color: #edf2f0;
+  --secondary-border-color: #dee2e6d5;
+
+  --text-color: #343a40;
+  --primary-text-color: #16181b;
+  --secondary-text-color: #6a7482;
+  --alternative-text-color: #343a40;
+  --placeholder-color: #bfbfbf;
+  --h1-color: #16181b;
+  --h2-color: #16181b;
+  --h3-color: #16181b;
+  --h4-color: #16181b;
+  --h5-color: #16181b;
+  --h6-color: #16181b;
+  --link-color: #16181b;
+
+  --primary-button-text-color: #ffffff;
+  --secondary-button-text-color: #343a40;
+  --button-background-color: #ffffff;
+
+  --disabled-color: #f5f5f5;
+  --disabled-text-color: #00000040;
+
+  --primary-color: #1890ff;
+  --default-color: #ffffff;
+  --danger-color: #ff4d4f;
+  --success-color: #33cc33;
+  --warning-color: #ffcc00;
+  --info-color: #6495ed;
+  --progress-color: purple;
+
+  --default-hover-color: #e6e6e6;
+  --primary-hover-color: #3aa0ff;
+  --danger-hover-color: #bd2837;
+  --success-hover-color: #23b623;
+  --warning-hover-color: #e9bf19;
+  --info-hover-color: #5682d4;
+  --table-hover-color: #fcfcfc;
+  --comment-hover-color: #e9e9e9;
+  --highlight-background-color: #e6f4ff;
+  --highlight-text-color: #16181b;
+
+  --focus-color: rgba(63, 135, 245, 0.1);
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --thick-box-shadow: 0 5px 15px rgba(206, 203, 203, 0.39);
+  --high-box-shadow: 0 2px 8px rgba(206, 203, 203, 0.39);
+}
+
+/* ==========================================================================
+   DARK MODE DESIGN VALUES
+========================================================================== */
+.dark {
+  color-scheme: dark;
+
+  --body-background-color: #1f2126;
+  --component-header-background-color: #1f2126;
+  --component-inner-background-color: #25272c;
+  --alternative-background-color: #2d2f34;
+  --alternative-bold-background-color: #212226;
+  --input-background-color: #2d2f34;
+  --navbar-background-color: #2d2f34;
+  --section-background-color: #2d2f34;
+  --table-background-color: #1f2126;
+  --table-header-background-color: rgba(255, 255, 255, 0.02);
+  --navigation-layout-background-color: #3a3c3f;
+  --inner-layout-background-color: #1f2126;
+  --active-pill-background-color: #3d4047;
+
+  --primary-border-color: #3a3c3f;
+  --secondary-border-color: #3d4047;
+
+  --text-color: #f0f0f0;
+  --primary-text-color: #f0f0f0;
+  --secondary-text-color: #c3c3c3;
+  --alternative-text-color: #f0f0f0;
+  --placeholder-color: #8c8c8c;
+  --h1-color: #f0f0f0;
+  --h2-color: #f0f0f0;
+  --h3-color: #f0f0f0;
+  --h4-color: #f0f0f0;
+  --h5-color: #f0f0f0;
+  --h6-color: #f0f0f0;
+  --link-color: #f0f0f0;
+
+  --primary-button-text-color: #f0f0f0;
+  --secondary-button-text-color: #f0f0f0;
+  --button-background-color: #3a3b3e;
+  --disabled-color: #3d4047;
+  --disabled-text-color: #f0f0f080;
+
+  --primary-color: #1890ff;
+  --default-color: #3a3b3e;
+  --danger-color: #ff4d4f;
+  --success-color: #33cc33;
+  --warning-color: #ffcc00;
+  --info-color: #6495ed;
+  --progress-color: purple;
+
+  --default-hover-color: #3d4047;
+  --primary-hover-color: #3aa0ff;
+  --danger-hover-color: #bd2837;
+  --success-hover-color: #23b623;
+  --warning-hover-color: #e9bf19;
+  --info-hover-color: #5682d4;
+  --table-hover-color: #2d2f34;
+  --comment-hover-color: #282a2e;
+  --highlight-background-color: #112a45;
+  --highlight-text-color: #f0f0f0;
+
+  --focus-color: rgba(63, 135, 245, 0.1);
+  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  --thick-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
+  --high-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Embedded Scrollbar Styling inside the Sandbox */
+.custom-scrollbar {
+  scrollbar-color: var(--secondary-border-color) transparent;
+  scrollbar-width: thin;
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--secondary-border-color);
+  border-radius: 10px;
+}

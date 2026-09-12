@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rappider App Harness | Local Test Runner</title>
+  
+  <!-- FontAwesome & Material Icons -->
+  <script src="https://kit.fontawesome.com/5b23df26dc.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" crossorigin="anonymous">
+  
+  <!-- Harness Styling -->
+  <link rel="stylesheet" href="/css/harness.css">
+</head>
+<body class="dark-theme">
+
+  <div id="app-shell">
+    
+    <!-- ==========================================================================
+         TOP NAVIGATION HEADER
+         ========================================================================== -->
+    <header id="header-bar">
+      <div class="header-left">
+        <div class="brand-badge">
+          <div class="brand-logo-icon">
+            <i class="fas fa-rocket"></i>
+          </div>
+          <div>
+            <div class="brand-title">Rappider Harness</div>
+          </div>
+          <span class="brand-subtitle">LOCAL RUNNER</span>
+        </div>
+
+        <!-- App Switcher Dropdown -->
+        <div class="app-selector-wrapper">
+          <button id="app-selector-btn" class="app-selector-btn">
+            <i id="app-icon" class="fas fa-cubes"></i>
+            <span id="app-name">Loading App...</span>
+            <i class="fas fa-chevron-down" style="font-size: 10px; opacity: 0.6;"></i>
+          </button>
+          <div id="app-selector-menu" class="app-selector-menu">
+            <!-- App options injected dynamically -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Viewport Controls & Address Bar -->
+      <div class="header-center">
+        <div class="url-bar">
+          <i class="fas fa-globe" style="font-size: 12px; opacity: 0.5;"></i>
+          <span class="host-pill">localhost:3300</span>
+          <span id="url-bar-text">/dashboard</span>
+        </div>
+
+        <div class="viewport-controls">
+          <button class="btn-icon btn-viewport active" data-mode="desktop" title="Desktop View (100%)">
+            <i class="fas fa-desktop"></i>
+          </button>
+          <button class="btn-icon btn-viewport" data-mode="tablet" title="Tablet View (768px)">
+            <i class="fas fa-tablet-alt"></i>
+          </button>
+          <button class="btn-icon btn-viewport" data-mode="mobile" title="Mobile View (375px)">
+            <i class="fas fa-mobile-alt"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Header Actions & Project Status -->
+      <div class="header-right">
+        <button id="btn-refresh-page" class="btn-icon" title="Reload Active Page (R)">
+          <i class="fas fa-redo-alt"></i>
+        </button>
+
+        <div id="project-badge" class="project-badge" title="Click to manage backend connection">
+          <div id="project-status-dot" class="status-dot"></div>
+          <span id="project-name-text">Checking Connection...</span>
+          <i class="fas fa-chevron-down" style="font-size: 9px; opacity: 0.6;"></i>
+        </div>
+
+        <button id="btn-toggle-theme" class="btn-icon" title="Toggle Light / Dark Mode">
+          <i class="fas fa-moon"></i>
+        </button>
+
+        <button id="btn-toggle-devtools" class="btn-icon active" title="Toggle Developer API Inspector">
+          <i class="fas fa-terminal"></i>
+        </button>
+
+        <button id="btn-open-auth" class="btn-primary">
+          <i class="fas fa-plug"></i> Connect
+        </button>
+      </div>
+    </header>
+
+    <!-- ==========================================================================
+         SIDEBAR NAVIGATION
+         ========================================================================== -->
+    <aside id="sidebar">
+      <div class="sidebar-search">
+        <i class="fas fa-search" style="font-size: 11px; opacity: 0.5;"></i>
+        <input type="text" id="sidebar-search-input" placeholder="Filter pages...">
+        <button id="btn-toggle-sidebar" class="btn-icon" style="width:24px; height:24px; font-size:10px;" title="Collapse Sidebar">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-heading">Application Pages</div>
+
+      <nav id="sidebar-nav-list" class="sidebar-nav-list">
+        <!-- Injected dynamically from manifest webPages -->
+      </nav>
+
+      <div class="sidebar-footer">
+        <span id="app-description" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 190px;">Rappider Application</span>
+        <i class="fas fa-code-branch" style="opacity: 0.5;"></i>
+      </div>
+    </aside>
+
+    <!-- ==========================================================================
+         MAIN VIEWPORT (SANDBOX IFRAME)
+         ========================================================================== -->
+    <main id="main-viewport">
+      <div id="viewport-container" class="viewport-iframe-container">
+        <!-- Sandboxed Page View -->
+        <iframe id="sandbox-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
+
+        <!-- Loading Overlay -->
+        <div id="iframe-loader">
+          <div class="spinner"></div>
+          <div style="font-size: 13px; font-weight: 500; color: var(--text-secondary);">Rendering page sandbox...</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ==========================================================================
+         DEVTOOLS / API INSPECTOR DRAWER
+         ========================================================================== -->
+    <section id="devtools-drawer">
+      <div class="devtools-tabs">
+        <div class="tabs-left">
+          <button class="dev-tab active" data-target="tab-api">
+            <i class="fas fa-exchange-alt"></i> API Requests <span id="api-count-badge" class="badge-count">0</span>
+          </button>
+          <button class="dev-tab" data-target="tab-events">
+            <i class="fas fa-bolt"></i> UI Events <span id="event-count-badge" class="badge-count">0</span>
+          </button>
+          <button class="dev-tab" data-target="tab-models">
+            <i class="fas fa-database"></i> Data Models
+          </button>
+          <button class="dev-tab" data-target="tab-manifest">
+            <i class="fas fa-file-code"></i> Manifest
+          </button>
+        </div>
+        <div class="tabs-right" style="font-size: 11px; color: var(--text-muted);">
+          <span>Injected SDK: <strong>window.rapiderApi</strong></span>
+        </div>
+      </div>
+
+      <div class="devtools-content">
+        <!-- Tab 1: API Requests -->
+        <div id="tab-api" class="tab-pane active">
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Time</th>
+                <th style="width: 70px;">Method</th>
+                <th>Model (Table)</th>
+                <th style="width: 100px;">Operation</th>
+                <th style="width: 80px;">Status</th>
+                <th style="width: 80px;">Duration</th>
+              </tr>
+            </thead>
+            <tbody id="api-table-body">
+              <tr class="empty-row">
+                <td colspan="6" style="text-align: center; color: var(--text-muted); padding: 24px;">
+                  No API calls recorded yet. Interact with the application to see live requests.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tab 2: UI Events -->
+        <div id="tab-events" class="tab-pane">
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th style="width: 80px;">Time</th>
+                <th style="width: 110px;">Type</th>
+                <th style="width: 160px;">Action / Event</th>
+                <th>Payload Preview</th>
+              </tr>
+            </thead>
+            <tbody id="events-table-body">
+              <tr class="empty-row">
+                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 24px;">
+                  No UI actions or cross-iframe broadcasts recorded yet.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tab 3: Data Models -->
+        <div id="tab-models" class="tab-pane">
+          <table class="api-table">
+            <thead>
+              <tr>
+                <th style="width: 140px;">Entity Name</th>
+                <th style="width: 180px;">DataTable Name</th>
+                <th style="width: 120px;">Domain</th>
+                <th style="width: 100px;">Fields</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody id="models-table-body">
+              <!-- Models injected dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Tab 4: Manifest -->
+        <div id="tab-manifest" class="tab-pane" style="padding: 14px; background: var(--bg-elevated);">
+          <pre id="manifest-json-pre" style="font-family: var(--font-mono); font-size: 11px; color: var(--text-main);"></pre>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==========================================================================
+       OVERLAYS (MODALS, DRAWERS, TOASTS, JSON VIEWER)
+       ========================================================================== -->
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Sliding Page Drawer -->
+  <div id="drawer-overlay">
+    <div id="drawer-panel" class="drawer-panel">
+      <div class="drawer-header">
+        <h3 id="drawer-title" class="drawer-title">Drawer</h3>
+        <button id="drawer-close-btn" class="btn-icon"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="drawer-body">
+        <iframe id="drawer-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Page Modal Overlay -->
+  <div id="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-title" class="modal-title">Modal</h3>
+        <button id="modal-close-btn" class="btn-icon"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <iframe id="modal-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- JSON Detail Viewer Modal -->
+  <div id="json-viewer-modal" class="json-viewer-modal">
+    <div class="json-viewer-header">
+      <h4 id="json-viewer-title" style="font-size: 13px; font-weight: 600;">Payload Inspector</h4>
+      <button id="json-viewer-close-btn" class="btn-icon" style="width:28px; height:28px;"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="json-viewer-content" class="json-viewer-body"></div>
+  </div>
+
+  <!-- ==========================================================================
+       CONNECT & LOGIN MODAL
+       ========================================================================== -->
+  <div id="auth-modal" class="hidden">
+    <div class="auth-card">
+      <div class="auth-card-header">
+        <div class="brand-logo-icon" style="margin: 0 auto; width: 44px; height: 44px; font-size: 20px;">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h2 class="auth-card-title">Connect to Rappider Backend</h2>
+        <p class="auth-card-subtitle">Authenticate to execute live project queries without syncing</p>
+        <button id="auth-close-btn" class="btn-icon" style="position: absolute; top: 16px; right: 16px; border: none; background: none;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" data-target="auth-tab-credentials">Credentials Login</button>
+        <button class="auth-tab-btn" data-target="auth-tab-direct">Direct Token</button>
+        <button class="auth-tab-btn" data-target="auth-tab-mock">Mock Mode</button>
+      </div>
+
+      <!-- Tab 1: Credentials Login -->
+      <div id="auth-tab-credentials" class="auth-card-body auth-tab-content">
+        <div id="auth-banner" class="auth-banner"></div>
+
+        <form id="auth-login-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="form-group">
+            <label for="auth-backend-url">Backend Server URL</label>
+            <input type="text" id="auth-backend-url" class="form-control" value="http://localhost:8081" required>
+          </div>
+
+          <div class="form-group">
+            <label for="auth-username">Email / Username</label>
+            <input type="text" id="auth-username" class="form-control" placeholder="developer@rapider.ai" required>
+          </div>
+
+          <div class="form-group">
+            <label for="auth-password">Password</label>
+            <input type="password" id="auth-password" class="form-control" placeholder="••••••••" required>
+          </div>
+
+          <div id="project-select-group" class="form-group" style="display: none;">
+            <label for="auth-project-select">Active Project</label>
+            <select id="auth-project-select" class="form-control">
+              <option value="">-- Select Project --</option>
+            </select>
+          </div>
+
+          <button type="submit" id="btn-submit-login" class="btn-primary" style="justify-content: center; padding: 10px; margin-top: 6px;">
+            Sign In & Connect
+          </button>
+        </form>
+      </div>
+
+      <!-- Tab 2: Direct Token -->
+      <div id="auth-tab-direct" class="auth-card-body auth-tab-content" style="display: none;">
+        <form id="auth-direct-form" style="display: flex; flex-direction: column; gap: 14px;">
+          <div class="form-group">
+            <label for="auth-direct-backend">Backend Server URL</label>
+            <input type="text" id="auth-direct-backend" class="form-control" value="http://localhost:8081">
+          </div>
+
+          <div class="form-group">
+            <label for="auth-direct-project-id">Active Project ID</label>
+            <input type="text" id="auth-direct-project-id" class="form-control" placeholder="e.g. 2596cbc4-c2f5-4441-8b71-9a833735664e" required>
+          </div>
+
+          <div class="form-group">
+            <label for="auth-direct-token">Bearer Authentication Token</label>
+            <textarea id="auth-direct-token" class="form-control" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsIn..." style="font-family: var(--font-mono); font-size: 11px;" required></textarea>
+          </div>
+
+          <button type="submit" class="btn-primary" style="justify-content: center; padding: 10px; margin-top: 6px;">
+            Save Direct Session
+          </button>
+        </form>
+      </div>
+
+      <!-- Tab 3: Mock Mode -->
+      <div id="auth-tab-mock" class="auth-card-body auth-tab-content" style="display: none; text-align: center;">
+        <i class="fas fa-vial" style="font-size: 32px; color: var(--warning); margin-bottom: 8px;"></i>
+        <h4 style="font-size: 15px; font-weight: 600;">Offline Mock Mode</h4>
+        <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
+          Run and test the application UI with synthetic data without connecting to any live backend server.
+        </p>
+        <button id="btn-offline-mock" class="btn-primary" style="justify-content: center; background: var(--warning); color: #000; padding: 10px;">
+          Launch in Mock Mode
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Application Scripts -->
+  <script src="/js/api-client.js"></script>
+  <script src="/js/rapider-bridge.js"></script>
+  <script src="/js/harness.js"></script>
+</body>
+</html>
