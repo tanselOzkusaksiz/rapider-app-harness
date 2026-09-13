@@ -140,7 +140,17 @@ app.get('/api/page-content', (req, res) => {
       cachedThemeCss = fs.readFileSync(themeCssPath, 'utf8');
     }
 
-    const builtHtml = buildSandboxHtml(rawHtml, cachedThemeCss, isDark);
+    let routeParams = {};
+    if (req.query.routeParams) {
+      try {
+        routeParams = JSON.parse(req.query.routeParams);
+      } catch (e) {}
+    }
+    if (req.query.id) {
+      routeParams.id = req.query.id;
+    }
+
+    const builtHtml = buildSandboxHtml(rawHtml, cachedThemeCss, isDark, routeParams);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(builtHtml);
   } catch (error) {
@@ -152,7 +162,7 @@ app.get('/api/page-content', (req, res) => {
 /**
  * PURE FUNCTION: Builds complete sandbox HTML matching rapider-ui's buildSandboxHtml
  */
-function buildSandboxHtml(rawCode, themeCss, isDark = false) {
+function buildSandboxHtml(rawCode, themeCss, isDark = false, routeParams = {}) {
   const activeClassMode = isDark ? 'class="dark"' : '';
   const tailwindCdnUrl = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4';
   const ngZorroCdnUrl = 'https://cdn.jsdelivr.net/npm/ng-zorro-antd@21.2.1/ng-zorro-antd.min.css';
@@ -200,6 +210,10 @@ ${themeCss}
   const rapiderSdkScript = `
     <script data-rapider-injected="true">
       window.rapiderApi = {
+        routeParams: ${JSON.stringify(routeParams)},
+        getRouteParam: function(key) {
+          return this.routeParams ? this.routeParams[key] : null;
+        },
         // --- API REQUEST BROKER ---
         request: function(operation, entityName, payload = {}) {
           return new Promise((resolve, reject) => {

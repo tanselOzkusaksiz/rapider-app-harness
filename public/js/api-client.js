@@ -74,6 +74,22 @@ class HarnessApiClient {
   }
 
   /**
+   * Helper to decode JWT token payload safely
+   */
+  decodeJwtPayload(token) {
+    try {
+      if (!token || typeof token !== 'string') return null;
+      const parts = token.split('.');
+      if (parts.length !== 3) return null;
+      const payloadBase64 = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+      const json = decodeURIComponent(atob(payloadBase64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+      return JSON.parse(json);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
    * Login by credentials (email + password)
    */
   async login(username, password, backendUrl = this.backendUrl) {
@@ -100,14 +116,21 @@ class HarnessApiClient {
       this.token = data.authenticationToken;
       this.user = { username, loginDate: data.loginDate };
 
+      // Extract embedded project from token
+      const tokenPayload = this.decodeJwtPayload(this.token);
+      if (tokenPayload?.projectId) {
+        this.projectId = tokenPayload.projectId;
+      }
+
       // After login, fetch projects to populate project selector
       await this.fetchUserProjects();
 
-      // If user has projects and none is selected, auto-select first
-      if (this.projects.length > 0 && !this.projectId) {
-        await this.changeActiveProject(this.projects[0].id);
-      } else if (this.projectId) {
-        await this.changeActiveProject(this.projectId);
+      // If user has a matching project in list, select it; otherwise select first
+      if (this.projects.length > 0) {
+        const matchingProject = this.projects.find(p => p.id === this.projectId);
+        if (!matchingProject) {
+          await this.changeActiveProject(this.projects[0].id);
+        }
       }
 
       this.saveSession();
@@ -123,9 +146,16 @@ class HarnessApiClient {
    */
   async setDirectSession(token, projectId, backendUrl = this.backendUrl) {
     this.backendUrl = backendUrl.replace(/\/$/, '');
-    this.token = token;
-    this.projectId = projectId;
-    this.user = { username: 'Direct Token User', loginDate: new Date() };
+    this.token = (token || '').trim();
+
+    // Auto-extract embedded projectId from token payload to avoid token/project mismatch
+    const payload = this.decodeJwtPayload(this.token);
+    this.projectId = payload?.projectId || (projectId || '').trim();
+    this.user = { 
+      username: payload?.username || 'Direct Token User', 
+      fullName: payload?.personFullName || 'Direct User',
+      loginDate: new Date() 
+    };
     this.saveSession();
     return { success: true };
   }
@@ -307,6 +337,7 @@ class HarnessApiClient {
       if (!response.ok) {
         const errorMsg = (responseData && typeof responseData === 'object' && (responseData.error?.message || responseData.message)) 
           || `HTTP ${response.status}: ${response.statusText}`;
+
         eventRecord.status = 'ERROR';
         eventRecord.error = errorMsg;
         eventRecord.response = responseData;

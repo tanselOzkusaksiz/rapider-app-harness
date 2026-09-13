@@ -74,6 +74,7 @@ class RappiderHarness {
   async init() {
     this.bindEvents();
     this.setupDevToolsListeners();
+
     this.updateAuthBadge();
 
     // Check if user has saved theme preference
@@ -88,7 +89,7 @@ class RappiderHarness {
     await this.fetchApps();
 
     // 2. If not authenticated and not offline, prompt login modal
-    if (!window.apiClient.isAuthenticated()) {
+    if (!window.apiClient.isAuthenticated() && !this.isOfflineMode) {
       this.openAuthModal();
     }
 
@@ -325,7 +326,10 @@ class RappiderHarness {
     // Show Loader
     if (this.dom.iframeLoader) this.dom.iframeLoader.classList.add('active');
 
-    const iframeUrl = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&t=${Date.now()}`;
+    const paramQuery = Object.keys(params).length > 0 
+      ? `&routeParams=${encodeURIComponent(JSON.stringify(params))}&id=${encodeURIComponent(params.id || '')}` 
+      : '';
+    const iframeUrl = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}${paramQuery}&t=${Date.now()}`;
     
     const iframe = this.dom.sandboxIframe;
     iframe.src = iframeUrl;
@@ -795,6 +799,20 @@ class RappiderHarness {
         }
       });
     }
+
+    // Auto-decode JWT on token paste in Direct Token form
+    const directTokenInput = document.getElementById('auth-direct-token');
+    if (directTokenInput) {
+      directTokenInput.addEventListener('input', (e) => {
+        const val = (e.target.value || '').trim();
+        const payload = window.apiClient.decodeJwtPayload(val);
+        if (payload?.projectId) {
+          const projInput = document.getElementById('auth-direct-project-id');
+          if (projInput) projInput.value = payload.projectId;
+        }
+      });
+    }
+
 
     // Auth Form Submit (Direct Token)
     if (this.dom.authDirectForm) {
