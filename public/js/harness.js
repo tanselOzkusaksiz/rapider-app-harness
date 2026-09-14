@@ -444,6 +444,26 @@ class RappiderHarness {
     if (this.dom.authModal) {
       this.dom.authModal.classList.remove('hidden');
       this.populateProjectSelect();
+
+      const savedUrl = localStorage.getItem('harness_backendUrl');
+      const savedId = localStorage.getItem('harness_projectId');
+
+      if (savedUrl) {
+        const urlInputs = [
+          document.getElementById('auth-backend-url'),
+          document.getElementById('auth-direct-backend')
+        ];
+        urlInputs.forEach(i => { if (i) i.value = savedUrl; });
+      }
+
+      if (savedId) {
+        const idInputs = [
+          document.getElementById('auth-project-id'),
+          document.getElementById('auth-direct-project-id'),
+          document.getElementById('auth-mock-project-id')
+        ];
+        idInputs.forEach(i => { if (i) i.value = savedId; });
+      }
     }
   }
 
@@ -762,6 +782,7 @@ class RappiderHarness {
         const username = document.getElementById('auth-username').value;
         const password = document.getElementById('auth-password').value;
         const backendUrl = document.getElementById('auth-backend-url').value;
+        const projectId = document.getElementById('auth-project-id').value;
         const btn = document.getElementById('btn-submit-login');
 
         try {
@@ -769,7 +790,11 @@ class RappiderHarness {
           btn.innerText = 'Signing In...';
           this.dom.authBanner.className = 'auth-banner';
 
+          localStorage.setItem('harness_backendUrl', backendUrl);
+          localStorage.setItem('harness_projectId', projectId);
+
           await window.apiClient.login(username, password, backendUrl);
+          await window.apiClient.changeActiveProject(projectId);
 
           this.populateProjectSelect();
           this.isOfflineMode = false;
@@ -822,6 +847,9 @@ class RappiderHarness {
         const projectId = document.getElementById('auth-direct-project-id').value;
         const backendUrl = document.getElementById('auth-direct-backend').value;
 
+        localStorage.setItem('harness_backendUrl', backendUrl);
+        localStorage.setItem('harness_projectId', projectId);
+
         await window.apiClient.setDirectSession(token, projectId, backendUrl);
         this.isOfflineMode = false;
         this.updateAuthBadge();
@@ -835,6 +863,15 @@ class RappiderHarness {
     const btnMock = document.getElementById('btn-offline-mock');
     if (btnMock) {
       btnMock.addEventListener('click', () => {
+        const projectId = document.getElementById('auth-mock-project-id').value;
+        if (!projectId) {
+          this.showToast({ type: 'error', message: 'Active Project ID is required for Mock Mode.' });
+          return;
+        }
+
+        localStorage.setItem('harness_projectId', projectId);
+        window.apiClient.projectId = projectId;
+        
         this.isOfflineMode = true;
         this.updateAuthBadge();
         this.showToast({ type: 'warning', message: 'Harness running in Offline Mock Mode.' });
