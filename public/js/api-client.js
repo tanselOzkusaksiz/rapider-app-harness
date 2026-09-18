@@ -141,24 +141,7 @@ class HarnessApiClient {
     }
   }
 
-  /**
-   * Directly set token & project ID (Manual/Quick mode)
-   */
-  async setDirectSession(token, projectId, backendUrl = this.backendUrl) {
-    this.backendUrl = backendUrl.replace(/\/$/, '');
-    this.token = (token || '').trim();
 
-    // Auto-extract embedded projectId from token payload to avoid token/project mismatch
-    const payload = this.decodeJwtPayload(this.token);
-    this.projectId = payload?.projectId || (projectId || '').trim();
-    this.user = { 
-      username: payload?.username || 'Direct Token User', 
-      fullName: payload?.personFullName || 'Direct User',
-      loginDate: new Date() 
-    };
-    this.saveSession();
-    return { success: true };
-  }
 
   /**
    * Fetch available projects for current user
@@ -169,7 +152,7 @@ class HarnessApiClient {
     try {
       const response = await fetch('/api/proxy/projects', {
         headers: {
-          'Authorization': `Bearer ${this.token}`,
+          'Authorization': this.token,
           'x-target-backend-url': this.backendUrl
         }
       });
@@ -197,7 +180,7 @@ class HarnessApiClient {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${this.token}`,
+          'Authorization': this.token,
           'x-target-backend-url': this.backendUrl
         },
         body: JSON.stringify({ projectId })
@@ -308,7 +291,7 @@ class HarnessApiClient {
       };
 
       if (this.token) {
-        headers['Authorization'] = `Bearer ${this.token}`;
+        headers['Authorization'] = this.token;
       }
 
       const fetchOptions = {

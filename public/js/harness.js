@@ -54,6 +54,7 @@ class RappiderHarness {
       authBanner: document.getElementById('auth-banner'),
       projectSelectGroup: document.getElementById('project-select-group'),
       projectSelect: document.getElementById('auth-project-select'),
+      projectSelectorMenu: document.getElementById('project-selector-menu'),
       // DevTools
       devtoolsDrawer: document.getElementById('devtools-drawer'),
       apiCountBadge: document.getElementById('api-count-badge'),
@@ -88,8 +89,16 @@ class RappiderHarness {
     // 1. Fetch available apps
     await this.fetchApps();
 
-    // 2. If not authenticated and not offline, prompt login modal
-    if (!window.apiClient.isAuthenticated() && !this.isOfflineMode) {
+    // 2. Fetch projects or prompt login
+    if (window.apiClient.isAuthenticated() && !this.isOfflineMode) {
+      try {
+        await window.apiClient.fetchUserProjects();
+        this.populateProjectSelect();
+      } catch (err) {
+        console.warn('Failed to restore workspace session:', err);
+        this.openAuthModal();
+      }
+    } else if (!this.isOfflineMode) {
       this.openAuthModal();
     }
 
@@ -484,7 +493,7 @@ class RappiderHarness {
       } else if (isAuth) {
         const projectId = window.apiClient.projectId;
         const shortId = projectId.length > 12 ? projectId.substring(0, 8) + '...' : projectId;
-        this.dom.projectNameText.innerText = `Project: ${shortId}`;
+        this.dom.projectNameText.innerText = `Workspace: ${shortId}`;
       } else {
         this.dom.projectNameText.innerText = 'Not Connected';
       }
@@ -492,20 +501,62 @@ class RappiderHarness {
   }
 
   populateProjectSelect() {
-    if (!this.dom.projectSelect) return;
-    this.dom.projectSelect.innerHTML = '<option value="">-- Select Active Project --</option>';
+    // 1. Populate Auth Modal Select
+    if (this.dom.projectSelect) {
+      this.dom.projectSelect.innerHTML = '<option value="">-- Select Active Project --</option>';
+      if (window.apiClient.projects && window.apiClient.projects.length > 0) {
+        this.dom.projectSelectGroup.style.display = 'flex';
+        window.apiClient.projects.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.innerText = `${p.name || p.id} (${p.id.substring(0, 8)})`;
+          if (p.id === window.apiClient.projectId) opt.selected = true;
+          this.dom.projectSelect.appendChild(opt);
+        });
+      } else {
+        this.dom.projectSelectGroup.style.display = 'none';
+      }
+    }
 
-    if (window.apiClient.projects && window.apiClient.projects.length > 0) {
-      this.dom.projectSelectGroup.style.display = 'flex';
-      window.apiClient.projects.forEach(p => {
-        const opt = document.createElement('option');
-        opt.value = p.id;
-        opt.innerText = `${p.name || p.id} (${p.id.substring(0, 8)})`;
-        if (p.id === window.apiClient.projectId) opt.selected = true;
-        this.dom.projectSelect.appendChild(opt);
-      });
-    } else {
-      this.dom.projectSelectGroup.style.display = 'none';
+    // 2. Populate Header Dropdown Menu
+    if (this.dom.projectSelectorMenu) {
+      this.dom.projectSelectorMenu.innerHTML = '';
+      if (window.apiClient.projects && window.apiClient.projects.length > 0) {
+        window.apiClient.projects.forEach(p => {
+          const item = document.createElement('div');
+          item.className = 'app-selector-item';
+          if (p.id === window.apiClient.projectId) item.classList.add('active');
+          
+          item.innerHTML = `
+            <div class="app-selector-item-icon">
+              <i class="fas fa-database"></i>
+            </div>
+            <div class="app-selector-item-content">
+              <div class="app-selector-item-title">${p.name || p.id}</div>
+              <div class="app-selector-item-desc">ID: ${p.id.substring(0, 8)}</div>
+            </div>
+            ${p.id === window.apiClient.projectId ? '<i class="fas fa-check" style="color: var(--primary); margin-left: auto;"></i>' : ''}
+          `;
+
+          item.addEventListener('click', async () => {
+            this.dom.projectSelectorMenu.classList.remove('active');
+            if (p.id !== window.apiClient.projectId) {
+              try {
+                await window.apiClient.changeActiveProject(p.id);
+                this.updateAuthBadge();
+                this.showToast({ type: 'info', message: `Switched to workspace ${p.name || p.id.substring(0, 8)}` });
+                this.reloadCurrentPage();
+              } catch (err) {
+                this.showToast({ type: 'error', message: 'Failed to switch workspace' });
+              }
+            }
+          });
+
+          this.dom.projectSelectorMenu.appendChild(item);
+        });
+      } else {
+        this.dom.projectSelectorMenu.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--text-muted); font-size: 11px;">No workspaces available</div>';
+      }
     }
   }
 
@@ -731,7 +782,22 @@ class RappiderHarness {
       this.dom.authBtn.addEventListener('click', () => this.openAuthModal());
     }
     if (this.dom.projectBadge) {
-      this.dom.projectBadge.addEventListener('click', () => this.openAuthModal());
+      this.dom.projectBadge.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (window.apiClient.token && window.apiClient.projects) {
+          this.dom.projectSelectorMenu.classList.toggle('active');
+          if (this.dom.appSelectorMenu) this.dom.appSelectorMenu.classList.remove('active');
+        } else {
+          this.openAuthModal();
+        }
+      });
+      
+      // Close project menu on outside click
+      document.addEventListener('click', (e) => {
+        if (this.dom.projectSelectorMenu && !this.dom.projectBadge.contains(e.target) && !this.dom.projectSelectorMenu.contains(e.target)) {
+          this.dom.projectSelectorMenu.classList.remove('active');
+        }
+      });
     }
     if (this.dom.authCloseBtn) {
       this.dom.authCloseBtn.addEventListener('click', () => this.closeAuthModal());
@@ -794,7 +860,9 @@ class RappiderHarness {
           localStorage.setItem('harness_projectId', projectId);
 
           await window.apiClient.login(username, password, backendUrl);
-          await window.apiClient.changeActiveProject(projectId);
+          if (projectId) {
+            await window.apiClient.changeActiveProject(projectId);
+          }
 
           this.populateProjectSelect();
           this.isOfflineMode = false;
@@ -825,60 +893,6 @@ class RappiderHarness {
       });
     }
 
-    // Auto-decode JWT on token paste in Direct Token form
-    const directTokenInput = document.getElementById('auth-direct-token');
-    if (directTokenInput) {
-      directTokenInput.addEventListener('input', (e) => {
-        const val = (e.target.value || '').trim();
-        const payload = window.apiClient.decodeJwtPayload(val);
-        if (payload?.projectId) {
-          const projInput = document.getElementById('auth-direct-project-id');
-          if (projInput) projInput.value = payload.projectId;
-        }
-      });
-    }
-
-
-    // Auth Form Submit (Direct Token)
-    if (this.dom.authDirectForm) {
-      this.dom.authDirectForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const token = document.getElementById('auth-direct-token').value;
-        const projectId = document.getElementById('auth-direct-project-id').value;
-        const backendUrl = document.getElementById('auth-direct-backend').value;
-
-        localStorage.setItem('harness_backendUrl', backendUrl);
-        localStorage.setItem('harness_projectId', projectId);
-
-        await window.apiClient.setDirectSession(token, projectId, backendUrl);
-        this.isOfflineMode = false;
-        this.updateAuthBadge();
-        this.showToast({ type: 'success', message: 'Direct token session saved!' });
-        this.closeAuthModal();
-        this.reloadCurrentPage();
-      });
-    }
-
-    // Offline Mock Mode button
-    const btnMock = document.getElementById('btn-offline-mock');
-    if (btnMock) {
-      btnMock.addEventListener('click', () => {
-        const projectId = document.getElementById('auth-mock-project-id').value;
-        if (!projectId) {
-          this.showToast({ type: 'error', message: 'Active Project ID is required for Mock Mode.' });
-          return;
-        }
-
-        localStorage.setItem('harness_projectId', projectId);
-        window.apiClient.projectId = projectId;
-        
-        this.isOfflineMode = true;
-        this.updateAuthBadge();
-        this.showToast({ type: 'warning', message: 'Harness running in Offline Mock Mode.' });
-        this.closeAuthModal();
-        this.reloadCurrentPage();
-      });
-    }
   }
 }
 

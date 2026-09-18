@@ -71,10 +71,16 @@
           <i class="fas fa-redo-alt"></i>
         </button>
 
-        <div id="project-badge" class="project-badge" title="Click to manage backend connection">
-          <div id="project-status-dot" class="status-dot"></div>
-          <span id="project-name-text">Checking Connection...</span>
-          <i class="fas fa-chevron-down" style="font-size: 9px; opacity: 0.6;"></i>
+        <!-- Project Switcher Dropdown -->
+        <div class="app-selector-wrapper" id="project-selector-wrapper">
+          <button id="project-badge" class="project-badge" title="Click to manage backend connection">
+            <div id="project-status-dot" class="status-dot"></div>
+            <span id="project-name-text">Checking Connection...</span>
+            <i class="fas fa-chevron-down" style="font-size: 9px; opacity: 0.6; margin-left: 6px;"></i>
+          </button>
+          <div id="project-selector-menu" class="app-selector-menu" style="right: 0; left: auto; min-width: 250px;">
+            <!-- Project options injected dynamically -->
+          </div>
         </div>
 
         <button id="btn-toggle-theme" class="btn-icon" title="Toggle Light / Dark Mode">
@@ -285,11 +291,7 @@
         </button>
       </div>
 
-      <div class="auth-tabs">
-        <button class="auth-tab-btn active" data-target="auth-tab-credentials">Credentials Login</button>
-        <button class="auth-tab-btn" data-target="auth-tab-direct">Direct Token</button>
-        <button class="auth-tab-btn" data-target="auth-tab-mock">Mock Mode</button>
-      </div>
+
 
       <!-- Tab 1: Credentials Login -->
       <div id="auth-tab-credentials" class="auth-card-body auth-tab-content">
@@ -303,7 +305,7 @@
 
           <div class="form-group">
             <label for="auth-project-id">Active Project ID</label>
-            <input type="text" id="auth-project-id" class="form-control" placeholder="e.g. 2596cbc4-c2f5-4441-8b71-9a833735664e" required>
+            <input type="text" id="auth-project-id" class="form-control" placeholder="Optional. Defaults to first available project">
           </div>
 
           <div class="form-group">
@@ -329,45 +331,6 @@
         </form>
       </div>
 
-      <!-- Tab 2: Direct Token -->
-      <div id="auth-tab-direct" class="auth-card-body auth-tab-content" style="display: none;">
-        <form id="auth-direct-form" style="display: flex; flex-direction: column; gap: 14px;">
-          <div class="form-group">
-            <label for="auth-direct-backend">Backend Server URL</label>
-            <input type="text" id="auth-direct-backend" class="form-control" value="http://localhost:8081">
-          </div>
-
-          <div class="form-group">
-            <label for="auth-direct-project-id">Active Project ID</label>
-            <input type="text" id="auth-direct-project-id" class="form-control" placeholder="e.g. 2596cbc4-c2f5-4441-8b71-9a833735664e" required>
-          </div>
-
-          <div class="form-group">
-            <label for="auth-direct-token">Bearer Authentication Token</label>
-            <textarea id="auth-direct-token" class="form-control" rows="3" placeholder="eyJhbGciOiJIUzI1NiIsIn..." style="font-family: var(--font-mono); font-size: 11px;" required></textarea>
-          </div>
-
-          <button type="submit" class="btn-primary" style="justify-content: center; padding: 10px; margin-top: 6px;">
-            Save Direct Session
-          </button>
-        </form>
-      </div>
-
-      <!-- Tab 3: Mock Mode -->
-      <div id="auth-tab-mock" class="auth-card-body auth-tab-content" style="display: none; text-align: center;">
-        <i class="fas fa-vial" style="font-size: 32px; color: var(--warning); margin-bottom: 8px;"></i>
-        <h4 style="font-size: 15px; font-weight: 600;">Offline Mock Mode</h4>
-        <p style="font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
-          Run and test the application UI with synthetic data without connecting to any live backend server.
-        </p>
-        <div class="form-group" style="text-align: left; margin-bottom: 16px;">
-          <label for="auth-mock-project-id">Active Project ID</label>
-          <input type="text" id="auth-mock-project-id" class="form-control" placeholder="e.g. 2596cbc4-c2f5-4441-8b71-9a833735664e" required>
-        </div>
-        <button id="btn-offline-mock" class="btn-primary" style="justify-content: center; background: var(--warning); color: #000; padding: 10px;">
-          Launch in Mock Mode
-        </button>
-      </div>
     </div>
   </div>
 
