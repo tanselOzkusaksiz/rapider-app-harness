@@ -1159,3 +1159,62 @@ body.dark-theme #sandbox-iframe {
 .workspace-search-results .app-selector-item:last-child {
   border-bottom: none;
 }
+
+/* ==========================================================================
+   APP / PROJECT SELECTOR STYLES
+   ========================================================================== */
+.app-selector-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.app-selector-item:hover {
+  background-color: var(--hover-default);
+}
+
+.app-selector-item.active {
+  background-color: var(--hover-active);
+}
+
+.app-selector-item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--border-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.app-selector-item.active .app-selector-item-icon {
+  color: var(--primary);
+  border-color: var(--primary);
+  background-color: rgba(var(--primary-rgb), 0.1);
+}
+
+.app-selector-item-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-selector-item-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.app-selector-item-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
