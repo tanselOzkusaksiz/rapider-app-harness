@@ -492,8 +492,12 @@ class RappiderHarness {
         this.dom.projectNameText.innerText = 'Offline Mock Mode';
       } else if (isAuth) {
         const projectId = window.apiClient.projectId;
-        const shortId = projectId.length > 12 ? projectId.substring(0, 8) + '...' : projectId;
-        this.dom.projectNameText.innerText = `Workspace: ${shortId}`;
+        const project = window.apiClient.projects ? window.apiClient.projects.find(p => p.id === projectId) : null;
+        let displayName = projectId.length > 12 ? projectId.substring(0, 8) + '...' : projectId;
+        if (project && project.name) {
+          displayName = project.name.length > 20 ? project.name.substring(0, 20) + '...' : project.name;
+        }
+        this.dom.projectNameText.innerText = `Workspace: ${displayName}`;
       } else {
         this.dom.projectNameText.innerText = 'Not Connected';
       }

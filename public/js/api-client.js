@@ -122,7 +122,14 @@ class HarnessApiClient {
         this.projectId = tokenPayload.projectId;
       }
 
-      // After login, fetch projects to populate project selector
+      // 1. Fetch people associated with the user
+      const people = await this.fetchUserPeople();
+      if (people && people.length > 0) {
+        this.personId = people[0].id;
+        await this.changeActivePerson(this.personId);
+      }
+
+      // 2. Fetch projects to populate project selector
       await this.fetchUserProjects();
 
       // If user has a matching project in list, select it; otherwise select first
@@ -142,6 +149,58 @@ class HarnessApiClient {
   }
 
 
+
+  /**
+   * Fetch people for the current user
+   */
+  async fetchUserPeople() {
+    if (!this.token) return [];
+
+    try {
+      const response = await fetch('/api/proxy/users/people', {
+        headers: {
+          'Authorization': this.token,
+          'x-target-backend-url': this.backendUrl
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        return Array.isArray(data) ? data : (data.people || []);
+      }
+    } catch (e) {
+      console.warn('Failed to fetch people list:', e);
+    }
+    return [];
+  }
+
+  /**
+   * Switch active person context
+   */
+  async changeActivePerson(personId) {
+    if (!this.token) return;
+
+    try {
+      const response = await fetch('/api/proxy/users/change-active-person', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': this.token,
+          'x-target-backend-url': this.backendUrl
+        },
+        body: JSON.stringify({ personId })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.authenticationToken) {
+          this.token = data.authenticationToken;
+        }
+      }
+    } catch (e) {
+      console.warn('Failed to refresh token on active person switch:', e);
+    }
+  }
 
   /**
    * Fetch available projects for current user
