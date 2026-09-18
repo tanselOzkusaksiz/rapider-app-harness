@@ -525,6 +525,25 @@ class RappiderHarness {
     // 2. Populate Header Dropdown Menu
     if (this.dom.projectSelectorMenu) {
       this.dom.projectSelectorMenu.innerHTML = '';
+
+      // Add Search Button at the top
+      const searchItem = document.createElement('div');
+      searchItem.className = 'app-selector-item search-item';
+      searchItem.style.borderBottom = '1px solid var(--border-light)';
+      searchItem.innerHTML = `
+        <div class="app-selector-item-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="app-selector-item-content">
+          <div class="app-selector-item-title">Search Workspaces...</div>
+        </div>
+      `;
+      searchItem.addEventListener('click', () => {
+        this.dom.projectSelectorMenu.classList.remove('active');
+        this.openWorkspaceSearchModal();
+      });
+      this.dom.projectSelectorMenu.appendChild(searchItem);
+
       if (window.apiClient.projects && window.apiClient.projects.length > 0) {
         window.apiClient.projects.forEach(p => {
           const item = document.createElement('div');
@@ -559,9 +578,105 @@ class RappiderHarness {
           this.dom.projectSelectorMenu.appendChild(item);
         });
       } else {
-        this.dom.projectSelectorMenu.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--text-muted); font-size: 11px;">No workspaces available</div>';
+        const emptyItem = document.createElement('div');
+        emptyItem.style.padding = '12px';
+        emptyItem.style.textAlign = 'center';
+        emptyItem.style.color = 'var(--text-muted)';
+        emptyItem.style.fontSize = '11px';
+        emptyItem.innerText = 'No recent workspaces';
+        this.dom.projectSelectorMenu.appendChild(emptyItem);
       }
     }
+  }
+
+  // --- WORKSPACE SEARCH MODAL ---
+  openWorkspaceSearchModal() {
+    const modal = document.getElementById('workspace-search-modal');
+    if (!modal) return;
+    
+    modal.classList.remove('hidden');
+    
+    const input = document.getElementById('workspace-search-input');
+    const resultsContainer = document.getElementById('workspace-search-results');
+    
+    if (input) {
+      input.value = '';
+      input.focus();
+      
+      // Debounce search
+      let timeout = null;
+      input.onkeyup = (e) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(async () => {
+          const val = e.target.value.trim();
+          resultsContainer.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--text-muted);">Searching...</div>';
+          if (val.length === 0) {
+            resultsContainer.innerHTML = '';
+            return;
+          }
+          
+          const results = await window.apiClient.searchProjects(val);
+          this.renderWorkspaceSearchResults(resultsContainer, results);
+        }, 400);
+      };
+    }
+    
+    if (resultsContainer) {
+      resultsContainer.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--text-muted);">Type to search...</div>';
+    }
+  }
+
+  closeWorkspaceSearchModal() {
+    const modal = document.getElementById('workspace-search-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  renderWorkspaceSearchResults(container, results) {
+    container.innerHTML = '';
+    if (!results || results.length === 0) {
+      container.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--text-muted);">No workspaces found.</div>';
+      return;
+    }
+
+    results.forEach(p => {
+      const item = document.createElement('div');
+      item.className = 'app-selector-item';
+      if (p.id === window.apiClient.projectId) item.classList.add('active');
+      
+      item.innerHTML = `
+        <div class="app-selector-item-icon">
+          <i class="fas fa-database"></i>
+        </div>
+        <div class="app-selector-item-content">
+          <div class="app-selector-item-title">${p.name || p.id}</div>
+          <div class="app-selector-item-desc">ID: ${p.id.substring(0, 8)}</div>
+        </div>
+      `;
+
+      item.addEventListener('click', async () => {
+        this.closeWorkspaceSearchModal();
+        if (p.id !== window.apiClient.projectId) {
+          try {
+            // Optimistically add it to recent projects if not there
+            if (!window.apiClient.projects.find(x => x.id === p.id)) {
+              window.apiClient.projects.unshift(p);
+              if (window.apiClient.projects.length > 10) window.apiClient.projects.pop();
+              this.populateProjectSelect();
+            }
+
+            await window.apiClient.changeActiveProject(p.id);
+            this.updateAuthBadge();
+            this.showToast({ type: 'info', message: `Switched to workspace ${p.name || p.id.substring(0, 8)}` });
+            this.reloadCurrentPage();
+          } catch (err) {
+            this.showToast({ type: 'error', message: 'Failed to switch workspace' });
+          }
+        }
+      });
+      container.appendChild(item);
+    });
   }
 
   // --- DEVTOOLS & INSPECTOR ---

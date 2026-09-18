@@ -209,7 +209,13 @@ class HarnessApiClient {
     if (!this.token) return [];
 
     try {
-      const response = await fetch('/api/proxy/projects', {
+      const filter = {
+        fields: { id: true, name: true },
+        order: ["createdDate DESC"],
+        limit: 10
+      };
+
+      const response = await fetch(`/api/proxy/projects?filter=${encodeURIComponent(JSON.stringify(filter))}`, {
         headers: {
           'Authorization': this.token,
           'x-target-backend-url': this.backendUrl
@@ -223,6 +229,36 @@ class HarnessApiClient {
       }
     } catch (e) {
       console.warn('Failed to fetch projects list:', e);
+    }
+    return [];
+  }
+
+  /**
+   * Search projects by name
+   */
+  async searchProjects(searchTerm) {
+    if (!this.token) return [];
+
+    try {
+      const filter = {
+        where: { name: { like: `.*${searchTerm}.*`, options: "i" } },
+        fields: { id: true, name: true },
+        order: ["createdDate DESC"],
+        limit: 20
+      };
+
+      const response = await fetch(`/api/proxy/projects?filter=${encodeURIComponent(JSON.stringify(filter))}`, {
+        headers: {
+          'Authorization': this.token,
+          'x-target-backend-url': this.backendUrl
+        }
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+    } catch (e) {
+      console.warn('Failed to search projects:', e);
     }
     return [];
   }

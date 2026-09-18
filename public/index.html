@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" crossorigin="anonymous">
   
   <!-- Harness Styling -->
-  <link rel="stylesheet" href="/css/harness.css">
+  <link rel="stylesheet" href="/css/harness.css?v=2">
 </head>
 <body class="dark-theme">
 
@@ -262,6 +262,22 @@
       </div>
       <div class="modal-body">
         <iframe id="modal-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Workspace Search Modal -->
+  <div id="workspace-search-modal" class="modal hidden">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Search Workspaces</h3>
+        <button class="btn-icon" onclick="window.harness.closeWorkspaceSearchModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <input type="text" id="workspace-search-input" class="form-control" placeholder="Type workspace name..." />
+        </div>
+        <div id="workspace-search-results" class="workspace-search-results"></div>
       </div>
     </div>
   </div>
