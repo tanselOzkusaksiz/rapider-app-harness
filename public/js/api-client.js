@@ -324,6 +324,7 @@ class HarnessApiClient {
         body = payload.body;
         break;
 
+      case 'update':
       case 'updateById':
         method = 'PATCH';
         path += `/${payload.id}`;
