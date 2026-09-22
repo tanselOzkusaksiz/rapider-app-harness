@@ -245,7 +245,9 @@ ${themeCss}
         find: function(entityName, filter) { return this.request('find', entityName, { filter }); },
         findById: function(entityName, id, filter) { return this.request('findById', entityName, { id, filter }); },
         updateById: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
+        update: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
         deleteById: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
+        delete: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
         count: function(entityName, where) { return this.request('count', entityName, { where }); },
 
         // --- CROSS-IFRAME EVENT BUS ---
