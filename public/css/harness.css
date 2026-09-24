@@ -672,6 +672,7 @@ body.dark-theme #sandbox-iframe {
 .drawer-body {
   flex: 1;
   position: relative;
+  padding: 16px;
 }
 
 .drawer-body iframe {
