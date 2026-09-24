@@ -253,7 +253,7 @@ class RappiderHarness {
 
   updateActiveNavHighlight() {
     const current = this.activeRoute || '';
-    const cleanCurrent = current.replace(/^\//, '').split('/')[0];
+    const cleanCurrent = current.replace(/^\//, '').split('?')[0].split('/')[0];
 
     const items = this.dom.sidebarNavList.querySelectorAll('.nav-item');
     items.forEach(item => {
@@ -268,8 +268,26 @@ class RappiderHarness {
 
   // --- NAVIGATION & PAGE RENDERING ---
   navigate(targetRoute, payload = {}) {
-    const cleanRoute = targetRoute.replace(/^\//, '');
-    window.location.hash = `#/${cleanRoute}`;
+    let routeStr = '';
+    if (Array.isArray(targetRoute)) {
+      routeStr = targetRoute.filter(Boolean).join('/');
+    } else if (typeof targetRoute === 'string') {
+      routeStr = targetRoute;
+    } else if (targetRoute) {
+      routeStr = String(targetRoute);
+    }
+    
+    let queryStr = '';
+    if (payload && payload.queryParams) {
+      const searchParams = new URLSearchParams();
+      for (const key in payload.queryParams) {
+        searchParams.append(key, payload.queryParams[key]);
+      }
+      queryStr = '?' + searchParams.toString();
+    }
+
+    const cleanRoute = routeStr.replace(/^\//, '');
+    window.location.hash = `#/${cleanRoute}${queryStr}`;
   }
 
   handleHashChange() {
@@ -278,10 +296,21 @@ class RappiderHarness {
     this.loadPageByRoute(route);
   }
 
-  async loadPageByRoute(route) {
+  async loadPageByRoute(fullRoute) {
     if (!this.manifest || !this.activeApp) return;
 
-    this.activeRoute = route;
+    let route = fullRoute;
+    let queryParams = {};
+    if (fullRoute.includes('?')) {
+      const parts = fullRoute.split('?');
+      route = parts[0];
+      const searchParams = new URLSearchParams(parts[1]);
+      for (const [key, value] of searchParams) {
+        queryParams[key] = value;
+      }
+    }
+
+    this.activeRoute = fullRoute;
     this.updateActiveNavHighlight();
 
     // Find matching page in manifest webPages
@@ -289,7 +318,7 @@ class RappiderHarness {
     
     // Exact match or param route match (e.g. accounts/:id matching accounts/123)
     let matchedPage = webPages.find(p => p.route === route);
-    let params = {};
+    let params = { ...queryParams };
 
     if (!matchedPage) {
       // Try route pattern matching
@@ -400,7 +429,19 @@ class RappiderHarness {
     this.dom.modalOverlay.querySelector('.modal-dialog').style.width = typeof width === 'number' ? `${width}px` : width;
     
     const htmlFilePath = this.resolveHtmlPathForRoute(route);
-    this.dom.modalIframe.src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&t=${Date.now()}`;
+    let src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&t=${Date.now()}`;
+    
+    if (config.payload && Object.keys(config.payload).length > 0) {
+      Object.keys(config.payload).forEach(key => {
+        if (config.payload[key] !== null && config.payload[key] !== undefined) {
+          const val = typeof config.payload[key] === 'object' ? JSON.stringify(config.payload[key]) : String(config.payload[key]);
+          src += `&${encodeURIComponent(key)}=${encodeURIComponent(val)}`;
+        }
+      });
+      src += `&routeParams=${encodeURIComponent(JSON.stringify(config.payload))}`;
+    }
+    
+    this.dom.modalIframe.src = src;
     
     this.dom.modalIframe.onload = () => {
       window.rapiderBridge.registerIframe(this.dom.modalIframe);
@@ -424,7 +465,19 @@ class RappiderHarness {
     this.dom.drawerPanel.style.width = typeof width === 'number' ? `${width}px` : width;
 
     const htmlFilePath = this.resolveHtmlPathForRoute(route);
-    this.dom.drawerIframe.src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&t=${Date.now()}`;
+    let src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&t=${Date.now()}`;
+    
+    if (config.payload && Object.keys(config.payload).length > 0) {
+      Object.keys(config.payload).forEach(key => {
+        if (config.payload[key] !== null && config.payload[key] !== undefined) {
+          const val = typeof config.payload[key] === 'object' ? JSON.stringify(config.payload[key]) : String(config.payload[key]);
+          src += `&${encodeURIComponent(key)}=${encodeURIComponent(val)}`;
+        }
+      });
+      src += `&routeParams=${encodeURIComponent(JSON.stringify(config.payload))}`;
+    }
+    
+    this.dom.drawerIframe.src = src;
 
     this.dom.drawerIframe.onload = () => {
       window.rapiderBridge.registerIframe(this.dom.drawerIframe);

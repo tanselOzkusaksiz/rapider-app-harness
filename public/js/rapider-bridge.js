@@ -143,7 +143,7 @@ class RapiderBridge {
           }
         } else if (action.type === 'navigate' && payload.route) {
           if (window.harness) {
-            window.harness.navigate(payload.route);
+            window.harness.navigate(payload.route, payload);
           }
         } else if (action.type === 'showPageModal' && payload.pageModal) {
           if (window.harness) {
