@@ -59,7 +59,7 @@ app.get('/api/apps', (req, res) => {
                 description: manifest.description || '',
                 iconUrl: manifest.iconUrl || manifest.icon || 'fas fa-cubes',
                 tags: manifest.tags || [],
-                webPagesCount: (manifest.webPages || []).length || (manifest.pages || []).length
+                webPagesCount: (manifest.webPages || manifest.uiPageImplementationPlan || manifest.pages || []).length
               });
             } catch (err) {
               // Manifest parse error - still include folder

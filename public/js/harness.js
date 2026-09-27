@@ -200,7 +200,7 @@ class RappiderHarness {
     if (!this.dom.sidebarNavList || !this.manifest) return;
     this.dom.sidebarNavList.innerHTML = '';
 
-    const webPages = this.manifest.webPages || [];
+    const webPages = this.manifest.webPages || this.manifest.uiPageImplementationPlan || this.manifest.pages || [];
     const filterText = (this.dom.sidebarSearchInput?.value || '').toLowerCase().trim();
 
     webPages.forEach(page => {
@@ -314,7 +314,7 @@ class RappiderHarness {
     this.updateActiveNavHighlight();
 
     // Find matching page in manifest webPages
-    const webPages = this.manifest.webPages || [];
+    const webPages = this.manifest.webPages || this.manifest.uiPageImplementationPlan || this.manifest.pages || [];
     
     // Exact match or param route match (e.g. accounts/:id matching accounts/123)
     let matchedPage = webPages.find(p => p.route === route);
@@ -495,7 +495,7 @@ class RappiderHarness {
 
   resolveHtmlPathForRoute(route) {
     if (!this.manifest) return `pages/${route}/${route}.html`;
-    const matched = (this.manifest.webPages || []).find(p => p.route === route);
+    const matched = (this.manifest.webPages || this.manifest.uiPageImplementationPlan || this.manifest.pages || []).find(p => p.route === route);
     if (matched?.htmlFilePath) return matched.htmlFilePath;
     const baseSlug = route.split('/')[0];
     return `pages/${baseSlug}/${baseSlug}.html`;
