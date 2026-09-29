@@ -246,6 +246,17 @@ ${themeCss}
         },
         create: function(entityName, body) { return this.request('create', entityName, { body }); },
         find: function(entityName, filter) { return this.request('find', entityName, { filter }); },
+        findSWR: function(entityName, filter, callback) {
+          const cacheKey = 'swr_find_' + entityName + '_' + JSON.stringify(filter || {});
+          try {
+            const cached = sessionStorage.getItem(cacheKey);
+            if (cached) callback(JSON.parse(cached), true);
+          } catch(e) {}
+          this.request('find', entityName, { filter }).then(data => {
+            try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
+            callback(data, false);
+          }).catch(err => console.error('SWR fetch error:', err));
+        },
         findById: function(entityName, id, filter) { return this.request('findById', entityName, { id, filter }); },
         updateById: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
         update: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
