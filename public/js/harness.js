@@ -209,6 +209,10 @@ class RappiderHarness {
     const filterText = (this.dom.sidebarSearchInput?.value || '').toLowerCase().trim();
 
     webPages.forEach(page => {
+      if (page.displayInMenu === false) {
+        return;
+      }
+      
       if (filterText && !page.name.toLowerCase().includes(filterText) && !page.route.toLowerCase().includes(filterText)) {
         return;
       }
