@@ -119,6 +119,11 @@ class RappiderHarness {
       const appKey = urlParams.get('app');
 
       let targetApp = this.apps.find(a => a.key === appKey || a.folderName === appKey);
+      
+      if (!targetApp && data.defaultAppDir) {
+        targetApp = this.apps.find(a => a.absolutePath === data.defaultAppDir);
+      }
+
       if (!targetApp && this.apps.length > 0) {
         targetApp = this.apps[0];
       }

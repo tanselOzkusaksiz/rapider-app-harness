@@ -5,7 +5,9 @@
   "main": "server.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "start:crm": "node server.js --app=../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system",
+    "start:expenses": "node server.js --app=../rapider-apps/rapider-app-re-xps-rapider-expenses"
   },
   "keywords": [
     "rappider",
@@ -18,5 +20,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0"
   }
 }

@@ -29,6 +29,9 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 // Static files for harness UI
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Static files for the currently loaded app (so /assets/... resolves to the app's assets folder)
+app.use(express.static(DEFAULT_APP_DIR));
+
 // Cache theme CSS in memory
 let cachedThemeCss = '';
 const themeCssPath = path.join(__dirname, 'public/assets/themes/rapider-tailwind-theme.css');
