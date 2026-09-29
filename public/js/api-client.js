@@ -6,7 +6,7 @@
 
 class HarnessApiClient {
   constructor() {
-    this.backendUrl = 'http://localhost:8081';
+    this.backendUrl = '';
     this.token = null;
     this.projectId = null;
     this.projectApiUrl = null;
@@ -50,7 +50,7 @@ class HarnessApiClient {
       const stored = localStorage.getItem('rappider_harness_session');
       if (stored) {
         const session = JSON.parse(stored);
-        this.backendUrl = session.backendUrl || 'http://localhost:8081';
+        this.backendUrl = session.backendUrl === 'http://localhost:8081' ? '' : (session.backendUrl || '');
         this.token = session.token || null;
         this.projectId = session.projectId || null;
         this.projectApiUrl = session.projectApiUrl || null;

@@ -93,6 +93,10 @@ class RappiderHarness {
     if (window.apiClient.isAuthenticated() && !this.isOfflineMode) {
       try {
         await window.apiClient.fetchUserProjects();
+        // Always refresh the project-scoped token on load
+        if (window.apiClient.projectId) {
+          await window.apiClient.changeActiveProject(window.apiClient.projectId);
+        }
         this.populateProjectSelect();
       } catch (err) {
         console.warn('Failed to restore workspace session:', err);
@@ -519,7 +523,7 @@ class RappiderHarness {
       const savedUrl = localStorage.getItem('harness_backendUrl');
       const savedId = localStorage.getItem('harness_projectId');
 
-      if (savedUrl) {
+      if (savedUrl && savedUrl !== 'http://localhost:8081') {
         const urlInputs = [
           document.getElementById('auth-backend-url'),
           document.getElementById('auth-direct-backend')
@@ -1043,6 +1047,11 @@ class RappiderHarness {
           await window.apiClient.login(username, password, backendUrl);
           if (projectId) {
             await window.apiClient.changeActiveProject(projectId);
+          } else {
+            const projects = await window.apiClient.fetchUserProjects();
+            if (projects && projects.length > 0) {
+              await window.apiClient.changeActiveProject(projects[0].id);
+            }
           }
 
           this.populateProjectSelect();
