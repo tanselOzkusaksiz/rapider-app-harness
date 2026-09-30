@@ -293,25 +293,29 @@ ${themeCss}
         },
         findSWR: function(entityName, filter, callback) {
           const cacheKey = 'swr_find_' + entityName + '_' + JSON.stringify(filter || {});
-          let didUseCache = false;
+          let cachedData = null;
           try {
             const cached = sessionStorage.getItem(cacheKey);
             if (cached) {
-              didUseCache = true;
+              cachedData = JSON.parse(cached);
               this.showToast();
-              if (callback) callback(JSON.parse(cached), true);
+              if (callback) callback(cachedData, true);
             }
           } catch(e) {}
+          
           const reqPromise = this.request('find', entityName, { filter }).then(data => {
             try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
-            if (didUseCache) this.hideToast();
+            if (cachedData) this.hideToast();
             if (callback) callback(data, false);
             return data;
           }).catch(err => {
-            if (didUseCache) this.hideToast();
+            if (cachedData) this.hideToast();
             throw err;
           });
           
+          if (cachedData) {
+             return Promise.resolve(cachedData);
+          }
           return reqPromise;
         },
         findById: function(entityName, id, filter) { return this.request('findById', entityName, { id, filter }); },
