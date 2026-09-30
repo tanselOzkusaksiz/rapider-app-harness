@@ -271,16 +271,45 @@ ${themeCss}
         },
         create: function(entityName, body) { return this.request('create', entityName, { body }); },
         find: function(entityName, filter) { return this.request('find', entityName, { filter }); },
+        showToast: function() {
+          if (typeof document === 'undefined') return;
+          let toast = document.getElementById('swr-toast');
+          if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'swr-toast';
+            toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#172137;color:#fff;padding:12px 20px;border-radius:8px;font-size:13px;box-shadow:0 10px 25px rgba(0,0,0,0.2);display:flex;align-items:center;gap:10px;z-index:9999;transition:opacity 0.3s;opacity:0;pointer-events:none;';
+            toast.innerHTML = '<i class="fas fa-sync fa-spin"></i> Checking for updates...';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.style.opacity = '1', 10);
+          }
+        },
+        hideToast: function() {
+          if (typeof document === 'undefined') return;
+          const toast = document.getElementById('swr-toast');
+          if (toast) {
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+          }
+        },
         findSWR: function(entityName, filter, callback) {
           const cacheKey = 'swr_find_' + entityName + '_' + JSON.stringify(filter || {});
+          let didUseCache = false;
           try {
             const cached = sessionStorage.getItem(cacheKey);
-            if (cached && callback) callback(JSON.parse(cached), true);
+            if (cached) {
+              didUseCache = true;
+              this.showToast();
+              if (callback) callback(JSON.parse(cached), true);
+            }
           } catch(e) {}
           const reqPromise = this.request('find', entityName, { filter }).then(data => {
             try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
+            if (didUseCache) this.hideToast();
             if (callback) callback(data, false);
             return data;
+          }).catch(err => {
+            if (didUseCache) this.hideToast();
+            throw err;
           });
           
           return reqPromise;
