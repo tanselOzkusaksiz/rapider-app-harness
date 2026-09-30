@@ -275,12 +275,15 @@ ${themeCss}
           const cacheKey = 'swr_find_' + entityName + '_' + JSON.stringify(filter || {});
           try {
             const cached = sessionStorage.getItem(cacheKey);
-            if (cached) callback(JSON.parse(cached), true);
+            if (cached && callback) callback(JSON.parse(cached), true);
           } catch(e) {}
-          this.request('find', entityName, { filter }).then(data => {
+          const reqPromise = this.request('find', entityName, { filter }).then(data => {
             try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
-            callback(data, false);
-          }).catch(err => console.error('SWR fetch error:', err));
+            if (callback) callback(data, false);
+            return data;
+          });
+          
+          return reqPromise;
         },
         findById: function(entityName, id, filter) { return this.request('findById', entityName, { id, filter }); },
         updateById: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
