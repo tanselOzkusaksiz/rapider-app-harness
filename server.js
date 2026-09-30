@@ -213,7 +213,7 @@ function buildSandboxHtml(rawCode, themeCss, isDark = false, routeParams = {}) {
       };
     </script>
   
-    <base data-rapider-injected="true" href="/">
+    <base data-rapider-injected="true" href="/assets/">
     <style data-rapider-injected="true" type="text/tailwindcss">
 ${themeCss}
     </style>
@@ -447,9 +447,12 @@ ${themeCss}
       completeHtml = completeHtml.replace(/<html[^>]*class=["'][^"']*dark[^"']*["'][^>]*>/i, match => match.replace('dark', '').trim());
     }
     
-    // Move <base href="/"> to the VERY beginning of <head>
-    completeHtml = completeHtml.replace(/<base data-rapider-injected="true" href="\/">/g, '');
-    completeHtml = completeHtml.replace(/<head[^>]*>/i, match => match + '\n    <base data-rapider-injected="true" href="/">');
+    // Align with production viewer: replace local assets/ paths to absolute /assets/ so base tag doesn't double them
+    completeHtml = completeHtml.replace(/(href|src)=["'](?:\.\/|\/)?assets\/(.*?)["']/gi, `$1="/assets/$2"`);
+
+    // Move <base href="/assets/"> to the VERY beginning of <head>
+    completeHtml = completeHtml.replace(/<base data-rapider-injected="true" href="\/assets\/">/g, '');
+    completeHtml = completeHtml.replace(/<head[^>]*>/i, match => match + '\n    <base data-rapider-injected="true" href="/assets/">');
   }
 
   return completeHtml;
