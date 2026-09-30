@@ -318,6 +318,33 @@ ${themeCss}
           }
           return reqPromise;
         },
+        countSWR: function(entityName, where, callback) {
+          const cacheKey = 'swr_count_' + entityName + '_' + JSON.stringify(where || {});
+          let cachedData = null;
+          try {
+            const cached = sessionStorage.getItem(cacheKey);
+            if (cached) {
+              cachedData = JSON.parse(cached);
+              this.showToast();
+              if (callback) callback(cachedData, true);
+            }
+          } catch(e) {}
+          
+          const reqPromise = this.request('count', entityName, { where }).then(data => {
+            try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
+            if (cachedData) this.hideToast();
+            if (callback) callback(data, false);
+            return data;
+          }).catch(err => {
+            if (cachedData) this.hideToast();
+            throw err;
+          });
+          
+          if (cachedData) {
+             return Promise.resolve(cachedData);
+          }
+          return reqPromise;
+        },
         findById: function(entityName, id, filter) { return this.request('findById', entityName, { id, filter }); },
         updateById: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
         update: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
