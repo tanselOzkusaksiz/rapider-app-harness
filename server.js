@@ -143,6 +143,11 @@ app.get('/api/page-content', (req, res) => {
     }
 
     let rawHtml = fs.readFileSync(fullFilePath, 'utf8');
+    
+    // Prevent browser caching of injected HTML
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
 
     // Reload theme CSS if needed
     if (!cachedThemeCss && fs.existsSync(themeCssPath)) {
