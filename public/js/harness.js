@@ -105,6 +105,24 @@ class RappiderHarness {
     } else if (!this.isOfflineMode) {
       this.openAuthModal();
     }
+    
+    // Auto-fill from env
+    try {
+      const configRes = await fetch('/api/config');
+      const config = await configRes.json();
+      if (config.HARNESS_TEST_EMAIL) document.getElementById('auth-username').value = config.HARNESS_TEST_EMAIL;
+      if (config.HARNESS_TEST_PASSWORD) document.getElementById('auth-password').value = config.HARNESS_TEST_PASSWORD;
+      if (config.HARNESS_TEST_PROJECT_ID) {
+          setTimeout(() => {
+              const sel = document.getElementById('auth-project-select');
+              if(sel) sel.value = config.HARNESS_TEST_PROJECT_ID;
+          }, 1000);
+      }
+      if (config.BACKEND_URL) {
+          const be = document.getElementById('auth-backend-url');
+          if (be && !be.value) be.value = config.BACKEND_URL;
+      }
+    } catch (err) {}
 
     // 3. Handle initial URL hash routing
     window.addEventListener('hashchange', () => this.handleHashChange());

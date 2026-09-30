@@ -121,6 +121,12 @@ app.get('/api/app-manifest', (req, res) => {
  * 5. FontAwesome kit
  * 6. window.rapiderApi SDK bridge script
  */
+
+app.post('/api/log', express.json(), (req, res) => {
+  console.log('[BROWSER]', req.body);
+  res.sendStatus(200);
+});
+
 app.get('/api/page-content', (req, res) => {
   try {
     const targetDir = req.query.appPath ? path.resolve(req.query.appPath) : DEFAULT_APP_DIR;
@@ -183,6 +189,25 @@ function buildSandboxHtml(rawCode, themeCss, isDark = false, routeParams = {}) {
 
   // 2. Head assets matching rapider-ui exactly
   let injectedHeadAssets = `
+    <script data-rapider-injected="true">
+      window.addEventListener('error', function(e) {
+        fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'error', message: e.message, filename: e.filename, lineno: e.lineno }) });
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'unhandledrejection', message: e.reason ? e.reason.stack || e.reason : 'unknown' }) });
+      });
+      const originalConsoleLog = console.log;
+      console.log = function(...args) {
+        fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'log', message: args.join(' ') }) }).catch(()=>null);
+        originalConsoleLog.apply(console, args);
+      };
+      const originalConsoleError = console.error;
+      console.error = function(...args) {
+        fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'error-log', message: args.join(' ') }) }).catch(()=>null);
+        originalConsoleError.apply(console, args);
+      };
+    </script>
+  
     <base data-rapider-injected="true" href="/">
     <style data-rapider-injected="true" type="text/tailwindcss">
 ${themeCss}
@@ -442,4 +467,17 @@ app.listen(PORT, () => {
   console.log(`🎯 Default App: ${DEFAULT_APP_DIR}`);
   console.log(`🔗 Target Backend: ${DEFAULT_BACKEND}`);
   console.log('================================================================');
+});
+
+app.get('/api/config', (req, res) => {
+  const envPath = require('path').join(__dirname, '../.env');
+  const config = {};
+  if (require('fs').existsSync(envPath)) {
+    const content = require('fs').readFileSync(envPath, 'utf8');
+    content.split('\n').forEach(line => {
+      const match = line.match(/^([^=]+)=(.*)$/);
+      if (match) config[match[1].trim()] = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
+    });
+  }
+  res.json(config);
 });
