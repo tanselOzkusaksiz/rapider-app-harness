@@ -285,7 +285,6 @@ class RappiderHarness {
             ${iconHtml}
             <span>${page.name}</span>
           </div>
-          <span class="nav-item-route">${page.route}</span>
         `;
 
         item.addEventListener('click', (e) => {
