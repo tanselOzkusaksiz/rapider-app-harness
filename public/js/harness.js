@@ -212,36 +212,63 @@ class RappiderHarness {
     const webPages = this.manifest.webPages || this.manifest.uiPageImplementationPlan || this.manifest.pages || [];
     const filterText = (this.dom.sidebarSearchInput?.value || '').toLowerCase().trim();
 
-    webPages.forEach(page => {
-      if (page.displayInMenu === false) {
-        return;
+    const visiblePages = webPages.filter(page => {
+      if (page.displayInMenu === false || page.displayOnMenu === false) {
+        return false;
+      }
+      if (filterText && !page.name.toLowerCase().includes(filterText) && !page.route.toLowerCase().includes(filterText)) {
+        return false;
+      }
+      return true;
+    });
+
+    visiblePages.sort((a, b) => {
+      const orderA = a.order !== undefined ? a.order : 9999;
+      const orderB = b.order !== undefined ? b.order : 9999;
+      return orderA - orderB;
+    });
+
+    const groupedPages = {};
+    visiblePages.forEach(page => {
+      const groupTitle = page.title || '';
+      if (!groupedPages[groupTitle]) {
+        groupedPages[groupTitle] = [];
+      }
+      groupedPages[groupTitle].push(page);
+    });
+
+    Object.keys(groupedPages).forEach(groupTitle => {
+      if (groupTitle) {
+        const heading = document.createElement('div');
+        heading.className = 'sidebar-heading';
+        heading.style.marginTop = '8px';
+        heading.innerText = groupTitle;
+        this.dom.sidebarNavList.appendChild(heading);
       }
       
-      if (filterText && !page.name.toLowerCase().includes(filterText) && !page.route.toLowerCase().includes(filterText)) {
-        return;
-      }
+      groupedPages[groupTitle].forEach(page => {
+        const item = document.createElement('a');
+        item.className = 'nav-item';
+        item.href = `#/${page.route}`;
+        item.dataset.route = page.route;
 
-      const item = document.createElement('a');
-      item.className = 'nav-item';
-      item.href = `#/${page.route}`;
-      item.dataset.route = page.route;
+        const iconClass = page.icon || this.inferPageIcon(page.name, page.route);
 
-      const iconClass = page.icon || this.inferPageIcon(page.name, page.route);
+        item.innerHTML = `
+          <div class="nav-item-left">
+            <i class="${iconClass}"></i>
+            <span>${page.name}</span>
+          </div>
+          <span class="nav-item-route">${page.route}</span>
+        `;
 
-      item.innerHTML = `
-        <div class="nav-item-left">
-          <i class="${iconClass}"></i>
-          <span>${page.name}</span>
-        </div>
-        <span class="nav-item-route">${page.route}</span>
-      `;
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          this.navigate(page.route);
+        });
 
-      item.addEventListener('click', (e) => {
-        e.preventDefault();
-        this.navigate(page.route);
+        this.dom.sidebarNavList.appendChild(item);
       });
-
-      this.dom.sidebarNavList.appendChild(item);
     });
 
     this.updateActiveNavHighlight();
