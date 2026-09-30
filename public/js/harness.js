@@ -277,11 +277,12 @@ class RappiderHarness {
         item.href = `#/${page.route}`;
         item.dataset.route = page.route;
 
-        const iconClass = page.icon || this.inferPageIcon(page.name, page.route);
+        const iconValue = page.icon || this.inferPageIcon(page.name, page.route);
+        const iconHtml = iconValue.startsWith('<svg') ? iconValue : `<i class="${iconValue}"></i>`;
 
         item.innerHTML = `
           <div class="nav-item-left">
-            <i class="${iconClass}"></i>
+            ${iconHtml}
             <span>${page.name}</span>
           </div>
           <span class="nav-item-route">${page.route}</span>

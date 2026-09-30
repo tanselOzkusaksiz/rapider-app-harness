@@ -417,6 +417,18 @@ html, body {
   transition: var(--transition-smooth);
 }
 
+.nav-item svg {
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: var(--transition-smooth);
+}
+
 .nav-item span {
   white-space: nowrap;
   overflow: hidden;
