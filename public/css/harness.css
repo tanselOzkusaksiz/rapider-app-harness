@@ -421,12 +421,20 @@ html, body {
   width: 16px;
   height: 16px;
   color: var(--text-muted);
-  stroke: currentColor;
-  fill: none;
-  stroke-width: 2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   transition: var(--transition-smooth);
+}
+
+.nav-item svg, .nav-item svg * {
+  /* Override any black/dark fills to use the parent's text color */
+}
+.nav-item svg [fill="#000"], .nav-item svg [fill="#000000"], .nav-item svg [fill="black"] {
+  fill: currentColor !important;
+}
+.nav-item svg [stroke="#000"], .nav-item svg [stroke="#000000"], .nav-item svg [stroke="black"] {
+  stroke: currentColor !important;
+}
+.nav-item svg path:not([fill]):not([stroke]) {
+  fill: currentColor !important;
 }
 
 .nav-item span {
