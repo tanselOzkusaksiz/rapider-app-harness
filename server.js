@@ -378,6 +378,10 @@ ${themeCss}
     } else {
       completeHtml = completeHtml.replace(/<html[^>]*class=["'][^"']*dark[^"']*["'][^>]*>/i, match => match.replace('dark', '').trim());
     }
+    
+    // Move <base href="/"> to the VERY beginning of <head>
+    completeHtml = completeHtml.replace(/<base data-rapider-injected="true" href="\/">/g, '');
+    completeHtml = completeHtml.replace(/<head[^>]*>/i, match => match + '\n    <base data-rapider-injected="true" href="/">');
   }
 
   return completeHtml;
@@ -454,6 +458,19 @@ app.all('/api/proxy/*', (req, res) => {
   }
 });
 
+app.get('/api/config', (req, res) => {
+  const envPath = require('path').join(__dirname, '../.env');
+  const config = {};
+  if (require('fs').existsSync(envPath)) {
+    const content = require('fs').readFileSync(envPath, 'utf8');
+    content.split('\n').forEach(line => {
+      const match = line.match(/^([^=]+)=(.*)$/);
+      if (match) config[match[1].trim()] = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
+    });
+  }
+  res.json(config);
+});
+
 // Fallback to index.html for client-side routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
@@ -467,17 +484,4 @@ app.listen(PORT, () => {
   console.log(`🎯 Default App: ${DEFAULT_APP_DIR}`);
   console.log(`🔗 Target Backend: ${DEFAULT_BACKEND}`);
   console.log('================================================================');
-});
-
-app.get('/api/config', (req, res) => {
-  const envPath = require('path').join(__dirname, '../.env');
-  const config = {};
-  if (require('fs').existsSync(envPath)) {
-    const content = require('fs').readFileSync(envPath, 'utf8');
-    content.split('\n').forEach(line => {
-      const match = line.match(/^([^=]+)=(.*)$/);
-      if (match) config[match[1].trim()] = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
-    });
-  }
-  res.json(config);
 });

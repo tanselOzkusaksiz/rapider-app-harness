@@ -90,6 +90,31 @@ class RappiderHarness {
     await this.fetchApps();
 
     // 2. Fetch projects or prompt login
+    // Auto-fill and AUTO-LOGIN from env
+    try {
+      const configRes = await fetch('/api/config');
+      const config = await configRes.json();
+      
+      if (config.HARNESS_TEST_EMAIL && config.HARNESS_TEST_PASSWORD) {
+          // Attempt silent login
+          await window.apiClient.login(config.HARNESS_TEST_EMAIL, config.HARNESS_TEST_PASSWORD, config.BACKEND_URL || 'https://dev.api.rappider.com');
+          if (config.HARNESS_TEST_PROJECT_ID) {
+              await window.apiClient.changeActiveProject(config.HARNESS_TEST_PROJECT_ID);
+          }
+          this.isOfflineMode = false;
+          this.populateProjectSelect();
+          this.updateAuthBadge();
+          this.closeAuthModal();
+          
+          // Only attach hash listener and reload AFTER silent login
+          window.addEventListener('hashchange', () => this.handleHashChange());
+          this.handleHashChange();
+          return;
+      }
+    } catch (err) {
+      console.warn('Silent login failed:', err);
+    }
+
     if (window.apiClient.isAuthenticated() && !this.isOfflineMode) {
       try {
         await window.apiClient.fetchUserProjects();
@@ -106,24 +131,6 @@ class RappiderHarness {
       this.openAuthModal();
     }
     
-    // Auto-fill from env
-    try {
-      const configRes = await fetch('/api/config');
-      const config = await configRes.json();
-      if (config.HARNESS_TEST_EMAIL) document.getElementById('auth-username').value = config.HARNESS_TEST_EMAIL;
-      if (config.HARNESS_TEST_PASSWORD) document.getElementById('auth-password').value = config.HARNESS_TEST_PASSWORD;
-      if (config.HARNESS_TEST_PROJECT_ID) {
-          setTimeout(() => {
-              const sel = document.getElementById('auth-project-select');
-              if(sel) sel.value = config.HARNESS_TEST_PROJECT_ID;
-          }, 1000);
-      }
-      if (config.BACKEND_URL) {
-          const be = document.getElementById('auth-backend-url');
-          if (be && !be.value) be.value = config.BACKEND_URL;
-      }
-    } catch (err) {}
-
     // 3. Handle initial URL hash routing
     window.addEventListener('hashchange', () => this.handleHashChange());
   }
@@ -311,12 +318,14 @@ class RappiderHarness {
 
   updateActiveNavHighlight() {
     const current = this.activeRoute || '';
-    const cleanCurrent = current.replace(/^\//, '').split('?')[0].split('/')[0];
+    const cleanCurrent = current.replace(/^\//, '').split('?')[0];
 
     const items = this.dom.sidebarNavList.querySelectorAll('.nav-item');
     items.forEach(item => {
-      const itemRoute = item.dataset.route.replace(/^\//, '').split('/')[0];
-      if (itemRoute === cleanCurrent) {
+      const itemRoute = item.dataset.route.replace(/^\//, '').split('?')[0];
+      const routeRegex = new RegExp('^' + itemRoute.replace(/:[^/]+/g, '[^/]+') + '$');
+      
+      if (routeRegex.test(cleanCurrent) || (cleanCurrent && itemRoute === cleanCurrent)) {
         item.classList.add('active');
       } else {
         item.classList.remove('active');
