@@ -8,3 +8,5 @@ yarn-error.log*
 .env.local
 .vscode/
 .idea/
+.env.test-credentials
+.env*
