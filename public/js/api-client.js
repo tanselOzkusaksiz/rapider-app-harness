@@ -359,6 +359,11 @@ class HarnessApiClient {
    * Low-level raw API request routed through the proxy
    */
   async executeRawApiCall(method, relativePath, body = null, meta = {}) {
+    if (!this.isAuthenticated()) {
+      window.dispatchEvent(new CustomEvent('harness-require-login'));
+      throw new Error("Authentication required: Missing token or project ID.");
+    }
+
     const startTime = Date.now();
     const reqId = Math.random().toString(36).substr(2, 8);
     const cleanPath = relativePath.replace(/^\//, '');
@@ -414,6 +419,11 @@ class HarnessApiClient {
       }
 
       if (!response.ok) {
+        if (response.status === 401) {
+          this.clearSession();
+          window.dispatchEvent(new CustomEvent('harness-require-login'));
+        }
+
         const errorMsg = (responseData && typeof responseData === 'object' && (responseData.error?.message || responseData.message)) 
           || `HTTP ${response.status}: ${response.statusText}`;
 

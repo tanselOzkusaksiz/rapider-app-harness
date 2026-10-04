@@ -30,7 +30,38 @@ app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Static files for the currently loaded app (so /assets/... resolves to the app's assets folder)
-app.use(express.static(DEFAULT_APP_DIR));
+app.use((req, res, next) => {
+  let appPath = DEFAULT_APP_DIR;
+  try {
+    const referer = req.get('Referer');
+    if (referer) {
+      // The iframe loads from /api/page-content?appPath=...
+      const refererUrl = new URL(referer);
+      if (refererUrl.searchParams.has('appPath')) {
+        appPath = path.resolve(refererUrl.searchParams.get('appPath'));
+      }
+    }
+  } catch (e) {
+    // Ignore invalid referer parsing
+  }
+
+  // 1. Check exact requested path (e.g., appPath + /assets/js/...)
+  const targetPath = path.join(appPath, req.path);
+  if (fs.existsSync(targetPath) && fs.statSync(targetPath).isFile()) {
+    return res.sendFile(targetPath);
+  }
+
+  // 2. Fallback: if it's an /assets/ request but the file is actually at the app root 
+  // (happens because of the <base href="/assets/"> tag injected by the harness)
+  if (req.path.startsWith('/assets/')) {
+    const rootTargetPath = path.join(appPath, req.path.substring(7)); // remove '/assets'
+    if (fs.existsSync(rootTargetPath) && fs.statSync(rootTargetPath).isFile()) {
+      return res.sendFile(rootTargetPath);
+    }
+  }
+
+  next();
+});
 
 // Cache theme CSS in memory
 let cachedThemeCss = '';

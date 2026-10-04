@@ -975,6 +975,11 @@ class RappiderHarness {
 
   // --- EVENT BINDINGS ---
   bindEvents() {
+    window.addEventListener('harness-require-login', () => {
+      this.openAuthModal();
+      this.showToast({ type: 'warning', message: 'Authentication required. Please log in or select a workspace.' });
+    });
+
     // App selector dropdown toggle
     if (this.dom.appSelectorBtn) {
       this.dom.appSelectorBtn.addEventListener('click', (e) => {
