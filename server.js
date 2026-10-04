@@ -26,6 +26,19 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
+// Dynamically serve the local web components bundle if available (better DX for monorepo)
+app.get('/assets/js/rapider-components.js', (req, res, next) => {
+  const localUiBuild = path.resolve(__dirname, '../rapider-ui/apps/rapider/public/assets/js/rapider-components.js');
+  if (fs.existsSync(localUiBuild)) {
+    console.log('[Harness] Serving local rapider-components.js');
+    return res.sendFile(localUiBuild);
+  }
+  
+  const publicUrl = 'https://dev.app.rapider.ai/assets/js/rapider-components.js';
+  console.log(`[Harness] Local build not found. Falling back to public URL: ${publicUrl}`);
+  res.redirect(publicUrl);
+});
+
 // Static files for harness UI
 app.use(express.static(path.join(__dirname, 'public')));
 
