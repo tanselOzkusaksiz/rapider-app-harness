@@ -113,6 +113,48 @@ html, body {
   grid-template-columns: var(--sidebar-collapsed-width) 1fr;
 }
 
+/* Hide text elements when sidebar is collapsed */
+#app-shell.sidebar-collapsed .nav-item span,
+#app-shell.sidebar-collapsed .nav-item-route,
+#app-shell.sidebar-collapsed .sidebar-footer span,
+#app-shell.sidebar-collapsed .sidebar-search input,
+#app-shell.sidebar-collapsed .sidebar-search > i {
+  display: none;
+}
+
+/* Center elements when sidebar is collapsed */
+#app-shell.sidebar-collapsed .sidebar-search {
+  justify-content: center;
+  padding: 12px 0;
+}
+
+#app-shell.sidebar-collapsed .sidebar-footer {
+  justify-content: center;
+}
+
+#app-shell.sidebar-collapsed .nav-item {
+  justify-content: center;
+  padding: 10px 0;
+}
+
+#app-shell.sidebar-collapsed .nav-item-left {
+  gap: 0;
+}
+
+/* Change group title to a divider when collapsed */
+#app-shell.sidebar-collapsed .sidebar-heading {
+  font-size: 0;
+  height: 1px;
+  background-color: var(--border-subtle);
+  margin: 12px 12px 6px;
+  padding: 0;
+}
+
+/* Rotate collapse icon to right chevron when collapsed */
+#app-shell.sidebar-collapsed #btn-toggle-sidebar i {
+  transform: rotate(180deg);
+}
+
 #app-shell.devtools-hidden {
   grid-template-rows: var(--header-height) 1fr 0px;
 }
