@@ -8,7 +8,8 @@
     "start": "node server.js",
     "start:crm": "node server.js --app=../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system",
     "start:expenses": "node server.js --app=../rapider-apps/rapider-app-re-xps-rapider-expenses",
-    "start:billing": "node server.js --app=../rapider-apps/rapider-app-rbi-a-rapider-billing-and-invoicing"
+    "start:billing": "node server.js --app=../rapider-apps/rapider-app-rbi-a-rapider-billing-and-invoicing",
+    "start:apm": "node server.js --app=../rapider-apps/rapider-app-apm-a-rapider-agile-project-management"
   },
   "keywords": [
     "rappider",
