@@ -61,6 +61,8 @@ function uploadToSpaces(filePath, s3Filename) {
   }
 }
 
+const { ensureAuthenticated } = require('./harness-auth-helper.js');
+
 async function runE2E() {
   console.log('===========================================================');
   console.log('🚀 RAPIDER EMPLOYEES END-TO-END EXPECTATIONS TEST RUNNER');
@@ -80,6 +82,9 @@ async function runE2E() {
     viewport: { width: 1440, height: 900 }
   });
   const page = await context.newPage();
+
+  // STEP 0: Authentication Pre-flight Step
+  await ensureAuthenticated(page, 'rapider-app-re-a-rapider-employees');
 
   const report = {
     appName: expectationsData.appName,

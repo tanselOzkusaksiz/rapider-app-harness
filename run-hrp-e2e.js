@@ -54,6 +54,8 @@ function uploadToSpaces(filePath, s3Filename) {
   }
 }
 
+const { ensureAuthenticated } = require('./harness-auth-helper.js');
+
 async function runHrpE2E() {
   console.log('===========================================================');
   console.log('🚀 RAPIDER HR PAYROLL END-TO-END EXPECTATIONS TEST RUNNER');
@@ -73,6 +75,9 @@ async function runHrpE2E() {
     viewport: { width: 1440, height: 900 }
   });
   const page = await context.newPage();
+
+  // STEP 0: Authentication Pre-flight Step
+  await ensureAuthenticated(page, 'rapider-app-hrp-a-rapider-hr-payroll');
 
   const report = {
     appName: expectationsData.appName,
