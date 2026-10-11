@@ -292,14 +292,43 @@ ${themeCss}
           return this.routeParams ? this.routeParams[key] : null;
         },
         // --- API REQUEST BROKER ---
+        _inFlightMutations: {},
+        clearCache: function(entityName) {
+          try {
+            if (typeof sessionStorage !== 'undefined') {
+              Object.keys(sessionStorage).forEach(k => {
+                if (!entityName || k.includes(entityName)) {
+                  if (k.startsWith('swr_find_') || k.startsWith('swr_count_')) {
+                    sessionStorage.removeItem(k);
+                  }
+                }
+              });
+            }
+          } catch(e) {}
+        },
         request: function(operation, entityName, payload = {}) {
-          return new Promise((resolve, reject) => {
+          const isMutation = ['create', 'update', 'updateById', 'delete', 'deleteById'].includes(operation);
+          let mutationKey = null;
+
+          if (isMutation) {
+            mutationKey = operation + ':' + entityName + ':' + (payload.id || '') + ':' + JSON.stringify(payload.body || {});
+            if (this._inFlightMutations[mutationKey]) {
+              console.warn('[RapiderSDK] Duplicate mutation suppressed. Reusing active in-flight request:', mutationKey);
+              return this._inFlightMutations[mutationKey];
+            }
+          }
+
+          const reqPromise = new Promise((resolve, reject) => {
             const reqId = Math.random().toString(36).substr(2, 9);
             
-            const handler = function(event) {
+            const handler = (event) => {
               if (event.data && event.data.reqId === reqId) {
                 window.removeEventListener('message', handler);
                 if (event.data.type === 'RAPIDER_API_RESPONSE') {
+                  if (isMutation) {
+                    this.clearCache(entityName);
+                    this.broadcast('RAPIDER_DATA_CHANGED', { entityName, operation });
+                  }
                   resolve(event.data.payload);
                 } else if (event.data.type === 'RAPIDER_API_ERROR') {
                   reject(new Error(event.data.error));
@@ -317,6 +346,15 @@ ${themeCss}
               payload: payload
             }, '*');
           });
+
+          if (isMutation && mutationKey) {
+            this._inFlightMutations[mutationKey] = reqPromise;
+            reqPromise.finally(() => {
+              delete this._inFlightMutations[mutationKey];
+            });
+          }
+
+          return reqPromise;
         },
         create: function(entityName, body) { return this.request('create', entityName, { body }); },
         find: function(entityName, filter) { return this.request('find', entityName, { filter }); },
@@ -431,11 +469,114 @@ ${themeCss}
         showPageModal: function(modalConfig) {
           this.executeAction({ type: 'showPageModal', payload: { pageModal: modalConfig } });
         },
+        closePageModal: function() {
+          this.executeAction({ type: 'closePageModal' });
+        },
         showPageDrawer: function(drawerConfig) {
           this.executeAction({ type: 'showPageDrawer', payload: { pageDrawer: drawerConfig } });
         },
+        closePageDrawer: function() {
+          this.executeAction({ type: 'closePageDrawer' });
+        },
         showPageSplitter: function(splitterConfig) {
           this.executeAction({ type: 'showPageSplitter', payload: { pageSplitter: splitterConfig } });
+        },
+        showConfirmModal: function(options) {
+          if (typeof window.showConfirmModal === 'function') {
+            window.showConfirmModal(options);
+          }
+        }
+      };
+
+      // --- GLOBAL MODAL CONFIRMATION DIALOG & ALERT OVERRIDE ---
+      window.showConfirmModal = function(options) {
+        options = options || {};
+        let modal = document.getElementById('rapiderGlobalConfirmModal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'rapiderGlobalConfirmModal';
+          modal.className = 'fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity duration-200';
+          modal.setAttribute('role', 'dialog');
+          modal.setAttribute('aria-modal', 'true');
+          modal.innerHTML = '' +
+            '<div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200/80 dark:border-slate-800 p-6 max-w-md w-full mx-4 transform transition-all scale-100">' +
+              '<div class="flex items-start gap-4">' +
+                '<div id="rapiderConfirmIconContainer" class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0">' +
+                  '<i id="rapiderConfirmIcon" class="fas fa-trash-alt text-xl"></i>' +
+                '</div>' +
+                '<div class="flex-1 min-w-0">' +
+                  '<h3 id="rapiderConfirmTitle" class="text-lg font-bold text-slate-900 dark:text-white leading-snug">Confirm Action</h3>' +
+                  '<p id="rapiderConfirmMessage" class="mt-2 text-sm text-slate-600 dark:text-slate-400 leading-relaxed"></p>' +
+                '</div>' +
+              '</div>' +
+              '<div class="mt-6 flex items-center justify-end gap-3 pt-2">' +
+                '<button id="rapiderConfirmCancelBtn" type="button" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors border border-slate-200 dark:border-slate-700">' +
+                  'Cancel' +
+                '</button>' +
+                '<button id="rapiderConfirmOkBtn" type="button" class="px-4 py-2 text-sm font-semibold text-white rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2">' +
+                  'Confirm' +
+                '</button>' +
+              '</div>' +
+            '</div>';
+          document.body.appendChild(modal);
+        }
+
+        const titleEl = modal.querySelector('#rapiderConfirmTitle');
+        const msgEl = modal.querySelector('#rapiderConfirmMessage');
+        const okBtn = modal.querySelector('#rapiderConfirmOkBtn');
+        const cancelBtn = modal.querySelector('#rapiderConfirmCancelBtn');
+        const iconContainer = modal.querySelector('#rapiderConfirmIconContainer');
+        const iconEl = modal.querySelector('#rapiderConfirmIcon');
+
+        titleEl.textContent = options.title || 'Confirm Action';
+        msgEl.textContent = options.message || 'Are you sure you want to proceed?';
+        okBtn.textContent = options.okText || (options.isDanger ? 'Delete' : 'Confirm');
+        cancelBtn.textContent = options.cancelText || 'Cancel';
+
+        if (options.isDanger !== false) {
+          iconContainer.className = 'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400';
+          iconEl.className = 'fas fa-exclamation-triangle text-xl';
+          okBtn.className = 'px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 focus:ring-red-500 rounded-xl shadow-sm hover:shadow transition-all';
+        } else {
+          iconContainer.className = 'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400';
+          iconEl.className = 'fas fa-question-circle text-xl';
+          okBtn.className = 'px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 rounded-xl shadow-sm hover:shadow transition-all';
+        }
+
+        modal.classList.remove('hidden');
+
+        function cleanup() {
+          modal.classList.add('hidden');
+          okBtn.onclick = null;
+          cancelBtn.onclick = null;
+        }
+
+        cancelBtn.onclick = () => {
+          cleanup();
+          if (typeof options.onCancel === 'function') options.onCancel();
+        };
+
+        okBtn.onclick = async () => {
+          cleanup();
+          if (typeof options.onConfirm === 'function') {
+            try {
+              await options.onConfirm();
+            } catch (err) {
+              console.error('[showConfirmModal] onConfirm error:', err);
+            }
+          }
+        };
+      };
+      window.rapiderApi.showConfirmModal = window.showConfirmModal;
+
+      // Safe Interceptor: Block Native Browser Alert & Toastify Instead
+      window.alert = function(message) {
+        console.warn('[Rapider] Blocked native alert():', message);
+        if (window.rapiderApi && window.rapiderApi.showNotification) {
+          window.rapiderApi.showNotification({
+            type: 'warning',
+            message: String(message)
+          });
         }
       };
 

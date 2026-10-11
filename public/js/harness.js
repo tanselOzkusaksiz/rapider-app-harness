@@ -415,12 +415,24 @@ class RappiderHarness {
       }
     }
 
-    // Fallback if not directly in webPages
+    // Fallback if not directly in webPages: check if baseSlug matches a webPage (e.g. account-detail/123)
+    const routeParts = route.split('/');
+    if (!matchedPage && routeParts.length > 1) {
+      const baseSlug = routeParts[0];
+      matchedPage = webPages.find(p => p.route === baseSlug);
+      if (!params.id && routeParts[1]) {
+        params.id = routeParts[1];
+      }
+    }
+
     let htmlFilePath = matchedPage?.htmlFilePath;
     if (!htmlFilePath) {
       // Convention fallback: pages/[route]/[route].html
-      const baseSlug = route.split('/')[0];
+      const baseSlug = routeParts[0];
       htmlFilePath = `pages/${baseSlug}/${baseSlug}.html`;
+      if (!params.id && routeParts[1]) {
+        params.id = routeParts[1];
+      }
     }
 
     // Update URL bar
@@ -522,6 +534,13 @@ class RappiderHarness {
     this.dom.modalOverlay.classList.remove('active');
     window.rapiderBridge.unregisterIframe(this.dom.modalIframe);
     this.dom.modalIframe.src = 'about:blank';
+    if (window.rapiderBridge) {
+      window.rapiderBridge.broadcastToAllIframes({
+        type: 'RAPIDER_BROADCAST_RECEIVE',
+        eventName: 'RAPIDER_DATA_CHANGED',
+        payload: { source: 'modal_closed' }
+      });
+    }
   }
 
   showPageDrawer(config = {}) {
@@ -558,6 +577,13 @@ class RappiderHarness {
     this.dom.drawerOverlay.classList.remove('active');
     window.rapiderBridge.unregisterIframe(this.dom.drawerIframe);
     this.dom.drawerIframe.src = 'about:blank';
+    if (window.rapiderBridge) {
+      window.rapiderBridge.broadcastToAllIframes({
+        type: 'RAPIDER_BROADCAST_RECEIVE',
+        eventName: 'RAPIDER_DATA_CHANGED',
+        payload: { source: 'drawer_closed' }
+      });
+    }
   }
 
   resolveHtmlPathForRoute(route) {

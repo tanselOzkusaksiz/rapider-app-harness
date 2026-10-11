@@ -149,9 +149,17 @@ class RapiderBridge {
           if (window.harness) {
             window.harness.showPageModal(payload.pageModal);
           }
+        } else if (action.type === 'closePageModal') {
+          if (window.harness) {
+            window.harness.closePageModal();
+          }
         } else if (action.type === 'showPageDrawer' && payload.pageDrawer) {
           if (window.harness) {
             window.harness.showPageDrawer(payload.pageDrawer);
+          }
+        } else if (action.type === 'closePageDrawer') {
+          if (window.harness) {
+            window.harness.closePageDrawer();
           }
         } else if (action.type === 'showPageSplitter' && payload.pageSplitter) {
           if (window.harness) {
