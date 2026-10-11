@@ -219,6 +219,7 @@ class RapiderBridge {
         return { id: 'mock-new-' + Math.random().toString(36).substr(2, 6), ...payload.body };
       case 'updateById':
         return { id: payload.id, ...payload.body };
+      case 'delete':
       case 'deleteById':
         return { count: 1 };
       case 'count':

@@ -331,6 +331,7 @@ class HarnessApiClient {
         body = payload.body;
         break;
 
+      case 'delete':
       case 'deleteById':
         method = 'DELETE';
         path += `/${payload.id}`;
