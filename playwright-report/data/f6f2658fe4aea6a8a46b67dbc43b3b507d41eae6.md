@@ -1,0 +1,200 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: employees-expectations.spec.ts >> Rapider Employees E2E Expectations Suite >> Suite: profile Auto-Generated Suite (route: #profile)
+- Location: tests/employees-expectations.spec.ts:19:9
+
+# Error details
+
+```
+Test timeout of 90000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Rappider Harness
+        - button "Rapider Employees" [ref=e11] [cursor=pointer]
+      - generic [ref=e16]:
+        - button "Desktop View (100%)" [ref=e17] [cursor=pointer]
+        - button "Tablet View (768px)" [ref=e19] [cursor=pointer]
+        - button "Mobile View (375px)" [ref=e21] [cursor=pointer]
+      - generic [ref=e23]:
+        - button "Reload Active Page (R)" [ref=e24] [cursor=pointer]
+        - button "Not Connected" [ref=e27] [cursor=pointer]
+        - button "Toggle Light / Dark Mode" [ref=e31] [cursor=pointer]
+        - button "Toggle Developer API Inspector" [ref=e33] [cursor=pointer]
+        - button "Connect" [ref=e35] [cursor=pointer]
+    - complementary [ref=e37]:
+      - generic [ref=e38]:
+        - textbox "Filter pages..." [ref=e40]
+        - button "Collapse Sidebar" [ref=e41] [cursor=pointer]
+      - generic [ref=e43]: Application Pages
+      - navigation [ref=e44]:
+        - generic [ref=e45]: CORE
+        - link "Overview" [ref=e46] [cursor=pointer]:
+          - /url: "#/overview"
+        - link "Directory" [ref=e50] [cursor=pointer]:
+          - /url: "#/directory"
+        - link "Organization" [ref=e54] [cursor=pointer]:
+          - /url: "#/organization"
+        - generic [ref=e58]: MANAGEMENT
+        - link "Lifecycle" [ref=e59] [cursor=pointer]:
+          - /url: "#/lifecycle"
+        - link "Documents" [ref=e63] [cursor=pointer]:
+          - /url: "#/documents"
+        - link "Reports" [ref=e67] [cursor=pointer]:
+          - /url: "#/reports"
+        - link "Import" [ref=e71] [cursor=pointer]:
+          - /url: "#/import"
+        - generic [ref=e75]: SETTINGS
+        - link "Settings" [ref=e76] [cursor=pointer]:
+          - /url: "#/settings"
+      - generic [ref=e80]: A comprehensive People Core application providing a unified directory, employee profiles, organizational structure, lifecycle actions, and self-service capabilities.
+    - main [ref=e83]:
+      - generic [ref=e84]:
+        - iframe [ref=e85]:
+          - generic [ref=f1e2]:
+            - generic [ref=f1e3]:
+              - generic [ref=f1e4]:
+                - link "HR" [ref=f1e5] [cursor=pointer]:
+                  - /url: "#/overview"
+                - generic [ref=f1e6]: /
+                - link "Directory" [ref=f1e7] [cursor=pointer]:
+                  - /url: "#/directory"
+                - generic [ref=f1e8]: /
+                - generic [ref=f1e9]: Employee Profile
+              - link "Back to directory" [ref=f1e10] [cursor=pointer]:
+                - /url: "#/directory"
+            - generic [ref=f1e12]:
+              - generic [ref=f1e13]:
+                - generic [ref=f1e14]: "--"
+                - generic [ref=f1e15]:
+                  - heading "Loading profile..." [level=1] [ref=f1e16]
+                  - paragraph [ref=f1e17]: Please wait...
+                  - generic [ref=f1e18]:
+                    - generic [ref=f1e19]: Active
+                    - generic [ref=f1e21]: Full time
+                    - generic [ref=f1e22]: New York
+              - generic [ref=f1e23]:
+                - link "Edit Profile" [ref=f1e24] [cursor=pointer]:
+                  - /url: "#/edit-employee"
+                - link "Propose Change" [ref=f1e26] [cursor=pointer]:
+                  - /url: "#/change-employee"
+            - navigation [ref=f1e28]:
+              - button "Work & Organization" [ref=f1e29]
+              - button "Personal & Emergency" [ref=f1e30]
+              - button "Documents (0)" [ref=f1e31]
+              - button "Timeline & Changes" [ref=f1e32]
+            - generic [ref=f1e33]:
+              - generic [ref=f1e34]:
+                - heading "Employment Details Canonical HR Record" [level=2] [ref=f1e35]:
+                  - generic [ref=f1e36]: Employment Details
+                  - generic [ref=f1e37]: Canonical HR Record
+                - generic [ref=f1e38]:
+                  - generic [ref=f1e39]:
+                    - generic [ref=f1e40]: Work Email
+                    - generic [ref=f1e41]: "--"
+                  - generic [ref=f1e42]:
+                    - generic [ref=f1e43]: Employee Number
+                    - generic [ref=f1e44]: "--"
+                  - generic [ref=f1e45]:
+                    - generic [ref=f1e46]: Department
+                    - generic [ref=f1e47]: "--"
+                  - generic [ref=f1e48]:
+                    - generic [ref=f1e49]: Job Title
+                    - generic [ref=f1e50]: "--"
+                  - generic [ref=f1e51]:
+                    - generic [ref=f1e52]: Manager
+                    - generic [ref=f1e53]: "--"
+                  - generic [ref=f1e54]:
+                    - generic [ref=f1e55]: Work Location
+                    - generic [ref=f1e56]: New York (Hybrid)
+                  - generic [ref=f1e57]:
+                    - generic [ref=f1e58]: Hire / Start Date
+                    - generic [ref=f1e59]: "--"
+                  - generic [ref=f1e60]:
+                    - generic [ref=f1e61]: Standard Weekly Hours
+                    - generic [ref=f1e62]: 40 hours / week
+                  - generic [ref=f1e63]:
+                    - generic [ref=f1e64]: Time Zone
+                    - generic [ref=f1e65]: America/New_York (EST)
+                  - generic [ref=f1e66]:
+                    - generic [ref=f1e67]: Worker Classification
+                    - generic [ref=f1e68]: Regular Employee
+                - generic [ref=f1e69]:
+                  - generic [ref=f1e70]: HR Onboarding Notes
+                  - paragraph [ref=f1e71]: No notes recorded for this employee profile.
+              - generic [ref=f1e72]:
+                - generic [ref=f1e73]:
+                  - heading "Reports To" [level=3] [ref=f1e74]
+                  - generic [ref=f1e75]:
+                    - generic [ref=f1e76]: MC
+                    - generic [ref=f1e77]:
+                      - generic [ref=f1e78]: Maya Chen
+                      - generic [ref=f1e79]: Head of Product
+                    - link "View" [ref=f1e80] [cursor=pointer]:
+                      - /url: "#/directory"
+                - generic [ref=f1e81]:
+                  - heading "Team & Teammates" [level=3] [ref=f1e82]
+                  - generic [ref=f1e83]: No direct reports currently assigned.
+        - generic: Rendering page sandbox...
+    - generic [ref=e86]:
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - button "API Requests 0" [ref=e89] [cursor=pointer]:
+            - text: API Requests
+            - generic [ref=e91]: "0"
+          - button "UI Events 0" [ref=e92] [cursor=pointer]:
+            - text: UI Events
+            - generic [ref=e94]: "0"
+          - button "Data Models" [ref=e95] [cursor=pointer]
+          - button "Manifest" [ref=e97] [cursor=pointer]
+        - generic [ref=e100]:
+          - text: "Injected SDK:"
+          - strong [ref=e101]: window.rapiderApi
+      - table [ref=e104]:
+        - rowgroup [ref=e105]:
+          - row [ref=e106]:
+            - columnheader "Time" [ref=e107]
+            - columnheader "Method" [ref=e108]
+            - columnheader "Model (Table)" [ref=e109]
+            - columnheader "Operation" [ref=e110]
+            - columnheader "Status" [ref=e111]
+            - columnheader "Duration" [ref=e112]
+        - rowgroup [ref=e113]:
+          - row [ref=e114]:
+            - cell "No API calls recorded yet. Interact with the application to see live requests." [ref=e115]
+  - generic [ref=e117]:
+    - generic [ref=e118]:
+      - heading "Connect to Rappider Backend" [level=2] [ref=e121]
+      - paragraph [ref=e122]: Authenticate to execute live project queries without syncing
+      - button [ref=e123] [cursor=pointer]
+    - generic [ref=e126]:
+      - generic [ref=e127]:
+        - generic [ref=e128]: Backend Server URL
+        - textbox "Backend Server URL" [ref=e129]:
+          - /placeholder: Optional. Defaults to Server Target Backend
+      - generic [ref=e130]:
+        - generic [ref=e131]: Active Project ID
+        - textbox "Active Project ID" [ref=e132]:
+          - /placeholder: Optional. Defaults to first available project
+      - generic [ref=e133]:
+        - generic [ref=e134]: Email / Username
+        - textbox "Email / Username" [ref=e135]:
+          - /placeholder: developer@rapider.ai
+      - generic [ref=e136]:
+        - generic [ref=e137]: Password
+        - textbox "Password" [ref=e138]:
+          - /placeholder: ••••••••
+      - button "Sign In & Connect" [ref=e139] [cursor=pointer]
+```

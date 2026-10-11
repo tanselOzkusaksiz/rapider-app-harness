@@ -1,0 +1,168 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: employees-expectations.spec.ts >> Rapider Employees E2E Expectations Suite >> Suite: import Auto-Generated Suite (route: #import)
+- Location: tests/employees-expectations.spec.ts:19:9
+
+# Error details
+
+```
+Test timeout of 90000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: Rappider Harness
+        - button "Rapider Employees" [ref=e11] [cursor=pointer]
+      - generic [ref=e16]:
+        - button "Desktop View (100%)" [ref=e17] [cursor=pointer]
+        - button "Tablet View (768px)" [ref=e19] [cursor=pointer]
+        - button "Mobile View (375px)" [ref=e21] [cursor=pointer]
+      - generic [ref=e23]:
+        - button "Reload Active Page (R)" [ref=e24] [cursor=pointer]
+        - button "Not Connected" [ref=e27] [cursor=pointer]
+        - button "Toggle Light / Dark Mode" [ref=e31] [cursor=pointer]
+        - button "Toggle Developer API Inspector" [ref=e33] [cursor=pointer]
+        - button "Connect" [ref=e35] [cursor=pointer]
+    - complementary [ref=e37]:
+      - generic [ref=e38]:
+        - textbox "Filter pages..." [ref=e40]
+        - button "Collapse Sidebar" [ref=e41] [cursor=pointer]
+      - generic [ref=e43]: Application Pages
+      - navigation [ref=e44]:
+        - generic [ref=e45]: CORE
+        - link "Overview" [ref=e46] [cursor=pointer]:
+          - /url: "#/overview"
+        - link "Directory" [ref=e50] [cursor=pointer]:
+          - /url: "#/directory"
+        - link "Organization" [ref=e54] [cursor=pointer]:
+          - /url: "#/organization"
+        - generic [ref=e58]: MANAGEMENT
+        - link "Lifecycle" [ref=e59] [cursor=pointer]:
+          - /url: "#/lifecycle"
+        - link "Documents" [ref=e63] [cursor=pointer]:
+          - /url: "#/documents"
+        - link "Reports" [ref=e67] [cursor=pointer]:
+          - /url: "#/reports"
+        - link "Import" [ref=e71] [cursor=pointer]:
+          - /url: "#/import"
+        - generic [ref=e75]: SETTINGS
+        - link "Settings" [ref=e76] [cursor=pointer]:
+          - /url: "#/settings"
+      - generic [ref=e80]: A comprehensive People Core application providing a unified directory, employee profiles, organizational structure, lifecycle actions, and self-service capabilities.
+    - main [ref=e83]:
+      - generic [ref=e84]:
+        - iframe [ref=e85]:
+          - generic [ref=f1e1]:
+            - generic [ref=f1e2]:
+              - generic [ref=f1e3]:
+                - generic [ref=f1e4]:
+                  - link "HR" [ref=f1e5] [cursor=pointer]:
+                    - /url: "#/overview"
+                  - generic [ref=f1e6]: /
+                  - generic [ref=f1e7]: Import & Export
+                - link "Directory" [ref=f1e9] [cursor=pointer]:
+                  - /url: "#/directory"
+              - banner [ref=f1e11]:
+                - generic [ref=f1e12]:
+                  - generic [ref=f1e13]: HR • DATA MANAGEMENT
+                  - heading [level=1] [ref=f1e14]
+                  - paragraph [ref=f1e17]: Import employee rosters from spreadsheets with validation and automatic duplicate prevention.
+                - generic [ref=f1e18]:
+                  - button "CSV Template" [ref=f1e19]
+                  - button "Export All Roster" [ref=f1e21]
+              - generic [ref=f1e23]:
+                - generic [ref=f1e24]:
+                  - generic [ref=f1e25]: "1"
+                  - generic [ref=f1e26]: Upload & Sample
+                - generic [ref=f1e28]:
+                  - generic [ref=f1e29]: "2"
+                  - generic [ref=f1e30]: Validation & Preview
+                - generic [ref=f1e32]:
+                  - generic [ref=f1e33]: "3"
+                  - generic [ref=f1e34]: Commit & Complete
+              - generic [ref=f1e35]:
+                - generic [ref=f1e36]:
+                  - 'heading "Step 1: Upload CSV Roster" [level=2] [ref=f1e37]'
+                  - paragraph [ref=f1e38]: Select a CSV file formatted with employee fields or load a pre-built sample file.
+                - generic [ref=f1e39]:
+                  - generic [ref=f1e42]:
+                    - strong [ref=f1e43]: Drag and drop your CSV file here
+                    - text: or browse from your local computer
+                  - generic [ref=f1e44]:
+                    - button "Browse File" [ref=f1e45]
+                    - generic [ref=f1e46]: or
+                    - button "Load Sample Roster (4 Rows)" [ref=f1e47]
+                - generic [ref=f1e49]:
+                  - strong [ref=f1e50]: "Supported Column Headers:"
+                  - generic [ref=f1e52]:
+                    - generic [ref=f1e53]: firstName *
+                    - generic [ref=f1e54]: lastName *
+                    - generic [ref=f1e55]: email *
+                    - generic [ref=f1e56]: jobTitle *
+                    - generic [ref=f1e57]: department
+                    - generic [ref=f1e58]: startDate
+                    - generic [ref=f1e59]: workerType
+                    - generic [ref=f1e60]: employmentType
+            - generic: Notification
+        - generic: Rendering page sandbox...
+    - generic [ref=e86]:
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - button "API Requests 0" [ref=e89] [cursor=pointer]:
+            - text: API Requests
+            - generic [ref=e91]: "0"
+          - button "UI Events 0" [ref=e92] [cursor=pointer]:
+            - text: UI Events
+            - generic [ref=e94]: "0"
+          - button "Data Models" [ref=e95] [cursor=pointer]
+          - button "Manifest" [ref=e97] [cursor=pointer]
+        - generic [ref=e100]:
+          - text: "Injected SDK:"
+          - strong [ref=e101]: window.rapiderApi
+      - table [ref=e104]:
+        - rowgroup [ref=e105]:
+          - row [ref=e106]:
+            - columnheader "Time" [ref=e107]
+            - columnheader "Method" [ref=e108]
+            - columnheader "Model (Table)" [ref=e109]
+            - columnheader "Operation" [ref=e110]
+            - columnheader "Status" [ref=e111]
+            - columnheader "Duration" [ref=e112]
+        - rowgroup [ref=e113]:
+          - row [ref=e114]:
+            - cell "No API calls recorded yet. Interact with the application to see live requests." [ref=e115]
+  - generic [ref=e117]:
+    - generic [ref=e118]:
+      - heading "Connect to Rappider Backend" [level=2] [ref=e121]
+      - paragraph [ref=e122]: Authenticate to execute live project queries without syncing
+      - button [ref=e123] [cursor=pointer]
+    - generic [ref=e126]:
+      - generic [ref=e127]:
+        - generic [ref=e128]: Backend Server URL
+        - textbox "Backend Server URL" [ref=e129]:
+          - /placeholder: Optional. Defaults to Server Target Backend
+      - generic [ref=e130]:
+        - generic [ref=e131]: Active Project ID
+        - textbox "Active Project ID" [ref=e132]:
+          - /placeholder: Optional. Defaults to first available project
+      - generic [ref=e133]:
+        - generic [ref=e134]: Email / Username
+        - textbox "Email / Username" [ref=e135]:
+          - /placeholder: developer@rapider.ai
+      - generic [ref=e136]:
+        - generic [ref=e137]: Password
+        - textbox "Password" [ref=e138]:
+          - /placeholder: ••••••••
+      - button "Sign In & Connect" [ref=e139] [cursor=pointer]
+```

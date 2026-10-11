@@ -46,12 +46,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
   let appPath = DEFAULT_APP_DIR;
   try {
-    const referer = req.get('Referer');
-    if (referer) {
-      // The iframe loads from /api/page-content?appPath=...
-      const refererUrl = new URL(referer);
-      if (refererUrl.searchParams.has('appPath')) {
-        appPath = path.resolve(refererUrl.searchParams.get('appPath'));
+    if (req.query.app) {
+      appPath = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+    } else if (req.query.appPath) {
+      appPath = path.resolve(req.query.appPath);
+    } else {
+      const referer = req.get('Referer');
+      if (referer) {
+        // The iframe loads from /api/page-content?appPath=... or main page loads with ?app=...
+        const refererUrl = new URL(referer);
+        if (refererUrl.searchParams.has('appPath')) {
+          appPath = path.resolve(refererUrl.searchParams.get('appPath'));
+        } else if (refererUrl.searchParams.has('app')) {
+          appPath = path.resolve(RAPIDER_APPS_ROOT, refererUrl.searchParams.get('app'));
+        }
       }
     }
   } catch (e) {
