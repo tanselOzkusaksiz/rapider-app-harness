@@ -5,6 +5,24 @@ const fs = require('fs');
 const http = require('http');
 const https = require('https');
 
+// --- LOCAL HARNESS ENV LOADING ---
+const localEnvPath = path.resolve(__dirname, '.env');
+if (fs.existsSync(localEnvPath)) {
+  try {
+    const content = fs.readFileSync(localEnvPath, 'utf8');
+    content.split('\n').forEach(line => {
+      const match = line.match(/^([^=]+)=(.*)$/);
+      if (match) {
+        const key = match[1].trim();
+        const val = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
+        if (!process.env[key]) {
+          process.env[key] = val;
+        }
+      }
+    });
+  } catch (e) {}
+}
+
 // --- CLI ARGUMENTS & CONFIG ---
 const args = process.argv.slice(2);
 const getArg = (name, fallback) => {
@@ -13,7 +31,7 @@ const getArg = (name, fallback) => {
 };
 
 const PORT = parseInt(process.env.PORT || getArg('port', '3300'), 10);
-const DEFAULT_BACKEND = process.env.BACKEND_URL || getArg('backend', 'http://localhost:8081');
+const DEFAULT_BACKEND = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || getArg('backend', 'https://dev.api.rappider.com');
 const DEFAULT_APP_DIR = path.resolve(
   __dirname,
   getArg('app', '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system')
@@ -725,16 +743,36 @@ app.all('/api/proxy/*', (req, res) => {
 });
 
 app.get('/api/config', (req, res) => {
-  const envPath = require('path').join(__dirname, '../.env');
   const config = {};
-  if (require('fs').existsSync(envPath)) {
-    const content = require('fs').readFileSync(envPath, 'utf8');
-    content.split('\n').forEach(line => {
-      const match = line.match(/^([^=]+)=(.*)$/);
-      if (match) config[match[1].trim()] = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
-    });
+  if (fs.existsSync(localEnvPath)) {
+    try {
+      const content = fs.readFileSync(localEnvPath, 'utf8');
+      content.split('\n').forEach(line => {
+        const match = line.match(/^([^=]+)=(.*)$/);
+        if (match) {
+          const key = match[1].trim();
+          const val = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
+          if (!config[key]) config[key] = val;
+        }
+      });
+    } catch (e) {}
   }
-  res.json(config);
+
+  const email = process.env.HARNESS_TEST_EMAIL || process.env.RAPIDER_TEST_EMAIL || config.HARNESS_TEST_EMAIL || config.RAPIDER_TEST_EMAIL || '';
+  const password = process.env.HARNESS_TEST_PASSWORD || process.env.RAPIDER_TEST_PASSWORD || config.HARNESS_TEST_PASSWORD || config.RAPIDER_TEST_PASSWORD || '';
+  const projectId = process.env.HARNESS_TEST_PROJECT_ID || process.env.RAPIDER_TEST_PROJECT_ID || config.HARNESS_TEST_PROJECT_ID || config.RAPIDER_TEST_PROJECT_ID || '';
+  const backendUrl = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || config.BACKEND_URL || config.RAPIDER_TEST_API_URL || 'https://dev.api.rappider.com';
+
+  res.json({
+    ...config,
+    HARNESS_TEST_EMAIL: email,
+    HARNESS_TEST_PASSWORD: password,
+    HARNESS_TEST_PROJECT_ID: projectId,
+    RAPIDER_TEST_EMAIL: email,
+    RAPIDER_TEST_PASSWORD: password,
+    RAPIDER_TEST_PROJECT_ID: projectId,
+    BACKEND_URL: backendUrl
+  });
 });
 
 // Fallback to index.html for client-side routing
