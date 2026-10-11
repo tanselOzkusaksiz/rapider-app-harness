@@ -521,7 +521,7 @@ ${themeCss}
                 '<button id="rapiderConfirmCancelBtn" type="button" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors border border-slate-200 dark:border-slate-700">' +
                   'Cancel' +
                 '</button>' +
-                '<button id="rapiderConfirmOkBtn" type="button" class="px-4 py-2 text-sm font-semibold text-white rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2">' +
+                '<button id="rapiderConfirmOkBtn" type="button" style="color: #ffffff !important;" class="px-4 py-2 text-sm font-semibold !text-white text-white rounded-xl shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 cursor-pointer">' +
                   'Confirm' +
                 '</button>' +
               '</div>' +
@@ -544,11 +544,13 @@ ${themeCss}
         if (options.isDanger !== false) {
           iconContainer.className = 'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400';
           iconEl.className = 'fas fa-exclamation-triangle text-xl';
-          okBtn.className = 'px-4 py-2 text-sm font-semibold text-white bg-red-600 hover:bg-red-700 focus:ring-red-500 rounded-xl shadow-sm hover:shadow transition-all';
+          okBtn.className = 'px-4 py-2 text-sm font-semibold !text-white text-white bg-red-600 hover:bg-red-700 focus:ring-red-500 rounded-xl shadow-sm hover:shadow transition-all cursor-pointer';
+          okBtn.style.setProperty('color', '#ffffff', 'important');
         } else {
           iconContainer.className = 'w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400';
           iconEl.className = 'fas fa-question-circle text-xl';
-          okBtn.className = 'px-4 py-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 rounded-xl shadow-sm hover:shadow transition-all';
+          okBtn.className = 'px-4 py-2 text-sm font-semibold !text-white text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 rounded-xl shadow-sm hover:shadow transition-all cursor-pointer';
+          okBtn.style.setProperty('color', '#ffffff', 'important');
         }
 
         modal.classList.remove('hidden');
