@@ -353,8 +353,23 @@ class RappiderHarness {
       queryStr = '?' + searchParams.toString();
     }
 
+    // Defensively close any open drawer or modal overlay upon navigation
+    if (this.dom.drawerOverlay && this.dom.drawerOverlay.classList.contains('active')) {
+      this.closePageDrawer();
+    }
+    if (this.dom.modalOverlay && this.dom.modalOverlay.classList.contains('active')) {
+      this.closePageModal();
+    }
+
     const cleanRoute = routeStr.replace(/^\//, '');
-    window.location.hash = `#/${cleanRoute}${queryStr}`;
+    const newHash = `#/${cleanRoute}${queryStr}`;
+
+    if (window.location.hash === newHash) {
+      // Hash is unchanged, hashchange event will not fire. Trigger reload manually.
+      this.handleHashChange();
+    } else {
+      window.location.hash = newHash;
+    }
   }
 
   handleHashChange() {
@@ -1082,8 +1097,22 @@ class RappiderHarness {
     if (this.dom.drawerCloseBtn) {
       this.dom.drawerCloseBtn.addEventListener('click', () => this.closePageDrawer());
     }
+    if (this.dom.drawerOverlay) {
+      this.dom.drawerOverlay.addEventListener('click', (e) => {
+        if (e.target === this.dom.drawerOverlay) {
+          this.closePageDrawer();
+        }
+      });
+    }
     if (this.dom.modalCloseBtn) {
       this.dom.modalCloseBtn.addEventListener('click', () => this.closePageModal());
+    }
+    if (this.dom.modalOverlay) {
+      this.dom.modalOverlay.addEventListener('click', (e) => {
+        if (e.target === this.dom.modalOverlay) {
+          this.closePageModal();
+        }
+      });
     }
     if (this.dom.jsonViewerCloseBtn) {
       this.dom.jsonViewerCloseBtn.addEventListener('click', () => this.closeJsonViewer());
