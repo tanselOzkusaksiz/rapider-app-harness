@@ -475,10 +475,16 @@ class RappiderHarness {
     // Show Loader
     if (this.dom.iframeLoader) this.dom.iframeLoader.classList.add('active');
 
-    const paramQuery = Object.keys(params).length > 0 
-      ? `&routeParams=${encodeURIComponent(JSON.stringify(params))}&id=${encodeURIComponent(params.id || '')}` 
-      : '';
-    const iframeUrl = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}${paramQuery}&t=${Date.now()}`;
+    let paramQuery = '';
+    const paramKeys = Object.keys(params);
+    if (paramKeys.length > 0) {
+      paramQuery += `&routeParams=${encodeURIComponent(JSON.stringify(params))}`;
+      for (const key of paramKeys) {
+        paramQuery += `&${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`;
+      }
+    }
+    const hashSuffix = `#/${route}${fullRoute.includes('?') ? '?' + fullRoute.split('?')[1] : ''}`;
+    const iframeUrl = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}${paramQuery}&t=${Date.now()}${hashSuffix}`;
     
     const iframe = this.dom.sandboxIframe;
     iframe.src = iframeUrl;

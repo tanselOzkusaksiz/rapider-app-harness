@@ -230,8 +230,10 @@ app.get('/api/page-content', (req, res) => {
         routeParams = JSON.parse(req.query.routeParams);
       } catch (e) {}
     }
-    if (req.query.id) {
-      routeParams.id = req.query.id;
+    for (const key in req.query) {
+      if (!['appPath', 'filePath', 'isDark', 'routeParams', 't'].includes(key)) {
+        routeParams[key] = req.query[key];
+      }
     }
 
     const builtHtml = buildSandboxHtml(rawHtml, cachedThemeCss, isDark, routeParams);
@@ -312,6 +314,30 @@ ${themeCss}
   // 3. window.rapiderApi Client SDK Script (communicates via postMessage to parent harness)
   const rapiderSdkScript = `
     <script data-rapider-injected="true">
+      (function() {
+        const injectedRouteParams = ${JSON.stringify(routeParams || {})};
+        try {
+          if (!window.location.hash && window.parent && window.parent !== window && window.parent.location.hash) {
+            window.location.hash = window.parent.location.hash;
+          }
+        } catch(e) {}
+
+        const origGet = URLSearchParams.prototype.get;
+        URLSearchParams.prototype.get = function(key) {
+          const val = origGet.call(this, key);
+          if (val !== null && val !== undefined) return val;
+          if (injectedRouteParams && injectedRouteParams[key] !== undefined && injectedRouteParams[key] !== null) {
+            return String(injectedRouteParams[key]);
+          }
+          return null;
+        };
+        const origHas = URLSearchParams.prototype.has;
+        URLSearchParams.prototype.has = function(key) {
+          if (origHas.call(this, key)) return true;
+          return injectedRouteParams && injectedRouteParams[key] !== undefined && injectedRouteParams[key] !== null;
+        };
+      })();
+
       window.rapiderApi = {
         routeParams: ${JSON.stringify(routeParams)},
         getRouteParam: function(key) {
