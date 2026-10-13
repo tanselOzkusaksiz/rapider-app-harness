@@ -343,12 +343,29 @@ class RappiderHarness {
     } else if (targetRoute) {
       routeStr = String(targetRoute);
     }
-    
+
+    // Strip leading hash or slashes
+    routeStr = routeStr.replace(/^#\/?/, '').replace(/^\//, '');
+
+    // Extract inline query parameters if present in routeStr (e.g. "ticket?id=1042" or "ticket.html?id=1042")
+    let inlineQuery = {};
+    if (routeStr.includes('?')) {
+      const parts = routeStr.split('?');
+      routeStr = parts[0];
+      const sp = new URLSearchParams(parts[1]);
+      for (const [k, v] of sp.entries()) inlineQuery[k] = v;
+    }
+
+    // Strip .html extension if present
+    routeStr = routeStr.replace(/\.html$/, '');
+
+    // Merge inline query params and payload queryParams
+    const combinedQueryParams = { ...inlineQuery, ...(payload && payload.queryParams ? payload.queryParams : {}) };
     let queryStr = '';
-    if (payload && payload.queryParams) {
+    if (Object.keys(combinedQueryParams).length > 0) {
       const searchParams = new URLSearchParams();
-      for (const key in payload.queryParams) {
-        searchParams.append(key, payload.queryParams[key]);
+      for (const key in combinedQueryParams) {
+        searchParams.append(key, combinedQueryParams[key]);
       }
       queryStr = '?' + searchParams.toString();
     }

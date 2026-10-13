@@ -501,8 +501,9 @@ ${themeCss}
         showNotification: function(notificationConfig) {
           this.executeAction({ type: 'showNotification', payload: { notification: notificationConfig } });
         },
-        navigate: function(route) {
-          this.executeAction({ type: 'navigate', payload: { route: route } });
+        navigate: function(route, payload) {
+          const navPayload = typeof payload === 'object' && payload !== null ? Object.assign({ route: route }, payload) : { route: route };
+          this.executeAction({ type: 'navigate', payload: navPayload });
         },
         showPageModal: function(modalConfig) {
           this.executeAction({ type: 'showPageModal', payload: { pageModal: modalConfig } });
@@ -639,6 +640,63 @@ ${themeCss}
           callbacks.forEach(cb => cb(event.data.payload));
         }
       });
+
+      // Forward hashchange to harness navigate
+      window.addEventListener('hashchange', function() {
+        let hash = window.location.hash;
+        if (hash.startsWith('#/')) hash = hash.substring(2);
+        else if (hash.startsWith('#')) hash = hash.substring(1);
+        
+        if (hash) {
+          const parts = hash.split('?');
+          const route = parts[0].replace(/\.html$/, '');
+          const queryParams = {};
+          if (parts[1]) {
+            const sp = new URLSearchParams(parts[1]);
+            for (const [k, v] of sp.entries()) queryParams[k] = v;
+          }
+          if (window.rapiderApi && typeof window.rapiderApi.navigate === 'function') {
+            window.rapiderApi.navigate(route, { queryParams });
+          }
+        }
+      });
+
+      // Global link interceptor: Prevent <base href="/assets/"> hijacking links
+      document.addEventListener('click', function(e) {
+        const anchor = e.target.closest('a');
+        if (!anchor) return;
+        const href = anchor.getAttribute('href');
+        if (!href) return;
+        if (href.startsWith('http://') || href.startsWith('https://') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+        if (anchor.getAttribute('target') === '_blank') return;
+
+        // Relative internal route, .html file, or hash link
+        e.preventDefault();
+        e.stopPropagation();
+
+        let target = href;
+        if (target.startsWith('#/')) target = target.slice(2);
+        else if (target.startsWith('#')) target = target.slice(1);
+        else if (target.startsWith('./')) target = target.slice(2);
+        else if (target.startsWith('/')) target = target.slice(1);
+
+        const parts = target.split('?');
+        const route = parts[0].replace(/\.html$/, '');
+        const queryParams = {};
+        if (parts[1]) {
+          const sp = new URLSearchParams(parts[1]);
+          for (const [k, v] of sp.entries()) queryParams[k] = v;
+        }
+
+        if (window.rapiderApi && typeof window.rapiderApi.navigate === 'function') {
+          window.rapiderApi.navigate(route, { queryParams });
+        } else {
+          window.parent.postMessage({
+            type: 'RAPIDER_UI_ACTION',
+            action: { type: 'navigate', payload: { route: route, queryParams: queryParams } }
+          }, '*');
+        }
+      }, true);
     </script>
   `;
 

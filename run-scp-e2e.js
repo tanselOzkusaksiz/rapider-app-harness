@@ -134,6 +134,61 @@ async function runScpE2E() {
           suiteResult.passed++;
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
+        } else if (test.action === 'click_and_assert_navigation') {
+          if (!frame) throw new Error('Frame not available for navigation click');
+          const el = await frame.waitForSelector(test.selector, { timeout: 4000 });
+          if (!el) throw new Error(`Element not found for selector: ${test.selector}`);
+          await el.click();
+          await page.waitForTimeout(1000);
+
+          // Re-acquire frame after potential page re-render
+          const activeIframe = await page.$('#sandbox-iframe');
+          if (activeIframe) {
+            frame = await activeIframe.contentFrame();
+            if (frame) await frame.waitForLoadState('domcontentloaded');
+          }
+
+          // Trap broken base href navigations
+          if (frame && frame.url().includes('/assets/')) {
+            throw new Error(`CRITICAL NAVIGATION FAILURE: Link hijacked by <base> tag to broken URL: ${frame.url()}`);
+          }
+
+          // Assert Parent URL / Hash
+          if (test.expectedRoute && !page.url().includes(test.expectedRoute)) {
+            throw new Error(`Expected parent URL to include route "${test.expectedRoute}", got: ${page.url()}`);
+          }
+          if (test.expectedQuery && !page.url().includes(test.expectedQuery)) {
+            throw new Error(`Expected parent URL to include query "${test.expectedQuery}", got: ${page.url()}`);
+          }
+
+          // Assert Heading on target page
+          if (test.expectedHeading) {
+            const h1El = await frame.waitForSelector('h1', { timeout: 4000 });
+            const h1Text = await h1El.textContent();
+            if (!h1Text.includes(test.expectedHeading)) {
+              throw new Error(`Expected target page heading "${test.expectedHeading}", got: "${h1Text.trim()}"`);
+            }
+          }
+
+          suiteResult.passed++;
+          report.stepsPassed++;
+          suiteResult.steps.push({ name: stepName, status: 'PASS' });
+        } else if (test.action === 'assert_text') {
+          if (!frame) throw new Error('Frame not available');
+          const el = await frame.waitForSelector(test.selector, { timeout: 4000 });
+          const text = await el.textContent();
+          if (test.expected && !text.includes(test.expected)) {
+            throw new Error(`Expected element text to contain "${test.expected}", got: "${text.trim()}"`);
+          }
+          suiteResult.passed++;
+          report.stepsPassed++;
+          suiteResult.steps.push({ name: stepName, status: 'PASS' });
+        } else if (test.action === 'assert_visible') {
+          if (!frame) throw new Error('Frame not available');
+          await frame.waitForSelector(test.selector, { state: 'visible', timeout: 4000 });
+          suiteResult.passed++;
+          report.stepsPassed++;
+          suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'validate_theme') {
           if (frame) {
             await frame.evaluate(() => document.documentElement.classList.add('dark'));
@@ -144,6 +199,10 @@ async function runScpE2E() {
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'validate_layout') {
+          if (frame) {
+            const hasBody = await frame.evaluate(() => document.body && document.body.children.length > 0);
+            if (!hasBody) throw new Error('Layout validation failed: Frame body is empty');
+          }
           suiteResult.passed++;
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
@@ -152,6 +211,15 @@ async function runScpE2E() {
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'validate_a11y') {
+          if (frame) {
+            const a11yErrors = await frame.evaluate(() => {
+              const missingAlts = document.querySelectorAll('img:not([alt])').length;
+              return { missingAlts };
+            });
+            if (a11yErrors.missingAlts > 0) {
+              console.warn(`[a11y] ${a11yErrors.missingAlts} images missing alt text`);
+            }
+          }
           suiteResult.passed++;
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
@@ -160,42 +228,51 @@ async function runScpE2E() {
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'validate_security') {
+          if (frame) {
+            const hasNativeDialogs = await frame.evaluate(() => {
+              return window.alert.toString().includes('Blocked native alert');
+            });
+            if (!hasNativeDialogs) {
+              console.warn('[Security] Native alert interceptor check note');
+            }
+          }
           suiteResult.passed++;
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'click') {
           if (frame && test.selector) {
-            await frame.evaluate((sel) => {
-              const el = document.querySelector(sel);
-              if (el) el.click();
-            }, test.selector);
+            const el = await frame.waitForSelector(test.selector, { timeout: 4000 });
+            if (!el) throw new Error(`Click target not found: ${test.selector}`);
+            await el.click();
+            await page.waitForTimeout(300);
           }
           suiteResult.passed++;
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'type') {
           if (frame && test.selector) {
-            await frame.evaluate(({ sel, val }) => {
-              const el = document.querySelector(sel);
-              if (el && el.type !== 'file') {
-                el.value = val || 'test value';
-                el.dispatchEvent(new Event('input', { bubbles: true }));
-                el.dispatchEvent(new Event('change', { bubbles: true }));
-              }
-            }, { sel: test.selector, val: test.value });
+            const el = await frame.waitForSelector(test.selector, { timeout: 4000 });
+            if (el) {
+              await el.fill(test.value || 'test value');
+              await el.dispatchEvent('input');
+              await el.dispatchEvent('change');
+            }
           }
           suiteResult.passed++;
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'select') {
           if (frame && test.selector) {
-            await frame.evaluate((sel) => {
-              const el = document.querySelector(sel);
-              if (el && el.options && el.options.length > 0) {
-                el.selectedIndex = 0;
-                el.dispatchEvent(new Event('change', { bubbles: true }));
-              }
-            }, test.selector);
+            const el = await frame.waitForSelector(test.selector, { timeout: 4000 });
+            if (el) {
+              await frame.evaluate((sel) => {
+                const s = document.querySelector(sel);
+                if (s && s.options && s.options.length > 0) {
+                  s.selectedIndex = 0;
+                  s.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+              }, test.selector);
+            }
           }
           suiteResult.passed++;
           report.stepsPassed++;
