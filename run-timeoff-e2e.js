@@ -42,7 +42,7 @@ function uploadToSpaces(filePath, s3Filename) {
     return null;
   }
 
-  const today = '2026-10-11';
+  const today = new Date().toISOString().slice(0, 10);
   const s3Path = `s3://rapider/_qa_assets/${today}/${s3Filename}`;
   const publicUrl = `https://rapider.nyc3.digitaloceanspaces.com/_qa_assets/${today}/${s3Filename}`;
 

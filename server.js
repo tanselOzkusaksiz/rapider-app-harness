@@ -315,7 +315,19 @@ ${themeCss}
       window.rapiderApi = {
         routeParams: ${JSON.stringify(routeParams)},
         getRouteParam: function(key) {
-          return this.routeParams ? this.routeParams[key] : null;
+          if (this.routeParams && this.routeParams[key] !== undefined && this.routeParams[key] !== null) {
+            return this.routeParams[key];
+          }
+          try {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has(key)) return urlParams.get(key);
+            const hash = window.location.hash || '';
+            if (hash.includes('?')) {
+              const hashParams = new URLSearchParams(hash.split('?')[1]);
+              if (hashParams.has(key)) return hashParams.get(key);
+            }
+          } catch(e) {}
+          return null;
         },
         // --- API REQUEST BROKER ---
         _inFlightMutations: {},
