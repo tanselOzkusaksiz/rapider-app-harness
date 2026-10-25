@@ -182,6 +182,35 @@ app.get('/api/app-manifest', (req, res) => {
   }
 });
 
+const { auditMicroapp, formatAuditMarkdown } = require('./deterministic-page-auditor.js');
+
+/**
+ * Run deterministic static & structural QA audit across all pages of the application
+ */
+app.get('/api/qa-audit', (req, res) => {
+  try {
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.query.app) {
+      targetDir = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+    } else if (req.query.appPath) {
+      targetDir = path.resolve(req.query.appPath);
+    }
+
+    const auditResults = auditMicroapp(targetDir);
+    const format = req.query.format || 'json';
+
+    if (format === 'markdown' || format === 'md') {
+      res.setHeader('Content-Type', 'text/markdown');
+      return res.send(formatAuditMarkdown(auditResults));
+    }
+
+    res.json(auditResults);
+  } catch (err) {
+    console.error('Error running QA audit:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 /**
  * Render and serve an HTML page from the target app, injecting:
  * 1. rapider-tailwind-theme.css (injected as <style type="text/tailwindcss">)

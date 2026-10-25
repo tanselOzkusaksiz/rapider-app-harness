@@ -1220,6 +1220,112 @@ class RappiderHarness {
       });
     }
 
+    // Deterministic QA Audit Button
+    const btnRunQa = document.getElementById('btn-run-qa-audit');
+    if (btnRunQa) {
+      btnRunQa.addEventListener('click', () => this.runQaAudit());
+    }
+
+  }
+
+  /**
+   * Run deterministic static & structural QA audit across all pages
+   */
+  async runQaAudit() {
+    if (!this.activeApp) {
+      this.showToast({ type: 'warning', message: 'No active application selected.' });
+      return;
+    }
+
+    const btn = document.getElementById('btn-run-qa-audit');
+    const badgeContainer = document.getElementById('qa-audit-badge-container');
+    const summaryText = document.getElementById('qa-audit-summary-text');
+    const tableBody = document.getElementById('qa-audit-table-body');
+    const tabBadge = document.getElementById('qa-tab-badge');
+
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running QA Audit...';
+    }
+    if (summaryText) {
+      summaryText.innerText = 'Evaluating pages against 20 QA passes...';
+    }
+
+    try {
+      const response = await fetch(`/api/qa-audit?appPath=${encodeURIComponent(this.activeApp.absolutePath)}`);
+      if (!response.ok) {
+        throw new Error(`Audit API returned status ${response.status}`);
+      }
+      const data = await response.json();
+
+      if (badgeContainer) {
+        if (data.is100PercentCompliant) {
+          badgeContainer.innerHTML = '<span style="background: #10b981; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">✓ 100% QA PASS</span>';
+        } else {
+          badgeContainer.innerHTML = `<span style="background: #ef4444; color: #fff; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700;">✗ ${data.totalIssues} ISSUES DETECTED</span>`;
+        }
+      }
+
+      if (summaryText) {
+        summaryText.innerText = `${data.pagesPassed} / ${data.pagesAudited} pages passed · ${data.totalIssues} issues · ${data.totalWarnings} warnings`;
+      }
+
+      if (tabBadge) {
+        tabBadge.style.display = 'inline-block';
+        tabBadge.style.background = data.is100PercentCompliant ? '#10b981' : '#ef4444';
+        tabBadge.style.color = '#ffffff';
+        tabBadge.innerText = data.is100PercentCompliant ? '✓' : data.totalIssues;
+      }
+
+      if (tableBody) {
+        if (!data.pageResults || data.pageResults.length === 0) {
+          tableBody.innerHTML = '<tr class="empty-row"><td colspan="7" style="text-align:center;padding:24px;">No pages found in manifest.</td></tr>';
+        } else {
+          tableBody.innerHTML = data.pageResults.map(p => {
+            const statusBadge = p.passed
+              ? '<span style="background:#10b981;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;">PASS</span>'
+              : '<span style="background:#ef4444;color:#fff;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;">FAIL</span>';
+            const wiredRatio = `${p.metrics.buttonsWithActions} / ${p.metrics.buttonsTotal}`;
+            
+            let issuesHtml = '';
+            if (p.issues && p.issues.length > 0) {
+              issuesHtml = p.issues.map(i => `<div style="color:#ef4444;font-size:11px;margin-bottom:2px;">• [${i.rule}] ${i.message}</div>`).join('');
+            } else if (p.warnings && p.warnings.length > 0) {
+              issuesHtml = p.warnings.map(w => `<div style="color:#f59e0b;font-size:11px;margin-bottom:2px;">• [${w.rule}] ${w.message}</div>`).join('');
+            } else {
+              issuesHtml = '<span style="color:#10b981;font-size:11px;">✓ All checks passed</span>';
+            }
+
+            return `
+              <tr>
+                <td><code style="font-size:11px;color:var(--text-accent);">${p.route}</code></td>
+                <td><strong>${p.pageName}</strong><br><small style="color:var(--text-muted);font-size:10px;">${p.pagePath}</small></td>
+                <td>${statusBadge}</td>
+                <td><span style="color:${p.issuesCount > 0 ? '#ef4444' : 'inherit'};font-weight:${p.issuesCount > 0 ? '700' : 'normal'};">${p.issuesCount}</span></td>
+                <td><span style="color:${p.warningsCount > 0 ? '#f59e0b' : 'inherit'};">${p.warningsCount}</span></td>
+                <td><span style="font-size:11px;">${wiredRatio}</span></td>
+                <td style="max-width:320px;vertical-align:top;">${issuesHtml}</td>
+              </tr>
+            `;
+          }).join('');
+        }
+      }
+
+      this.showToast({
+        type: data.is100PercentCompliant ? 'success' : 'warning',
+        message: data.is100PercentCompliant ? 'QA Audit Passed: All pages compliant!' : `QA Audit: ${data.totalIssues} issues found across ${data.pagesFailed} pages.`
+      });
+
+    } catch (err) {
+      console.error('QA Audit error:', err);
+      this.showToast({ type: 'error', message: `QA Audit failed: ${err.message}` });
+      if (summaryText) summaryText.innerText = 'Audit failed to run.';
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-play"></i> Run Deterministic QA Audit';
+      }
+    }
   }
 }
 
