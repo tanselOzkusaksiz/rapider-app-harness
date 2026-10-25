@@ -73,9 +73,16 @@ function parseHtmlSections(htmlContent, htmlFilePath, appDir) {
     styles.push(styleMatch[1]);
   }
 
+  // Strip scripts, styles, and HTML comments to get clean DOM-only HTML for parsing elements
+  const cleanMarkup = htmlContent
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<!--[\s\S]*?-->/g, '');
+
   return {
     combinedScript: scripts.join('\n'),
-    combinedStyle: styles.join('\n')
+    combinedStyle: styles.join('\n'),
+    cleanMarkup
   };
 }
 
@@ -106,7 +113,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
 
   const rawHtml = fs.readFileSync(pagePath, 'utf8');
   const relativePagePath = path.relative(appDir, pagePath);
-  const { combinedScript, combinedStyle } = parseHtmlSections(rawHtml, pagePath, appDir);
+  const { combinedScript, combinedStyle, cleanMarkup } = parseHtmlSections(rawHtml, pagePath, appDir);
 
   const manifestRoutes = new Set((manifest.webPages || manifest.pages || []).map(p => p.route));
   const manifestDataModels = new Set((manifest.dataModels || []).map(m => m.name));
@@ -133,7 +140,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   // ------------------------------------------------------------------------
   // 2. RULE: Primary Button Contrast (#ffffff !important) (Pass 19)
   // ------------------------------------------------------------------------
-  const hasPrimaryButton = /class=["'][^"']*\b(btn primary|btn-primary|primary)\b[^"']*["']/i.test(rawHtml);
+  const hasPrimaryButton = /class=["'][^"']*\b(btn primary|btn-primary|primary)\b[^"']*["']/i.test(cleanMarkup);
   if (hasPrimaryButton) {
     const hasWhiteStyle = /color\s*:\s*#ffffff\s*!important/i.test(rawHtml) ||
                           /color\s*:\s*#fff\s*!important/i.test(rawHtml) ||
@@ -153,7 +160,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   // ------------------------------------------------------------------------
   const linkRegex = /<a\b([^>]*)>(.*?)<\/a>/gis;
   let linkMatch;
-  while ((linkMatch = linkRegex.exec(rawHtml)) !== null) {
+  while ((linkMatch = linkRegex.exec(cleanMarkup)) !== null) {
     metrics.linksTotal++;
     const attrs = linkMatch[1];
     const linkText = linkMatch[2].replace(/<[^>]*>/g, '').trim();
@@ -210,7 +217,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   // ------------------------------------------------------------------------
   const buttonRegex = /<button\b([^>]*)>(.*?)<\/button>/gis;
   let btnMatch;
-  while ((btnMatch = buttonRegex.exec(rawHtml)) !== null) {
+  while ((btnMatch = buttonRegex.exec(cleanMarkup)) !== null) {
     metrics.buttonsTotal++;
     const attrs = btnMatch[1];
     const btnText = btnMatch[2].replace(/<[^>]*>/g, '').trim().toLowerCase();
@@ -317,7 +324,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   // ------------------------------------------------------------------------
   const dialogRegex = /<dialog\b([^>]*)>/gi;
   let dialogMatch;
-  while ((dialogMatch = dialogRegex.exec(rawHtml)) !== null) {
+  while ((dialogMatch = dialogRegex.exec(cleanMarkup)) !== null) {
     metrics.modalsTotal++;
     const dialogAttrs = dialogMatch[1];
     const dialogId = (dialogAttrs.match(/id=["']([^"']+)["']/i) || [])[1];
@@ -338,7 +345,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   // 7. RULE: Search Inputs & Filtering Handlers (Pass 20)
   // ------------------------------------------------------------------------
   const searchInputRegex = /<input\b[^>]*(id=["']search["']|placeholder=["'][^"']*search[^"']*["'])[^>]*>/gi;
-  if (searchInputRegex.test(rawHtml)) {
+  if (searchInputRegex.test(cleanMarkup)) {
     const hasSearchHandler = /['"`#]search['"`]|\.filter\(|addEventListener\(['"`](input|keyup)['"`]/i.test(combinedScript);
     if (!hasSearchHandler) {
       warnings.push({
