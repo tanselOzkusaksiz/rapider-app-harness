@@ -117,6 +117,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
 
   const manifestRoutes = new Set((manifest.webPages || manifest.pages || []).map(p => p.route));
   const manifestDataModels = new Set((manifest.dataModels || []).map(m => m.name));
+  const manifestWorkflows = new Set((manifest.workflows || []).map(w => w.name));
 
   // ------------------------------------------------------------------------
   // 1. RULE: Zero Native Alert Policy (Pass 8 & Core Rule)
@@ -309,13 +310,24 @@ function auditHtmlPage(pagePath, appDir, manifest) {
       });
     }
 
-    // Model name validation
-    if (manifestDataModels.size > 0 && !manifestDataModels.has(modelName)) {
-      warnings.push({
-        rule: 'Pass 03: Data Model & UI Compatibility',
-        type: 'UNKNOWN_SDK_DATA_MODEL',
-        message: `SDK call references model "${modelName}" which is not defined in app.manifest.json dataModels.`
-      });
+    // Workflow vs Model name validation
+    if (method === 'startWorkflow') {
+      if (manifestWorkflows.size > 0 && !manifestWorkflows.has(modelName)) {
+        warnings.push({
+          rule: 'Pass 03: Data Model & UI Compatibility',
+          type: 'UNKNOWN_PAGE_WORKFLOW',
+          message: `SDK startWorkflow call references workflow "${modelName}" which is not registered in app.manifest.json workflows.`
+        });
+      }
+    } else {
+      const CRUD_METHODS = new Set(['find', 'findSWR', 'findById', 'count', 'countSWR', 'create', 'update', 'updateById', 'delete', 'deleteById']);
+      if (CRUD_METHODS.has(method) && manifestDataModels.size > 0 && !manifestDataModels.has(modelName)) {
+        warnings.push({
+          rule: 'Pass 03: Data Model & UI Compatibility',
+          type: 'UNKNOWN_SDK_DATA_MODEL',
+          message: `SDK call references model "${modelName}" which is not defined in app.manifest.json dataModels.`
+        });
+      }
     }
   }
 

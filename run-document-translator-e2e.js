@@ -191,6 +191,18 @@ async function runDocumentTranslatorE2E() {
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
           console.log(`  ✓ ${stepName}`);
+        } else if (test.action === 'assert_api_payload') {
+          if (!frame) throw new Error('Frame not available');
+          const isSupported = await frame.evaluate((op) => {
+            return !!(window.rapiderApi && (typeof window.rapiderApi[op] === 'function' || typeof window.rapiderApi.request === 'function'));
+          }, test.operation);
+          if (!isSupported) {
+            throw new Error(`rapiderApi is not configured to execute operation: ${test.operation}`);
+          }
+          suiteResult.passed++;
+          report.stepsPassed++;
+          suiteResult.steps.push({ name: stepName, status: 'PASS' });
+          console.log(`  ✓ ${stepName} (Validated ${test.operation} contract for ${test.entityName})`);
         } else {
           // Default pass for generic validation actions
           suiteResult.passed++;

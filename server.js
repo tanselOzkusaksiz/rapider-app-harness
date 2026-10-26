@@ -531,6 +531,7 @@ ${themeCss}
         deleteById: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
         delete: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
         count: function(entityName, where) { return this.request('count', entityName, { where }); },
+        startWorkflow: function(workflowName, payload) { return this.request('startWorkflow', workflowName, { payload: payload || {} }); },
 
         // --- CROSS-IFRAME EVENT BUS ---
         listeners: {},

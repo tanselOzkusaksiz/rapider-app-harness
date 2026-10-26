@@ -345,6 +345,12 @@ class HarnessApiClient {
         }
         break;
 
+      case 'startWorkflow':
+        method = 'POST';
+        path = `workflows/${encodeURIComponent(payload.entityName || dataTableName)}/start`;
+        body = payload.payload || payload.body || payload;
+        break;
+
       default:
         throw new Error(`Unsupported operation: ${operation}`);
     }
