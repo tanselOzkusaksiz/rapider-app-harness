@@ -529,9 +529,9 @@ ${themeCss}
         updateById: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
         update: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
         deleteById: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
-        delete: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
         count: function(entityName, where) { return this.request('count', entityName, { where }); },
-        startWorkflow: function(workflowName, payload) { return this.request('startWorkflow', workflowName, { payload: payload || {} }); },
+        triggerWorkflow: function(workflowName, payload) { return this.request('triggerWorkflow', workflowName, { name: workflowName, payload: payload || {} }); },
+        startWorkflow: function(workflowName, payload) { return this.request('triggerWorkflow', workflowName, { name: workflowName, payload: payload || {} }); },
 
         // --- CROSS-IFRAME EVENT BUS ---
         listeners: {},

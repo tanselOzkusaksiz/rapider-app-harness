@@ -108,7 +108,7 @@ class RapiderBridge {
               payload
             );
           } catch (callErr) {
-            if (operation === 'startWorkflow') {
+            if (operation === 'startWorkflow' || operation === 'triggerWorkflow') {
               console.warn(`[RapiderBridge] Workflow backend execution not found, serving mock execution for ${entityName}:`, callErr.message);
               response = this.generateMockResponse(operation, entityName, payload);
             } else {
@@ -234,6 +234,7 @@ class RapiderBridge {
         return { count: 1 };
       case 'count':
         return 5;
+      case 'triggerWorkflow':
       case 'startWorkflow':
         if (entityName === 'downloadDocumentAsPdf') {
           return {
