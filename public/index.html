@@ -87,6 +87,11 @@
           <i class="fas fa-terminal"></i>
         </button>
 
+        <button id="btn-toggle-e2e-drawer" class="btn-icon active" title="E2E Tests Panel (Rapider UI)" style="color: #2563eb; position: relative;">
+          <i class="fas fa-flask"></i>
+          <span id="e2e-header-badge" class="badge-count" style="display:none; position: absolute; top: -4px; right: -4px; font-size: 9px; padding: 1px 4px;">66</span>
+        </button>
+
         <button id="btn-open-auth" class="btn-primary">
           <i class="fas fa-plug"></i> Connect
         </button>
@@ -132,6 +137,65 @@
         </div>
       </div>
     </main>
+
+    <!-- ==========================================================================
+         E2E TESTS SLIDE-OUT DRAWER (EXACT RAPIDER UI PARITY)
+         ========================================================================== -->
+    <aside id="e2e-side-drawer" class="e2e-side-drawer open">
+      <!-- Drawer Header -->
+      <div class="e2e-drawer-header">
+        <span class="e2e-drawer-title">E2E Tests</span>
+        <button id="btn-close-e2e-drawer" class="btn-icon" title="Close Panel" style="background: none; border: none; font-size: 15px; color: #64748b; cursor: pointer; padding: 4px 8px;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Drawer Content -->
+      <div class="e2e-drawer-content">
+        <!-- Card 1: E2E Test Engine -->
+        <div class="e2e-engine-card">
+          <div class="e2e-engine-row">
+            <div class="e2e-engine-title">
+              <i class="fas fa-flask" style="color: #2563eb; font-size: 15px;"></i>
+              <span>E2E Test Engine</span>
+            </div>
+            <button id="btn-run-e2e-engine" class="e2e-run-btn">
+              <i class="fas fa-play" style="font-size: 10px;"></i>
+              <span>Run</span>
+            </button>
+          </div>
+
+          <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 8px;">
+            <select id="e2e-drawer-suite-select" style="width: 100%; font-size: 12px; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #1e293b; cursor: pointer;">
+              <option value="">All Suites (66 Pages)</option>
+            </select>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; padding: 0 2px;">
+              <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;">
+                <input type="checkbox" id="e2e-drawer-active-only" style="cursor: pointer;">
+                <span>Active Page Only</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;">
+                <input type="checkbox" id="e2e-drawer-mouse" checked style="cursor: pointer;">
+                <span><i class="fas fa-mouse-pointer" style="color: #0284c7;"></i> Moving Mouse</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Current Execution Timeline -->
+        <div class="e2e-timeline-card">
+          <h4 class="e2e-timeline-heading">
+            <i class="fas fa-terminal" style="color: #94a3b8; font-size: 12px;"></i>
+            <span>Current Execution</span>
+          </h4>
+          <div id="e2e-drawer-timeline" class="e2e-timeline-body">
+            <div id="e2e-drawer-empty" style="text-align: center; color: #94a3b8; padding: 30px 10px; font-style: italic; font-size: 13px;">
+              Test output will appear here...
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
 
     <!-- ==========================================================================
          DEVTOOLS / API INSPECTOR DRAWER
