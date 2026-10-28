@@ -130,6 +130,19 @@
         <!-- Sandboxed Page View -->
         <iframe id="sandbox-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
 
+        <!-- Live E2E Fake Moving Cursor Overlay -->
+        <div id="e2e-fake-cursor" class="e2e-fake-cursor">
+          <div style="position: relative; width: 34px; height: 34px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.45)); pointer-events: none;">
+            <div class="e2e-cursor-pulse"></div>
+            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 3V22L11 16H18L5 3Z" fill="#2563eb" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
+            </svg>
+            <div id="e2e-cursor-action-pill" class="e2e-cursor-pill">
+              <span id="e2e-cursor-pill-text">Testing</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Loading Overlay -->
         <div id="iframe-loader">
           <div class="spinner"></div>
@@ -139,12 +152,16 @@
     </main>
 
     <!-- ==========================================================================
-         E2E TESTS SLIDE-OUT DRAWER (EXACT RAPIDER UI PARITY)
+         E2E TESTS SLIDE-OUT DRAWER (UNIFIED WITH TABS)
          ========================================================================== -->
     <aside id="e2e-side-drawer" class="e2e-side-drawer open">
       <!-- Drawer Header -->
       <div class="e2e-drawer-header">
-        <span class="e2e-drawer-title">E2E Tests</span>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i class="fas fa-flask" style="color: #2563eb; font-size: 15px;"></i>
+          <span class="e2e-drawer-title">E2E Tests</span>
+          <span id="e2e-drawer-count-badge" class="badge-count" style="background: #2563eb; color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 10px;">0</span>
+        </div>
         <button id="btn-close-e2e-drawer" class="btn-icon" title="Close Panel" style="background: none; border: none; font-size: 15px; color: #64748b; cursor: pointer; padding: 4px 8px;">
           <i class="fas fa-times"></i>
         </button>
@@ -152,27 +169,27 @@
 
       <!-- Drawer Content -->
       <div class="e2e-drawer-content">
-        <!-- Card 1: E2E Test Engine (Rapider UI Parity) -->
+        <!-- Unified Engine Control Card -->
         <div class="e2e-engine-card">
           <div class="e2e-engine-row">
-            <div class="e2e-engine-title" id="e2e-engine-toggle" style="cursor: pointer;" title="Toggle Test Options">
-              <i class="fas fa-flask" style="color: #2563eb; font-size: 15px;"></i>
-              <span>E2E Test Engine</span>
+            <div class="e2e-engine-title">
+              <span>Execution Engine</span>
             </div>
             <div style="display: flex; align-items: center; gap: 8px;">
               <button id="btn-run-e2e-engine" class="e2e-run-btn">
                 <i class="fas fa-play" style="font-size: 10px;"></i>
-                <span>Run</span>
+                <span>Run Tests</span>
               </button>
-              <button id="btn-toggle-e2e-settings" class="btn-icon" style="width: 24px; height: 24px; border: none; background: none; color: #94a3b8; cursor: pointer; padding: 0;" title="Configure Test Options">
-                <i id="e2e-settings-chevron" class="fas fa-chevron-down" style="font-size: 10px; transition: transform 0.2s;"></i>
+              <button id="btn-stop-e2e-engine" class="e2e-stop-btn" style="display: none;">
+                <i class="fas fa-stop" style="font-size: 10px;"></i>
+                <span>Stop</span>
               </button>
             </div>
           </div>
 
-          <div id="e2e-engine-settings-panel" style="margin-top: 12px; display: none; flex-direction: column; gap: 8px; border-top: 1px solid #f1f5f9; padding-top: 10px;">
+          <div style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
             <select id="e2e-drawer-suite-select" style="width: 100%; font-size: 12px; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; background: #ffffff; color: #1e293b; cursor: pointer;">
-              <option value="">All Suites (66 Pages)</option>
+              <option value="">All Suites</option>
             </select>
             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b; padding: 0 2px;">
               <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;">
@@ -181,21 +198,58 @@
               </label>
               <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; user-select: none;">
                 <input type="checkbox" id="e2e-drawer-mouse" checked style="cursor: pointer;">
-                <span><i class="fas fa-mouse-pointer" style="color: #0284c7;"></i> Moving Mouse</span>
+                <span><i class="fas fa-mouse-pointer" style="color: #0284c7;"></i> Moving Mouse & Pacing</span>
               </label>
             </div>
           </div>
+
+          <!-- Progress / Stats Strip -->
+          <div id="e2e-drawer-progress-container" style="margin-top: 10px; padding-top: 8px; border-top: 1px solid #f1f5f9;">
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; margin-bottom: 5px;">
+              <span id="e2e-drawer-status-text" style="color: #64748b; font-weight: 500;">Ready to execute</span>
+              <div id="e2e-drawer-badges"></div>
+            </div>
+            <div style="width: 100%; height: 4px; background: #e2e8f0; border-radius: 2px; overflow: hidden;">
+              <div id="e2e-drawer-progress-bar" style="width: 0%; height: 100%; background: #2563eb; transition: width 0.25s ease;"></div>
+            </div>
+          </div>
+
+          <!-- Navigation Tabs: Test Suites vs Current Execution -->
+          <div class="e2e-drawer-tabs-nav">
+            <button id="btn-tab-suites" class="e2e-drawer-tab-btn active" data-tab="suites">
+              <i class="fas fa-layer-group"></i> Test Suites <span id="e2e-tab-suites-count" class="badge-count">0</span>
+            </button>
+            <button id="btn-tab-execution" class="e2e-drawer-tab-btn" data-tab="execution">
+              <i class="fas fa-terminal"></i> Current Execution <span id="e2e-exec-live-badge" class="badge-count" style="display: none; background: #3b82f6; color: #fff;">LIVE</span>
+            </button>
+          </div>
         </div>
 
-        <!-- Card 2: Current Execution Timeline -->
-        <div class="e2e-timeline-card">
-          <h4 class="e2e-timeline-heading">
-            <i class="fas fa-terminal" style="color: #94a3b8; font-size: 12px;"></i>
-            <span>Current Execution</span>
-          </h4>
-          <div id="e2e-drawer-timeline" class="e2e-timeline-body">
-            <div id="e2e-drawer-empty" style="text-align: center; color: #94a3b8; padding: 30px 10px; font-style: italic; font-size: 13px;">
-              Test output will appear here...
+        <!-- Tab Pane 1: Test Suites -->
+        <div id="e2e-pane-suites" class="e2e-drawer-pane active">
+          <div class="e2e-suites-search">
+            <i class="fas fa-search" style="color: #94a3b8;"></i>
+            <input type="text" id="e2e-suites-search-input" placeholder="Filter suites by page or route...">
+          </div>
+          <div id="e2e-drawer-suites-list" class="e2e-suites-scroll-list">
+            <div style="text-align: center; color: #94a3b8; padding: 24px; font-size: 12px;">Loading test suites...</div>
+          </div>
+        </div>
+
+        <!-- Tab Pane 2: Current Execution Timeline -->
+        <div id="e2e-pane-execution" class="e2e-drawer-pane">
+          <div class="e2e-timeline-card" style="margin: 0; min-height: 0; height: 100%;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9; flex-shrink: 0;">
+              <h4 class="e2e-timeline-heading" style="margin: 0;">
+                <i class="fas fa-terminal" style="color: #2563eb; font-size: 12px;"></i>
+                <span id="e2e-exec-suite-title">No Suite Running</span>
+              </h4>
+              <span id="e2e-exec-step-stats" style="font-size: 11px; color: #64748b;">Idle</span>
+            </div>
+            <div id="e2e-drawer-timeline" class="e2e-timeline-body">
+              <div id="e2e-drawer-empty" style="text-align: center; color: #94a3b8; padding: 30px 10px; font-style: italic; font-size: 13px;">
+                Select a suite and click Run to start execution with live moving cursor & visual pacing...
+              </div>
             </div>
           </div>
         </div>
@@ -222,9 +276,6 @@
           </button>
           <button class="dev-tab" data-target="tab-qa-audit">
             <i class="fas fa-clipboard-check"></i> QA Passes & Audit <span id="qa-tab-badge" class="badge-count" style="display:none;">0</span>
-          </button>
-          <button class="dev-tab" data-target="tab-e2e">
-            <i class="fas fa-vial"></i> E2E Tests <span id="e2e-tab-badge" class="badge-count" style="display:none;">0</span>
           </button>
         </div>
         <div class="tabs-right" style="font-size: 11px; color: var(--text-muted);">
