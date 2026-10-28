@@ -2113,22 +2113,49 @@ body.dark-theme .markdown-body img {
   transform-origin: 5px 3px;
 }
 
+.e2e-cursor-arrow {
+  position: relative;
+  z-index: 10;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
+  pointer-events: none;
+}
+
 .e2e-cursor-pulse {
   position: absolute;
-  left: 2px;
-  top: 1px;
-  width: 14px;
-  height: 14px;
-  background: #38bdf8;
+  left: -6px;
+  top: -8px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
-  box-shadow: 0 0 14px #38bdf8;
-  animation: e2ePulseRing 1.2s infinite ease-out;
+  background: transparent;
+  border: 2px solid rgba(56, 189, 248, 0.8);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+  z-index: 1;
+  pointer-events: none;
+  animation: e2ePulseRing 1.5s infinite cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes e2ePulseRing {
+  0% {
+    transform: scale(0.4);
+    opacity: 0.9;
+  }
+  60% {
+    transform: scale(1.5);
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
 }
 
 .e2e-cursor-pill {
   position: absolute;
   left: 28px;
-  top: 6px;
+  top: 4px;
+  z-index: 12;
   background: #0f172a;
   color: #ffffff;
   font-size: 11px;

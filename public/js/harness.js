@@ -1769,7 +1769,7 @@ class RappiderHarness {
       cursor.innerHTML = `
         <div style="position: relative; width: 34px; height: 34px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.45)); pointer-events: none;">
           <div class="e2e-cursor-pulse"></div>
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="e2e-cursor-arrow" width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 3V22L11 16H18L5 3Z" fill="#2563eb" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round"/>
           </svg>
           <div id="e2e-cursor-action-pill" class="e2e-cursor-pill">
