@@ -6,10 +6,7 @@ const path = require('path');
  */
 function loadTestCredentials() {
   const envPath = path.resolve(__dirname, '.env');
-  let email = process.env.HARNESS_TEST_EMAIL || process.env.RAPIDER_TEST_EMAIL || '';
-  let password = process.env.HARNESS_TEST_PASSWORD || process.env.RAPIDER_TEST_PASSWORD || '';
-  let projectId = process.env.HARNESS_TEST_PROJECT_ID || process.env.RAPIDER_TEST_PROJECT_ID || '';
-  let backendUrl = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || 'https://dev.api.rappider.com';
+  const envConfig = {};
 
   if (fs.existsSync(envPath)) {
     const lines = fs.readFileSync(envPath, 'utf8').split('\n');
@@ -18,13 +15,15 @@ function loadTestCredentials() {
       if (match) {
         const key = match[1].trim();
         const val = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
-        if (!email && (key === 'HARNESS_TEST_EMAIL' || key === 'RAPIDER_TEST_EMAIL')) email = val;
-        if (!password && (key === 'HARNESS_TEST_PASSWORD' || key === 'RAPIDER_TEST_PASSWORD')) password = val;
-        if (!projectId && (key === 'HARNESS_TEST_PROJECT_ID' || key === 'RAPIDER_TEST_PROJECT_ID')) projectId = val;
-        if ((!backendUrl || backendUrl === 'https://dev.api.rappider.com') && (key === 'BACKEND_URL' || key === 'RAPIDER_TEST_API_URL')) backendUrl = val;
+        envConfig[key] = val;
       }
     }
   }
+
+  const email = envConfig.HARNESS_TEST_EMAIL || envConfig.RAPIDER_TEST_EMAIL || process.env.HARNESS_TEST_EMAIL || process.env.RAPIDER_TEST_EMAIL || '';
+  const password = envConfig.HARNESS_TEST_PASSWORD || envConfig.RAPIDER_TEST_PASSWORD || process.env.HARNESS_TEST_PASSWORD || process.env.RAPIDER_TEST_PASSWORD || '';
+  const projectId = envConfig.HARNESS_TEST_PROJECT_ID || envConfig.RAPIDER_TEST_PROJECT_ID || process.env.HARNESS_TEST_PROJECT_ID || process.env.RAPIDER_TEST_PROJECT_ID || '';
+  const backendUrl = envConfig.BACKEND_URL || envConfig.RAPIDER_TEST_API_URL || process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || 'https://dev.api.rappider.com';
 
   return { email, password, projectId, backendUrl };
 }

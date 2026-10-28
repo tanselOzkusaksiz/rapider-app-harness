@@ -7,6 +7,7 @@ const https = require('https');
 
 // --- LOCAL HARNESS ENV LOADING ---
 const localEnvPath = path.resolve(__dirname, '.env');
+const localConfig = {};
 if (fs.existsSync(localEnvPath)) {
   try {
     const content = fs.readFileSync(localEnvPath, 'utf8');
@@ -15,12 +16,12 @@ if (fs.existsSync(localEnvPath)) {
       if (match) {
         const key = match[1].trim();
         const val = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
-        if (!process.env[key]) {
-          process.env[key] = val;
-        }
+        localConfig[key] = val;
+        // Always ensure valid uncorrupted values from local .env are set in process.env
+        process.env[key] = val;
       }
     });
-  } catch (e) {}
+  } catch (e) { }
 }
 
 // --- CLI ARGUMENTS & CONFIG ---
@@ -32,11 +33,34 @@ const getArg = (name, fallback) => {
 
 const PORT = parseInt(process.env.PORT || getArg('port', '3300'), 10);
 const DEFAULT_BACKEND = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || getArg('backend', 'https://dev.api.rappider.com');
-const DEFAULT_APP_DIR = path.resolve(
-  __dirname,
-  getArg('app', '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system')
-);
 const RAPIDER_APPS_ROOT = path.resolve(__dirname, '../rapider-apps');
+
+function resolveAppDir(appNameOrPath) {
+  if (!appNameOrPath) return DEFAULT_APP_DIR;
+  if (path.isAbsolute(appNameOrPath) && fs.existsSync(appNameOrPath)) {
+    return appNameOrPath;
+  }
+  const directPath = path.resolve(__dirname, appNameOrPath);
+  if (fs.existsSync(directPath)) return directPath;
+
+  const appsSub = path.join(RAPIDER_APPS_ROOT, 'APPS', appNameOrPath);
+  if (fs.existsSync(appsSub)) return appsSub;
+
+  const rootSub = path.join(RAPIDER_APPS_ROOT, appNameOrPath);
+  if (fs.existsSync(rootSub)) return rootSub;
+
+  return appsSub;
+}
+
+const defaultAppArg = getArg('app', null);
+let DEFAULT_APP_DIR = '';
+if (defaultAppArg) {
+  DEFAULT_APP_DIR = resolveAppDir(defaultAppArg);
+} else {
+  const crmAppsDir = path.resolve(__dirname, '../rapider-apps/APPS/rapider-app-crm-sys-comprehensive-crm-system');
+  const crmRootDir = path.resolve(__dirname, '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system');
+  DEFAULT_APP_DIR = fs.existsSync(crmAppsDir) ? crmAppsDir : crmRootDir;
+}
 
 const app = express();
 
@@ -51,7 +75,7 @@ app.get('/assets/js/rapider-components.js', (req, res, next) => {
     console.log('[Harness] Serving local rapider-components.js');
     return res.sendFile(localUiBuild);
   }
-  
+
   const publicUrl = 'https://dev.app.rapider.ai/assets/js/rapider-components.js';
   console.log(`[Harness] Local build not found. Falling back to public URL: ${publicUrl}`);
   res.redirect(publicUrl);
@@ -77,14 +101,14 @@ app.use((req, res, next) => {
         }
       }
     } else if (req.query.appPath) {
-      appPath = path.resolve(req.query.appPath);
+      appPath = resolveAppDir(req.query.appPath);
     } else {
       const referer = req.get('Referer');
       if (referer) {
         // The iframe loads from /api/page-content?appPath=... or main page loads with ?app=...
         const refererUrl = new URL(referer);
         if (refererUrl.searchParams.has('appPath')) {
-          appPath = path.resolve(refererUrl.searchParams.get('appPath'));
+          appPath = resolveAppDir(refererUrl.searchParams.get('appPath'));
         } else if (refererUrl.searchParams.has('app')) {
           const appParam = refererUrl.searchParams.get('app');
           const cand = path.resolve(RAPIDER_APPS_ROOT, appParam);
@@ -256,6 +280,31 @@ app.get('/api/qa-audit', (req, res) => {
 });
 
 /**
+ * Serve expectations.json for E2E testing
+ */
+app.get('/api/e2e/expectations', (req, res) => {
+  try {
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.query.app) {
+      targetDir = resolveAppDir(req.query.app);
+    } else if (req.query.appPath) {
+      targetDir = resolveAppDir(req.query.appPath);
+    }
+
+    const expPath = path.join(targetDir, 'e2e', 'expectations.json');
+    if (!fs.existsSync(expPath)) {
+      return res.status(404).json({ error: `expectations.json not found in ${targetDir}` });
+    }
+
+    const data = JSON.parse(fs.readFileSync(expPath, 'utf8'));
+    res.json(data);
+  } catch (err) {
+    console.error('Error serving expectations:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
  * Render and serve an HTML page from the target app, injecting:
  * 1. rapider-tailwind-theme.css (injected as <style type="text/tailwindcss">)
  * 2. Tailwind v4 browser compiler CDN
@@ -299,7 +348,7 @@ app.get('/api/page-content', (req, res) => {
     }
 
     let rawHtml = fs.readFileSync(fullFilePath, 'utf8');
-    
+
     // Prevent browser caching of injected HTML
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.setHeader('Pragma', 'no-cache');
@@ -314,7 +363,7 @@ app.get('/api/page-content', (req, res) => {
     if (req.query.routeParams) {
       try {
         routeParams = JSON.parse(req.query.routeParams);
-      } catch (e) {}
+      } catch (e) { }
     }
     for (const key in req.query) {
       if (!['appPath', 'filePath', 'isDark', 'routeParams', 't'].includes(key)) {
@@ -391,8 +440,112 @@ ${themeCss}
         min-height: 100vh;
       }
       .dark html, .dark body, html.dark body {
-        background-color: var(--color-body-background, #1f2126);
-        color: var(--color-text-main, #f0f4f8);
+        background-color: var(--color-body-background, #12141a) !important;
+        color: var(--color-text-main, #f0f4f8) !important;
+        color-scheme: dark;
+      }
+      /* Universal Dark Mode fallback for microapplications in the sandbox */
+      html.dark, .dark {
+        --color-body-background: #12141a;
+        --color-text-main: #f0f4f8;
+        --color-component-inner: #1c202a;
+        --color-primary-border: #2a2e3d;
+        --color-heading: #ffffff;
+        --color-secondary-text: #9aa5be;
+        --crm-ink: #f0f4f8;
+        --crm-muted: #9aa5be;
+        --crm-line: #2a2e3d;
+        --crm-bg: #12141a;
+        --crm-surface: #1c202a;
+        --crm-soft: #282442;
+        --ink: #f0f4f8;
+        --muted: #9aa5be;
+        --line: #2a2e3d;
+        --bg: #12141a;
+        --dark: #181a24;
+        --surface: #1c202a;
+        color-scheme: dark;
+      }
+      html.dark .panel, .dark .panel,
+      html.dark .card, .dark .card,
+      html.dark .metric, .dark .metric,
+      html.dark .crm-data-panel, .dark .crm-data-panel,
+      html.dark .bg-component-inner, .dark .bg-component-inner,
+      html.dark .bg-white:not([class*="dark:"]):not(.bg-primary):not(.primary):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]):not([style*="color: rgb(255, 255, 255)"]),
+      .dark .bg-white:not([class*="dark:"]):not(.bg-primary):not(.primary):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]):not([style*="color: rgb(255, 255, 255)"]) {
+        background-color: #1c202a !important;
+        color: #f0f4f8 !important;
+        border-color: #2a2e3d !important;
+      }
+      html.dark .metric.dark, .dark .metric.dark {
+        background-color: #161822 !important;
+        border: 1px solid #2a2e3d !important;
+      }
+      html.dark .metric .value, .dark .metric .value {
+        color: #f0f4f8 !important;
+      }
+      html.dark :is(h1, h2, h3, h4, h5, h6),
+      .dark :is(h1, h2, h3, h4, h5, h6),
+      html.dark .heading, .dark .heading {
+        color: #ffffff !important;
+      }
+      html.dark :is(p, span.small, small, .chartdata),
+      .dark :is(p, span.small, small, .chartdata) {
+        color: #9aa5be !important;
+      }
+      html.dark table, .dark table {
+        color: #cbd5e1 !important;
+      }
+      html.dark th, .dark th {
+        background-color: #161922 !important;
+        color: #9aa5be !important;
+        border-color: #2a2e3d !important;
+      }
+      html.dark td, .dark td {
+        color: #cbd5e1 !important;
+        border-color: #262a38 !important;
+      }
+      html.dark td:first-child, .dark td:first-child {
+        color: #f0f4f8 !important;
+      }
+      html.dark tbody tr:hover, .dark tbody tr:hover {
+        background-color: #232734 !important;
+      }
+      html.dark :is(input, select, textarea),
+      .dark :is(input, select, textarea) {
+        background-color: #161922 !important;
+        color: #f0f4f8 !important;
+        border-color: #2e3446 !important;
+      }
+      html.dark button:not(.primary):not([class*="bg-primary"]):not([class*="bg-red"]):not([class*="bg-blue"]):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]),
+      .dark button:not(.primary):not([class*="bg-primary"]):not([class*="bg-red"]):not([class*="bg-blue"]):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]) {
+        background-color: #232734 !important;
+        color: #f0f4f8 !important;
+        border-color: #373e52 !important;
+      }
+      html.dark .insight, .dark .insight {
+        background-color: #1e1d33 !important;
+        border-color: #3b355d !important;
+      }
+      html.dark .insight p, .dark .insight p {
+        color: #b8acd9 !important;
+      }
+      html.dark .insight strong, .dark .insight strong {
+        color: #ddd6fe !important;
+      }
+      html.dark .item, .dark .item {
+        border-color: #2a2e3d !important;
+      }
+      html.dark .chart, .dark .chart {
+        border-color: #2a2e3d !important;
+      }
+      html.dark .progress, .dark .progress {
+        background-color: #282c3c !important;
+      }
+      html.dark dialog, .dark dialog {
+        background-color: #1c202a !important;
+        color: #f0f4f8 !important;
+        border-color: #2a2e3d !important;
       }
     </style>
   `;
@@ -425,6 +578,7 @@ ${themeCss}
       })();
 
       window.rapiderApi = {
+        apiLogs: [],
         routeParams: ${JSON.stringify(routeParams)},
         getRouteParam: function(key) {
           if (this.routeParams && this.routeParams[key] !== undefined && this.routeParams[key] !== null) {
@@ -456,7 +610,8 @@ ${themeCss}
             }
           } catch(e) {}
         },
-        request: function(operation, entityName, payload = {}) {
+        request: function(operation, entityName, payload = {}, loggedOperation) {
+          this.apiLogs.push({ operation: loggedOperation || operation, entityName: entityName, payload: payload, timestamp: Date.now() });
           const isMutation = ['create', 'update', 'updateById', 'delete', 'deleteById'].includes(operation);
           let mutationKey = null;
 
@@ -540,7 +695,7 @@ ${themeCss}
             }
           } catch(e) {}
           
-          const reqPromise = this.request('find', entityName, { filter }).then(data => {
+          const reqPromise = this.request('find', entityName, { filter }, 'findSWR').then(data => {
             try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
             if (cachedData) this.hideToast();
             if (callback) callback(data, false);
@@ -567,7 +722,7 @@ ${themeCss}
             }
           } catch(e) {}
           
-          const reqPromise = this.request('count', entityName, { where }).then(data => {
+          const reqPromise = this.request('count', entityName, { where }, 'countSWR').then(data => {
             try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
             if (cachedData) this.hideToast();
             if (callback) callback(data, false);
@@ -586,9 +741,9 @@ ${themeCss}
         updateById: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
         update: function(entityName, id, body) { return this.request('updateById', entityName, { id, body }); },
         deleteById: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
-        delete: function(entityName, id) { return this.request('deleteById', entityName, { id }); },
         count: function(entityName, where) { return this.request('count', entityName, { where }); },
-        startWorkflow: function(workflowName, payload) { return this.request('startWorkflow', workflowName, { payload: payload || {} }); },
+        triggerWorkflow: function(workflowName, payload) { return this.request('triggerWorkflow', workflowName, { name: workflowName, payload: payload || {} }); },
+        startWorkflow: function(workflowName, payload) { return this.request('triggerWorkflow', workflowName, { name: workflowName, payload: payload || {} }); },
 
         // --- CROSS-IFRAME EVENT BUS ---
         listeners: {},
@@ -740,11 +895,15 @@ ${themeCss}
 
         // Dark Mode Toggle from Harness
         if (event.data.type === 'TOGGLE_DARK_MODE') {
-          if (event.data.isDark) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
+          const isDark = Boolean(event.data.isDark);
+          document.documentElement.classList.toggle('dark', isDark);
+          if (document.body) {
+            document.body.classList.toggle('dark', isDark);
           }
+          try {
+            document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+          } catch(e) {}
+          window.dispatchEvent(new CustomEvent('themechange', { detail: { isDark } }));
         }
 
         // Cross-Iframe Broadcasts from Harness Broker
@@ -842,7 +1001,7 @@ ${themeCss}
     } else {
       completeHtml = completeHtml.replace(/<html[^>]*class=["'][^"']*dark[^"']*["'][^>]*>/i, match => match.replace('dark', '').trim());
     }
-    
+
     // Align with production viewer: replace local assets/ paths to absolute /assets/ so base tag doesn't double them
     completeHtml = completeHtml.replace(/(href|src)=["'](?:\.\/|\/)?assets\/(.*?)["']/gi, `$1="/assets/$2"`);
 
@@ -862,7 +1021,7 @@ ${themeCss}
 app.all('/api/proxy/*', (req, res) => {
   const targetBaseUrl = req.headers['x-target-backend-url'] || DEFAULT_BACKEND;
   const targetPath = req.params[0]; // subpath after /api/proxy/
-  
+
   // Reconstruct full query string
   const queryString = req.url.includes('?') ? req.url.substring(req.url.indexOf('?')) : '';
   const fullTargetUrl = `${targetBaseUrl.replace(/\/$/, '')}/${targetPath}${queryString}`;
@@ -926,7 +1085,7 @@ app.all('/api/proxy/*', (req, res) => {
 });
 
 app.get('/api/config', (req, res) => {
-  const config = {};
+  const config = { ...localConfig };
   if (fs.existsSync(localEnvPath)) {
     try {
       const content = fs.readFileSync(localEnvPath, 'utf8');
@@ -935,16 +1094,16 @@ app.get('/api/config', (req, res) => {
         if (match) {
           const key = match[1].trim();
           const val = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
-          if (!config[key]) config[key] = val;
+          config[key] = val;
         }
       });
-    } catch (e) {}
+    } catch (e) { }
   }
 
-  const email = process.env.HARNESS_TEST_EMAIL || process.env.RAPIDER_TEST_EMAIL || config.HARNESS_TEST_EMAIL || config.RAPIDER_TEST_EMAIL || '';
-  const password = process.env.HARNESS_TEST_PASSWORD || process.env.RAPIDER_TEST_PASSWORD || config.HARNESS_TEST_PASSWORD || config.RAPIDER_TEST_PASSWORD || '';
-  const projectId = process.env.HARNESS_TEST_PROJECT_ID || process.env.RAPIDER_TEST_PROJECT_ID || config.HARNESS_TEST_PROJECT_ID || config.RAPIDER_TEST_PROJECT_ID || '';
-  const backendUrl = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || config.BACKEND_URL || config.RAPIDER_TEST_API_URL || 'https://dev.api.rappider.com';
+  const email = config.HARNESS_TEST_EMAIL || config.RAPIDER_TEST_EMAIL || process.env.HARNESS_TEST_EMAIL || process.env.RAPIDER_TEST_EMAIL || '';
+  const password = config.HARNESS_TEST_PASSWORD || config.RAPIDER_TEST_PASSWORD || process.env.HARNESS_TEST_PASSWORD || process.env.RAPIDER_TEST_PASSWORD || '';
+  const projectId = config.HARNESS_TEST_PROJECT_ID || config.RAPIDER_TEST_PROJECT_ID || process.env.HARNESS_TEST_PROJECT_ID || process.env.RAPIDER_TEST_PROJECT_ID || '';
+  const backendUrl = config.BACKEND_URL || config.RAPIDER_TEST_API_URL || process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || 'https://dev.api.rappider.com';
 
   res.json({
     ...config,
