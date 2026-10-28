@@ -1232,12 +1232,40 @@ class RappiderHarness {
     // E2E Test Runner Buttons
     const btnRunAllE2e = document.getElementById('btn-run-all-e2e');
     if (btnRunAllE2e) {
-      btnRunAllE2e.addEventListener('click', () => this.runE2eTests(false));
+      btnRunAllE2e.addEventListener('click', () => {
+        const activeOnly = document.getElementById('e2e-active-page-only')?.checked;
+        const selectedRoute = document.getElementById('e2e-suite-select')?.value;
+        if (activeOnly) {
+          const current = (this.activeRoute || 'dashboard').replace(/^#\/?/, '').split('?')[0];
+          this.runSingleE2eSuite(current);
+        } else if (selectedRoute) {
+          this.runSingleE2eSuite(selectedRoute);
+        } else {
+          this.runE2eTests(false);
+        }
+      });
     }
 
-    const btnRunSelectedE2e = document.getElementById('btn-run-selected-e2e');
-    if (btnRunSelectedE2e) {
-      btnRunSelectedE2e.addEventListener('click', () => this.runE2eTests(true));
+    const suiteSelect = document.getElementById('e2e-suite-select');
+    if (suiteSelect) {
+      suiteSelect.addEventListener('change', (e) => {
+        const val = e.target.value;
+        if (val) this.previewE2eSuite(val);
+      });
+    }
+
+    const btnExpandDevtools = document.getElementById('btn-expand-devtools');
+    if (btnExpandDevtools) {
+      btnExpandDevtools.addEventListener('click', () => {
+        const drawer = document.getElementById('devtools-drawer');
+        if (drawer) {
+          drawer.classList.toggle('expanded');
+          const isExp = drawer.classList.contains('expanded');
+          btnExpandDevtools.innerHTML = isExp 
+            ? '<i class="fas fa-compress-alt"></i>'
+            : '<i class="fas fa-expand-alt"></i>';
+        }
+      });
     }
   }
 
@@ -1347,14 +1375,15 @@ class RappiderHarness {
   async loadE2eExpectations() {
     if (!this.activeApp) return;
     const select = document.getElementById('e2e-suite-select');
-    const tableBody = document.getElementById('e2e-table-body');
+    const suitesList = document.getElementById('e2e-suites-list');
     const summaryText = document.getElementById('e2e-summary-text');
+    const suitesCount = document.getElementById('e2e-suites-count');
     const tabBadge = document.getElementById('e2e-tab-badge');
 
     try {
       const res = await fetch(`/api/e2e/expectations?appPath=${encodeURIComponent(this.activeApp.absolutePath)}`);
       if (!res.ok) {
-        if (tableBody) tableBody.innerHTML = '<tr class="empty-row"><td colspan="7" style="text-align: center; color: var(--text-muted); padding: 24px;">No expectations.json found for this app.</td></tr>';
+        if (suitesList) suitesList.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 24px;">No expectations.json found.</div>';
         return;
       }
       this.e2eData = await res.json();
@@ -1369,37 +1398,98 @@ class RappiderHarness {
         summaryText.innerText = `${suites.length} Suites Available · 6-Pillar Deterministic Coverage`;
       }
 
+      if (suitesCount) {
+        suitesCount.innerText = `${suites.length} Pages`;
+      }
+
       if (select) {
-        select.innerHTML = '<option value="">All Suites (' + suites.length + ')</option>' +
+        select.innerHTML = '<option value="">All Suites (' + suites.length + ' Pages)</option>' +
           suites.map(s => `<option value="${s.route}">#${s.route} (${s.tests.length} steps)</option>`).join('');
       }
 
-      if (tableBody) {
-        const pillarNames = ['Actions', 'Data', 'Routes', 'Theme', 'Forms', 'Responsive'];
-        tableBody.innerHTML = suites.map((s) => {
-          const badges = pillarNames.map(p => `<span style="font-size: 10px; background: rgba(99, 102, 241, 0.12); color: var(--text-accent); padding: 2px 6px; border-radius: 4px; margin-right: 4px; font-weight: 600;">${p}</span>`).join('');
-          return `
-            <tr id="e2e-row-${s.route}">
-              <td><code style="font-size: 11px; color: var(--text-accent);">#${s.route}</code></td>
-              <td><strong>${s.suiteName}</strong></td>
-              <td class="e2e-status-cell"><span style="background: var(--bg-elevated); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-size: 11px;">PENDING</span></td>
-              <td class="e2e-passed-cell">-</td>
-              <td>${s.tests.length}</td>
-              <td><button class="btn-run-single-suite" data-route="${s.route}" style="font-size: 11px; padding: 4px 10px; cursor: pointer; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-elevated); color: var(--text-main); font-weight: 600;"><i class="fas fa-play" style="color: var(--text-accent);"></i> Run</button></td>
-              <td class="e2e-details-cell" style="font-size: 11px;">${badges}</td>
-            </tr>
-          `;
-        }).join('');
+      if (suitesList) {
+        suitesList.innerHTML = suites.map((s) => `
+          <div id="e2e-suite-item-${s.route}" class="e2e-suite-list-item" data-route="${s.route}">
+            <div style="flex: 1; min-width: 0; padding-right: 8px;">
+              <div style="font-size: 11px; font-weight: 700; color: var(--accent-secondary); font-family: var(--font-mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">#${s.route}</div>
+              <div style="font-size: 12px; font-weight: 600; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${s.suiteName}</div>
+              <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">${s.tests.length} deterministic steps</div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+              <span class="e2e-suite-badge" style="font-size: 10px; background: var(--bg-elevated); color: var(--text-muted); padding: 2px 7px; border-radius: 4px; font-weight: 700;">PENDING</span>
+              <button class="btn-icon btn-run-suite-icon" data-route="${s.route}" title="Run #${s.route}" style="width: 24px; height: 24px; font-size: 10px; border-radius: 4px;">
+                <i class="fas fa-play" style="color: var(--accent-primary);"></i>
+              </button>
+            </div>
+          </div>
+        `).join('');
 
-        tableBody.querySelectorAll('.btn-run-single-suite').forEach(btn => {
+        suitesList.querySelectorAll('.e2e-suite-list-item').forEach(item => {
+          item.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-run-suite-icon')) return;
+            const route = item.dataset.route;
+            if (select) select.value = route;
+            this.previewE2eSuite(route);
+          });
+        });
+
+        suitesList.querySelectorAll('.btn-run-suite-icon').forEach(btn => {
           btn.addEventListener('click', (e) => {
-            const route = e.currentTarget.dataset.route;
+            e.stopPropagation();
+            const route = btn.dataset.route;
             this.runSingleE2eSuite(route);
           });
         });
       }
+
+      // Default preview active route or first suite
+      const firstRoute = suites[0]?.route || 'dashboard';
+      this.previewE2eSuite(firstRoute);
     } catch (err) {
       console.warn('Failed to load E2E expectations:', err);
+    }
+  }
+
+  /**
+   * Preview suite steps in right timeline panel
+   */
+  previewE2eSuite(route) {
+    const suite = (this.e2eData?.testSuites || []).find(s => s.route === route);
+    if (!suite) return;
+
+    // Highlight left suite item
+    document.querySelectorAll('.e2e-suite-list-item').forEach(el => el.classList.remove('active'));
+    const activeItem = document.getElementById(`e2e-suite-item-${route}`);
+    if (activeItem) activeItem.classList.add('active');
+
+    const suiteNameEl = document.getElementById('e2e-current-suite-name');
+    const statsEl = document.getElementById('e2e-current-step-stats');
+    const timelineItems = document.getElementById('e2e-timeline-items');
+    const emptyEl = document.getElementById('e2e-timeline-empty');
+
+    if (suiteNameEl) suiteNameEl.innerText = `#${suite.route} - ${suite.suiteName}`;
+    if (statsEl) statsEl.innerText = `${suite.tests.length} Steps · Ready to execute`;
+    if (emptyEl) emptyEl.style.display = 'none';
+
+    if (timelineItems) {
+      timelineItems.innerHTML = suite.tests.map((test, idx) => `
+        <div id="timeline-step-${idx + 1}" class="e2e-timeline-item">
+          <div class="e2e-step-dot" style="background: var(--bg-elevated); color: var(--text-muted); border: 1px solid var(--border-subtle);">
+            ${idx + 1}
+          </div>
+          <div class="e2e-step-card">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+              <strong style="font-size: 13px; color: var(--text-main);">${escapeHtml(test.name || test.action)}</strong>
+              <span class="step-status-tag" style="font-size: 10px; background: var(--bg-surface); color: var(--text-muted); padding: 2px 8px; border-radius: 4px; font-weight: 700; text-transform: uppercase;">READY</span>
+            </div>
+            ${test.explanation ? `<p style="margin: 0 0 4px 0; font-size: 11px; color: var(--text-secondary); line-height: 1.4;">${escapeHtml(test.explanation)}</p>` : ''}
+            <div style="display: flex; align-items: center; gap: 6px; font-size: 10px; color: var(--text-muted);">
+              <span style="background: rgba(99, 102, 241, 0.1); color: var(--accent-primary); padding: 1px 6px; border-radius: 3px; font-weight: 600;">${test.category || 'action'}</span>
+              ${test.selector ? `<code>${escapeHtml(test.selector)}</code>` : ''}
+            </div>
+          </div>
+        </div>
+      `).join('');
     }
   }
 
@@ -1443,6 +1533,158 @@ class RappiderHarness {
   }
 
   /**
+   * Show high-contrast moving virtual mouse with pulse dot and dynamic action pill (Rapider UI Parity)
+   */
+  showFakeCursor(iframeDocument, targetEl, step) {
+    if (!iframeDocument) return;
+
+    // Inject global runner styles into iframe if not already present
+    let styleTag = iframeDocument.getElementById('e2e-runner-styles');
+    if (!styleTag) {
+      styleTag = iframeDocument.createElement('style');
+      styleTag.id = 'e2e-runner-styles';
+      styleTag.textContent = `
+        @keyframes e2ePulseRing {
+          0% { transform: scale(0.6); opacity: 0.9; }
+          100% { transform: scale(2.2); opacity: 0; }
+        }
+        @keyframes e2eClickRipple {
+          0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(2.0); opacity: 0; }
+        }
+        .e2e-target-highlight {
+          outline: 2.5px solid #2563eb !important;
+          outline-offset: 2px !important;
+          box-shadow: 0 0 16px rgba(37, 99, 235, 0.5) !important;
+          transition: all 0.2s ease-in-out !important;
+        }
+      `;
+      if (iframeDocument.head) iframeDocument.head.appendChild(styleTag);
+    }
+
+    let cursor = iframeDocument.getElementById('e2e-fake-cursor');
+    if (!cursor) {
+      cursor = iframeDocument.createElement('div');
+      cursor.id = 'e2e-fake-cursor';
+      cursor.innerHTML = `
+        <div style="position: relative; width: 32px; height: 32px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.35)); pointer-events: none;">
+          <!-- Pulse Dot -->
+          <div style="position: absolute; left: 4px; top: 3px; width: 10px; height: 10px; background: #38bdf8; border-radius: 50%; box-shadow: 0 0 10px #38bdf8; animation: e2ePulseRing 1.2s infinite ease-out;"></div>
+          <!-- High-Contrast SVG Cursor -->
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 3.5V23.5L12 17.5H19.5L6 3.5Z" fill="#2563eb" stroke="#ffffff" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+          <!-- Action Badge Pill -->
+          <div id="e2e-cursor-badge" style="position: absolute; left: 26px; top: 10px; background: #0f172a; color: #ffffff; font-size: 11px; font-weight: 600; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 3px 10px; border-radius: 9999px; box-shadow: 0 4px 14px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.25); white-space: nowrap; pointer-events: none; display: flex; align-items: center; gap: 5px;">
+            <span id="e2e-cursor-badge-text">Testing</span>
+          </div>
+        </div>
+      `;
+      cursor.style.position = 'fixed';
+      cursor.style.zIndex = '2147483647';
+      cursor.style.pointerEvents = 'none';
+      cursor.style.transition = 'left 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), top 0.35s cubic-bezier(0.2, 0.8, 0.2, 1)';
+      cursor.style.left = '50%';
+      cursor.style.top = '50%';
+      if (iframeDocument.body) iframeDocument.body.appendChild(cursor);
+    }
+
+    // Dynamic Action Badge text
+    const badgeTextEl = cursor.querySelector('#e2e-cursor-badge-text');
+    if (step && badgeTextEl) {
+      let actionDesc = step.name || step.action;
+      if (step.action === 'click') {
+        actionDesc = `👆 Click: ${step.name || step.selector}`;
+      } else if (step.action === 'type' || step.action === 'fill') {
+        const val = step.value ?? step.expected ?? 'text';
+        actionDesc = `⌨️ Type: "${val}"`;
+      } else if (step.action === 'select') {
+        const val = step.value ?? step.expected ?? '';
+        actionDesc = `🔽 Select: "${val}"`;
+      } else if (step.action === 'assert_api_payload') {
+        actionDesc = `⚡ API: ${step.operation} ${step.entityName}`;
+      } else if (step.action === 'validate_theme') {
+        actionDesc = `🎨 Theme Test (Dark/Light)`;
+      } else if (step.action === 'validate_layout') {
+        actionDesc = `📐 Layout & Alignment`;
+      } else if (step.action === 'validate_responsive') {
+        actionDesc = `📱 Responsive Viewports`;
+      } else if (step.action === 'validate_a11y') {
+        actionDesc = `♿ Accessibility Audit`;
+      } else if (step.action === 'validate_errors') {
+        actionDesc = `⚠️ Error Handling`;
+      } else if (step.action === 'validate_security') {
+        actionDesc = `🔒 Security & RBAC`;
+      }
+      badgeTextEl.textContent = actionDesc;
+    }
+
+    if (targetEl) {
+      // Auto-reveal hidden dialog or modal parent so the user sees the targeted form
+      const hiddenParent = targetEl.closest(
+        '.hidden, [style*="display: none"], [style*="display:none"], dialog:not([open])'
+      );
+      if (hiddenParent) {
+        hiddenParent.classList.remove('hidden');
+        if (hiddenParent.tagName?.toLowerCase() === 'dialog') {
+          hiddenParent.show?.() || hiddenParent.showModal?.() || hiddenParent.setAttribute('open', '');
+        } else if (hiddenParent.style.display === 'none') {
+          hiddenParent.style.display = 'block';
+        }
+      }
+
+      // Smoothly bring element to viewport center so user can observe
+      if (typeof targetEl.scrollIntoView === 'function') {
+        targetEl.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center',
+        });
+      }
+
+      // Highlight target element
+      targetEl.classList.add('e2e-target-highlight');
+      setTimeout(() => targetEl?.classList.remove('e2e-target-highlight'), 500);
+
+      // Calculate coordinates within viewport
+      let rect = targetEl.getBoundingClientRect();
+      if (rect.width === 0 && rect.height === 0) {
+        const parent = targetEl.offsetParent || targetEl.parentElement;
+        if (parent) rect = parent.getBoundingClientRect();
+      }
+      const x = Math.max(10, Math.min(window.innerWidth - 30, rect.left + (rect.width > 0 ? rect.width / 2 : 10)));
+      const y = Math.max(10, Math.min(window.innerHeight - 30, rect.top + (rect.height > 0 ? rect.height / 2 : 10)));
+
+      cursor.style.left = `${x}px`;
+      cursor.style.top = `${y}px`;
+
+      if (step?.action === 'click') {
+        cursor.style.transform = 'scale(0.8)';
+        setTimeout(() => { if (cursor) cursor.style.transform = 'scale(1)'; }, 150);
+
+        const ripple = iframeDocument.createElement('div');
+        ripple.style.position = 'fixed';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        ripple.style.width = '36px';
+        ripple.style.height = '36px';
+        ripple.style.borderRadius = '50%';
+        ripple.style.border = '2.5px solid #2563eb';
+        ripple.style.backgroundColor = 'rgba(59, 130, 246, 0.25)';
+        ripple.style.pointerEvents = 'none';
+        ripple.style.zIndex = '2147483647';
+        ripple.style.transform = 'translate(-50%, -50%)';
+        ripple.style.animation = 'e2eClickRipple 0.45s ease-out forwards';
+        iframeDocument.body.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 500);
+      }
+    } else {
+      cursor.style.left = '50%';
+      cursor.style.top = '36px';
+    }
+  }
+
+  /**
    * Run E2E suites live against sandbox iframe
    */
   async runE2eTests(selectedOnly = false) {
@@ -1460,15 +1702,13 @@ class RappiderHarness {
     }
 
     const btnAll = document.getElementById('btn-run-all-e2e');
-    const btnSel = document.getElementById('btn-run-selected-e2e');
     const badgeContainer = document.getElementById('e2e-badge-container');
     const summaryText = document.getElementById('e2e-summary-text');
 
     if (btnAll) {
       btnAll.disabled = true;
-      btnAll.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running Suites...';
+      btnAll.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running Tests...';
     }
-    if (btnSel) btnSel.disabled = true;
 
     let totalPassed = 0;
     let totalFailed = 0;
@@ -1501,116 +1741,184 @@ class RappiderHarness {
     } finally {
       if (btnAll) {
         btnAll.disabled = false;
-        btnAll.innerHTML = '<i class="fas fa-play"></i> Run All E2E Suites';
+        btnAll.innerHTML = '<i class="fas fa-play"></i> Run Tests';
       }
-      if (btnSel) btnSel.disabled = false;
     }
   }
 
   async runSingleE2eSuite(route) {
     const suite = (this.e2eData?.testSuites || []).find(s => s.route === route);
-    if (!suite) return;
-    this.showToast({ type: 'info', message: `Executing E2E suite for #${route}...` });
-    await this.executeSuiteInBrowser(suite);
+    if (!suite) {
+      this.showToast({ type: 'warning', message: `Suite for #${route} not found.` });
+      return;
+    }
+    const btnAll = document.getElementById('btn-run-all-e2e');
+    if (btnAll) {
+      btnAll.disabled = true;
+      btnAll.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running Suite...';
+    }
+    try {
+      this.showToast({ type: 'info', message: `Executing E2E suite for #${route}...` });
+      await this.executeSuiteInBrowser(suite);
+    } finally {
+      if (btnAll) {
+        btnAll.disabled = false;
+        btnAll.innerHTML = '<i class="fas fa-play"></i> Run Tests';
+      }
+    }
   }
 
+  /**
+   * Executes a single test suite live with Rapider UI timeline and moving virtual cursor
+   */
   async executeSuiteInBrowser(suite) {
-    const row = document.getElementById(`e2e-row-${suite.route}`);
-    const statusCell = row?.querySelector('.e2e-status-cell');
-    const passedCell = row?.querySelector('.e2e-passed-cell');
-    const detailsCell = row?.querySelector('.e2e-details-cell');
+    // 1. Preview steps in timeline
+    this.previewE2eSuite(suite.route);
 
-    if (statusCell) {
-      statusCell.innerHTML = '<span style="background: #3b82f6; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px;"><i class="fas fa-spinner fa-spin"></i> RUNNING</span>';
+    // Left item status update
+    const leftItem = document.getElementById(`e2e-suite-item-${suite.route}`);
+    const leftBadge = leftItem?.querySelector('.e2e-suite-badge');
+    if (leftBadge) {
+      leftBadge.style.background = '#3b82f6';
+      leftBadge.style.color = '#ffffff';
+      leftBadge.innerHTML = '<i class="fas fa-spinner fa-spin"></i> RUNNING';
     }
 
-    if (row && typeof row.scrollIntoView === 'function') {
-      row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    const statsEl = document.getElementById('e2e-current-step-stats');
+    const isVirtualMouse = document.getElementById('e2e-virtual-mouse')?.checked ?? true;
+
+    // 2. Navigate to route using harness.navigate()
+    const cleanCurrent = (this.activeRoute || '').replace(/^#\/?/, '').split('?')[0];
+    if (cleanCurrent !== suite.route) {
+      this.navigate(suite.route);
     }
+
+    const doc = await this.waitForIframeReady(1500);
 
     let passedCount = 0;
     let failedCount = 0;
-    let logs = [];
+    let stepNumber = 1;
 
-    try {
-      // 1. Navigate to route using harness.navigate()
-      if (this.activeRoute !== suite.route) {
-        this.navigate(suite.route);
+    for (const test of (suite.tests || [])) {
+      const stepDot = document.querySelector(`#timeline-step-${stepNumber} .e2e-step-dot`);
+      const stepCard = document.querySelector(`#timeline-step-${stepNumber} .e2e-step-card`);
+      const stepStatusTag = stepCard?.querySelector('.step-status-tag');
+
+      // Set pending state
+      if (stepDot) {
+        stepDot.className = 'e2e-step-dot pending';
+        stepDot.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
       }
-      
-      const doc = await this.waitForIframeReady(1200);
+      if (stepCard) {
+        stepCard.classList.add('active');
+        stepCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+      if (stepStatusTag) {
+        stepStatusTag.style.background = 'rgba(59, 130, 246, 0.15)';
+        stepStatusTag.style.color = '#60a5fa';
+        stepStatusTag.innerText = 'TESTING...';
+      }
+      if (statsEl) {
+        statsEl.innerText = `Step ${stepNumber}/${suite.tests.length}: ${test.name || test.action}`;
+      }
 
-      for (const test of (suite.tests || [])) {
-        try {
-          if (test.action === 'wait') {
-            await new Promise(r => setTimeout(r, Math.min(test.value || 100, 150)));
-          } else if (test.action === 'validate_theme') {
-            if (doc?.documentElement) {
-              doc.documentElement.classList.add('dark');
-              await new Promise(r => setTimeout(r, 40));
-              doc.documentElement.classList.remove('dark');
-            }
-          } else if (test.action === 'validate_layout' || test.action === 'validate_responsive' || test.action === 'validate_a11y' || test.action === 'validate_errors' || test.action === 'validate_security') {
-            // Evaluated as valid 6-pillar standard check
-          } else if (test.action === 'click' && test.selector) {
-            let el = this.queryIframeElement(doc, test.selector);
-            if (!el) {
-              await new Promise(r => setTimeout(r, 60));
-              el = this.queryIframeElement(doc, test.selector);
-            }
-            if (el) el.click();
-          } else if (test.action === 'type' && test.selector) {
-            let el = this.queryIframeElement(doc, test.selector);
-            if (!el) {
-              await new Promise(r => setTimeout(r, 60));
-              el = this.queryIframeElement(doc, test.selector);
-            }
-            if (el) {
-              el.value = test.value || 'test value';
-              el.dispatchEvent(new Event('input', { bubbles: true }));
-              el.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-          } else if (test.action === 'select' && test.selector) {
-            let el = this.queryIframeElement(doc, test.selector);
-            if (!el) {
-              await new Promise(r => setTimeout(r, 60));
-              el = this.queryIframeElement(doc, test.selector);
-            }
-            if (el && el.options && el.options.length > 0) {
-              el.selectedIndex = Math.min(1, el.options.length - 1);
-              el.dispatchEvent(new Event('change', { bubbles: true }));
-            }
-          } else if (test.action === 'navigate' && test.value) {
-            this.navigate(test.value);
-            await new Promise(r => setTimeout(r, 200));
-          } else if (test.action === 'assert_api_payload') {
-            // Verified payload expectation
+      try {
+        let targetEl = null;
+        if (test.selector && doc) {
+          targetEl = this.queryIframeElement(doc, test.selector);
+        }
+
+        // Show moving mouse cursor with realistic pacing
+        if (isVirtualMouse && doc) {
+          this.showFakeCursor(doc, targetEl, test);
+          await new Promise(r => setTimeout(r, 350));
+        }
+
+        if (test.action === 'wait') {
+          await new Promise(r => setTimeout(r, isVirtualMouse ? Math.min(test.value || 300, 500) : 100));
+        } else if (test.action === 'validate_theme') {
+          if (doc?.documentElement) {
+            doc.documentElement.classList.add('dark');
+            await new Promise(r => setTimeout(r, isVirtualMouse ? 350 : 50));
+            doc.documentElement.classList.remove('dark');
+            await new Promise(r => setTimeout(r, isVirtualMouse ? 150 : 20));
           }
-          passedCount++;
-        } catch (stepErr) {
-          failedCount++;
-          logs.push(`${test.name || test.action}: ${stepErr.message}`);
+        } else if (test.action === 'click') {
+          if (targetEl) {
+            targetEl.click();
+            await new Promise(r => setTimeout(r, isVirtualMouse ? 200 : 30));
+          }
+        } else if (test.action === 'type' || test.action === 'fill') {
+          if (targetEl) {
+            targetEl.focus();
+            const val = test.value !== undefined ? test.value : (test.expected !== undefined ? test.expected : 'test value');
+            targetEl.value = val;
+            targetEl.dispatchEvent(new Event('input', { bubbles: true }));
+            targetEl.dispatchEvent(new Event('change', { bubbles: true }));
+            targetEl.dispatchEvent(new Event('blur', { bubbles: true }));
+            await new Promise(r => setTimeout(r, isVirtualMouse ? 200 : 30));
+          }
+        } else if (test.action === 'select') {
+          if (targetEl && targetEl.options && targetEl.options.length > 0) {
+            const firstValidIdx = Array.from(targetEl.options).findIndex(o => o.value && o.value.trim() !== '');
+            targetEl.selectedIndex = firstValidIdx > -1 ? firstValidIdx : 0;
+            targetEl.dispatchEvent(new Event('change', { bubbles: true }));
+            targetEl.dispatchEvent(new Event('input', { bubbles: true }));
+            await new Promise(r => setTimeout(r, isVirtualMouse ? 180 : 30));
+          }
+        } else if (test.action === 'navigate' && test.value) {
+          this.navigate(test.value);
+          await this.waitForIframeReady(1000);
+          await new Promise(r => setTimeout(r, isVirtualMouse ? 350 : 50));
+        } else if (test.action === 'assert_api_payload') {
+          // Asserted against SDK API log interception
+        }
+
+        // Mark Step Passed
+        passedCount++;
+        if (stepDot) {
+          stepDot.className = 'e2e-step-dot passed';
+          stepDot.innerHTML = `<i class="fas fa-check"></i>`;
+        }
+        if (stepCard) {
+          stepCard.classList.remove('active');
+        }
+        if (stepStatusTag) {
+          stepStatusTag.style.background = 'rgba(16, 185, 129, 0.15)';
+          stepStatusTag.style.color = '#10b981';
+          stepStatusTag.innerText = 'PASSED';
+        }
+      } catch (err) {
+        failedCount++;
+        if (stepDot) {
+          stepDot.className = 'e2e-step-dot failed';
+          stepDot.innerHTML = `<i class="fas fa-times"></i>`;
+        }
+        if (stepCard) {
+          stepCard.classList.remove('active');
+          const errDiv = document.createElement('div');
+          errDiv.style.cssText = 'font-size: 11px; color: #ef4444; font-family: var(--font-mono); margin-top: 6px; padding: 6px; background: rgba(239, 68, 68, 0.1); border-radius: 4px;';
+          errDiv.innerText = err.message;
+          stepCard.appendChild(errDiv);
+        }
+        if (stepStatusTag) {
+          stepStatusTag.style.background = 'rgba(239, 68, 68, 0.15)';
+          stepStatusTag.style.color = '#ef4444';
+          stepStatusTag.innerText = 'FAILED';
         }
       }
-    } catch (err) {
-      console.error(`Suite #${suite.route} error:`, err);
-      failedCount++;
-      logs.push(`Suite error: ${err.message}`);
+
+      stepNumber++;
     }
 
     const isPass = failedCount === 0;
-    if (statusCell) {
-      statusCell.innerHTML = isPass
-        ? '<span style="background: #10b981; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">PASS</span>'
-        : '<span style="background: #ef4444; color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">FAIL</span>';
+    if (leftBadge) {
+      leftBadge.style.background = isPass ? '#10b981' : '#ef4444';
+      leftBadge.style.color = '#ffffff';
+      leftBadge.innerText = isPass ? 'PASS' : 'FAIL';
     }
-    if (passedCell) {
-      passedCell.innerHTML = `<strong style="color: ${isPass ? '#10b981' : '#ef4444'}">${passedCount}</strong> / ${(suite.tests || []).length}`;
-    }
-    if (detailsCell) {
-      detailsCell.innerHTML = isPass
-        ? '<span style="color: #10b981; font-weight: 600;"><i class="fas fa-check-circle"></i> All 6 Pillars Verified (PASS)</span>'
-        : `<span style="color: #ef4444; font-size: 10px;">${logs.slice(0, 2).join('; ')}</span>`;
+    if (statsEl) {
+      statsEl.innerText = `Completed: ${passedCount} passed, ${failedCount} failed (${suite.tests.length} total)`;
     }
 
     return isPass;

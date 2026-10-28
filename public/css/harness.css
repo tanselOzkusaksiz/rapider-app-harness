@@ -1281,3 +1281,429 @@ body.dark-theme #sandbox-iframe {
   font-size: 12px;
   color: var(--text-muted);
 }
+
+/* ==========================================================================
+   E2E TESTING PANEL & TIMELINE (RAPIDER UI PARITY)
+   ========================================================================== */
+#devtools-drawer.expanded {
+  height: 480px !important;
+}
+
+.e2e-timeline-container {
+  scrollbar-width: thin;
+}
+
+.e2e-timeline-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  position: relative;
+}
+
+.e2e-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 26px;
+  bottom: -12px;
+  width: 2px;
+  background: var(--border-subtle);
+}
+
+.e2e-timeline-item:last-child::before {
+  display: none;
+}
+
+.e2e-step-dot {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+  z-index: 2;
+  box-shadow: 0 0 0 3px var(--bg-surface);
+  transition: all 0.2s ease;
+}
+
+.e2e-step-dot.pending {
+  background: #3b82f6;
+  box-shadow: 0 0 0 3px var(--bg-surface), 0 0 10px rgba(59, 130, 246, 0.8);
+}
+
+.e2e-step-dot.passed {
+  background: #10b981;
+}
+
+.e2e-step-dot.failed {
+  background: #ef4444;
+}
+
+.e2e-step-card {
+  flex: 1;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.e2e-step-card.active {
+  background: rgba(59, 130, 246, 0.08);
+  border-color: #3b82f6;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+  animation: e2eCardPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes e2eCardPulse {
+  0%, 100% { border-color: #3b82f6; box-shadow: 0 0 12px rgba(59, 130, 246, 0.2); }
+  50% { border-color: #60a5fa; box-shadow: 0 0 20px rgba(59, 130, 246, 0.45); }
+}
+
+.e2e-suite-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.e2e-suite-list-item:hover {
+  background: var(--bg-surface-hover);
+}
+
+.e2e-suite-list-item.active {
+  background: rgba(99, 102, 241, 0.12);
+  border-left: 3px solid var(--accent-primary);
+}
+
+/* ==========================================================================
+   E2E SLIDE-OUT DRAWER PANEL (EXACT RAPIDER UI PARITY)
+   ========================================================================== */
+.e2e-side-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 440px;
+  max-width: 90vw;
+  background: #f8fafc;
+  border-left: 1px solid #e2e8f0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -4px 0 24px rgba(0, 0, 0, 0.12);
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: var(--font-sans);
+}
+
+.e2e-side-drawer.open {
+  transform: translateX(0);
+}
+
+.e2e-drawer-header {
+  height: 52px;
+  background: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+
+.e2e-drawer-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.e2e-drawer-content {
+  flex: 1;
+  min-height: 0;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+/* Engine Card */
+.e2e-engine-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.e2e-engine-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.e2e-engine-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.e2e-run-btn {
+  background: #1677ff;
+  color: #ffffff !important;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 9999px;
+  padding: 6px 18px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 2px 6px rgba(22, 119, 255, 0.35);
+  transition: all 0.2s ease;
+}
+
+.e2e-run-btn:hover {
+  background: #0958d9;
+  transform: scale(1.02);
+}
+
+.e2e-run-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Timeline Card */
+.e2e-timeline-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  flex: 1;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.e2e-timeline-heading {
+  margin: 0 0 14px 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #334155;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.e2e-timeline-body {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  padding-left: 26px;
+}
+
+.e2e-timeline-body::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 10px;
+  bottom: 10px;
+  width: 2px;
+  background: #e2e8f0;
+}
+
+/* System log item */
+.e2e-sys-log {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #64748b;
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.e2e-sys-dot {
+  position: absolute;
+  left: -22px;
+  top: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  background: #ffffff;
+}
+
+/* Suite header item */
+.e2e-suite-header-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 14px;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.e2e-suite-dot {
+  position: absolute;
+  left: -22px;
+  top: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #2563eb;
+  background: #ffffff;
+}
+
+/* Step Card in Drawer */
+.e2e-drawer-step-item {
+  position: relative;
+  margin-bottom: 12px;
+}
+
+.e2e-drawer-step-dot {
+  position: absolute;
+  left: -26px;
+  top: 10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  box-shadow: 0 0 0 3px #ffffff;
+  z-index: 2;
+}
+
+.e2e-drawer-step-dot.pending {
+  background: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+}
+
+.e2e-drawer-step-dot.passed {
+  background: #10b981;
+}
+
+.e2e-drawer-step-dot.failed {
+  background: #ef4444;
+}
+
+.e2e-drawer-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s ease;
+}
+
+.e2e-drawer-card.active {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 14px rgba(59, 130, 246, 0.2);
+}
+
+.e2e-drawer-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.e2e-drawer-step-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.3;
+}
+
+.e2e-drawer-status-pill {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.e2e-drawer-status-pill.testing {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.e2e-drawer-status-pill.passed {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.e2e-drawer-status-pill.failed {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.e2e-drawer-explanation {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0 0 10px 0;
+  line-height: 1.4;
+}
+
+.e2e-drawer-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 6px;
+  border-top: 1px solid #f8fafc;
+  font-size: 10px;
+}
+
+.e2e-drawer-action-badge {
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #bfdbfe;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.e2e-drawer-time {
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: monospace;
+}
