@@ -247,6 +247,31 @@ app.get('/api/qa-audit', (req, res) => {
 });
 
 /**
+ * Serve expectations.json for E2E testing
+ */
+app.get('/api/e2e/expectations', (req, res) => {
+  try {
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.query.app) {
+      targetDir = resolveAppDir(req.query.app);
+    } else if (req.query.appPath) {
+      targetDir = resolveAppDir(req.query.appPath);
+    }
+
+    const expPath = path.join(targetDir, 'e2e', 'expectations.json');
+    if (!fs.existsSync(expPath)) {
+      return res.status(404).json({ error: `expectations.json not found in ${targetDir}` });
+    }
+
+    const data = JSON.parse(fs.readFileSync(expPath, 'utf8'));
+    res.json(data);
+  } catch (err) {
+    console.error('Error serving expectations:', err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
  * Render and serve an HTML page from the target app, injecting:
  * 1. rapider-tailwind-theme.css (injected as <style type="text/tailwindcss">)
  * 2. Tailwind v4 browser compiler CDN
