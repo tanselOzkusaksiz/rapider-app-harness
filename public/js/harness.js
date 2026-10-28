@@ -1668,6 +1668,18 @@ class RappiderHarness {
   }
 
   /**
+   * Get current iframe document safely
+   */
+  getIframeDocument() {
+    try {
+      const iframe = this.dom?.sandboxIframe || document.getElementById('sandbox-iframe');
+      return iframe?.contentDocument || iframe?.contentWindow?.document || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
    * Wait for target element to appear in iframe with retry
    */
   async waitForElement(doc, selector, maxWaitMs = 1500) {
