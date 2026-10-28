@@ -2007,6 +2007,10 @@ class RappiderHarness {
     }
   }
 
+  runE2eSuite(route) {
+    return this.runSingleE2eSuite(route);
+  }
+
   async runSingleE2eSuite(route) {
     const suite = (this.e2eData?.testSuites || []).find(s => s.route === route);
     if (!suite) {
