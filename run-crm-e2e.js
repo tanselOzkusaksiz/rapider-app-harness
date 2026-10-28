@@ -157,9 +157,94 @@ async function runCrmE2E() {
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'validate_theme') {
           if (frame) {
-            await frame.evaluate(() => document.documentElement.classList.add('dark'));
-            await page.waitForTimeout(50);
-            await frame.evaluate(() => document.documentElement.classList.remove('dark'));
+            await frame.evaluate(() => {
+              document.documentElement.classList.add('dark');
+              if (document.body) document.body.classList.add('dark');
+              try { document.documentElement.style.colorScheme = 'dark'; } catch(e) {}
+            });
+            await page.waitForTimeout(200);
+
+            const validationError = await frame.evaluate(() => {
+              function parseColor(s) {
+                if (!s) return [0, 0, 0, 0];
+                s = s.trim().toLowerCase();
+                if (s === 'transparent' || s.startsWith('rgba(0, 0, 0, 0)')) return [0, 0, 0, 0];
+                const m = s.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)/);
+                if (m) return [parseFloat(m[1]), parseFloat(m[2]), parseFloat(m[3]), 1];
+                return [0, 0, 0, 1];
+              }
+              function getLuminance(rgb) {
+                const a = rgb.slice(0, 3).map(v => {
+                  const s = v / 255;
+                  return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+                });
+                return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+              }
+              function getContrast(l1, l2) {
+                return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+              }
+              function getEffectiveBg(el) {
+                let curr = el;
+                while (curr && curr.nodeType === 1) {
+                  const bg = window.getComputedStyle(curr).backgroundColor;
+                  const p = parseColor(bg);
+                  if (p[3] > 0.05) return { color: bg, p };
+                  curr = curr.parentElement;
+                }
+                const bodyBg = (document.body && window.getComputedStyle(document.body).backgroundColor) || 'rgb(255, 255, 255)';
+                return { color: bodyBg, p: parseColor(bodyBg) };
+              }
+
+              // Check Body Background
+              const bodyBg = getEffectiveBg(document.body);
+              const bodyLum = getLuminance(bodyBg.p);
+              if (bodyLum > 0.40) {
+                return `Page body background too bright in dark mode (${bodyBg.color}, L=${bodyLum.toFixed(2)}).`;
+              }
+
+              // Check Cards
+              const cards = document.querySelectorAll('.panel, .card, .metric:not(.dark), .crm-data-panel');
+              for (const card of cards) {
+                if (card.offsetWidth > 60 && card.offsetHeight > 40) {
+                  const bg = window.getComputedStyle(card).backgroundColor;
+                  const lum = getLuminance(parseColor(bg));
+                  if (lum > 0.65) {
+                    return `Un-adapted bright card in dark mode: <${card.tagName.toLowerCase()} class="${card.className}"> has bg ${bg} (L=${lum.toFixed(2)}).`;
+                  }
+                }
+              }
+
+              // Check Headings
+              const headings = document.querySelectorAll('h1, h2, h3');
+              for (const h of headings) {
+                if (h.offsetWidth > 0 && h.textContent.trim().length > 0) {
+                  const textCol = window.getComputedStyle(h).color;
+                  const textLum = getLuminance(parseColor(textCol));
+                  const bg = getEffectiveBg(h);
+                  const bgLum = getLuminance(bg.p);
+                  const cr = getContrast(textLum, bgLum);
+                  if (textLum < 0.40 && bgLum < 0.40) {
+                    return `Invisible dark heading in dark mode: "${h.textContent.trim()}" has color ${textCol} on dark bg ${bg.color} (contrast ${cr.toFixed(2)}:1).`;
+                  }
+                  if (cr < 2.5) {
+                    return `Heading "${h.textContent.trim()}" contrast ratio too low (${cr.toFixed(2)}:1) against ${bg.color}.`;
+                  }
+                }
+              }
+
+              return null;
+            });
+
+            await frame.evaluate(() => {
+              document.documentElement.classList.remove('dark');
+              if (document.body) document.body.classList.remove('dark');
+              try { document.documentElement.style.colorScheme = 'light'; } catch(e) {}
+            });
+            await page.waitForTimeout(100);
+
+            if (validationError) {
+              throw new Error(`[Dark Mode Contrast Failure] ${validationError}`);
+            }
           }
           suiteResult.passed++;
           report.stepsPassed++;

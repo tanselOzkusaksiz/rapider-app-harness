@@ -396,8 +396,112 @@ ${themeCss}
         min-height: 100vh;
       }
       .dark html, .dark body, html.dark body {
-        background-color: var(--color-body-background, #1f2126);
-        color: var(--color-text-main, #f0f4f8);
+        background-color: var(--color-body-background, #12141a) !important;
+        color: var(--color-text-main, #f0f4f8) !important;
+        color-scheme: dark;
+      }
+      /* Universal Dark Mode fallback for microapplications in the sandbox */
+      html.dark, .dark {
+        --color-body-background: #12141a;
+        --color-text-main: #f0f4f8;
+        --color-component-inner: #1c202a;
+        --color-primary-border: #2a2e3d;
+        --color-heading: #ffffff;
+        --color-secondary-text: #9aa5be;
+        --crm-ink: #f0f4f8;
+        --crm-muted: #9aa5be;
+        --crm-line: #2a2e3d;
+        --crm-bg: #12141a;
+        --crm-surface: #1c202a;
+        --crm-soft: #282442;
+        --ink: #f0f4f8;
+        --muted: #9aa5be;
+        --line: #2a2e3d;
+        --bg: #12141a;
+        --dark: #181a24;
+        --surface: #1c202a;
+        color-scheme: dark;
+      }
+      html.dark .panel, .dark .panel,
+      html.dark .card, .dark .card,
+      html.dark .metric, .dark .metric,
+      html.dark .crm-data-panel, .dark .crm-data-panel,
+      html.dark .bg-component-inner, .dark .bg-component-inner,
+      html.dark .bg-white:not([class*="dark:"]):not(.bg-primary):not(.primary):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]):not([style*="color: rgb(255, 255, 255)"]),
+      .dark .bg-white:not([class*="dark:"]):not(.bg-primary):not(.primary):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]):not([style*="color: rgb(255, 255, 255)"]) {
+        background-color: #1c202a !important;
+        color: #f0f4f8 !important;
+        border-color: #2a2e3d !important;
+      }
+      html.dark .metric.dark, .dark .metric.dark {
+        background-color: #161822 !important;
+        border: 1px solid #2a2e3d !important;
+      }
+      html.dark .metric .value, .dark .metric .value {
+        color: #f0f4f8 !important;
+      }
+      html.dark :is(h1, h2, h3, h4, h5, h6),
+      .dark :is(h1, h2, h3, h4, h5, h6),
+      html.dark .heading, .dark .heading {
+        color: #ffffff !important;
+      }
+      html.dark :is(p, span.small, small, .chartdata),
+      .dark :is(p, span.small, small, .chartdata) {
+        color: #9aa5be !important;
+      }
+      html.dark table, .dark table {
+        color: #cbd5e1 !important;
+      }
+      html.dark th, .dark th {
+        background-color: #161922 !important;
+        color: #9aa5be !important;
+        border-color: #2a2e3d !important;
+      }
+      html.dark td, .dark td {
+        color: #cbd5e1 !important;
+        border-color: #262a38 !important;
+      }
+      html.dark td:first-child, .dark td:first-child {
+        color: #f0f4f8 !important;
+      }
+      html.dark tbody tr:hover, .dark tbody tr:hover {
+        background-color: #232734 !important;
+      }
+      html.dark :is(input, select, textarea),
+      .dark :is(input, select, textarea) {
+        background-color: #161922 !important;
+        color: #f0f4f8 !important;
+        border-color: #2e3446 !important;
+      }
+      html.dark button:not(.primary):not([class*="bg-primary"]):not([class*="bg-red"]):not([class*="bg-blue"]):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]),
+      .dark button:not(.primary):not([class*="bg-primary"]):not([class*="bg-red"]):not([class*="bg-blue"]):not([style*="color: #ffffff"]):not([style*="color:#ffffff"]) {
+        background-color: #232734 !important;
+        color: #f0f4f8 !important;
+        border-color: #373e52 !important;
+      }
+      html.dark .insight, .dark .insight {
+        background-color: #1e1d33 !important;
+        border-color: #3b355d !important;
+      }
+      html.dark .insight p, .dark .insight p {
+        color: #b8acd9 !important;
+      }
+      html.dark .insight strong, .dark .insight strong {
+        color: #ddd6fe !important;
+      }
+      html.dark .item, .dark .item {
+        border-color: #2a2e3d !important;
+      }
+      html.dark .chart, .dark .chart {
+        border-color: #2a2e3d !important;
+      }
+      html.dark .progress, .dark .progress {
+        background-color: #282c3c !important;
+      }
+      html.dark dialog, .dark dialog {
+        background-color: #1c202a !important;
+        color: #f0f4f8 !important;
+        border-color: #2a2e3d !important;
       }
     </style>
   `;
@@ -747,11 +851,15 @@ ${themeCss}
 
         // Dark Mode Toggle from Harness
         if (event.data.type === 'TOGGLE_DARK_MODE') {
-          if (event.data.isDark) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
+          const isDark = Boolean(event.data.isDark);
+          document.documentElement.classList.toggle('dark', isDark);
+          if (document.body) {
+            document.body.classList.toggle('dark', isDark);
           }
+          try {
+            document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+          } catch(e) {}
+          window.dispatchEvent(new CustomEvent('themechange', { detail: { isDark } }));
         }
 
         // Cross-Iframe Broadcasts from Harness Broker

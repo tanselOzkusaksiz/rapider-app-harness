@@ -368,6 +368,80 @@ function auditHtmlPage(pagePath, appDir, manifest) {
     }
   }
 
+  // ------------------------------------------------------------------------
+  // 8. RULE: Dark & Light Theme Compliance (Pass 11)
+  // ------------------------------------------------------------------------
+  let hasDarkModeSupport = false;
+  if (/(\.dark\b|html\.dark|color-scheme:\s*dark|prefers-color-scheme)/i.test(combinedStyle)) {
+    hasDarkModeSupport = true;
+  }
+  const linkCssRegex = /<link\b[^>]*rel=["']stylesheet["'][^>]*href=["']([^"']+)["'][^>]*>/gi;
+  let linkCssMatch;
+  while ((linkCssMatch = linkCssRegex.exec(rawHtml)) !== null) {
+    const href = linkCssMatch[1];
+    if (!href.startsWith('http') && !href.startsWith('//')) {
+      const candidates = [
+        path.resolve(path.dirname(pagePath), href),
+        path.resolve(appDir, href.replace(/^\//, '')),
+        path.resolve(appDir, 'assets', path.basename(href)),
+        path.resolve(appDir, 'assets/themes', path.basename(href))
+      ];
+      for (const cand of candidates) {
+        if (fs.existsSync(cand) && fs.statSync(cand).isFile()) {
+          const cssContent = fs.readFileSync(cand, 'utf8');
+          if (/(\.dark\b|html\.dark|color-scheme:\s*dark|prefers-color-scheme)/i.test(cssContent)) {
+            hasDarkModeSupport = true;
+            break;
+          }
+        }
+      }
+    } else if (href.includes('tailwind') || href.includes('rapider')) {
+      hasDarkModeSupport = true;
+    }
+  }
+
+  // Check for un-adapted white card backgrounds (e.g. bg-white without dark:bg-)
+  const whiteBgRegex = /class=["']([^"']*\bbg-white\b[^"']*)["']/gi;
+  let whiteBgMatch;
+  while ((whiteBgMatch = whiteBgRegex.exec(cleanMarkup)) !== null) {
+    const classList = whiteBgMatch[1];
+    if (!classList.includes('dark:bg-') && !classList.includes('bg-primary') && !classList.includes('text-white') && !classList.includes('!text-white')) {
+      warnings.push({
+        rule: 'Pass 11: Dark & Light Theme Compliance',
+        type: 'HARDCODED_LIGHT_BACKGROUND',
+        message: `Container has "bg-white" without a corresponding "dark:bg-*" variant class (${classList.slice(0, 50)}).`,
+        snippet: `<div class="${classList}">`
+      });
+      break;
+    }
+  }
+
+  // Check for hardcoded dark text without dark variant (e.g. text-slate-900 without dark:text-)
+  const darkTextRegex = /class=["']([^"']*\b(text-slate-900|text-gray-900|text-black)\b[^"']*)["']/gi;
+  let darkTextMatch;
+  while ((darkTextMatch = darkTextRegex.exec(cleanMarkup)) !== null) {
+    const classList = darkTextMatch[1];
+    if (!classList.includes('dark:text-')) {
+      warnings.push({
+        rule: 'Pass 11: Dark & Light Theme Compliance',
+        type: 'HARDCODED_DARK_TEXT',
+        message: `Text has hardcoded dark color without a corresponding "dark:text-*" variant (${classList.slice(0, 50)}).`,
+        snippet: `<div class="${classList}">`
+      });
+      break;
+    }
+  }
+
+  // Check for inline style hardcoded light background
+  const inlineStyleWhiteBg = /style=["'][^"']*\bbackground(-color)?:\s*(#ffffff|#fff|white)\b[^"']*["']/gi;
+  if (inlineStyleWhiteBg.test(cleanMarkup)) {
+    warnings.push({
+      rule: 'Pass 11: Dark & Light Theme Compliance',
+      type: 'INLINE_STYLE_WHITE_BACKGROUND',
+      message: 'Inline style hardcodes white background without theme adaptability or CSS variables.'
+    });
+  }
+
   return {
     pagePath: relativePagePath,
     passed: issues.length === 0,

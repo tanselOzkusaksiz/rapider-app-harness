@@ -2221,12 +2221,7 @@ class RappiderHarness {
         if (test.action === 'wait') {
           await new Promise(r => setTimeout(r, isVirtualMouse ? Math.min(test.value || 300, 500) : 80));
         } else if (test.action === 'validate_theme') {
-          if (doc?.documentElement) {
-            doc.documentElement.classList.add('dark');
-            await new Promise(r => setTimeout(r, isVirtualMouse ? 300 : 50));
-            doc.documentElement.classList.remove('dark');
-            await new Promise(r => setTimeout(r, isVirtualMouse ? 150 : 20));
-          }
+          await this.validateThemeContrastAndLegibility(doc, test, isVirtualMouse);
         } else if (test.action === 'click') {
           if (targetEl) {
             // Trigger visual click and events
@@ -2514,6 +2509,196 @@ class RappiderHarness {
     } catch (e) {
       console.warn('html2canvas screenshot capture failed:', e);
       return null;
+    }
+  }
+
+  /**
+   * Helper: Parse any CSS color string to [r, g, b, a]
+   */
+  parseColor(colorStr) {
+    if (!colorStr) return [0, 0, 0, 0];
+    const s = colorStr.trim().toLowerCase();
+    if (s === 'transparent' || s === 'rgba(0, 0, 0, 0)' || s === 'rgba(0,0,0,0)') {
+      return [0, 0, 0, 0];
+    }
+    const rgbaMatch = s.match(/rgba?\(\s*([\d.]+)\s*,\s*([\d.]+)\s*,\s*([\d.]+)(?:\s*,\s*([\d.]+))?\s*\)/);
+    if (rgbaMatch) {
+      return [
+        parseFloat(rgbaMatch[1]),
+        parseFloat(rgbaMatch[2]),
+        parseFloat(rgbaMatch[3]),
+        rgbaMatch[4] !== undefined ? parseFloat(rgbaMatch[4]) : 1
+      ];
+    }
+    if (s.startsWith('#')) {
+      let hex = s.slice(1);
+      if (hex.length === 3) hex = hex.split('').map(c => c + c).join('');
+      if (hex.length === 6) {
+        return [
+          parseInt(hex.slice(0, 2), 16),
+          parseInt(hex.slice(2, 4), 16),
+          parseInt(hex.slice(4, 6), 16),
+          1
+        ];
+      }
+    }
+    return [0, 0, 0, 1];
+  }
+
+  /**
+   * Helper: Compute WCAG 2.1 relative luminance
+   */
+  getRelativeLuminance(rgb) {
+    const a = rgb.slice(0, 3).map(v => {
+      const s = v / 255;
+      return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2];
+  }
+
+  /**
+   * Helper: Calculate WCAG 2.1 contrast ratio between two relative luminances
+   */
+  getContrastRatio(lum1, lum2) {
+    const l1 = Math.max(lum1, lum2);
+    const l2 = Math.min(lum1, lum2);
+    return (l1 + 0.05) / (l2 + 0.05);
+  }
+
+  /**
+   * Helper: Find effective background color walking up DOM hierarchy
+   */
+  getEffectiveBackgroundColor(el, doc) {
+    let curr = el;
+    while (curr && curr.nodeType === 1) {
+      const win = curr.ownerDocument?.defaultView || window;
+      const bg = win.getComputedStyle(curr).backgroundColor;
+      const parsed = this.parseColor(bg);
+      if (parsed[3] > 0.05) {
+        return { color: bg, parsed, element: curr };
+      }
+      curr = curr.parentElement;
+    }
+    const bodyBg = (doc.body && doc.defaultView?.getComputedStyle(doc.body).backgroundColor) || 'rgb(255, 255, 255)';
+    return { color: bodyBg, parsed: this.parseColor(bodyBg), element: doc.body };
+  }
+
+  /**
+   * Validates Dark & Light Mode Theme Contrast, Legibility, and Container Colors.
+   */
+  async validateThemeContrastAndLegibility(doc, test, isVirtualMouse) {
+    if (!doc || !doc.documentElement) {
+      throw new Error('Iframe document not available for theme validation');
+    }
+    const win = doc.defaultView || window;
+
+    // 1. Enter Dark Mode
+    doc.documentElement.classList.add('dark');
+    if (doc.body) doc.body.classList.add('dark');
+    try { doc.documentElement.style.colorScheme = 'dark'; } catch(e) {}
+    
+    // Dispatch custom themechange event
+    try {
+      doc.defaultView?.dispatchEvent(new CustomEvent('themechange', { detail: { isDark: true } }));
+    } catch(e) {}
+    await new Promise(r => setTimeout(r, isVirtualMouse ? 350 : 150));
+
+    const errors = [];
+
+    // --- CHECK 1: Body Background in Dark Mode ---
+    const bodyBgInfo = this.getEffectiveBackgroundColor(doc.body, doc);
+    const bodyLum = this.getRelativeLuminance(bodyBgInfo.parsed);
+    if (bodyLum > 0.40) {
+      errors.push(`Page body background is too bright in dark mode (${bodyBgInfo.color}, luminance=${bodyLum.toFixed(2)}). Expected dark background (L <= 0.40).`);
+    }
+
+    // --- CHECK 2: Containers / Cards in Dark Mode (No bright white cards!) ---
+    const cardSelectors = ['.panel', '.card', '.metric:not(.dark)', '.crm-data-panel', '.pagecard', 'section.panel'];
+    const cards = doc.querySelectorAll(cardSelectors.join(', '));
+    for (const card of cards) {
+      if (card.offsetWidth > 60 && card.offsetHeight > 40 && win.getComputedStyle(card).display !== 'none') {
+        const cardBg = win.getComputedStyle(card).backgroundColor;
+        const parsedCardBg = this.parseColor(cardBg);
+        if (parsedCardBg[3] > 0.1) {
+          const cardLum = this.getRelativeLuminance(parsedCardBg);
+          if (cardLum > 0.65) {
+            errors.push(`Un-adapted bright card detected in dark mode: <${card.tagName.toLowerCase()} class="${card.className.slice(0, 40)}"> has background ${cardBg} (luminance=${cardLum.toFixed(2)}). Cards must adapt to dark mode.`);
+            break;
+          }
+        }
+      }
+    }
+
+    // --- CHECK 3: Headings Legibility in Dark Mode (No dark text on dark bg) ---
+    const headings = doc.querySelectorAll('h1, h2, h3, .heading');
+    for (const h of headings) {
+      if (h.offsetWidth > 0 && h.offsetHeight > 0 && h.textContent.trim().length > 0) {
+        const hStyle = win.getComputedStyle(h);
+        const textColor = hStyle.color;
+        const parsedText = this.parseColor(textColor);
+        const textLum = this.getRelativeLuminance(parsedText);
+        const effectiveBg = this.getEffectiveBackgroundColor(h, doc);
+        const bgLum = this.getRelativeLuminance(effectiveBg.parsed);
+        const cr = this.getContrastRatio(textLum, bgLum);
+
+        // Heading cannot be dark text on dark background
+        if (textLum < 0.40 && bgLum < 0.40) {
+          errors.push(`Invisible dark heading detected in dark mode: <${h.tagName.toLowerCase()}> "${h.textContent.trim().slice(0, 30)}" has text color ${textColor} (L=${textLum.toFixed(2)}) on dark background ${effectiveBg.color} (L=${bgLum.toFixed(2)}). Contrast ratio is ${cr.toFixed(2)}:1 (minimum 3.0:1 required).`);
+          break;
+        }
+        if (cr < 2.5) {
+          errors.push(`Low contrast heading in dark mode: <${h.tagName.toLowerCase()}> "${h.textContent.trim().slice(0, 30)}" contrast ratio is ${cr.toFixed(2)}:1 against ${effectiveBg.color} (minimum 3.0:1 required).`);
+          break;
+        }
+      }
+    }
+
+    // --- CHECK 4: Metric Numbers & Important Values ---
+    const metricValues = doc.querySelectorAll('.value, [class*="text-2xl"], [class*="text-3xl"]');
+    for (const valEl of metricValues) {
+      if (valEl.offsetWidth > 0 && valEl.offsetHeight > 0 && valEl.textContent.trim().length > 0) {
+        const valStyle = win.getComputedStyle(valEl);
+        const textColor = valStyle.color;
+        const parsedText = this.parseColor(textColor);
+        const textLum = this.getRelativeLuminance(parsedText);
+        const effectiveBg = this.getEffectiveBackgroundColor(valEl, doc);
+        const bgLum = this.getRelativeLuminance(effectiveBg.parsed);
+        const cr = this.getContrastRatio(textLum, bgLum);
+
+        // White on white check
+        if (textLum > 0.70 && bgLum > 0.70) {
+          errors.push(`White-on-white metric detected in dark mode: "${valEl.textContent.trim().slice(0, 20)}" has white text ${textColor} on white container ${effectiveBg.color} (contrast ${cr.toFixed(2)}:1).`);
+          break;
+        }
+        if (cr < 2.5) {
+          errors.push(`Metric value "${valEl.textContent.trim().slice(0, 20)}" has insufficient contrast ratio (${cr.toFixed(2)}:1) against ${effectiveBg.color} in dark mode.`);
+          break;
+        }
+      }
+    }
+
+    // If any dark mode errors, revert dark mode before throwing so page isn't left stuck in dark mode
+    if (errors.length > 0) {
+      doc.documentElement.classList.remove('dark');
+      if (doc.body) doc.body.classList.remove('dark');
+      try { doc.documentElement.style.colorScheme = 'light'; } catch(e) {}
+      throw new Error(`[Dark Mode Validation Failed] ${errors.join(' | ')}`);
+    }
+
+    // 2. Revert to Light Mode and verify
+    doc.documentElement.classList.remove('dark');
+    if (doc.body) doc.body.classList.remove('dark');
+    try { doc.documentElement.style.colorScheme = 'light'; } catch(e) {}
+    try {
+      doc.defaultView?.dispatchEvent(new CustomEvent('themechange', { detail: { isDark: false } }));
+    } catch(e) {}
+    await new Promise(r => setTimeout(r, isVirtualMouse ? 200 : 80));
+
+    // Verify Light Mode Body
+    const lightBodyBg = this.getEffectiveBackgroundColor(doc.body, doc);
+    const lightLum = this.getRelativeLuminance(lightBodyBg.parsed);
+    if (lightLum < 0.60) {
+      throw new Error(`[Light Mode Validation Failed] Page did not cleanly revert to light mode. Body background luminance is ${lightLum.toFixed(2)} (${lightBodyBg.color}).`);
     }
   }
 }
