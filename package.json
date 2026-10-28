@@ -7,9 +7,10 @@
   "scripts": {
     "start": "node server.js",
     "start:crm": "node server.js --app=../rapider-apps/APPS/rapider-app-crm-sys-comprehensive-crm-system",
-    "start:expenses": "node server.js --app=../rapider-apps/rapider-app-re-xps-rapider-expenses",
-    "start:billing": "node server.js --app=../rapider-apps/rapider-app-rbi-a-rapider-billing-and-invoicing",
-    "start:apm": "node server.js --app=../rapider-apps/rapider-app-apm-a-rapider-agile-project-management",
+    "test:crm": "node run-crm-e2e.js",
+    "start:expenses": "node server.js --app=../rapider-apps/APPS/rapider-app-re-xps-rapider-expenses",
+    "start:billing": "node server.js --app=../rapider-apps/APPS/rapider-app-rbi-a-rapider-billing-and-invoicing",
+    "start:apm": "node server.js --app=../rapider-apps/APPS/rapider-app-apm-a-rapider-agile-project-management",
     "test:commerce": "node run-all-recent-suites-e2e.js commerce",
     "test:manufacturing": "node run-all-recent-suites-e2e.js manufacturing",
     "test:hr": "node run-all-recent-suites-e2e.js hr",

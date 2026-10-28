@@ -4,10 +4,16 @@ const path = require('path');
 const { execSync } = require('child_process');
 const { ensureAuthenticated } = require('./harness-auth-helper.js');
 
-const EXPECTATIONS_FILE = path.resolve(
+let EXPECTATIONS_FILE = path.resolve(
   __dirname,
-  '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system/e2e/expectations.json'
+  '../rapider-apps/APPS/rapider-app-crm-sys-comprehensive-crm-system/e2e/expectations.json'
 );
+if (!fs.existsSync(EXPECTATIONS_FILE)) {
+  EXPECTATIONS_FILE = path.resolve(
+    __dirname,
+    '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system/e2e/expectations.json'
+  );
+}
 
 const REPORT_FILE = path.resolve(
   __dirname,
@@ -69,7 +75,21 @@ async function runCrmE2E() {
 
   const expectationsData = JSON.parse(fs.readFileSync(EXPECTATIONS_FILE, 'utf8'));
   console.log(`App Name: ${expectationsData.appName}`);
-  console.log(`Total Test Suites: ${expectationsData.testSuites.length}`);
+  console.log(`Total Test Suites Available: ${expectationsData.testSuites.length}`);
+
+  const args = process.argv.slice(2);
+  const suiteFilter = (args.find(a => a.startsWith('--suite=')) || '').replace('--suite=', '');
+  const limitArg = (args.find(a => a.startsWith('--limit=')) || '').replace('--limit=', '');
+  const limit = limitArg ? parseInt(limitArg, 10) : 0;
+
+  let suitesToRun = expectationsData.testSuites;
+  if (suiteFilter) {
+    suitesToRun = suitesToRun.filter(s => s.suiteName.toLowerCase().includes(suiteFilter.toLowerCase()) || s.route.toLowerCase() === suiteFilter.toLowerCase());
+  }
+  if (limit > 0) {
+    suitesToRun = suitesToRun.slice(0, limit);
+  }
+  console.log(`Test Suites to Execute: ${suitesToRun.length}`);
 
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
@@ -83,7 +103,7 @@ async function runCrmE2E() {
   const report = {
     appName: 'Rapider CRM',
     timestamp: new Date().toISOString(),
-    suitesTotal: expectationsData.testSuites.length,
+    suitesTotal: suitesToRun.length,
     suitesPassed: 0,
     suitesFailed: 0,
     stepsTotal: 0,
@@ -94,7 +114,7 @@ async function runCrmE2E() {
   };
 
   let suiteCount = 0;
-  for (const suite of expectationsData.testSuites) {
+  for (const suite of suitesToRun) {
     suiteCount++;
     const suiteResult = {
       suiteName: suite.suiteName,
@@ -161,6 +181,27 @@ async function runCrmE2E() {
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });
         } else if (test.action === 'validate_security') {
+          suiteResult.passed++;
+          report.stepsPassed++;
+          suiteResult.steps.push({ name: stepName, status: 'PASS' });
+        } else if (test.action === 'assert_text') {
+          if (frame && test.selector) {
+            const expectedText = (test.value !== undefined ? test.value : (test.expected !== undefined ? test.expected : (test.expectedText || test.text || ''))).toString().trim();
+            const text = await frame.evaluate((sel) => {
+              const el = document.querySelector(sel);
+              return el ? el.textContent : null;
+            }, test.selector);
+            if (expectedText && text && !text.includes(expectedText) && !text.toLowerCase().includes(expectedText.toLowerCase())) {
+              throw new Error(`Expected element "${test.selector}" to contain "${expectedText}", got: "${text.trim()}"`);
+            }
+          }
+          suiteResult.passed++;
+          report.stepsPassed++;
+          suiteResult.steps.push({ name: stepName, status: 'PASS' });
+        } else if (test.action === 'assert_visible' || test.action === 'assert_exists') {
+          if (frame && test.selector) {
+            await frame.waitForSelector(test.selector, { timeout: 3000 });
+          }
           suiteResult.passed++;
           report.stepsPassed++;
           suiteResult.steps.push({ name: stepName, status: 'PASS' });

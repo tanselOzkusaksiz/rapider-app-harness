@@ -7,6 +7,7 @@ const https = require('https');
 
 // --- LOCAL HARNESS ENV LOADING ---
 const localEnvPath = path.resolve(__dirname, '.env');
+const localConfig = {};
 if (fs.existsSync(localEnvPath)) {
   try {
     const content = fs.readFileSync(localEnvPath, 'utf8');
@@ -15,9 +16,9 @@ if (fs.existsSync(localEnvPath)) {
       if (match) {
         const key = match[1].trim();
         const val = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
-        if (!process.env[key]) {
-          process.env[key] = val;
-        }
+        localConfig[key] = val;
+        // Always ensure valid uncorrupted values from local .env are set in process.env
+        process.env[key] = val;
       }
     });
   } catch (e) {}
@@ -32,11 +33,34 @@ const getArg = (name, fallback) => {
 
 const PORT = parseInt(process.env.PORT || getArg('port', '3300'), 10);
 const DEFAULT_BACKEND = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || getArg('backend', 'https://dev.api.rappider.com');
-const DEFAULT_APP_DIR = path.resolve(
-  __dirname,
-  getArg('app', '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system')
-);
 const RAPIDER_APPS_ROOT = path.resolve(__dirname, '../rapider-apps');
+
+function resolveAppDir(appNameOrPath) {
+  if (!appNameOrPath) return DEFAULT_APP_DIR;
+  if (path.isAbsolute(appNameOrPath) && fs.existsSync(appNameOrPath)) {
+    return appNameOrPath;
+  }
+  const directPath = path.resolve(__dirname, appNameOrPath);
+  if (fs.existsSync(directPath)) return directPath;
+
+  const appsSub = path.join(RAPIDER_APPS_ROOT, 'APPS', appNameOrPath);
+  if (fs.existsSync(appsSub)) return appsSub;
+
+  const rootSub = path.join(RAPIDER_APPS_ROOT, appNameOrPath);
+  if (fs.existsSync(rootSub)) return rootSub;
+
+  return appsSub;
+}
+
+const defaultAppArg = getArg('app', null);
+let DEFAULT_APP_DIR = '';
+if (defaultAppArg) {
+  DEFAULT_APP_DIR = resolveAppDir(defaultAppArg);
+} else {
+  const crmAppsDir = path.resolve(__dirname, '../rapider-apps/APPS/rapider-app-crm-sys-comprehensive-crm-system');
+  const crmRootDir = path.resolve(__dirname, '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system');
+  DEFAULT_APP_DIR = fs.existsSync(crmAppsDir) ? crmAppsDir : crmRootDir;
+}
 
 const app = express();
 
@@ -65,18 +89,18 @@ app.use((req, res, next) => {
   let appPath = DEFAULT_APP_DIR;
   try {
     if (req.query.app) {
-      appPath = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+      appPath = resolveAppDir(req.query.app);
     } else if (req.query.appPath) {
-      appPath = path.resolve(req.query.appPath);
+      appPath = resolveAppDir(req.query.appPath);
     } else {
       const referer = req.get('Referer');
       if (referer) {
         // The iframe loads from /api/page-content?appPath=... or main page loads with ?app=...
         const refererUrl = new URL(referer);
         if (refererUrl.searchParams.has('appPath')) {
-          appPath = path.resolve(refererUrl.searchParams.get('appPath'));
+          appPath = resolveAppDir(refererUrl.searchParams.get('appPath'));
         } else if (refererUrl.searchParams.has('app')) {
-          appPath = path.resolve(RAPIDER_APPS_ROOT, refererUrl.searchParams.get('app'));
+          appPath = resolveAppDir(refererUrl.searchParams.get('app'));
         }
       }
     }
@@ -110,41 +134,50 @@ if (fs.existsSync(themeCssPath)) {
 }
 
 /**
- * Scan ../rapider-apps to discover all available applications
+ * Scan ../rapider-apps/APPS and ../rapider-apps to discover all available applications
  */
 app.get('/api/apps', (req, res) => {
   try {
     const apps = [];
-    if (fs.existsSync(RAPIDER_APPS_ROOT)) {
-      const entries = fs.readdirSync(RAPIDER_APPS_ROOT, { withFileTypes: true });
-      for (const entry of entries) {
-        if (entry.isDirectory() && !entry.name.startsWith('.')) {
-          const appDir = path.join(RAPIDER_APPS_ROOT, entry.name);
-          const manifestPath = path.join(appDir, 'app.manifest.json');
-          if (fs.existsSync(manifestPath)) {
-            try {
-              const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-              apps.push({
-                folderName: entry.name,
-                absolutePath: appDir,
-                name: manifest.name || entry.name,
-                key: manifest.key || entry.name,
-                description: manifest.description || '',
-                iconUrl: manifest.iconUrl || manifest.icon || 'fas fa-cubes',
-                tags: manifest.tags || [],
-                webPagesCount: (manifest.webPages || manifest.uiPageImplementationPlan || manifest.pages || []).length
-              });
-            } catch (err) {
-              // Manifest parse error - still include folder
-              apps.push({
-                folderName: entry.name,
-                absolutePath: appDir,
-                name: entry.name,
-                key: entry.name,
-                description: 'Invalid manifest',
-                iconUrl: 'fas fa-exclamation-triangle',
-                tags: []
-              });
+    const seen = new Set();
+    const searchRoots = [
+      path.join(RAPIDER_APPS_ROOT, 'APPS'),
+      RAPIDER_APPS_ROOT
+    ];
+
+    for (const root of searchRoots) {
+      if (fs.existsSync(root)) {
+        const entries = fs.readdirSync(root, { withFileTypes: true });
+        for (const entry of entries) {
+          if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'APPS' && entry.name !== 'rapider-apps-development') {
+            const appDir = path.join(root, entry.name);
+            const manifestPath = path.join(appDir, 'app.manifest.json');
+            if (fs.existsSync(manifestPath) && !seen.has(entry.name)) {
+              seen.add(entry.name);
+              try {
+                const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+                apps.push({
+                  folderName: entry.name,
+                  absolutePath: appDir,
+                  name: manifest.name || entry.name,
+                  key: manifest.key || entry.name,
+                  description: manifest.description || '',
+                  iconUrl: manifest.iconUrl || manifest.icon || 'fas fa-cubes',
+                  tags: manifest.tags || [],
+                  webPagesCount: (manifest.webPages || manifest.uiPageImplementationPlan || manifest.pages || []).length
+                });
+              } catch (err) {
+                // Manifest parse error - still include folder
+                apps.push({
+                  folderName: entry.name,
+                  absolutePath: appDir,
+                  name: entry.name,
+                  key: entry.name,
+                  description: 'Invalid manifest',
+                  iconUrl: 'fas fa-exclamation-triangle',
+                  tags: []
+                });
+              }
             }
           }
         }
@@ -162,7 +195,9 @@ app.get('/api/apps', (req, res) => {
  */
 app.get('/api/app-manifest', (req, res) => {
   try {
-    const targetDir = req.query.appPath ? path.resolve(req.query.appPath) : DEFAULT_APP_DIR;
+    const targetDir = req.query.appPath
+      ? resolveAppDir(req.query.appPath)
+      : (req.query.app ? resolveAppDir(req.query.app) : DEFAULT_APP_DIR);
     const manifestPath = path.join(targetDir, 'app.manifest.json');
 
     if (!fs.existsSync(manifestPath)) {
@@ -191,9 +226,9 @@ app.get('/api/qa-audit', (req, res) => {
   try {
     let targetDir = DEFAULT_APP_DIR;
     if (req.query.app) {
-      targetDir = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+      targetDir = resolveAppDir(req.query.app);
     } else if (req.query.appPath) {
-      targetDir = path.resolve(req.query.appPath);
+      targetDir = resolveAppDir(req.query.appPath);
     }
 
     const auditResults = auditMicroapp(targetDir);
@@ -228,7 +263,9 @@ app.post('/api/log', express.json(), (req, res) => {
 
 app.get('/api/page-content', (req, res) => {
   try {
-    const targetDir = req.query.appPath ? path.resolve(req.query.appPath) : DEFAULT_APP_DIR;
+    const targetDir = req.query.appPath
+      ? resolveAppDir(req.query.appPath)
+      : (req.query.app ? resolveAppDir(req.query.app) : DEFAULT_APP_DIR);
     const filePath = req.query.filePath; // e.g. "pages/dashboard/dashboard.html"
     const isDark = req.query.isDark === 'true';
 
@@ -368,6 +405,7 @@ ${themeCss}
       })();
 
       window.rapiderApi = {
+        apiLogs: [],
         routeParams: ${JSON.stringify(routeParams)},
         getRouteParam: function(key) {
           if (this.routeParams && this.routeParams[key] !== undefined && this.routeParams[key] !== null) {
@@ -399,7 +437,8 @@ ${themeCss}
             }
           } catch(e) {}
         },
-        request: function(operation, entityName, payload = {}) {
+        request: function(operation, entityName, payload = {}, loggedOperation) {
+          this.apiLogs.push({ operation: loggedOperation || operation, entityName: entityName, payload: payload, timestamp: Date.now() });
           const isMutation = ['create', 'update', 'updateById', 'delete', 'deleteById'].includes(operation);
           let mutationKey = null;
 
@@ -483,7 +522,7 @@ ${themeCss}
             }
           } catch(e) {}
           
-          const reqPromise = this.request('find', entityName, { filter }).then(data => {
+          const reqPromise = this.request('find', entityName, { filter }, 'findSWR').then(data => {
             try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
             if (cachedData) this.hideToast();
             if (callback) callback(data, false);
@@ -510,7 +549,7 @@ ${themeCss}
             }
           } catch(e) {}
           
-          const reqPromise = this.request('count', entityName, { where }).then(data => {
+          const reqPromise = this.request('count', entityName, { where }, 'countSWR').then(data => {
             try { sessionStorage.setItem(cacheKey, JSON.stringify(data)); } catch(e) {}
             if (cachedData) this.hideToast();
             if (callback) callback(data, false);
@@ -869,7 +908,7 @@ app.all('/api/proxy/*', (req, res) => {
 });
 
 app.get('/api/config', (req, res) => {
-  const config = {};
+  const config = { ...localConfig };
   if (fs.existsSync(localEnvPath)) {
     try {
       const content = fs.readFileSync(localEnvPath, 'utf8');
@@ -878,16 +917,16 @@ app.get('/api/config', (req, res) => {
         if (match) {
           const key = match[1].trim();
           const val = match[2].trim().replace(/^['"](.*)['"]$/, '$1');
-          if (!config[key]) config[key] = val;
+          config[key] = val;
         }
       });
     } catch (e) {}
   }
 
-  const email = process.env.HARNESS_TEST_EMAIL || process.env.RAPIDER_TEST_EMAIL || config.HARNESS_TEST_EMAIL || config.RAPIDER_TEST_EMAIL || '';
-  const password = process.env.HARNESS_TEST_PASSWORD || process.env.RAPIDER_TEST_PASSWORD || config.HARNESS_TEST_PASSWORD || config.RAPIDER_TEST_PASSWORD || '';
-  const projectId = process.env.HARNESS_TEST_PROJECT_ID || process.env.RAPIDER_TEST_PROJECT_ID || config.HARNESS_TEST_PROJECT_ID || config.RAPIDER_TEST_PROJECT_ID || '';
-  const backendUrl = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || config.BACKEND_URL || config.RAPIDER_TEST_API_URL || 'https://dev.api.rappider.com';
+  const email = config.HARNESS_TEST_EMAIL || config.RAPIDER_TEST_EMAIL || process.env.HARNESS_TEST_EMAIL || process.env.RAPIDER_TEST_EMAIL || '';
+  const password = config.HARNESS_TEST_PASSWORD || config.RAPIDER_TEST_PASSWORD || process.env.HARNESS_TEST_PASSWORD || process.env.RAPIDER_TEST_PASSWORD || '';
+  const projectId = config.HARNESS_TEST_PROJECT_ID || config.RAPIDER_TEST_PROJECT_ID || process.env.HARNESS_TEST_PROJECT_ID || process.env.RAPIDER_TEST_PROJECT_ID || '';
+  const backendUrl = config.BACKEND_URL || config.RAPIDER_TEST_API_URL || process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || 'https://dev.api.rappider.com';
 
   res.json({
     ...config,
