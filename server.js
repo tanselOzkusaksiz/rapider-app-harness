@@ -65,7 +65,17 @@ app.use((req, res, next) => {
   let appPath = DEFAULT_APP_DIR;
   try {
     if (req.query.app) {
-      appPath = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+      const candidatePath = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+      if (fs.existsSync(candidatePath)) {
+        appPath = candidatePath;
+      } else {
+        const candidateInApps = path.resolve(RAPIDER_APPS_ROOT, 'APPS', req.query.app);
+        if (fs.existsSync(candidateInApps)) {
+          appPath = candidateInApps;
+        } else {
+          appPath = candidatePath;
+        }
+      }
     } else if (req.query.appPath) {
       appPath = path.resolve(req.query.appPath);
     } else {
@@ -76,7 +86,14 @@ app.use((req, res, next) => {
         if (refererUrl.searchParams.has('appPath')) {
           appPath = path.resolve(refererUrl.searchParams.get('appPath'));
         } else if (refererUrl.searchParams.has('app')) {
-          appPath = path.resolve(RAPIDER_APPS_ROOT, refererUrl.searchParams.get('app'));
+          const appParam = refererUrl.searchParams.get('app');
+          const cand = path.resolve(RAPIDER_APPS_ROOT, appParam);
+          if (fs.existsSync(cand)) {
+            appPath = cand;
+          } else {
+            const candApps = path.resolve(RAPIDER_APPS_ROOT, 'APPS', appParam);
+            appPath = fs.existsSync(candApps) ? candApps : cand;
+          }
         }
       }
     }
@@ -110,41 +127,47 @@ if (fs.existsSync(themeCssPath)) {
 }
 
 /**
- * Scan ../rapider-apps to discover all available applications
+ * Scan ../rapider-apps and ../rapider-apps/APPS to discover all available applications
  */
 app.get('/api/apps', (req, res) => {
   try {
     const apps = [];
-    if (fs.existsSync(RAPIDER_APPS_ROOT)) {
-      const entries = fs.readdirSync(RAPIDER_APPS_ROOT, { withFileTypes: true });
-      for (const entry of entries) {
-        if (entry.isDirectory() && !entry.name.startsWith('.')) {
-          const appDir = path.join(RAPIDER_APPS_ROOT, entry.name);
-          const manifestPath = path.join(appDir, 'app.manifest.json');
-          if (fs.existsSync(manifestPath)) {
-            try {
-              const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-              apps.push({
-                folderName: entry.name,
-                absolutePath: appDir,
-                name: manifest.name || entry.name,
-                key: manifest.key || entry.name,
-                description: manifest.description || '',
-                iconUrl: manifest.iconUrl || manifest.icon || 'fas fa-cubes',
-                tags: manifest.tags || [],
-                webPagesCount: (manifest.webPages || manifest.uiPageImplementationPlan || manifest.pages || []).length
-              });
-            } catch (err) {
-              // Manifest parse error - still include folder
-              apps.push({
-                folderName: entry.name,
-                absolutePath: appDir,
-                name: entry.name,
-                key: entry.name,
-                description: 'Invalid manifest',
-                iconUrl: 'fas fa-exclamation-triangle',
-                tags: []
-              });
+    const scannedDirs = [RAPIDER_APPS_ROOT, path.join(RAPIDER_APPS_ROOT, 'APPS')];
+    const seenFolders = new Set();
+
+    for (const baseDir of scannedDirs) {
+      if (fs.existsSync(baseDir)) {
+        const entries = fs.readdirSync(baseDir, { withFileTypes: true });
+        for (const entry of entries) {
+          if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'APPS' && !seenFolders.has(entry.name)) {
+            const appDir = path.join(baseDir, entry.name);
+            const manifestPath = path.join(appDir, 'app.manifest.json');
+            if (fs.existsSync(manifestPath)) {
+              seenFolders.add(entry.name);
+              try {
+                const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+                apps.push({
+                  folderName: entry.name,
+                  absolutePath: appDir,
+                  name: manifest.name || entry.name,
+                  key: manifest.key || entry.name,
+                  description: manifest.description || '',
+                  iconUrl: manifest.iconUrl || manifest.icon || 'fas fa-cubes',
+                  tags: manifest.tags || [],
+                  webPagesCount: (manifest.webPages || manifest.uiPageImplementationPlan || manifest.pages || []).length
+                });
+              } catch (err) {
+                // Manifest parse error - still include folder
+                apps.push({
+                  folderName: entry.name,
+                  absolutePath: appDir,
+                  name: entry.name,
+                  key: entry.name,
+                  description: 'Invalid manifest',
+                  iconUrl: 'fas fa-exclamation-triangle',
+                  tags: []
+                });
+              }
             }
           }
         }
@@ -162,7 +185,20 @@ app.get('/api/apps', (req, res) => {
  */
 app.get('/api/app-manifest', (req, res) => {
   try {
-    const targetDir = req.query.appPath ? path.resolve(req.query.appPath) : DEFAULT_APP_DIR;
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.query.appPath) {
+      targetDir = path.resolve(req.query.appPath);
+    } else if (req.query.app) {
+      const cand = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+      if (fs.existsSync(cand)) {
+        targetDir = cand;
+      } else {
+        const candApps = path.resolve(RAPIDER_APPS_ROOT, 'APPS', req.query.app);
+        if (fs.existsSync(candApps)) {
+          targetDir = candApps;
+        }
+      }
+    }
     const manifestPath = path.join(targetDir, 'app.manifest.json');
 
     if (!fs.existsSync(manifestPath)) {
@@ -190,10 +226,18 @@ const { auditMicroapp, formatAuditMarkdown } = require('./deterministic-page-aud
 app.get('/api/qa-audit', (req, res) => {
   try {
     let targetDir = DEFAULT_APP_DIR;
-    if (req.query.app) {
-      targetDir = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
-    } else if (req.query.appPath) {
+    if (req.query.appPath) {
       targetDir = path.resolve(req.query.appPath);
+    } else if (req.query.app) {
+      const cand = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+      if (fs.existsSync(cand)) {
+        targetDir = cand;
+      } else {
+        const candApps = path.resolve(RAPIDER_APPS_ROOT, 'APPS', req.query.app);
+        if (fs.existsSync(candApps)) {
+          targetDir = candApps;
+        }
+      }
     }
 
     const auditResults = auditMicroapp(targetDir);
@@ -228,7 +272,20 @@ app.post('/api/log', express.json(), (req, res) => {
 
 app.get('/api/page-content', (req, res) => {
   try {
-    const targetDir = req.query.appPath ? path.resolve(req.query.appPath) : DEFAULT_APP_DIR;
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.query.appPath) {
+      targetDir = path.resolve(req.query.appPath);
+    } else if (req.query.app) {
+      const cand = path.resolve(RAPIDER_APPS_ROOT, req.query.app);
+      if (fs.existsSync(cand)) {
+        targetDir = cand;
+      } else {
+        const candApps = path.resolve(RAPIDER_APPS_ROOT, 'APPS', req.query.app);
+        if (fs.existsSync(candApps)) {
+          targetDir = candApps;
+        }
+      }
+    }
     const filePath = req.query.filePath; // e.g. "pages/dashboard/dashboard.html"
     const isDark = req.query.isDark === 'true';
 

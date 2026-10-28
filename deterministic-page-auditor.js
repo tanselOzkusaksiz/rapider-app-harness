@@ -246,6 +246,23 @@ function auditHtmlPage(pagePath, appDir, manifest) {
       }
     }
 
+    if (!isWiredInScript) {
+      const dataAttrMatches = attrs.match(/data-[a-z0-9-]+(?:=["'][^"']*["'])?/gi) || [];
+      for (const dam of dataAttrMatches) {
+        const attrName = dam.split('=')[0].trim();
+        const attrValMatch = dam.match(/=["']([^"']+)["']/);
+        const attrVal = attrValMatch ? attrValMatch[1] : null;
+        if (new RegExp(`['"\`\\[]${attrName}['"\`\\]]`, 'i').test(combinedScript)) {
+          isWiredInScript = true;
+          break;
+        }
+        if (attrVal && new RegExp(`['"\`]${attrVal}['"\`]`, 'i').test(combinedScript)) {
+          isWiredInScript = true;
+          break;
+        }
+      }
+    }
+
     const hasClassSelector = /class=["']([^"']+)["']/i.test(attrs);
     if (!isWiredInScript && hasClassSelector) {
       const classAttr = attrs.match(/class=["']([^"']+)["']/i)[1];
