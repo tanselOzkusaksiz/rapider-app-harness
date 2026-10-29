@@ -182,35 +182,60 @@ function auditHtmlPage(pagePath, appDir, manifest) {
       }
     }
 
-    // Relative HTML link check
-    if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('mailto') && !href.startsWith('tel')) {
-      const cleanHref = href.split('?')[0].split('#')[0];
-      const targetInRoot = path.join(appDir, cleanHref);
-      const targetInPages = path.join(appDir, 'pages', cleanHref);
-      if (!fs.existsSync(targetInRoot) && !fs.existsSync(targetInPages)) {
-        issues.push({
-          rule: 'Pass 01: Routing & Events',
-          type: 'BROKEN_LINK_TARGET',
-          message: `Link "${linkText}" points to non-existent file: "${cleanHref}".`,
-          snippet: `<a href="${href}">`
-        });
-        continue;
-      }
+    // STRICT RULE: Forbid .html file links and hardcoded CDN / DigitalOcean Spaces / HTTP app page URLs
+    if (
+      href &&
+      (/\.html(\?.*|#.*)?$/i.test(href) ||
+       /digitaloceanspaces\.com/i.test(href) ||
+       /^https?:\/\/localhost[:/]/i.test(href))
+    ) {
+      issues.push({
+        rule: 'Pass 01: Routing & Events',
+        type: 'HTML_URL_LINK_VIOLATION',
+        message: `Link "${linkText || href}" uses a raw .html or full URL ("${href}") which resolves to the CDN asset URL and breaks the Rapider host wrapper. Enforce clean route paths (e.g. href="/roster" or window.rapiderApi.navigate('/roster')).`,
+        snippet: `<a ${attrs}>`
+      });
+      continue;
     }
 
-    // Hash route check
-    if (href && href.startsWith('#/')) {
-      const routeKey = href.substring(2).split('?')[0];
-      if (manifestRoutes.size > 0 && !manifestRoutes.has(routeKey)) {
-        warnings.push({
-          rule: 'Pass 01: Routing & Events',
-          type: 'UNREGISTERED_HASH_ROUTE',
-          message: `Link "${linkText}" points to hash route "#/${routeKey}" which is not defined in manifest webPages.`
-        });
+    // Clean route path check (e.g. href="/roster" or href="roster" or href="#/roster")
+    if (href && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel') && !href.startsWith('javascript:') && href !== '#') {
+      let routeKey = href.split('?')[0].split('#')[0];
+      if (href.startsWith('#/')) {
+        routeKey = href.substring(2).split('?')[0];
+      } else if (href.startsWith('#')) {
+        routeKey = '';
+      } else if (routeKey.startsWith('/')) {
+        routeKey = routeKey.substring(1);
+      }
+
+      if (routeKey && manifestRoutes.size > 0 && !manifestRoutes.has(routeKey)) {
+        // Also check if it's an asset download link
+        if (!routeKey.startsWith('assets/')) {
+          warnings.push({
+            rule: 'Pass 01: Routing & Events',
+            type: 'UNREGISTERED_ROUTE',
+            message: `Link "${linkText}" points to route "/${routeKey}" (from href="${href}") which is not defined in manifest webPages.`
+          });
+        }
       }
     }
 
     metrics.linksValid++;
+  }
+
+  // Also check inline/embedded scripts for dynamic .html links or location.href = '*.html' navigation
+  if (
+    /href\s*=\s*["'`][^"'`]*\.html/i.test(combinedScript) ||
+    /location\.href\s*=\s*[^;\n]*\.html/i.test(combinedScript) ||
+    /digitaloceanspaces\.com\/app\//i.test(combinedScript)
+  ) {
+    issues.push({
+      rule: 'Pass 01: Routing & Events',
+      type: 'SCRIPT_HTML_URL_VIOLATION',
+      message: `Page script constructs .html URLs (e.g. href="\${file}.html" or location.href="...html") or hardcoded CDN URLs, which resolve against <base href> and break the Rapider host wrapper. Enforce clean route paths (e.g. "/roster") and window.rapiderApi.navigate('/roster').`,
+      snippet: 'Script .html navigation detected'
+    });
   }
 
   // ------------------------------------------------------------------------
@@ -252,6 +277,11 @@ function auditHtmlPage(pagePath, appDir, manifest) {
         const attrName = dam.split('=')[0].trim();
         const attrValMatch = dam.match(/=["']([^"']+)["']/);
         const attrVal = attrValMatch ? attrValMatch[1] : null;
+        const camelName = attrName.replace(/^data-/, '').replace(/-([a-z0-9])/gi, (_, c) => c.toUpperCase());
+        if (new RegExp(`dataset\\.${camelName}`, 'i').test(combinedScript)) {
+          isWiredInScript = true;
+          break;
+        }
         if (new RegExp(`['"\`\\[]${attrName}['"\`\\]]`, 'i').test(combinedScript)) {
           isWiredInScript = true;
           break;
