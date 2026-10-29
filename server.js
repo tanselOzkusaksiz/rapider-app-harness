@@ -383,11 +383,19 @@ app.get('/api/page-content', (req, res) => {
 /**
  * PURE FUNCTION: Builds complete sandbox HTML matching rapider-ui's buildSandboxHtml
  */
+function getDailyCacheVersion() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  const day = String(now.getDate()).padStart(2, '0');
+  return `${year}${month}${day}`;
+}
+
 function buildSandboxHtml(rawCode, themeCss, isDark = false, routeParams = {}) {
   const activeClassMode = isDark ? 'class="dark"' : '';
   const tailwindCdnUrl = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4';
   const ngZorroCdnUrl = 'https://cdn.jsdelivr.net/npm/ng-zorro-antd@21.2.1/ng-zorro-antd.min.css';
-  const customComponentsBundle = `/assets/js/rapider-components.js?v=${Date.now()}`;
+  const customComponentsBundle = `/assets/js/rapider-components.js?v=${getDailyCacheVersion()}`;
   const fontAwesomeCdnUrl = 'https://kit.fontawesome.com/5b23df26dc.js';
 
   let completeHtml = rawCode || '';
