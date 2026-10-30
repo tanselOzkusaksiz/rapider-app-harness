@@ -1145,8 +1145,18 @@ class RappiderHarness {
       this.dom.projectBadge.addEventListener('click', (e) => {
         e.stopPropagation();
         if (window.apiClient.token && window.apiClient.projects) {
-          this.dom.projectSelectorMenu.classList.toggle('active');
+          const willOpen = !this.dom.projectSelectorMenu.classList.contains('active');
+          this.dom.projectSelectorMenu.classList.toggle('active', willOpen);
           if (this.dom.appSelectorMenu) this.dom.appSelectorMenu.classList.remove('active');
+
+          // If E2E drawer is open, close it so workspace selector is unobstructed
+          const e2eDrawer = document.getElementById('e2e-side-drawer');
+          const btnE2e = document.getElementById('btn-toggle-e2e-drawer');
+          if (willOpen && e2eDrawer && e2eDrawer.classList.contains('open')) {
+            e2eDrawer.classList.remove('open');
+            this.dom.appShell?.classList.remove('e2e-drawer-open');
+            btnE2e?.classList.remove('active');
+          }
         } else {
           this.openAuthModal();
         }
@@ -1304,6 +1314,11 @@ class RappiderHarness {
         const isOpen = e2eSideDrawer.classList.toggle('open');
         this.dom.appShell?.classList.toggle('e2e-drawer-open', isOpen);
         btnToggleE2eDrawer.classList.toggle('active', isOpen);
+        if (isOpen) {
+          // Close workspace and app dropdown menus when drawer opens
+          this.dom.projectSelectorMenu?.classList.remove('active');
+          this.dom.appSelectorMenu?.classList.remove('active');
+        }
       });
     }
 
