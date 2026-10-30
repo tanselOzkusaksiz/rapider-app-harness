@@ -379,6 +379,51 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   }
 
   // ------------------------------------------------------------------------
+  // 5b. RULE: Live Data-Binding & Static Mock Elimination (Pass 02 & Pass 14)
+  // ------------------------------------------------------------------------
+  const hasSwrCall = /window\.rapiderApi\s*\.\s*(findSWR|countSWR)\s*\(/i.test(combinedScript);
+  if (hasSwrCall) {
+    // 5b.1 Unbound SWR call check: statement like "await window.rapiderApi.findSWR(...);" without assignment
+    const unboundRegex = /(?:^|[;{}]\s*)(?:await\s+)?window\.rapiderApi\s*\.\s*(?:findSWR|countSWR)\s*\([^;)]*\)\s*;/g;
+    let unboundMatch;
+    while ((unboundMatch = unboundRegex.exec(combinedScript)) !== null) {
+      issues.push({
+        rule: 'Pass 02: SWR Caching Implementation (Live Data-Binding)',
+        type: 'UNBOUND_SWR_CALL',
+        message: 'SDK findSWR/countSWR call result is discarded without assignment or DOM binding. SWR results must be stored and dynamically rendered into DOM containers.',
+        snippet: unboundMatch[0].trim()
+      });
+    }
+
+    // 5b.2 Static mock table rows: check if cleanMarkup contains <tbody> with hardcoded <tr> mock rows
+    const tbodyRegex = /<tbody\b[^>]*>([\s\S]*?)<\/tbody>/gi;
+    let tbodyMatch;
+    while ((tbodyMatch = tbodyRegex.exec(cleanMarkup)) !== null) {
+      const tbodyContent = tbodyMatch[1];
+      const trCount = (tbodyContent.match(/<tr\b/gi) || []).length;
+      if (trCount > 1 || /data-row|data-record|\btd-person\b/i.test(tbodyContent)) {
+        issues.push({
+          rule: 'Pass 02: SWR Caching Implementation (No Mock Data)',
+          type: 'STATIC_MOCK_TABLE_ROWS',
+          message: `Table <tbody> contains static hardcoded rows (${trCount} rows). Tables must start empty or show loading skeletons, and be populated dynamically via JavaScript from findSWR data.`,
+          snippet: tbodyContent.slice(0, 120).trim()
+        });
+      }
+    }
+
+    // 5b.3 Empty state handling (Pass 14): check if script handles empty data
+    const hasEmptyStateHandling = /\.length\s*===?\s*0|!\w+\.length|\bempty-state\b|\bdata-empty\b|\bno records\b/i.test(combinedScript);
+    const hasEmptyMarkup = /class=["'][^"']*\bempty(-state)?\b[^"']*["']/i.test(cleanMarkup);
+    if (!hasEmptyStateHandling && !hasEmptyMarkup) {
+      issues.push({
+        rule: 'Pass 14: Empty/Loading/Error States',
+        type: 'MISSING_EMPTY_STATE_HANDLING',
+        message: 'Page uses findSWR to query records but does not implement empty state handling when 0 records are returned from the database.'
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
   // 6. RULE: Modals and Dialogs (Pass 4)
   // ------------------------------------------------------------------------
   const dialogRegex = /<dialog\b([^>]*)>/gi;
