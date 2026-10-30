@@ -438,6 +438,19 @@ function auditHtmlPage(pagePath, appDir, manifest) {
         }
       }
     });
+
+    // 5b.5 Form Mutation SDK Binding (Pass 02 / Pass 05): verify save forms call SDK mutations
+    const saveFormMatch = /<form\b[^>]*data-save-form[^>]*>/i.test(cleanMarkup);
+    if (saveFormMatch) {
+      const hasSdkMutation = /window\.rapiderApi\s*\.\s*(create|update|updateById|delete|deleteById|triggerWorkflow|startWorkflow)|window\.rapiderPeopleAdapter/i.test(combinedScript);
+      if (!hasSdkMutation) {
+        issues.push({
+          rule: 'Pass 02: SDK Mutation & Form Persistence',
+          type: 'UNBOUND_SAVE_FORM',
+          message: 'Page contains <form data-save-form> but does not bind submission to SDK mutation methods (create/updateById/startWorkflow). Form inputs will not be persisted to the backend database.'
+        });
+      }
+    }
   }
 
   // ------------------------------------------------------------------------

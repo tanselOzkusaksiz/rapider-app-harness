@@ -852,6 +852,97 @@ ${themeCss}
         }
       };
 
+      // --- UNIVERSAL PEOPLE SUITE SDK ADAPTER ---
+      window.rapiderPeopleAdapter = {
+        execute: async function(req) {
+          const { command, input = {} } = req;
+          const api = window.rapiderApi;
+          if (!api) return { status: 'succeeded', demo: true };
+
+          try {
+            if (command === 'people.createWorker' || command === 'people.createEmployee') {
+              const body = {
+                employeeNumber: input.employee_number || ('EMP-' + Math.floor(1000 + Math.random() * 9000)),
+                firstName: input.first_name || input.firstName || '',
+                lastName: input.last_name || input.lastName || '',
+                preferredName: input.preferred_name || input.preferredName || '',
+                email: input.work_email || input.email || '',
+                jobTitle: input.job_title || input.jobTitle || '',
+                startDate: input.start_date || input.startDate || new Date().toISOString().split('T')[0],
+                hireDate: input.start_date || input.hireDate || new Date().toISOString().split('T')[0],
+                weeklyHours: Number(input.weekly_hours || input.weeklyHours) || 40,
+                timeZone: input.time_zone || input.timeZone || 'America/New_York',
+                personalEmail: input.personal_email || input.personalEmail || '',
+                departmentId: input.department || input.departmentId || null,
+                status: input.status || 'active',
+                workerType: input.worker_type || input.workerType || 'employee',
+                employmentType: input.employment_type || input.employmentType || 'full-time',
+                avatarColor: input.avatarColor || '#31846b'
+              };
+              const res = await api.create('HrEmployee', body);
+              api.clearCache('HrEmployee');
+              return { status: 'succeeded', demo: false, data: res, message: 'Employee created successfully' };
+            }
+
+            if (command === 'people.updateSelfService' || command === 'people.updateEmployee') {
+              const empId = window._currentEditingEmployeeId || input.id || input.employeeId;
+              const body = {
+                firstName: input.first_name ?? input.firstName,
+                lastName: input.last_name ?? input.lastName,
+                preferredName: input.preferred_name ?? input.preferredName,
+                email: input.work_email ?? input.email,
+                jobTitle: input.job_title ?? input.jobTitle,
+                startDate: input.start_date ?? input.startDate,
+                weeklyHours: input.weekly_hours !== undefined ? Number(input.weekly_hours) : (input.weeklyHours !== undefined ? Number(input.weeklyHours) : undefined),
+                timeZone: input.time_zone ?? input.timeZone,
+                personalEmail: input.personal_email ?? input.personalEmail,
+                departmentId: input.department ?? input.departmentId,
+                workerType: input.worker_type ?? input.workerType,
+                employmentType: input.employment_type ?? input.employmentType
+              };
+              Object.keys(body).forEach(k => body[k] === undefined && delete body[k]);
+              if (empId) {
+                const res = await api.updateById('HrEmployee', empId, body);
+                api.clearCache('HrEmployee');
+                return { status: 'succeeded', demo: false, data: res, message: 'Employee updated successfully' };
+              }
+            }
+
+            if (command === 'people.proposeEmploymentChange' || command === 'people.submitChangeRequest') {
+              const body = {
+                employeeId: window._currentEditingEmployeeId || input.employeeId || null,
+                changeType: input.change_type || input.changeType || 'transfer',
+                effectiveDate: input.effective_date || input.effectiveDate || new Date().toISOString().split('T')[0],
+                status: 'pending',
+                proposedTitle: input.proposed_title || input.job_title || '',
+                proposedDepartmentId: input.department || null,
+                reason: input.reason || ''
+              };
+              const res = await api.create('HrChangeRequest', body);
+              api.clearCache('HrChangeRequest');
+              return { status: 'succeeded', demo: false, data: res, message: 'Change proposal submitted successfully' };
+            }
+
+            if (command === 'people.attachDocument') {
+              const body = {
+                employeeId: input.employee || window._currentEditingEmployeeId || null,
+                documentType: input.category || 'Agreement',
+                displayName: input.file || 'Employee Document',
+                status: 'verified'
+              };
+              const res = await api.create('HrDocumentRef', body);
+              api.clearCache('HrDocumentRef');
+              return { status: 'succeeded', demo: false, data: res, message: 'Document attached successfully' };
+            }
+
+            return { status: 'succeeded', demo: false };
+          } catch (e) {
+            console.error('[rapiderPeopleAdapter] Error executing ' + command, e);
+            throw e;
+          }
+        }
+      };
+
       // --- GLOBAL MODAL CONFIRMATION DIALOG & ALERT OVERRIDE ---
       window.showConfirmModal = function(options) {
         options = options || {};
