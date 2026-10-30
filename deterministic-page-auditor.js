@@ -421,6 +421,23 @@ function auditHtmlPage(pagePath, appDir, manifest) {
         message: 'Page uses findSWR to query records but does not implement empty state handling when 0 records are returned from the database.'
       });
     }
+
+    // 5b.4 Scoped helper call check (esc / toast): check if scripts call esc() without definition
+    const scriptsInPage = (rawHtml.match(/<script\b[^>]*>([\s\S]*?)<\/script>/gi) || []);
+    scriptsInPage.forEach((scriptTag, idx) => {
+      const scriptCode = scriptTag.replace(/<\/?script\b[^>]*>/gi, '');
+      if (/\besc\s*\(/.test(scriptCode)) {
+        const hasEscDef = /\b(?:const|let|function|var)\s+esc\b|\bwindow\.esc\b/.test(scriptCode);
+        if (!hasEscDef && !/\bwindow\.esc\s*=\s*esc\b/.test(rawHtml)) {
+          issues.push({
+            rule: 'Pass 02: SWR Caching Implementation (Script Scope Integrity)',
+            type: 'UNDECLARED_HELPER_CALL',
+            message: `Script #${idx + 1} calls esc() to format live data without declaring esc in its scope or exposing window.esc, causing a runtime ReferenceError that crashes data rendering.`,
+            snippet: scriptCode.slice(0, 100).trim()
+          });
+        }
+      }
+    });
   }
 
   // ------------------------------------------------------------------------
