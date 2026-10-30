@@ -454,6 +454,76 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   }
 
   // ------------------------------------------------------------------------
+  // 5c. RULE: Anti-Wireframe & Strict Detail/Routing/AI Verification
+  // ------------------------------------------------------------------------
+  // 5c.1 Forbid leftover static design-preview mocks & wireframe persona strings
+  const forbiddenMockPatterns = [
+    { regex: /No AI request or business action was sent/i, label: 'Mocked AI preview response ("No AI request or business action was sent")' },
+    { regex: /Design preview\s*·\s*AI not connected/i, label: 'Disconnected AI preview footer ("Design preview · AI not connected")' },
+    { regex: /Sample data for design review/i, label: 'Static wireframe footer ("Sample data for design review")' },
+    { regex: /data-action=["']reset-preview["']/i, label: 'Wireframe reset-preview button' },
+    { regex: /amelia\.brooks@example\.com|EMP-0108|People around Amelia|Help me prepare Amelia/i, label: 'Hardcoded Amelia Brooks wireframe persona data in DOM' }
+  ];
+  for (const fp of forbiddenMockPatterns) {
+    if (fp.regex.test(rawHtml)) {
+      issues.push({
+        rule: 'Pass 02 & Pass 14: Zero Static Wireframe Mocks',
+        type: 'LEFTOVER_WIREFRAME_MOCK',
+        message: `${fp.label} detected in page. Pre-designed wireframes must be fully converted to live SDK data bindings without static preview stubs.`
+      });
+    }
+  }
+
+  // 5c.2 Forbid name-based routing (?person=) and enforce ID-based routing (?id=)
+  if (/[?&]person=/i.test(rawHtml) || /\.get\(\s*['"`]person['"`]\s*\)/i.test(combinedScript)) {
+    const hasIdParam = /getRouteParam\(\s*['"`]id['"`]\s*\)|\.get\(\s*['"`]id['"`]\s*\)|[?&]id=/i.test(rawHtml);
+    if (!hasIdParam || /[?&]person=\$\{/i.test(combinedScript)) {
+      issues.push({
+        rule: 'Pass 01: Routing & Record ID Resolution',
+        type: 'NAME_BASED_ROUTING_VIOLATION',
+        message: 'Page routes or resolves records by display name ("?person=...") instead of unique record ID ("?id=<uuid>"). All detail, profile, edit, and change routes MUST pass and resolve records by ID.'
+      });
+    }
+  }
+
+  // 5c.3 Detail/Profile tabs must switch in-page tab panels, NOT navigate away to root pages
+  const tabsNavRegex = /<nav\b[^>]*class=["'][^"']*\btabs\b[^"']*["'][^>]*>([\s\S]*?)<\/nav>/gi;
+  let tabsNavMatch;
+  while ((tabsNavMatch = tabsNavRegex.exec(cleanMarkup)) !== null) {
+    const tabsInner = tabsNavMatch[1];
+    const tabLinks = [...tabsInner.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>(.*?)<\/a>/gis)];
+    for (const tl of tabLinks) {
+      const tabHref = tl[1].trim();
+      const tabLabel = tl[2].replace(/<[^>]*>/g, '').trim();
+      if (tabHref.startsWith('#/') || (tabHref.startsWith('/') && !tabHref.startsWith('//'))) {
+        const targetRoute = tabHref.replace(/^#?\//, '').split('?')[0];
+        const currentRoute = path.basename(pagePath, '.html');
+        if (targetRoute && targetRoute !== currentRoute) {
+          issues.push({
+            rule: 'Pass 01: Detail Page Tab Isolation',
+            type: 'DETAIL_TABS_NAVIGATE_TO_ROOT_PAGE',
+            message: `Tab "${tabLabel}" inside <nav class="tabs"> navigates away to root page "${tabHref}" instead of switching an in-page tab view for the current record. Use <button type="button" data-tab="..."> with scoped tab panels.`,
+            snippet: tl[0]
+          });
+        }
+      }
+    }
+  }
+
+  // 5c.4 Ask AI & inline AI thread inputs must connect to window.rapiderApi SDK
+  const hasAiElements = /data-action=["']ai["']|data-ai-inline|data-ai-form/i.test(cleanMarkup);
+  if (hasAiElements) {
+    const hasSdkAiBinding = /window\.rapiderApi\s*\.\s*(triggerWorkflow|startWorkflow|executeAction|broadcast|create)/i.test(combinedScript);
+    if (!hasSdkAiBinding) {
+      issues.push({
+        rule: 'Pass 07: AI Assistant & Contextual Thread SDK Integration',
+        type: 'MOCKED_AI_INPUT_VIOLATION',
+        message: 'Page contains Ask AI / inline thread inputs ([data-action="ai"], [data-ai-inline]) that are not wired to window.rapiderApi SDK methods.'
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
   // 6. RULE: Modals and Dialogs (Pass 4)
   // ------------------------------------------------------------------------
   const dialogRegex = /<dialog\b([^>]*)>/gi;
