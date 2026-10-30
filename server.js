@@ -618,6 +618,22 @@ ${themeCss}
         };
       })();
 
+      window.esc = window.esc || function(s) {
+        return String(s ?? '').replace(/[&<>"']/g, function(c) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+        });
+      };
+      window.toast = window.toast || function(message) {
+        let t = document.getElementById('toast');
+        if (t) {
+          t.textContent = message;
+          t.hidden = false;
+          setTimeout(() => t.hidden = true, 4200);
+        } else {
+          console.log('[Toast]', message);
+        }
+      };
+
       window.rapiderApi = {
         apiLogs: [],
         routeParams: ${JSON.stringify(routeParams)},
