@@ -182,11 +182,21 @@ class RappiderHarness {
       this.apps = data.apps || [];
       this.renderAppSelector();
 
-      // Check URL query param ?app= or load default
+      // Check URL query param ?app= or ?appPath= or load default
       const urlParams = new URLSearchParams(window.location.search);
-      const appKey = urlParams.get('app');
+      const appParam = urlParams.get('app') || urlParams.get('appPath');
 
-      let targetApp = this.apps.find(a => a.key === appKey || a.folderName === appKey);
+      let targetApp = null;
+      if (appParam) {
+        const cleanParam = appParam.replace(/\/$/, '').split('/').pop();
+        targetApp = this.apps.find(a => 
+          a.key === appParam || 
+          a.folderName === appParam || 
+          a.absolutePath === appParam || 
+          a.folderName === cleanParam ||
+          a.key === cleanParam
+        );
+      }
       
       if (!targetApp && data.defaultAppDir) {
         targetApp = this.apps.find(a => a.absolutePath === data.defaultAppDir);

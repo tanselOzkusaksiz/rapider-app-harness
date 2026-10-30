@@ -300,14 +300,18 @@ async function captureAppStoreImages(options = {}) {
 
       console.log(`[${i + 1}/${pagesToCapture.length}] Capturing ${item.roleName} (#/${route})...`);
 
-      const targetUrl = `http://localhost:${harnessPort}/?appPath=${encodeURIComponent(appPath)}#/${route}`;
+      const targetUrl = `http://localhost:${harnessPort}/?app=${encodeURIComponent(appFolder)}#/${route}`;
       await page.goto(targetUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
       // Clean harness chrome and expand iframe to full 1200x800 viewport
       await page.addStyleTag({
         content: `
-          #header-bar, #sidebar, #devtools-drawer, #e2e-drawer, #toast-container, #modal-overlay, #workspace-search-modal, #json-viewer-modal, #auth-modal, #e2e-report-modal {
+          #header-bar, #sidebar, #devtools-drawer, #e2e-side-drawer, #e2e-drawer, #toast-container, #modal-overlay, #workspace-search-modal, #json-viewer-modal, #auth-modal, #e2e-report-modal, #store-images-modal {
             display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
           }
           #app-shell {
             display: block !important;
@@ -316,6 +320,8 @@ async function captureAppStoreImages(options = {}) {
             margin: 0 !important;
             padding: 0 !important;
             overflow: hidden !important;
+            grid-template-columns: 1fr !important;
+            grid-template-rows: 1fr !important;
           }
           #main-viewport, #viewport-container {
             width: 1200px !important;
@@ -338,19 +344,33 @@ async function captureAppStoreImages(options = {}) {
         `
       });
 
+      // Defensively close any slide-out drawers or modal classes on app-shell
+      await page.evaluate(() => {
+        const shell = document.getElementById('app-shell');
+        if (shell) {
+          shell.classList.remove('e2e-drawer-open');
+          shell.classList.remove('sidebar-open');
+        }
+        const drawer = document.getElementById('e2e-side-drawer');
+        if (drawer) {
+          drawer.classList.remove('open');
+          drawer.style.display = 'none';
+        }
+      });
+
       // Wait for iframe content to be ready
       const iframeHandle = await page.waitForSelector('#sandbox-iframe', { timeout: 12000 });
       const frame = await iframeHandle.contentFrame();
       if (frame) {
         await frame.waitForLoadState('domcontentloaded').catch(() => null);
-        // Allow SWR data bindings and CSS animations to settle
-        await page.waitForTimeout(1000);
-      } else {
+        // Allow SWR data bindings, charts, and table rows to settle
         await page.waitForTimeout(1500);
+      } else {
+        await page.waitForTimeout(2000);
       }
 
-      // Capture high-definition screenshot buffer
-      const screenshotBuffer = await page.screenshot({ type: 'png' });
+      // Capture clean 1200x800 iframe screenshot
+      const screenshotBuffer = await iframeHandle.screenshot({ type: 'png' });
 
       // Save local backup copies
       fs.writeFileSync(path.join(localScreenshotsDir, fileName), screenshotBuffer);
