@@ -92,6 +92,11 @@
           <span id="e2e-header-badge" class="badge-count" style="display:none; position: absolute; top: -4px; right: -4px; font-size: 9px; padding: 1px 4px;">66</span>
         </button>
 
+        <button id="btn-capture-store-images" class="btn-store-capture" title="Capture App Store Preview Images (6:4, 1200x800) & Upload to S3">
+          <i class="fas fa-camera"></i>
+          <span>Capture Store Images</span>
+        </button>
+
         <button id="btn-open-auth" class="btn-primary">
           <i class="fas fa-plug"></i> Connect
         </button>
@@ -530,6 +535,35 @@
         </button>
         <button id="btn-modal-close-report" class="btn-primary" style="padding: 6px 18px; font-weight: 600; color: #ffffff !important;">
           Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       APP STORE IMAGES PREVIEW MODAL
+       ========================================================================== -->
+  <div id="store-images-modal" class="hidden">
+    <div class="store-images-modal-card">
+      <div class="store-images-modal-header">
+        <div class="store-images-modal-title">
+          <i class="fas fa-camera" style="color: #10b981; margin-right: 8px;"></i>
+          <span id="store-images-modal-heading">App Store Images (6:4 1200x800)</span>
+        </div>
+        <button id="store-images-modal-close" class="btn-icon" title="Close" style="background:none; border:none; color:#94a3b8; font-size:16px; cursor:pointer;">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="store-images-modal-body">
+        <div id="store-images-summary-banner" class="store-images-banner"></div>
+        <div id="store-images-gallery" class="store-images-gallery-grid"></div>
+      </div>
+      <div class="store-images-modal-footer">
+        <button id="btn-modal-copy-all-urls" class="btn-e2e-action view-btn">
+          <i class="fas fa-copy"></i> Copy CDN URLs
+        </button>
+        <button id="btn-modal-close-store-images" class="btn-primary" style="padding: 6px 18px; font-weight: 600; color: #ffffff !important;">
+          Done
         </button>
       </div>
     </div>

@@ -242,7 +242,40 @@ app.get('/api/app-manifest', (req, res) => {
   }
 });
 
+/**
+ * Capture 6:4 aspect ratio (1200x800) App Store cover & preview images and upload to S3
+ */
+app.post('/api/capture-app-images', express.json(), async (req, res) => {
+  try {
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.body.appPath) {
+      targetDir = path.resolve(req.body.appPath);
+    } else if (req.body.app) {
+      const cand = path.resolve(RAPIDER_APPS_ROOT, req.body.app);
+      if (fs.existsSync(cand)) {
+        targetDir = cand;
+      } else {
+        const candApps = path.resolve(RAPIDER_APPS_ROOT, 'APPS', req.body.app);
+        if (fs.existsSync(candApps)) {
+          targetDir = candApps;
+        }
+      }
+    }
+
+    const result = await captureAppStoreImages({
+      appPath: targetDir,
+      harnessPort: PORT
+    });
+
+    res.json(result);
+  } catch (error) {
+    console.error('[server] Error capturing store images:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 const { auditMicroapp, formatAuditMarkdown } = require('./deterministic-page-auditor.js');
+const { captureAppStoreImages } = require('./store-image-capture-service.js');
 
 /**
  * Run deterministic static & structural QA audit across all pages of the application

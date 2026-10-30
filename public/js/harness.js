@@ -95,7 +95,16 @@ class RappiderHarness {
       e2eReportModalClose: document.getElementById('e2e-report-modal-close'),
       e2eReportMarkdownView: document.getElementById('e2e-report-markdown-view'),
       btnModalDownloadReport: document.getElementById('btn-modal-download-report'),
-      btnModalCloseReport: document.getElementById('btn-modal-close-report')
+      btnModalCloseReport: document.getElementById('btn-modal-close-report'),
+      // Store Images Modal & Capture Button
+      btnCaptureStoreImages: document.getElementById('btn-capture-store-images'),
+      storeImagesModal: document.getElementById('store-images-modal'),
+      storeImagesModalClose: document.getElementById('store-images-modal-close'),
+      storeImagesModalHeading: document.getElementById('store-images-modal-heading'),
+      storeImagesSummaryBanner: document.getElementById('store-images-summary-banner'),
+      storeImagesGallery: document.getElementById('store-images-gallery'),
+      btnModalCopyAllUrls: document.getElementById('btn-modal-copy-all-urls'),
+      btnModalCloseStoreImages: document.getElementById('btn-modal-close-store-images')
     };
 
     this.testLogs = [];
@@ -1257,6 +1266,20 @@ class RappiderHarness {
     const btnRunQa = document.getElementById('btn-run-qa-audit');
     if (btnRunQa) {
       btnRunQa.addEventListener('click', () => this.runQaAudit());
+    }
+
+    // App Store Image Capture Button & Modal Events
+    if (this.dom.btnCaptureStoreImages) {
+      this.dom.btnCaptureStoreImages.addEventListener('click', () => this.handleCaptureStoreImages());
+    }
+    if (this.dom.storeImagesModalClose) {
+      this.dom.storeImagesModalClose.addEventListener('click', () => this.closeStoreImagesModal());
+    }
+    if (this.dom.btnModalCloseStoreImages) {
+      this.dom.btnModalCloseStoreImages.addEventListener('click', () => this.closeStoreImagesModal());
+    }
+    if (this.dom.btnModalCopyAllUrls) {
+      this.dom.btnModalCopyAllUrls.addEventListener('click', () => this.copyStoreImageUrls());
     }
 
     // ==========================================================================
@@ -2699,6 +2722,142 @@ class RappiderHarness {
     const lightLum = this.getRelativeLuminance(lightBodyBg.parsed);
     if (lightLum < 0.60) {
       throw new Error(`[Light Mode Validation Failed] Page did not cleanly revert to light mode. Body background luminance is ${lightLum.toFixed(2)} (${lightBodyBg.color}).`);
+    }
+  }
+
+  // ==========================================================================
+  // APP STORE IMAGE CAPTURE (6:4 ASPECT RATIO, 1200x800) & S3 PUBLISHER
+  // ==========================================================================
+  async handleCaptureStoreImages() {
+    if (!this.activeApp) {
+      this.showToast({ type: 'warning', message: 'No application is currently selected.' });
+      return;
+    }
+
+    const btn = this.dom.btnCaptureStoreImages;
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> <span>Capturing...</span>';
+    }
+
+    const appName = this.manifest?.name || this.activeApp.name || this.activeApp.folderName;
+    this.showToast({
+      type: 'info',
+      message: `Starting 6:4 (1200x800) store image capture for "${appName}". Home page + up to 5 preview pages are being uploaded to S3...`
+    });
+
+    try {
+      const res = await fetch('/api/capture-app-images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ appPath: this.activeApp.absolutePath })
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to capture app store images');
+      }
+
+      this.lastStoreImagesResult = data;
+
+      // Update in-memory manifest
+      if (this.manifest) {
+        this.manifest.coverImage = data.coverImage?.publicUrl || '';
+        this.manifest.coverImageUrl = data.coverImage?.publicUrl || '';
+        this.manifest.thumbnailUrl = data.coverImage?.publicUrl || '';
+        this.manifest.images = data.allImages || [];
+        this.manifest.screenshots = data.allImages || [];
+        this.manifest.thumbnails = data.allImages || [];
+      }
+
+      this.showToast({
+        type: 'success',
+        message: `Successfully captured ${data.capturedCount} images (6:4 1200x800) and updated app.manifest.json!`
+      });
+
+      this.openStoreImagesModal(data);
+    } catch (err) {
+      console.error('[Harness] Error capturing store images:', err);
+      this.showToast({
+        type: 'error',
+        message: `Capture failed: ${err.message}`
+      });
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-camera"></i> <span>Capture Store Images</span>';
+      }
+    }
+  }
+
+  openStoreImagesModal(data) {
+    if (!this.dom.storeImagesModal) return;
+
+    if (this.dom.storeImagesModalHeading) {
+      this.dom.storeImagesModalHeading.innerText = `${data.appName || data.appKey} — App Store Images (6:4 1200x800)`;
+    }
+
+    if (this.dom.storeImagesSummaryBanner) {
+      this.dom.storeImagesSummaryBanner.innerHTML = `
+        <div><strong><i class="fas fa-check-circle"></i> Successfully Captured & Published to S3</strong></div>
+        <div style="font-size: 12px; opacity: 0.9; margin-top: 2px;">
+          All <strong>${data.capturedCount} images</strong> were captured at <strong>1200px × 800px (6:4 aspect ratio)</strong>, uploaded to DigitalOcean Spaces S3 CDN under <code>apps/${data.appKey}/img/</code>, and recorded in <code>app.manifest.json</code>.
+        </div>
+      `;
+    }
+
+    if (this.dom.storeImagesGallery) {
+      const items = [];
+      if (data.coverImage) {
+        items.push({ ...data.coverImage, isCover: true });
+      }
+      if (Array.isArray(data.previewImages)) {
+        items.push(...data.previewImages.map((p, idx) => ({ ...p, isCover: false, previewIndex: idx + 1 })));
+      }
+
+      this.dom.storeImagesGallery.innerHTML = items.map(img => `
+        <div class="store-image-card ${img.isCover ? 'is-cover' : ''}">
+          <div class="store-image-preview-wrapper">
+            <img src="${img.publicUrl}" alt="${img.roleName || img.fileName}" loading="lazy" />
+            <span class="store-image-badge ${img.isCover ? 'cover-badge' : 'preview-badge'}">
+              ${img.isCover ? '⭐ Cover Image' : `Preview ${img.previewIndex || ''}`}
+            </span>
+            <span class="store-image-dim-badge">1200x800 (6:4)</span>
+          </div>
+          <div class="store-image-card-meta">
+            <div class="store-image-card-title">
+              <span>${img.roleName || img.fileName}</span>
+              <a href="${img.publicUrl}" target="_blank" rel="noopener noreferrer" style="color: #38bdf8; text-decoration: none; font-size: 11px;">
+                <i class="fas fa-external-link-alt"></i> View CDN
+              </a>
+            </div>
+            <div class="store-image-card-url" title="${img.publicUrl}">${img.publicUrl}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    this.dom.storeImagesModal.classList.remove('hidden');
+  }
+
+  closeStoreImagesModal() {
+    if (this.dom.storeImagesModal) {
+      this.dom.storeImagesModal.classList.add('hidden');
+    }
+  }
+
+  async copyStoreImageUrls() {
+    if (!this.lastStoreImagesResult || !this.lastStoreImagesResult.allImages) {
+      this.showToast({ type: 'warning', message: 'No URLs available to copy.' });
+      return;
+    }
+
+    const text = this.lastStoreImagesResult.allImages.join('\n');
+    try {
+      await navigator.clipboard.writeText(text);
+      this.showToast({ type: 'success', message: 'All S3 CDN URLs copied to clipboard!' });
+    } catch (e) {
+      window.prompt('Copy S3 CDN URLs:', text);
     }
   }
 }
