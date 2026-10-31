@@ -463,7 +463,13 @@ function auditHtmlPage(pagePath, appDir, manifest) {
     { regex: /Design preview\s*·\s*AI not connected/i, label: 'Disconnected AI preview footer ("Design preview · AI not connected")' },
     { regex: /Sample data for design review/i, label: 'Static wireframe footer ("Sample data for design review")' },
     { regex: /data-action=["']reset-preview["']/i, label: 'Wireframe reset-preview button' },
-    { regex: /amelia\.brooks@example\.com|EMP-0108|People around Amelia|Help me prepare Amelia/i, label: 'Hardcoded Amelia Brooks wireframe persona data in DOM' }
+    { regex: /amelia\.brooks@example\.com|EMP-0108|People around Amelia|Help me prepare Amelia/i, label: 'Hardcoded Amelia Brooks wireframe persona data in DOM' },
+    { regex: /No live action was sent/i, label: 'Local preview confirm stub ("No live action was sent")' },
+    { regex: /No backend data was changed|No backend record was changed/i, label: 'Local preview form stub ("No backend data/record was changed")' },
+    { regex: /Local preview only\.\s*No live data/i, label: 'Local preview dialog notice ("Local preview only. No live data...")' },
+    { regex: /No AI service is connected in this design/i, label: 'Disconnected AI preview message ("No AI service is connected in this design")' },
+    { regex: /Sample workspace\s*·\s*No live service connected/i, label: 'Disconnected workspace footer ("Sample workspace · No live service connected")' },
+    { regex: /saved in this browser preview/i, label: 'Local browser preview save message ("saved in this browser preview")' }
   ];
   for (const fp of forbiddenMockPatterns) {
     if (fp.regex.test(rawHtml)) {
@@ -897,6 +903,39 @@ function auditHtmlPage(pagePath, appDir, manifest) {
       rule: 'Pass 02: SWR & Pass 09: Error Handling (Unhandled SWR Promise Rejection)',
       type: 'UNHANDLED_SWR_PROMISE_REJECTION',
       message: 'Synchronous findSWR / countSWR call is not guarded with Promise.resolve(...).catch(...) or awaited inside a try/catch block, causing an unhandled promise rejection if the backend request fails.'
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 28. RULE: Native <dialog> Modal Centering Under Tailwind v4 Preflight (Pass 04 & 19)
+  // ------------------------------------------------------------------------
+  if (/\bdialog\s*\{[^}]*\}/i.test(rawHtml) && !/\bdialog[^{]*\{[^}]*margin\s*:\s*auto/i.test(rawHtml)) {
+    issues.push({
+      rule: 'Pass 04: Modals & Pass 19: UI Standards (Dialog Viewport Centering)',
+      type: 'DIALOG_NOT_CENTERED',
+      message: '<dialog> CSS block is missing explicit `margin: auto;`. Under Tailwind v4 preflight (`* { margin: 0 }`), native <dialog> modals are pinned to the top-left corner unless `margin: auto` is explicitly set.'
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 29. RULE: Scoped .field input CSS for Checkboxes and Radios (Pass 05 & 19)
+  // ------------------------------------------------------------------------
+  if (/\.field\s+input\s*,\s*\n?\s*\.field\s+select/i.test(rawHtml) && !/\.field\s+input\[type=["']checkbox["']\]|\.field\s+input:not\(\[type=["']checkbox["']\]\)/i.test(rawHtml)) {
+    issues.push({
+      rule: 'Pass 05: Forms & Pass 19: UI Standards (Checkbox Input Sizing)',
+      type: 'UNSCOPED_CHECKBOX_INPUT_CSS',
+      message: '`.field input` applies `display: block; width: 100%; min-height: 42px` to all inputs without excluding `input[type="checkbox"]` / `input[type="radio"]`, causing checkboxes inside `.field` labels to render as oversized full-width blocks.'
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 30. RULE: No Unguarded Duplicate Submit Handler in QA Bridge (Pass 03 & 13)
+  // ------------------------------------------------------------------------
+  if (rawHtml.includes('id="rapider-qa-bridge"') && /document\.addEventListener\(['"]submit['"],\s*async\s+function\(e\)\s*\{(?!\s*if\s*\(e\.defaultPrevented\))/i.test(rawHtml)) {
+    issues.push({
+      rule: 'Pass 03: SDK Usage & Pass 13: Form Submissions (No Duplicate Submit)',
+      type: 'UNGUARDED_QA_BRIDGE_SUBMIT',
+      message: '#rapider-qa-bridge submit listener does not check `if (e.defaultPrevented) return;`, causing a duplicate unmapped `window.rapiderApi.create` call (HTTP 400/422) after the page form handler already handled submission.'
     });
   }
 
