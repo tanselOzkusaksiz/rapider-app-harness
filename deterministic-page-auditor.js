@@ -698,6 +698,166 @@ function auditHtmlPage(pagePath, appDir, manifest) {
     }
   }
 
+  // ------------------------------------------------------------------------
+  // 15. RULE: Container Queries without Ancestor @container (Pass 06)
+  // ------------------------------------------------------------------------
+  const containerQueryRegex = /class=["'][^"']*\b@(sm|md|lg|xl|2xl):[a-z0-9-]+[^"']*["']/gi;
+  if (containerQueryRegex.test(cleanMarkup)) {
+    const hasContainerRoot = /class=["'][^"']*\b@container\b[^"']*["']/i.test(cleanMarkup) ||
+                             /class=["'][^"']*\b@container\b[^"']*["']/i.test(rawHtml);
+    if (!hasContainerRoot) {
+      issues.push({
+        rule: 'Pass 06: Responsive Layouts & Container Queries',
+        type: 'CONTAINER_QUERY_WITHOUT_CONTAINER_ROOT',
+        message: 'Page uses Tailwind container query modifiers (@sm:, @md:, @lg:, etc.) without declaring "@container" on any ancestor wrapper. Container queries fail silently without an explicit container context.'
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // 16. RULE: Inner Viewport min-h-screen Causing Double Scrollbars (Pass 06)
+  // ------------------------------------------------------------------------
+  const mainTagMatch = cleanMarkup.match(/<main\b([^>]*)>/i);
+  if (mainTagMatch) {
+    const mainAttrs = mainTagMatch[1];
+    if (/min-h-screen/i.test(mainAttrs)) {
+      issues.push({
+        rule: 'Pass 06: Responsive Layouts (Single Scrollbar Standard)',
+        type: 'INNER_VIEWPORT_MIN_H_SCREEN_VIOLATION',
+        message: '<main> element declares "min-h-screen" inside the App Shell. The outer viewport already controls height (h-screen overflow-hidden). Adding "min-h-screen" inside <main> induces double vertical scrollbars. Use "flex-1 overflow-y-auto" instead.',
+        snippet: `<main ${mainAttrs}>`
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // 17. RULE: Header Fixed Height (h-16 / 64px) Discrepancy (Pass 06)
+  // ------------------------------------------------------------------------
+  const headerTagMatch = cleanMarkup.match(/<header\b([^>]*)>/i);
+  if (headerTagMatch) {
+    const headerAttrs = headerTagMatch[1];
+    if (!/\bh-16\b/i.test(headerAttrs) && !/style=["'][^"']*height:\s*64px/i.test(headerAttrs)) {
+      warnings.push({
+        rule: 'Pass 06: Responsive Layouts (Header Alignment)',
+        type: 'TOP_HEADER_HEIGHT_DISCREPANCY',
+        message: 'Top <header> does not declare canonical fixed height "h-16" (64px). Mismatched header heights cause vertical layout shift across application routes.',
+        snippet: `<header ${headerAttrs.slice(0, 80)}...>`
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // 18. RULE: Sidebar Inline Display Override in JS (Pass 01 & Pass 19)
+  // ------------------------------------------------------------------------
+  const sidebarInlineDisplayRegex = /(?:sidebar|aside|menuItem|sidebarLabel|navLabel)\w*\.style\.display\s*=/i;
+  if (sidebarInlineDisplayRegex.test(combinedScript)) {
+    issues.push({
+      rule: 'Pass 01: Routing & Pass 19: UI Best Practices',
+      type: 'SIDEBAR_INLINE_DISPLAY_OVERRIDE',
+      message: 'Script directly overrides .style.display on sidebar/navigation elements. Sidebar collapse MUST be driven strictly by toggling CSS classes (e.g. .collapsed or [data-collapsed="true"]) on the <aside> container.',
+      snippet: 'sidebar.style.display assignment detected'
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 19. RULE: Collapsed Sidebar CSS Label Visibility (Pass 19)
+  // ------------------------------------------------------------------------
+  const hasCollapseToggle = /collapse|sidebar-toggle|btn-collapse|toggle-sidebar/i.test(cleanMarkup) ||
+                            /collapse|toggleSidebar|toggleCollapse/i.test(combinedScript);
+  if (hasCollapseToggle) {
+    const hasCollapsedLabelCss = /\.sidebar-label\b[^{]*\{[^}]*display\s*:\s*none\s*!important/i.test(combinedStyle) ||
+                                 /aside\.collapsed\b[^{]*\{[^}]*display\s*:\s*none/i.test(combinedStyle) ||
+                                 /\[data-collapsed=["']?true["']?\]\s+\.sidebar-label\b[^{]*\{[^}]*display\s*:\s*none\s*!important/i.test(combinedStyle);
+    if (!hasCollapsedLabelCss) {
+      warnings.push({
+        rule: 'Pass 19: UI Best Practices & Sidebar Standard',
+        type: 'SIDEBAR_COLLAPSED_LABEL_VISIBILITY',
+        message: 'Sidebar collapse mechanism detected, but CSS lacks ".sidebar-label { display: none !important; }" under collapsed state, which causes text fragments to leak in narrow mode.'
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // 20. RULE: White Text on Light/Neutral Background (Pass 07 & Pass 19)
+  // ------------------------------------------------------------------------
+  const forbiddenWhiteOnLightRegex = /class=["'][^"']*\b(bg-button-bg|bg-alt-background|bg-slate-100|bg-gray-100|bg-slate-50|bg-gray-50)\b[^"']*\b(text-white|!text-white)\b[^"']*["']/gi;
+  let whiteLightMatch;
+  while ((whiteLightMatch = forbiddenWhiteOnLightRegex.exec(cleanMarkup)) !== null) {
+    issues.push({
+      rule: 'Pass 07: Themes & Styling & Pass 19: Contrast',
+      type: 'WHITE_TEXT_ON_LIGHT_BACKGROUND',
+      message: `Element pairs "${whiteLightMatch[1]}" with "${whiteLightMatch[2]}". In light mode, light backgrounds render white text unreadable. Use semantic "text-secondary-button-text" or dark text for light backgrounds.`,
+      snippet: whiteLightMatch[0]
+    });
+  }
+
+  // ------------------------------------------------------------------------
+  // 21. RULE: CSS Structural Integrity (Unbalanced Braces) (Pass 07)
+  // ------------------------------------------------------------------------
+  const styleTags = rawHtml.match(/<style\b[^>]*>([\s\S]*?)<\/style>/gi) || [];
+  for (let i = 0; i < styleTags.length; i++) {
+    const styleCode = styleTags[i].replace(/<\/?style\b[^>]*>/gi, '');
+    const openCount = (styleCode.match(/\{/g) || []).length;
+    const closeCount = (styleCode.match(/\}/g) || []).length;
+    if (openCount !== closeCount) {
+      issues.push({
+        rule: 'Pass 07: Themes & Styling (CSS Integrity)',
+        type: 'UNBALANCED_CSS_BRACES',
+        message: `<style> block #${i + 1} has unbalanced curly braces (${openCount} "{" vs ${closeCount} "}"). Unbalanced CSS syntax silently breaks subsequent page styling.`,
+        snippet: styleCode.slice(0, 100).trim() + '...'
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // 22. RULE: Seed / Sample Data Button in Header Isolation (Pass 14)
+  // ------------------------------------------------------------------------
+  if (headerTagMatch) {
+    const headerContentMatch = cleanMarkup.match(/<header\b[^>]*>([\s\S]*?)<\/header>/i);
+    if (headerContentMatch) {
+      const headerHtml = headerContentMatch[1];
+      if (/seed\s*(demo|sample)|install\s*sample|seed\s*data|populate\s*demo/i.test(headerHtml)) {
+        issues.push({
+          rule: 'Pass 14: Empty/Loading/Error States (Header Isolation)',
+          type: 'SEED_BUTTON_IN_HEADER_VIOLATION',
+          message: '"Seed Demo Records" / "Sample Data" button detected inside <header>. Seed demo data buttons are strictly forbidden in top navigation/headers and may ONLY be rendered inside empty-state cards when records.length === 0.',
+          snippet: headerHtml.slice(0, 120).trim()
+        });
+      }
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // 23. RULE: Modal Dismissal (Backdrop Click / ESC Key) (Pass 04)
+  // ------------------------------------------------------------------------
+  const hasModalElement = /<dialog\b|class=["'][^"']*\b(modal|modal-container)\b[^"']*["']|role=["']dialog["']/i.test(cleanMarkup);
+  if (hasModalElement && combinedScript) {
+    const hasEscKeyHandler = /['"`]Escape['"`]|keyCode\s*===?\s*27|key\s*===?\s*['"`]Escape['"`]/i.test(combinedScript);
+    const hasBackdropHandler = /e\.target\s*===|event\.target\s*===|\.backdrop|data-dismiss|closeModal|closePageModal/i.test(combinedScript);
+    if (!hasEscKeyHandler && !hasBackdropHandler) {
+      warnings.push({
+        rule: 'Pass 04: Modals Usage (Universal Dismissal)',
+        type: 'MODAL_DISMISSAL_MISSING',
+        message: 'Modal element detected, but script lacks standard backdrop click dismissal or Escape key listener to close active overlays.'
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // 24. RULE: Table Row Click Hijacking Risk (Pass 04 & Pass 19)
+  // ------------------------------------------------------------------------
+  if (/(?:tbody|tr|table)\w*\.addEventListener\(\s*['"`]click['"`]/i.test(combinedScript) && /window\.rapiderApi\s*\.\s*navigate/i.test(combinedScript)) {
+    const hasClosestGuard = /closest\(\s*['"`][^'"`]*(button|a|input|\[data-action\])/i.test(combinedScript);
+    if (!hasClosestGuard) {
+      warnings.push({
+        rule: 'Pass 04: Modals & Pass 19: UI Standards',
+        type: 'TABLE_ROW_CLICK_HIJACKING_RISK',
+        message: 'Table row click listener navigates to route without guarding against clicks on child buttons/links (e.target.closest("button, a, input, select, [data-action]")). Clicking row action buttons may inadvertently trigger row navigation.'
+      });
+    }
+  }
+
+
   return {
     pagePath: relativePagePath,
     passed: issues.length === 0,
@@ -775,6 +935,26 @@ function auditMicroapp(appDir) {
           });
         }
       }
+    }
+  }
+
+  // 3. Check for micro-header clutter in webPages (Pass 13: count >= 3 rule)
+  const sectionGroups = new Map();
+  for (const p of pages) {
+    const groupTitle = (p.title || p.group || '').trim();
+    if (groupTitle && p.displayOnMenu !== false && p.displayInMenu !== false) {
+      const list = sectionGroups.get(groupTitle) || [];
+      list.push(p.route || p.name);
+      sectionGroups.set(groupTitle, list);
+    }
+  }
+  for (const [title, items] of sectionGroups.entries()) {
+    if (items.length < 3) {
+      results.manifestChecks.push({
+        rule: 'Pass 13: Manifest Sync (Sidebar Grouping)',
+        type: 'MANIFEST_MICRO_HEADER_CLUTTER',
+        message: `Sidebar section title "${title}" groups only ${items.length} item(s) ([${items.join(', ')}]). Section titles MUST group at least 3 menu items (count >= 3). Consolidate into a broader section title or leave title empty for flat menu items.`
+      });
     }
   }
 
