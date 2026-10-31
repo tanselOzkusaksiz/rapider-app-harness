@@ -1,0 +1,76 @@
+{
+  "app": "rapider-app-document-translator-6l0ke-document-translator",
+  "appName": "Document Translator",
+  "round": "2",
+  "timestamp": "2026-10-31T21:31:39.391Z",
+  "pages": [
+    {
+      "id": "dashboard",
+      "title": "Workspace & Operations",
+      "route": "dashboard",
+      "file": "pages/dashboard.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "documents",
+      "title": "Workspace & Operations",
+      "route": "documents",
+      "file": "pages/documents.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "document-workspace",
+      "title": "Workspace & Operations",
+      "route": "document-workspace",
+      "file": "pages/document-workspace.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 2,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "translation-jobs",
+      "title": "Workspace & Operations",
+      "route": "translation-jobs",
+      "file": "pages/translation-jobs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

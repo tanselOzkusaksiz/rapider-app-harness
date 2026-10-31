@@ -5,7 +5,7 @@ const { execSync } = require('child_process');
 
 const EXPECTATIONS_FILE = path.resolve(
   __dirname,
-  '../rapider-apps/rapider-app-hrs-a-hr-services/e2e/expectations.json'
+  '../rapider-apps/APPS/rapider-app-hrs-a-hr-services/e2e/expectations.json'
 );
 
 const REPORT_FILE = path.resolve(

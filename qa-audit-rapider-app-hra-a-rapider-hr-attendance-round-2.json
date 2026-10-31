@@ -1,0 +1,178 @@
+{
+  "app": "rapider-app-hra-a-rapider-hr-attendance",
+  "appName": "Rapider HR Attendance",
+  "round": "2",
+  "timestamp": "2026-10-31T21:31:57.712Z",
+  "pages": [
+    {
+      "id": "overview",
+      "title": "Time & Attendance",
+      "route": "overview",
+      "file": "pages/overview/overview.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "my-time",
+      "title": "Time & Attendance",
+      "route": "my-time",
+      "file": "pages/my-time/my-time.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "timesheet",
+      "title": "Time & Attendance",
+      "route": "timesheet",
+      "file": "pages/timesheet/timesheet.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "correction",
+      "title": "Time & Attendance",
+      "route": "correction",
+      "file": "pages/correction/correction.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "schedule",
+      "title": "Time & Attendance",
+      "route": "schedule",
+      "file": "pages/schedule/schedule.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "exceptions",
+      "title": "Compliance & Operations",
+      "route": "exceptions",
+      "file": "pages/exceptions/exceptions.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "payroll-handoff",
+      "title": "Compliance & Operations",
+      "route": "payroll-handoff",
+      "file": "pages/payroll-handoff/payroll-handoff.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "rules",
+      "title": "Compliance & Operations",
+      "route": "rules",
+      "file": "pages/rules/rules.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "reports",
+      "title": "Compliance & Operations",
+      "route": "reports",
+      "file": "pages/reports/reports.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Compliance & Operations",
+      "route": "settings",
+      "file": "pages/settings/settings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const { chromium } = require('playwright');
 
-const EXPECTATIONS_FILE = path.resolve(__dirname, '../rapider-apps/rapider-app-hrp-a-rapider-hr-payroll/e2e/expectations.json');
+const EXPECTATIONS_FILE = path.resolve(__dirname, '../rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/e2e/expectations.json');
 const REPORT_DIR = path.resolve(__dirname, '../rapider-apps/rapider-apps-development/docs/payroll');
 const REPORT_FILE = path.join(REPORT_DIR, 'rapider-payroll-e2e-qa-report.md');
 

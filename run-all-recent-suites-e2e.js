@@ -2,7 +2,7 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
-const APPS_DIR = path.resolve(__dirname, '../rapider-apps');
+const APPS_DIR = path.resolve(__dirname, '../rapider-apps/APPS');
 
 const SUITES = [
   {

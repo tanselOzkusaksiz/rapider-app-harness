@@ -1,0 +1,161 @@
+{
+  "app": "rapider-app-personal-fasting-rapider-personal-fasting",
+  "appName": "Rapider Personal Fasting",
+  "round": "2",
+  "timestamp": "2026-10-31T21:31:07.788Z",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Overview & Core Workspace",
+      "route": "home",
+      "file": "pages/home.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "plan",
+      "title": "Overview & Core Workspace",
+      "route": "plan",
+      "file": "pages/plan.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "schedule",
+      "title": "Overview & Core Workspace",
+      "route": "schedule",
+      "file": "pages/schedule.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "history",
+      "title": "Overview & Core Workspace",
+      "route": "history",
+      "file": "pages/history.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "journal",
+      "title": "Operations & Execution",
+      "route": "journal",
+      "file": "pages/journal.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "insights",
+      "title": "Operations & Execution",
+      "route": "insights",
+      "file": "pages/insights.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "coach",
+      "title": "Operations & Execution",
+      "route": "coach",
+      "file": "pages/coach.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Operations & Execution",
+      "route": "settings",
+      "file": "pages/settings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "entry",
+      "title": "Manual entry",
+      "route": "entry",
+      "file": "pages/entry.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

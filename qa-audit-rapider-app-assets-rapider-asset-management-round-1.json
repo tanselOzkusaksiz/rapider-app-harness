@@ -1,0 +1,234 @@
+{
+  "app": "rapider-app-assets-rapider-asset-management",
+  "appName": "Rapider Asset Management",
+  "round": "1",
+  "timestamp": "2026-10-31T21:18:32.913Z",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Overview",
+      "route": "home",
+      "file": "pages/home.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 3: CRUD & Form Persistence",
+          "severity": "MEDIUM",
+          "code": "UNBOUND_FORM_ELEMENT",
+          "description": "Form #1 has no id, onsubmit, or data-save-form attribute."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "records",
+      "title": "Records Register",
+      "route": "records",
+      "file": "pages/records.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (6 columns) has no sortable column headers."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "operations",
+      "title": "Operations Console",
+      "route": "operations",
+      "file": "pages/operations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (5 columns) has no sortable column headers."
+        },
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #2 (5 columns) has no sortable column headers."
+        },
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #3 (5 columns) has no sortable column headers."
+        },
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #4 (5 columns) has no sortable column headers."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 4,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "work",
+      "title": "Work Items & Approvals",
+      "route": "work",
+      "file": "pages/work.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 3: CRUD & Form Persistence",
+          "severity": "MEDIUM",
+          "code": "UNBOUND_FORM_ELEMENT",
+          "description": "Form #1 has no id, onsubmit, or data-save-form attribute."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "detail",
+      "title": "Record Details",
+      "route": "detail",
+      "file": "pages/detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (5 columns) has no sortable column headers."
+        },
+        {
+          "phase": "Phase 3: CRUD & Form Persistence",
+          "severity": "MEDIUM",
+          "code": "UNBOUND_FORM_ELEMENT",
+          "description": "Form #1 has no id, onsubmit, or data-save-form attribute."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "create",
+      "title": "Create Wizard",
+      "route": "create",
+      "file": "pages/create.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 3: CRUD & Form Persistence",
+          "severity": "MEDIUM",
+          "code": "UNBOUND_FORM_ELEMENT",
+          "description": "Form #1 has no id, onsubmit, or data-save-form attribute."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "edit",
+      "title": "Edit Record",
+      "route": "edit",
+      "file": "pages/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 3: CRUD & Form Persistence",
+          "severity": "MEDIUM",
+          "code": "UNBOUND_FORM_ELEMENT",
+          "description": "Form #1 has no id, onsubmit, or data-save-form attribute."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "reports",
+      "title": "Reports & Analytics",
+      "route": "reports",
+      "file": "pages/reports.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Configuration & Settings",
+      "route": "settings",
+      "file": "pages/settings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

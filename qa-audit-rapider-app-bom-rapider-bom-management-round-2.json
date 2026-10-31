@@ -1,0 +1,197 @@
+{
+  "app": "rapider-app-bom-rapider-bom-management",
+  "appName": "Rapider Bill of Materials",
+  "round": "2",
+  "timestamp": "2026-10-31T21:28:02.743Z",
+  "pages": [
+    {
+      "id": "change-request",
+      "title": "Overview & Core Workspace",
+      "route": "change-request",
+      "file": "pages/change-request.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "compare",
+      "title": "Overview & Core Workspace",
+      "route": "compare",
+      "file": "pages/compare.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "editor",
+      "title": "Overview & Core Workspace",
+      "route": "editor",
+      "file": "pages/editor.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "import",
+      "title": "Overview & Core Workspace",
+      "route": "import",
+      "file": "pages/import.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [
+        "GET https://kit.fontawesome.com/5b23df26dc.js (net::ERR_ABORTED)"
+      ],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "overview",
+      "title": "Operations & Execution",
+      "route": "overview",
+      "file": "pages/overview.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "release-impact",
+      "title": "Operations & Execution",
+      "route": "release-impact",
+      "file": "pages/release-impact.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "revisions",
+      "title": "Operations & Execution",
+      "route": "revisions",
+      "file": "pages/revisions.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Operations & Execution",
+      "route": "settings",
+      "file": "pages/settings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "structure",
+      "title": "Management & Workflows",
+      "route": "structure",
+      "file": "pages/structure.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "substitutions",
+      "title": "Management & Workflows",
+      "route": "substitutions",
+      "file": "pages/substitutions.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "where-used",
+      "title": "Management & Workflows",
+      "route": "where-used",
+      "file": "pages/where-used.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

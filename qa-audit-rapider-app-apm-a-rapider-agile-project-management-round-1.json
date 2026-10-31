@@ -1,0 +1,208 @@
+{
+  "app": "rapider-app-apm-a-rapider-agile-project-management",
+  "appName": "Rapider Projects",
+  "round": "1",
+  "timestamp": "2026-10-31T21:11:01.569Z",
+  "pages": [
+    {
+      "id": "dashboard",
+      "title": "Dashboard",
+      "route": "dashboard",
+      "file": "pages/dashboard.html",
+      "consoleErrors": [
+        "[RapiderBridge] API call failed for ApmProject (find): Error: Authentication required: Missing token or project ID.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:371:13)\n    at HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:23)\n    at http://localhost:3300/js/rapider-bridge.js:105:47",
+        "[RapiderBridge] API call failed for ApmIssue (find): Error: Authentication required: Missing token or project ID.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:371:13)\n    at HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:23)\n    at http://localhost:3300/js/rapider-bridge.js:105:47",
+        "[RapiderBridge] API call failed for ApmIssue (find): Error: Authentication required: Missing token or project ID.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:371:13)\n    at HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:23)\n    at http://localhost:3300/js/rapider-bridge.js:105:47",
+        "[RapiderBridge] API call failed for ApmEpic (find): Error: Authentication required: Missing token or project ID.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:371:13)\n    at HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:23)\n    at http://localhost:3300/js/rapider-bridge.js:105:47",
+        "[RapiderBridge] API call failed for ApmSprint (find): Error: Authentication required: Missing token or project ID.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:371:13)\n    at HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:23)\n    at http://localhost:3300/js/rapider-bridge.js:105:47"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (4 columns) has no sortable column headers."
+        },
+        {
+          "phase": "Phase 5: Runtime & Console",
+          "severity": "HIGH",
+          "code": "CONSOLE_ERROR",
+          "description": "Console error(s): [RapiderBridge] API call failed for ApmProject (find): Error: Authentication required: Missing token or project ID.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:371:13)\n    at HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:23)\n    at http://localhost:3300/js/rapider-bridge.js:105:47 | [RapiderBridge] API call failed for ApmIssue (find): Error: Authentication required: Missing token or project ID.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:371:13)\n    at HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:23)\n    at http://localhost:3300/js/rapider-bridge.js:105:47"
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "projects",
+      "title": "Projects",
+      "route": "projects",
+      "file": "pages/projects.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (5 columns) has no sortable column headers."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "epics",
+      "title": "Epics",
+      "route": "epics",
+      "file": "pages/epics.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (6 columns) has no sortable column headers."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "issues",
+      "title": "Issues",
+      "route": "issues",
+      "file": "pages/issues.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (8 columns) has no sortable column headers."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "sprints",
+      "title": "Sprints & Backlog",
+      "route": "sprints",
+      "file": "pages/sprints.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "sprint-kanban",
+      "title": "Sprint Board",
+      "route": "sprint-kanban",
+      "file": "pages/sprint-kanban.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "users",
+      "title": "Users",
+      "route": "users",
+      "file": "pages/users.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [
+        {
+          "phase": "Phase 4: Search, Filters & Table Sorting",
+          "severity": "MEDIUM",
+          "code": "TABLE_NOT_SORTABLE",
+          "description": "Table #1 (4 columns) has no sortable column headers."
+        }
+      ],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "issue-detail",
+      "title": "Issue Detail",
+      "route": "issue-detail",
+      "file": "pages/issue-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "project-detail",
+      "title": "Project Detail",
+      "route": "project-detail",
+      "file": "pages/project-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

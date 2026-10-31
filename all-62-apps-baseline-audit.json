@@ -1,0 +1,605 @@
+[
+  {
+    "app": "rapider-app-acc-a-rapider-accounting",
+    "pages": 46,
+    "issues": 0,
+    "manifestIssues": 0,
+    "types": []
+  },
+  {
+    "app": "rapider-app-ap-x1-rapider-accounts-payable",
+    "pages": 20,
+    "issues": 0,
+    "manifestIssues": 0,
+    "types": []
+  },
+  {
+    "app": "rapider-app-apm-a-rapider-agile-project-management",
+    "pages": 9,
+    "issues": 0,
+    "manifestIssues": 0,
+    "types": []
+  },
+  {
+    "app": "rapider-app-ar-a-accounts-receivable",
+    "pages": 20,
+    "issues": 0,
+    "manifestIssues": 0,
+    "types": []
+  },
+  {
+    "app": "rapider-app-assets-rapider-asset-management",
+    "pages": 9,
+    "issues": 7,
+    "manifestIssues": 6,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-bom-rapider-bom-management",
+    "pages": 11,
+    "issues": 11,
+    "manifestIssues": 11,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-campaigns-rapider-campaigns",
+    "pages": 12,
+    "issues": 12,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-content-studio-rapider-learning-content-assessment-studio",
+    "pages": 30,
+    "issues": 96,
+    "manifestIssues": 30,
+    "types": [
+      "UNBOUND_SWR_CALL",
+      "UNDECLARED_HELPER_CALL",
+      "STATIC_MOCK_TABLE_ROWS",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-crm-sys-comprehensive-crm-system",
+    "pages": 66,
+    "issues": 44,
+    "manifestIssues": 4,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-designsystem-rapider-design-system",
+    "pages": 17,
+    "issues": 3,
+    "manifestIssues": 0,
+    "types": [
+      "MISSING_EMPTY_STATE_HANDLING"
+    ]
+  },
+  {
+    "app": "rapider-app-document-translator-6l0ke-document-translator",
+    "pages": 4,
+    "issues": 1,
+    "manifestIssues": 4,
+    "types": [
+      "SEED_BUTTON_IN_HEADER_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-ecommerce-rapider-ecommerce",
+    "pages": 14,
+    "issues": 14,
+    "manifestIssues": 12,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-email-rapider-email",
+    "pages": 12,
+    "issues": 11,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-events-rapider-events",
+    "pages": 25,
+    "issues": 44,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "UNBOUND_SWR_CALL",
+      "STATIC_MOCK_TABLE_ROWS"
+    ]
+  },
+  {
+    "app": "rapider-app-feedback360-rapider-360-feedback",
+    "pages": 12,
+    "issues": 12,
+    "manifestIssues": 10,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-financials-rapider-project-financials",
+    "pages": 10,
+    "issues": 10,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-forms-rapider-forms",
+    "pages": 9,
+    "issues": 8,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-hra-a-rapider-hr-attendance",
+    "pages": 10,
+    "issues": 65,
+    "manifestIssues": 0,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "NAME_BASED_ROUTING_VIOLATION",
+      "STATIC_MOCK_TABLE_ROWS"
+    ]
+  },
+  {
+    "app": "rapider-app-hrp-a-rapider-hr-payroll",
+    "pages": 13,
+    "issues": 132,
+    "manifestIssues": 3,
+    "types": [
+      "UNBOUND_SWR_CALL",
+      "MISSING_EMPTY_STATE_HANDLING",
+      "LEFTOVER_WIREFRAME_MOCK",
+      "NAME_BASED_ROUTING_VIOLATION",
+      "MOCKED_AI_INPUT_VIOLATION",
+      "STATIC_MOCK_TABLE_ROWS",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-hrr-a-rapider-hr-recruiting",
+    "pages": 14,
+    "issues": 143,
+    "manifestIssues": 3,
+    "types": [
+      "UNBOUND_SWR_CALL",
+      "MISSING_EMPTY_STATE_HANDLING",
+      "LEFTOVER_WIREFRAME_MOCK",
+      "NAME_BASED_ROUTING_VIOLATION",
+      "MOCKED_AI_INPUT_VIOLATION",
+      "STATIC_MOCK_TABLE_ROWS",
+      "DETAIL_TABS_NAVIGATE_TO_ROOT_PAGE",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-hrs-a-hr-services",
+    "pages": 12,
+    "issues": 120,
+    "manifestIssues": 1,
+    "types": [
+      "UNBOUND_SWR_CALL",
+      "MISSING_EMPTY_STATE_HANDLING",
+      "LEFTOVER_WIREFRAME_MOCK",
+      "NAME_BASED_ROUTING_VIOLATION",
+      "MOCKED_AI_INPUT_VIOLATION",
+      "STATIC_MOCK_TABLE_ROWS",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-hrto-a1-hr-time-off",
+    "pages": 11,
+    "issues": 69,
+    "manifestIssues": 0,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "NAME_BASED_ROUTING_VIOLATION",
+      "STATIC_MOCK_TABLE_ROWS"
+    ]
+  },
+  {
+    "app": "rapider-app-in-class-learning-rapider-in-class-learning",
+    "pages": 38,
+    "issues": 122,
+    "manifestIssues": 38,
+    "types": [
+      "UNBOUND_SWR_CALL",
+      "UNDECLARED_HELPER_CALL",
+      "STATIC_MOCK_TABLE_ROWS",
+      "MISSING_EMPTY_STATE_HANDLING",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-inventory-rapider-inventory-management",
+    "pages": 9,
+    "issues": 7,
+    "manifestIssues": 6,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-learning-experience-skills-rapider-learning-experience-skills",
+    "pages": 26,
+    "issues": 57,
+    "manifestIssues": 26,
+    "types": [
+      "UNBOUND_SWR_CALL",
+      "STATIC_MOCK_TABLE_ROWS",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-maintenance-rapider-maintenance",
+    "pages": 11,
+    "issues": 11,
+    "manifestIssues": 10,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-mrp-rapider-material-requirements-planning",
+    "pages": 11,
+    "issues": 11,
+    "manifestIssues": 10,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-online-learning-rapider-online-learning",
+    "pages": 30,
+    "issues": 0,
+    "manifestIssues": 28,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-ordermanagement-rapider-order-management",
+    "pages": 9,
+    "issues": 7,
+    "manifestIssues": 6,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-pce-a-payments-cash-execution",
+    "pages": 23,
+    "issues": 0,
+    "manifestIssues": 23,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-performance-rapider-performance-management",
+    "pages": 15,
+    "issues": 15,
+    "manifestIssues": 12,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-fasting-rapider-personal-fasting",
+    "pages": 9,
+    "issues": 0,
+    "manifestIssues": 8,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-fitness-rapider-personal-fitness-coach",
+    "pages": 10,
+    "issues": 0,
+    "manifestIssues": 9,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-goals-rapider-personal-goals-habits",
+    "pages": 10,
+    "issues": 0,
+    "manifestIssues": 8,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-journal-rapider-personal-journal",
+    "pages": 9,
+    "issues": 0,
+    "manifestIssues": 8,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-reminders-rapider-personal-reminders",
+    "pages": 9,
+    "issues": 0,
+    "manifestIssues": 8,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-translate-rapider-personal-translation",
+    "pages": 10,
+    "issues": 0,
+    "manifestIssues": 10,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-travel-rapider-personal-travel",
+    "pages": 10,
+    "issues": 0,
+    "manifestIssues": 8,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-weather-rapider-personal-weather",
+    "pages": 8,
+    "issues": 0,
+    "manifestIssues": 8,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-personal-wellness-rapider-personal-wellness",
+    "pages": 9,
+    "issues": 0,
+    "manifestIssues": 9,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-planning-rapider-portfolio-planning",
+    "pages": 12,
+    "issues": 12,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-plm-rapider-product-lifecycle-management",
+    "pages": 10,
+    "issues": 10,
+    "manifestIssues": 9,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-pos-rapider-pos",
+    "pages": 10,
+    "issues": 10,
+    "manifestIssues": 10,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-procurement-rapider-procurement",
+    "pages": 9,
+    "issues": 7,
+    "manifestIssues": 7,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-productcatalog-rapider-product-catalog",
+    "pages": 11,
+    "issues": 11,
+    "manifestIssues": 10,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-production-rapider-production-execution",
+    "pages": 12,
+    "issues": 12,
+    "manifestIssues": 11,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-quality-rapider-quality-management",
+    "pages": 10,
+    "issues": 10,
+    "manifestIssues": 10,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-rbf-a-rapider-budgeting-forecasting",
+    "pages": 18,
+    "issues": 0,
+    "manifestIssues": 18,
+    "types": [
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-rbi-a-rapider-billing-and-invoicing",
+    "pages": 50,
+    "issues": 0,
+    "manifestIssues": 0,
+    "types": []
+  },
+  {
+    "app": "rapider-app-re-a-rapider-employees",
+    "pages": 12,
+    "issues": 0,
+    "manifestIssues": 0,
+    "types": []
+  },
+  {
+    "app": "rapider-app-re-xps-rapider-expenses",
+    "pages": 92,
+    "issues": 9,
+    "manifestIssues": 2,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-resources-rapider-resource-planning",
+    "pages": 11,
+    "issues": 11,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-scp-a-support-and-customer-portal",
+    "pages": 48,
+    "issues": 38,
+    "manifestIssues": 48,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-sms-rapider-sms",
+    "pages": 11,
+    "issues": 11,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-social-rapider-social",
+    "pages": 9,
+    "issues": 9,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-subscriptions-rapider-subscriptions",
+    "pages": 9,
+    "issues": 9,
+    "manifestIssues": 9,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-surveys-rapider-surveys",
+    "pages": 9,
+    "issues": 8,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-time-rapider-timesheets",
+    "pages": 10,
+    "issues": 10,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  },
+  {
+    "app": "rapider-app-vendors-rapider-vendor-management",
+    "pages": 9,
+    "issues": 7,
+    "manifestIssues": 6,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-warehouse-rapider-warehouse-management",
+    "pages": 9,
+    "issues": 7,
+    "manifestIssues": 6,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-website-rapider-website-builder",
+    "pages": 10,
+    "issues": 10,
+    "manifestIssues": 10,
+    "types": [
+      "LEFTOVER_WIREFRAME_MOCK",
+      "MANIFEST_MICRO_HEADER_CLUTTER"
+    ]
+  },
+  {
+    "app": "rapider-app-workspace-rapider-project-workspace",
+    "pages": 17,
+    "issues": 16,
+    "manifestIssues": 0,
+    "types": [
+      "MOCKED_AI_INPUT_VIOLATION"
+    ]
+  }
+]

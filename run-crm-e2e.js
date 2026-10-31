@@ -11,7 +11,7 @@ let EXPECTATIONS_FILE = path.resolve(
 if (!fs.existsSync(EXPECTATIONS_FILE)) {
   EXPECTATIONS_FILE = path.resolve(
     __dirname,
-    '../rapider-apps/rapider-app-crm-sys-comprehensive-crm-system/e2e/expectations.json'
+    '../rapider-apps/APPS/rapider-app-crm-sys-comprehensive-crm-system/e2e/expectations.json'
   );
 }
 

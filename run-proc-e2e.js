@@ -7,7 +7,7 @@ const { ensureAuthenticated } = require('./harness-auth-helper.js');
 const APP_FOLDER = 'rapider-app-procurement-rapider-procurement';
 const EXPECTATIONS_FILE = path.resolve(
   __dirname,
-  `../rapider-apps/${APP_FOLDER}/e2e/expectations.json`
+  `../rapider-apps/APPS/${APP_FOLDER}/e2e/expectations.json`
 );
 
 const REPORT_FILE = path.resolve(
@@ -391,7 +391,7 @@ function updateAppsStatus(report) {
         qaWalkthroughCompleted: true
       };
       appEntry.designPath = '_design/procurement';
-      appEntry.appPath = '../rapider-apps/rapider-app-procurement-rapider-procurement';
+      appEntry.appPath = '../rapider-apps/APPS/rapider-app-procurement-rapider-procurement';
       appEntry.lastUpdated = new Date().toISOString();
       appEntry.notes = 'Rapider Procurement microapplication complete and production-ready. All 8 data models unified under domainKey OPS with prefix Ops. All 9 pages implemented from _design/procurement/pages with full SDK routing, hash navigation, strict button text contrast (#ffffff !important), zero native alerts, and Operations Suite cross-app integration. 100% E2E suites passed across all 9 pages.';
       appEntry.documentation = 'docs/procurement/rapider-operations-suite-architecture-and-procurement-app.md';

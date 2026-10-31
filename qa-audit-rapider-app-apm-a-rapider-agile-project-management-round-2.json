@@ -1,0 +1,161 @@
+{
+  "app": "rapider-app-apm-a-rapider-agile-project-management",
+  "appName": "Rapider Projects",
+  "round": "2",
+  "timestamp": "2026-10-31T21:15:01.027Z",
+  "pages": [
+    {
+      "id": "dashboard",
+      "title": "Overview & Planning",
+      "route": "dashboard",
+      "file": "pages/dashboard.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "projects",
+      "title": "Overview & Planning",
+      "route": "projects",
+      "file": "pages/projects.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "epics",
+      "title": "Overview & Planning",
+      "route": "epics",
+      "file": "pages/epics.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "issues",
+      "title": "Execution & Team",
+      "route": "issues",
+      "file": "pages/issues.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "sprints",
+      "title": "Execution & Team",
+      "route": "sprints",
+      "file": "pages/sprints.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "sprint-kanban",
+      "title": "Execution & Team",
+      "route": "sprint-kanban",
+      "file": "pages/sprint-kanban.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "users",
+      "title": "Execution & Team",
+      "route": "users",
+      "file": "pages/users.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "issue-detail",
+      "title": "Issue Detail",
+      "route": "issue-detail",
+      "file": "pages/issue-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "project-detail",
+      "title": "Project Detail",
+      "route": "project-detail",
+      "file": "pages/project-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

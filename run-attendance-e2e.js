@@ -6,7 +6,7 @@ const { ensureAuthenticated } = require('./harness-auth-helper.js');
 
 const EXPECTATIONS_FILE = path.resolve(
   __dirname,
-  '../rapider-apps/rapider-app-hra-a-rapider-hr-attendance/e2e/expectations.json'
+  '../rapider-apps/APPS/rapider-app-hra-a-rapider-hr-attendance/e2e/expectations.json'
 );
 
 const REPORT_FILE = path.resolve(

@@ -19,6 +19,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 
 const NON_CRUD_ACTION_VERBS = [
   'submit', 'approve', 'reject', 'process', 'recalculate', 'calculate',
@@ -855,6 +856,37 @@ function auditHtmlPage(pagePath, appDir, manifest) {
         message: 'Table row click listener navigates to route without guarding against clicks on child buttons/links (e.target.closest("button, a, input, select, [data-action]")). Clicking row action buttons may inadvertently trigger row navigation.'
       });
     }
+  }
+
+  // ------------------------------------------------------------------------
+  // 25. RULE: JavaScript Syntax & Parse Integrity (Pass 09: Error Handling)
+  // ------------------------------------------------------------------------
+  const inlineScriptMatches = [...rawHtml.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)];
+  inlineScriptMatches.forEach((m, idx) => {
+    const attrs = m[1] || '';
+    const code = m[2] || '';
+    if (!code.trim() || /type=["'](?:application\/json|application\/ld\+json|text\/template|importmap)["']/i.test(attrs)) return;
+    try {
+      new vm.Script(code, { filename: `${relativePagePath}#script${idx + 1}` });
+    } catch (syntaxErr) {
+      issues.push({
+        rule: 'Pass 09: Error Handling & JS Parse Integrity',
+        type: 'JS_SYNTAX_ERROR',
+        message: `<script> block #${idx + 1} fails JavaScript syntax parsing: ${syntaxErr.message}`,
+        snippet: code.slice(0, 120).trim()
+      });
+    }
+  });
+
+  // ------------------------------------------------------------------------
+  // 26. RULE: No Unconditional Auto-Seeding POST Spam on Load (Pass 14)
+  // ------------------------------------------------------------------------
+  if (/if\s*\(\(\!(?:timesheets|balances|requests|records)\s*\|\|\s*(?:timesheets|balances|requests|records)\.length\s*===\s*0\)\s*&&\s*typeof\s+window\.rapiderApi\.create\s*===\s*["']function["']\)/i.test(combinedScript)) {
+    issues.push({
+      rule: 'Pass 14: Empty/Loading/Error States (No Auto-Seed POST Spam)',
+      type: 'AUTO_SEED_ON_LOAD_VIOLATION',
+      message: 'Page automatically calls window.rapiderApi.create() inside DOMContentLoaded when 0 records are returned. Demo record seeding MUST be triggered explicitly by a user action inside an empty-state card, never automatically on page load.'
+    });
   }
 
 
