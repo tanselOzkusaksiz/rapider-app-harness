@@ -1,0 +1,790 @@
+{
+  "app": "rapider-app-acc-a-rapider-accounting",
+  "appName": "Rapider FNS Accounting",
+  "round": "2",
+  "timestamp": "2026-10-31T21:40:07.852Z",
+  "pages": [
+    {
+      "id": "suppliers",
+      "title": "Suppliers",
+      "route": "suppliers",
+      "file": "pages/suppliers.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "ledger",
+      "title": "Ledger",
+      "route": "ledger",
+      "file": "pages/ledger.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "cash",
+      "title": "Cash",
+      "route": "cash",
+      "file": "pages/cash.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "home",
+      "title": "Home",
+      "route": "home",
+      "file": "pages/home.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "receipt-allocation",
+      "title": "Receipt Allocation",
+      "route": "receipt-allocation",
+      "file": "pages/receipt-allocation.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "assets",
+      "title": "Assets",
+      "route": "assets",
+      "file": "pages/assets.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "work-item",
+      "title": "Work Item",
+      "route": "work-item",
+      "file": "pages/work-item.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "currency-revaluation",
+      "title": "Currency Revaluation",
+      "route": "currency-revaluation",
+      "file": "pages/currency-revaluation.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "consolidation",
+      "title": "Consolidation",
+      "route": "consolidation",
+      "file": "pages/consolidation.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "budgets",
+      "title": "Budgets",
+      "route": "budgets",
+      "file": "pages/budgets.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "tax-center",
+      "title": "Tax Center",
+      "route": "tax-center",
+      "file": "pages/tax-center.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "close-center",
+      "title": "Close Center",
+      "route": "close-center",
+      "file": "pages/close-center.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "payables",
+      "title": "Payables",
+      "route": "payables",
+      "file": "pages/payables.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "journals",
+      "title": "Journals",
+      "route": "journals",
+      "file": "pages/journals.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "trial-balance",
+      "title": "Trial Balance",
+      "route": "trial-balance",
+      "file": "pages/trial-balance.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "schedules",
+      "title": "Schedules",
+      "route": "schedules",
+      "file": "pages/schedules.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "depreciation-run",
+      "title": "Depreciation Run",
+      "route": "depreciation-run",
+      "file": "pages/depreciation-run.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "bank-matching",
+      "title": "Bank Matching",
+      "route": "bank-matching",
+      "file": "pages/bank-matching.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "receivables",
+      "title": "Receivables",
+      "route": "receivables",
+      "file": "pages/receivables.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "entities",
+      "title": "Entities",
+      "route": "entities",
+      "file": "pages/entities.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "bill-new",
+      "title": "Bill New",
+      "route": "bill-new",
+      "file": "pages/bill-new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "close-task",
+      "title": "Close Task",
+      "route": "close-task",
+      "file": "pages/close-task.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "dimensions",
+      "title": "Dimensions",
+      "route": "dimensions",
+      "file": "pages/dimensions.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "chart-of-accounts",
+      "title": "Chart Of Accounts",
+      "route": "chart-of-accounts",
+      "file": "pages/chart-of-accounts.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "budget-analysis",
+      "title": "Budget Analysis",
+      "route": "budget-analysis",
+      "file": "pages/budget-analysis.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "account-detail",
+      "title": "Account Detail",
+      "route": "account-detail",
+      "file": "pages/account-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "integrations",
+      "title": "Integrations",
+      "route": "integrations",
+      "file": "pages/integrations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "tax-return",
+      "title": "Tax Return",
+      "route": "tax-return",
+      "file": "pages/tax-return.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "bill-detail",
+      "title": "Bill Detail",
+      "route": "bill-detail",
+      "file": "pages/bill-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "payment-batches",
+      "title": "Payment Batches",
+      "route": "payment-batches",
+      "file": "pages/payment-batches.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "migration",
+      "title": "Migration",
+      "route": "migration",
+      "file": "pages/migration.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "journal-detail",
+      "title": "Journal Detail",
+      "route": "journal-detail",
+      "file": "pages/journal-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "intercompany",
+      "title": "Intercompany",
+      "route": "intercompany",
+      "file": "pages/intercompany.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "audit-log",
+      "title": "Audit Log",
+      "route": "audit-log",
+      "file": "pages/audit-log.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "accounting-books",
+      "title": "Accounting Books",
+      "route": "accounting-books",
+      "file": "pages/accounting-books.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "journal-new",
+      "title": "Journal New",
+      "route": "journal-new",
+      "file": "pages/journal-new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "reconciliation-detail",
+      "title": "Reconciliation Detail",
+      "route": "reconciliation-detail",
+      "file": "pages/reconciliation-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "collections",
+      "title": "Collections",
+      "route": "collections",
+      "file": "pages/collections.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "financial-statements",
+      "title": "Financial Statements",
+      "route": "financial-statements",
+      "file": "pages/financial-statements.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "setup",
+      "title": "Setup",
+      "route": "setup",
+      "file": "pages/setup.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "design-collection",
+      "title": "Design Collection",
+      "route": "design-collection",
+      "file": "pages/design-collection.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "controls",
+      "title": "Controls",
+      "route": "controls",
+      "file": "pages/controls.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "country-packs",
+      "title": "Country Packs",
+      "route": "country-packs",
+      "file": "pages/country-packs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "asset-detail",
+      "title": "Asset Detail",
+      "route": "asset-detail",
+      "file": "pages/asset-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "reports",
+      "title": "Reports",
+      "route": "reports",
+      "file": "pages/reports.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "report-builder",
+      "title": "Report Builder",
+      "route": "report-builder",
+      "file": "pages/report-builder.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,661 @@
+{
+  "app": "rapider-app-in-class-learning-rapider-in-class-learning",
+  "appName": "Rapider In-Class Learning",
+  "round": "2",
+  "timestamp": "2026-10-31T21:41:28.276Z",
+  "pages": [
+    {
+      "id": "dashboard",
+      "title": "Overview & Core Workspace",
+      "route": "dashboard",
+      "file": "pages/dashboard.html",
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "[RapiderBridge] API call failed for HrTimeOffPolicy (create): Error: Data model 'HrTimeOffPolicy' not found for project.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24",
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "[RapiderBridge] API call failed for HrTimeOffRequest (create): Error: Data model 'HrTimeOffRequest' not found for project.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24",
+        "[RapiderBridge] API call failed for HrTimeOffPolicy (create): Error: Data model 'HrTimeOffPolicy' not found for project.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "calendar",
+      "title": "Overview & Core Workspace",
+      "route": "calendar",
+      "file": "pages/calendar.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "sessions",
+      "title": "Overview & Core Workspace",
+      "route": "sessions",
+      "file": "pages/sessions.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "cohort-detail",
+      "title": "Overview & Core Workspace",
+      "route": "cohort-detail",
+      "file": "pages/cohort-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "session-scheduler",
+      "title": "Overview & Core Workspace",
+      "route": "session-scheduler",
+      "file": "pages/session-scheduler.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "session-detail",
+      "title": "Overview & Core Workspace",
+      "route": "session-detail",
+      "file": "pages/session-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
+      }
+    },
+    {
+      "id": "programs",
+      "title": "Overview & Core Workspace",
+      "route": "programs",
+      "file": "pages/programs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
+      }
+    },
+    {
+      "id": "program-editor",
+      "title": "Operations & Execution",
+      "route": "program-editor",
+      "file": "pages/program-editor.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
+      }
+    },
+    {
+      "id": "roster",
+      "title": "Operations & Execution",
+      "route": "roster",
+      "file": "pages/roster.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "bulk-enrollment",
+      "title": "Operations & Execution",
+      "route": "bulk-enrollment",
+      "file": "pages/bulk-enrollment.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "attendance",
+      "title": "Operations & Execution",
+      "route": "attendance",
+      "file": "pages/attendance.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
+      }
+    },
+    {
+      "id": "attendance-print",
+      "title": "Operations & Execution",
+      "route": "attendance-print",
+      "file": "pages/attendance-print.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
+      }
+    },
+    {
+      "id": "logistics",
+      "title": "Operations & Execution",
+      "route": "logistics",
+      "file": "pages/logistics.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
+      }
+    },
+    {
+      "id": "travel",
+      "title": "Operations & Execution",
+      "route": "travel",
+      "file": "pages/travel.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "costs",
+      "title": "Management & Workflows",
+      "route": "costs",
+      "file": "pages/costs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "communications",
+      "title": "Management & Workflows",
+      "route": "communications",
+      "file": "pages/communications.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "qualification",
+      "title": "Management & Workflows",
+      "route": "qualification",
+      "file": "pages/qualification.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "instructor-workspace",
+      "title": "Management & Workflows",
+      "route": "instructor-workspace",
+      "file": "pages/instructor-workspace.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "learner-session",
+      "title": "Management & Workflows",
+      "route": "learner-session",
+      "file": "pages/learner-session.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "evaluations",
+      "title": "Management & Workflows",
+      "route": "evaluations",
+      "file": "pages/evaluations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "reports",
+      "title": "Analytics & Reporting",
+      "route": "reports",
+      "file": "pages/reports.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "work-item",
+      "title": "Analytics & Reporting",
+      "route": "work-item",
+      "file": "pages/work-item.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "venues",
+      "title": "Analytics & Reporting",
+      "route": "venues",
+      "file": "pages/venues.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "venue-editor",
+      "title": "Analytics & Reporting",
+      "route": "venue-editor",
+      "file": "pages/venue-editor.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "resources",
+      "title": "Analytics & Reporting",
+      "route": "resources",
+      "file": "pages/resources.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "integrations",
+      "title": "Analytics & Reporting",
+      "route": "integrations",
+      "file": "pages/integrations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Administration & Settings",
+      "route": "settings",
+      "file": "pages/settings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "training-logistics-extension",
+      "title": "Administration & Settings",
+      "route": "training-logistics-extension",
+      "file": "pages/training-logistics-extension.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "logistics-reconciliation",
+      "title": "Administration & Settings",
+      "route": "logistics-reconciliation",
+      "file": "pages/logistics-reconciliation.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "travel-request-detail",
+      "title": "Administration & Settings",
+      "route": "travel-request-detail",
+      "file": "pages/travel-request-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "lodging-blocks",
+      "title": "Administration & Settings",
+      "route": "lodging-blocks",
+      "file": "pages/lodging-blocks.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "rooming-list",
+      "title": "Administration & Settings",
+      "route": "rooming-list",
+      "file": "pages/rooming-list.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "transfer-manifest",
+      "title": "Extended Modules",
+      "route": "transfer-manifest",
+      "file": "pages/transfer-manifest.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "catering-plan",
+      "title": "Extended Modules",
+      "route": "catering-plan",
+      "file": "pages/catering-plan.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "participant-needs",
+      "title": "Extended Modules",
+      "route": "participant-needs",
+      "file": "pages/participant-needs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "instructor-coordination",
+      "title": "Extended Modules",
+      "route": "instructor-coordination",
+      "file": "pages/instructor-coordination.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "logistics-change-impact",
+      "title": "Extended Modules",
+      "route": "logistics-change-impact",
+      "file": "pages/logistics-change-impact.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "my-travel-plan",
+      "title": "Extended Modules",
+      "route": "my-travel-plan",
+      "file": "pages/my-travel-plan.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "app": "rapider-app-personal-travel-rapider-personal-travel",
+  "appName": "Rapider Personal Travel",
+  "round": "2",
+  "timestamp": "2026-10-31T21:42:21.170Z",
+  "pages": [
+    {
+      "id": "home",
+      "title": "Overview & Core Workspace",
+      "route": "home",
+      "file": "pages/home.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "trip-edit",
+      "title": "Trip details",
+      "route": "trip-edit",
+      "file": "pages/trip-edit.html",
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "[RapiderBridge] API call failed for PrsTranslationRequest (find): Error: CRITICAL: Operation rejected. Missing or invalid projectId.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "itinerary",
+      "title": "Overview & Core Workspace",
+      "route": "itinerary",
+      "file": "pages/itinerary.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "item-edit",
+      "title": "Itinerary editor",
+      "route": "item-edit",
+      "file": "pages/item-edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "bookings",
+      "title": "Overview & Core Workspace",
+      "route": "bookings",
+      "file": "pages/bookings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "places",
+      "title": "Overview & Core Workspace",
+      "route": "places",
+      "file": "pages/places.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "packing",
+      "title": "Operations & Execution",
+      "route": "packing",
+      "file": "pages/packing.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "budget",
+      "title": "Operations & Execution",
+      "route": "budget",
+      "file": "pages/budget.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
+      }
+    },
+    {
+      "id": "coach",
+      "title": "Operations & Execution",
+      "route": "coach",
+      "file": "pages/coach.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Operations & Execution",
+      "route": "settings",
+      "file": "pages/settings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

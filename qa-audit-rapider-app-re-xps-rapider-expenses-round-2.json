@@ -1,0 +1,1579 @@
+{
+  "app": "rapider-app-re-xps-rapider-expenses",
+  "appName": "Rapider FNS Expenses",
+  "round": "2",
+  "timestamp": "2026-10-31T21:43:02.127Z",
+  "pages": [
+    {
+      "id": "dashboard",
+      "title": "Overview & Core Workspace",
+      "route": "dashboard",
+      "file": "pages/dashboard.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "expenses",
+      "title": "Overview & Core Workspace",
+      "route": "expenses",
+      "file": "pages/expenses.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "expenses/:id",
+      "title": "Expense Detail",
+      "route": "expenses/:id",
+      "file": "pages/expenses/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "reports",
+      "title": "Overview & Core Workspace",
+      "route": "reports",
+      "file": "pages/reports.html",
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "[RapiderBridge] API call failed for HrLifecycleEvent (find): Error: CRITICAL: Operation rejected. Missing or invalid projectId.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24",
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "[RapiderBridge] API call failed for HrChangeRequest (find): Error: CRITICAL: Operation rejected. Missing or invalid projectId.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24",
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "[RapiderBridge] API call failed for HrEmployee (find): Error: CRITICAL: Operation rejected. Missing or invalid projectId.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "reports/:id",
+      "title": "Report Builder",
+      "route": "reports/:id",
+      "file": "pages/reports/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "expense-add",
+      "title": "Add Expense",
+      "route": "expense-add",
+      "file": "pages/expense-add.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "expense-edit",
+      "title": "Edit Expense",
+      "route": "expense-edit",
+      "file": "pages/expense-edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "report-builder",
+      "title": "Report Builder Tool",
+      "route": "report-builder",
+      "file": "pages/report-builder.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/insights/budgets",
+      "title": "Budgets",
+      "route": "enterprise/insights/budgets",
+      "file": "pages/enterprise/insights/budgets.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "settings",
+      "title": "Overview & Core Workspace",
+      "route": "settings",
+      "file": "pages/settings.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "audit-logs",
+      "title": "Audit Logs",
+      "route": "audit-logs",
+      "file": "pages/audit-logs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/tags",
+      "title": "Tags",
+      "route": "enterprise/admin/tags",
+      "file": "pages/enterprise/admin/tags.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance",
+      "title": "Enterprise Finance",
+      "route": "enterprise/finance",
+      "file": "pages/enterprise/finance.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/cards",
+      "title": "Operations & Execution",
+      "route": "enterprise/finance/cards",
+      "file": "pages/enterprise/finance/cards.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/accounting",
+      "title": "Operations & Execution",
+      "route": "enterprise/finance/accounting",
+      "file": "pages/enterprise/finance/accounting.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/travel",
+      "title": "Travel",
+      "route": "enterprise/travel/travel",
+      "file": "pages/enterprise/travel/travel.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/mileage",
+      "title": "Operations & Execution",
+      "route": "enterprise/travel/mileage",
+      "file": "pages/enterprise/travel/mileage.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/per-diem",
+      "title": "Per Diem",
+      "route": "enterprise/travel/per-diem",
+      "file": "pages/enterprise/travel/per-diem.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations",
+      "title": "Management & Workflows",
+      "route": "enterprise/operations",
+      "file": "pages/enterprise/operations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/work-items",
+      "title": "Needs Attention",
+      "route": "enterprise/operations/work-items",
+      "file": "pages/enterprise/operations/work-items.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/authorizations",
+      "title": "Management & Workflows",
+      "route": "enterprise/operations/authorizations",
+      "file": "pages/enterprise/operations/authorizations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/insights",
+      "title": "Management & Workflows",
+      "route": "enterprise/insights",
+      "file": "pages/enterprise/insights.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/insights/analytics",
+      "title": "Analytics",
+      "route": "enterprise/insights/analytics",
+      "file": "pages/enterprise/insights/analytics.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin",
+      "title": "Enterprise Administration",
+      "route": "enterprise/admin",
+      "file": "pages/enterprise/admin.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/policies",
+      "title": "Policies & Rules",
+      "route": "enterprise/admin/policies",
+      "file": "pages/enterprise/admin/policies.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/integrations",
+      "title": "Integrations",
+      "route": "enterprise/admin/integrations",
+      "file": "pages/enterprise/admin/integrations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/access",
+      "title": "Access",
+      "route": "enterprise/admin/access",
+      "file": "pages/enterprise/admin/access.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/accounting/:id",
+      "title": "Accounting Detail",
+      "route": "enterprise/finance/accounting/:id",
+      "file": "pages/enterprise/finance/accounting/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/advance/new",
+      "title": "Advance Add",
+      "route": "enterprise/finance/advance/new",
+      "file": "pages/enterprise/finance/advance/new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/advance/:id",
+      "title": "Advance Detail",
+      "route": "enterprise/finance/advance/:id",
+      "file": "pages/enterprise/finance/advance/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/advances",
+      "title": "Analytics & Reporting",
+      "route": "enterprise/finance/advances",
+      "file": "pages/enterprise/finance/advances.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/approval-rules/:id/edit",
+      "title": "Approval Rules Edit",
+      "route": "enterprise/admin/approval-rules/:id/edit",
+      "file": "pages/enterprise/admin/approval-rules/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/approval-rules",
+      "title": "Approval Rules",
+      "route": "enterprise/admin/approval-rules",
+      "file": "pages/enterprise/admin/approval-rules.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/attendees/:id/edit",
+      "title": "Attendees Edit",
+      "route": "enterprise/admin/attendees/:id/edit",
+      "file": "pages/enterprise/admin/attendees/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/attendees",
+      "title": "Attendees",
+      "route": "enterprise/admin/attendees",
+      "file": "pages/enterprise/admin/attendees.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/audit-case/:id",
+      "title": "Audit Case Detail",
+      "route": "enterprise/operations/audit-case/:id",
+      "file": "pages/enterprise/operations/audit-case/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/audit-cases",
+      "title": "Audit Cases",
+      "route": "enterprise/operations/audit-cases",
+      "file": "pages/enterprise/operations/audit-cases.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/audit/:id",
+      "title": "Audit Detail",
+      "route": "enterprise/operations/audit/:id",
+      "file": "pages/enterprise/operations/audit/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/audit-log",
+      "title": "Audit Log",
+      "route": "enterprise/operations/audit-log",
+      "file": "pages/enterprise/operations/audit-log.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/authorization/new",
+      "title": "Authorization Add",
+      "route": "enterprise/operations/authorization/new",
+      "file": "pages/enterprise/operations/authorization/new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/authorization/:id",
+      "title": "Authorization Detail",
+      "route": "enterprise/operations/authorization/:id",
+      "file": "pages/enterprise/operations/authorization/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/insights/budget/:id",
+      "title": "Budget Detail",
+      "route": "enterprise/insights/budget/:id",
+      "file": "pages/enterprise/insights/budget/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/insights/budget/:id/edit",
+      "title": "Budget Edit",
+      "route": "enterprise/insights/budget/:id/edit",
+      "file": "pages/enterprise/insights/budget/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/card/:id",
+      "title": "Card Detail",
+      "route": "enterprise/finance/card/:id",
+      "file": "pages/enterprise/finance/card/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/card-request",
+      "title": "Card Request",
+      "route": "enterprise/finance/card-request",
+      "file": "pages/enterprise/finance/card-request.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/categories/:id/edit",
+      "title": "Categories Edit",
+      "route": "enterprise/admin/categories/:id/edit",
+      "file": "pages/enterprise/admin/categories/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/categories",
+      "title": "Categories",
+      "route": "enterprise/admin/categories",
+      "file": "pages/enterprise/admin/categories.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/custom-fields/:id/edit",
+      "title": "Custom Fields Edit",
+      "route": "enterprise/admin/custom-fields/:id/edit",
+      "file": "pages/enterprise/admin/custom-fields/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/custom-fields",
+      "title": "Custom Fields",
+      "route": "enterprise/admin/custom-fields",
+      "file": "pages/enterprise/admin/custom-fields.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/delegations/:id/edit",
+      "title": "Delegations Edit",
+      "route": "enterprise/admin/delegations/:id/edit",
+      "file": "pages/enterprise/admin/delegations/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/delegations",
+      "title": "Delegations",
+      "route": "enterprise/admin/delegations",
+      "file": "pages/enterprise/admin/delegations.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/dimensions/:id/edit",
+      "title": "Dimensions Edit",
+      "route": "enterprise/admin/dimensions/:id/edit",
+      "file": "pages/enterprise/admin/dimensions/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/dimensions",
+      "title": "Dimensions",
+      "route": "enterprise/admin/dimensions",
+      "file": "pages/enterprise/admin/dimensions.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/import/:id",
+      "title": "Import Detail",
+      "route": "enterprise/finance/import/:id",
+      "file": "pages/enterprise/finance/import/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/imports",
+      "title": "Imports",
+      "route": "enterprise/finance/imports",
+      "file": "pages/enterprise/finance/imports.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/integration/:id",
+      "title": "Integration Detail",
+      "route": "enterprise/admin/integration/:id",
+      "file": "pages/enterprise/admin/integration/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/integration/:id/edit",
+      "title": "Integration Edit",
+      "route": "enterprise/admin/integration/:id/edit",
+      "file": "pages/enterprise/admin/integration/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/manager",
+      "title": "Manager",
+      "route": "enterprise/operations/manager",
+      "file": "pages/enterprise/operations/manager.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/mileage/new",
+      "title": "Mileage Add",
+      "route": "enterprise/travel/mileage/new",
+      "file": "pages/enterprise/travel/mileage/new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/mileage/:id",
+      "title": "Mileage Detail",
+      "route": "enterprise/travel/mileage/:id",
+      "file": "pages/enterprise/travel/mileage/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/mileage-rates/:id/edit",
+      "title": "Mileage Rates Edit",
+      "route": "enterprise/travel/mileage-rates/:id/edit",
+      "file": "pages/enterprise/travel/mileage-rates/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/mileage-rates",
+      "title": "Mileage Rates",
+      "route": "enterprise/travel/mileage-rates",
+      "file": "pages/enterprise/travel/mileage-rates.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/offline",
+      "title": "Offline",
+      "route": "enterprise/admin/offline",
+      "file": "pages/enterprise/admin/offline.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/payment-batch/:id",
+      "title": "Payment Batch Detail",
+      "route": "enterprise/finance/payment-batch/:id",
+      "file": "pages/enterprise/finance/payment-batch/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/payment-batches",
+      "title": "Payment Batches",
+      "route": "enterprise/finance/payment-batches",
+      "file": "pages/enterprise/finance/payment-batches.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/per-diem/new",
+      "title": "Per Diem Add",
+      "route": "enterprise/travel/per-diem/new",
+      "file": "pages/enterprise/travel/per-diem/new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/per-diem/:id",
+      "title": "Per Diem Detail",
+      "route": "enterprise/travel/per-diem/:id",
+      "file": "pages/enterprise/travel/per-diem/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/per-diem-rules/:id/edit",
+      "title": "Per Diem Rules Edit",
+      "route": "enterprise/travel/per-diem-rules/:id/edit",
+      "file": "pages/enterprise/travel/per-diem-rules/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/per-diem-rules",
+      "title": "Per Diem Rules",
+      "route": "enterprise/travel/per-diem-rules",
+      "file": "pages/enterprise/travel/per-diem-rules.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/petty-cash/new",
+      "title": "Petty Cash Add",
+      "route": "enterprise/finance/petty-cash/new",
+      "file": "pages/enterprise/finance/petty-cash/new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/petty-cash/:id",
+      "title": "Petty Cash Detail",
+      "route": "enterprise/finance/petty-cash/:id",
+      "file": "pages/enterprise/finance/petty-cash/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/petty-cash",
+      "title": "Petty Cash",
+      "route": "enterprise/finance/petty-cash",
+      "file": "pages/enterprise/finance/petty-cash.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/policies/:id/edit",
+      "title": "Policies Edit",
+      "route": "enterprise/admin/policies/:id/edit",
+      "file": "pages/enterprise/admin/policies/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/preferences",
+      "title": "Preferences",
+      "route": "enterprise/admin/preferences",
+      "file": "pages/enterprise/admin/preferences.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/receipt/:id",
+      "title": "Receipt Detail",
+      "route": "enterprise/operations/receipt/:id",
+      "file": "pages/enterprise/operations/receipt/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/receipts",
+      "title": "Analytics & Reporting",
+      "route": "enterprise/operations/receipts",
+      "file": "pages/enterprise/operations/receipts.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/reimbursement/:id",
+      "title": "Reimbursement Detail",
+      "route": "enterprise/finance/reimbursement/:id",
+      "file": "pages/enterprise/finance/reimbursement/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/reimbursements",
+      "title": "Analytics & Reporting",
+      "route": "enterprise/finance/reimbursements",
+      "file": "pages/enterprise/finance/reimbursements.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/report-templates/:id/edit",
+      "title": "Report Templates Edit",
+      "route": "enterprise/admin/report-templates/:id/edit",
+      "file": "pages/enterprise/admin/report-templates/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/report-templates",
+      "title": "Report Templates",
+      "route": "enterprise/admin/report-templates",
+      "file": "pages/enterprise/admin/report-templates.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/retention",
+      "title": "Retention",
+      "route": "enterprise/admin/retention",
+      "file": "pages/enterprise/admin/retention.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/admin/tags/:id/edit",
+      "title": "Tags Edit",
+      "route": "enterprise/admin/tags/:id/edit",
+      "file": "pages/enterprise/admin/tags/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/tax-accounting/:id/edit",
+      "title": "Tax Accounting Edit",
+      "route": "enterprise/finance/tax-accounting/:id/edit",
+      "file": "pages/enterprise/finance/tax-accounting/:id/edit.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/tax-accounting",
+      "title": "Tax Accounting",
+      "route": "enterprise/finance/tax-accounting",
+      "file": "pages/enterprise/finance/tax-accounting.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/transaction/:id",
+      "title": "Transaction Detail",
+      "route": "enterprise/finance/transaction/:id",
+      "file": "pages/enterprise/finance/transaction/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/finance/transactions",
+      "title": "Transactions",
+      "route": "enterprise/finance/transactions",
+      "file": "pages/enterprise/finance/transactions.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/travel/new",
+      "title": "Travel Add",
+      "route": "enterprise/travel/travel/new",
+      "file": "pages/enterprise/travel/travel/new.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/travel/:id",
+      "title": "Travel Detail",
+      "route": "enterprise/travel/travel/:id",
+      "file": "pages/enterprise/travel/travel/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/travel/travel-profile",
+      "title": "Travel Profile",
+      "route": "enterprise/travel/travel-profile",
+      "file": "pages/enterprise/travel/travel-profile.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/work-item/:id",
+      "title": "Work Item Detail",
+      "route": "enterprise/operations/work-item/:id",
+      "file": "pages/enterprise/operations/work-item/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/workflow/:id",
+      "title": "Workflow Detail",
+      "route": "enterprise/operations/workflow/:id",
+      "file": "pages/enterprise/operations/workflow/:id.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "enterprise/operations/workflow-runs",
+      "title": "Workflow Runs",
+      "route": "enterprise/operations/workflow-runs",
+      "file": "pages/enterprise/operations/workflow-runs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

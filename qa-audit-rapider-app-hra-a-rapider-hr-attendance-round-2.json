@@ -2,7 +2,7 @@
   "app": "rapider-app-hra-a-rapider-hr-attendance",
   "appName": "Rapider HR Attendance",
   "round": "2",
-  "timestamp": "2026-10-31T21:31:57.712Z",
+  "timestamp": "2026-10-31T21:41:13.304Z",
   "pages": [
     {
       "id": "overview",
@@ -86,7 +86,7 @@
         "innerWidth": 1170,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": false
       }
     },
     {
@@ -101,9 +101,9 @@
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 1,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": false
       }
     },
     {
@@ -118,9 +118,9 @@
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 1,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": false
       }
     },
     {
@@ -137,7 +137,7 @@
         "innerWidth": 1170,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": false
       }
     },
     {
@@ -152,7 +152,7 @@
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 1,
+        "tableCount": 0,
         "formCount": 0,
         "hasDarkRules": true
       }
@@ -169,7 +169,7 @@
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 0,
+        "tableCount": 1,
         "formCount": 2,
         "hasDarkRules": true
       }

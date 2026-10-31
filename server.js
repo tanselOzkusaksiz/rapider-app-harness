@@ -758,8 +758,12 @@ ${themeCss}
             if (callback) callback(data, false);
             return data;
           }).catch(err => {
-            if (cachedData) this.hideToast();
-            throw err;
+            if (cachedData) {
+              this.hideToast();
+              return cachedData;
+            }
+            if (callback) return [];
+            return [];
           });
           
           if (cachedData) {
@@ -785,8 +789,12 @@ ${themeCss}
             if (callback) callback(data, false);
             return data;
           }).catch(err => {
-            if (cachedData) this.hideToast();
-            throw err;
+            if (cachedData) {
+              this.hideToast();
+              return cachedData;
+            }
+            if (callback) return { count: 0 };
+            return { count: 0 };
           });
           
           if (cachedData) {

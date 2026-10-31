@@ -889,6 +889,17 @@ function auditHtmlPage(pagePath, appDir, manifest) {
     });
   }
 
+  // ------------------------------------------------------------------------
+  // 27. RULE: No Unhandled Synchronous SWR Promise Rejections (Pass 02 & 09)
+  // ------------------------------------------------------------------------
+  if (/var\s+_swrRes_\d+\s*=\s*window\.rapiderApi\.(?:findSWR|countSWR)\([^;]+\);(?!\s*Promise\.resolve\(_swrRes_\d+\)\.catch)/i.test(combinedScript)) {
+    issues.push({
+      rule: 'Pass 02: SWR & Pass 09: Error Handling (Unhandled SWR Promise Rejection)',
+      type: 'UNHANDLED_SWR_PROMISE_REJECTION',
+      message: 'Synchronous findSWR / countSWR call is not guarded with Promise.resolve(...).catch(...) or awaited inside a try/catch block, causing an unhandled promise rejection if the backend request fails.'
+    });
+  }
+
 
   return {
     pagePath: relativePagePath,

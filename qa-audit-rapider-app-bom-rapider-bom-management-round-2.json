@@ -2,7 +2,7 @@
   "app": "rapider-app-bom-rapider-bom-management",
   "appName": "Rapider Bill of Materials",
   "round": "2",
-  "timestamp": "2026-10-31T21:28:02.743Z",
+  "timestamp": "2026-10-31T21:40:27.665Z",
   "pages": [
     {
       "id": "change-request",
@@ -62,9 +62,7 @@
       "file": "pages/import.html",
       "consoleErrors": [],
       "pageErrors": [],
-      "failedRequests": [
-        "GET https://kit.fontawesome.com/5b23df26dc.js (net::ERR_ABORTED)"
-      ],
+      "failedRequests": [],
       "issues": [],
       "metrics": {
         "scrollWidth": 1170,
@@ -155,7 +153,7 @@
         "scrollWidth": 1170,
         "innerWidth": 1170,
         "tableCount": 0,
-        "formCount": 1,
+        "formCount": 2,
         "hasDarkRules": true
       }
     },
@@ -171,7 +169,7 @@
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 1,
+        "tableCount": 0,
         "formCount": 1,
         "hasDarkRules": true
       }
@@ -188,8 +186,8 @@
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 1,
+        "tableCount": 0,
+        "formCount": 2,
         "hasDarkRules": true
       }
     }

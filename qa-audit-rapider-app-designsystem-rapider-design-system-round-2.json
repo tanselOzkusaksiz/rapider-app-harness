@@ -1,0 +1,317 @@
+{
+  "app": "rapider-app-designsystem-rapider-design-system",
+  "appName": "Rapider Design System",
+  "round": "2",
+  "timestamp": "2026-10-31T21:40:50.830Z",
+  "pages": [
+    {
+      "id": "overview",
+      "title": "FOUNDATIONS",
+      "route": "overview",
+      "file": "pages/overview.html",
+      "consoleErrors": [
+        "DataCloneError: Failed to execute 'postMessage' on 'Window': (res) => {\n              const items = Array.isArray(res) ? res : (res?.items || res?.data || []);\n            ...<omitted>... } could not be cloned.\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:623:27\n    at new Oi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:2543)\n    at Object.request (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:603:30)\n    at Object.findSWR (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:675:35)\n    at loadOverviewData (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:1848:29)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "tokens",
+      "title": "FOUNDATIONS",
+      "route": "tokens",
+      "file": "pages/tokens.html",
+      "consoleErrors": [
+        "DataCloneError: Failed to execute 'postMessage' on 'Window': (res) => {\n            const items = Array.isArray(res) ? res : (res?.items || res?.data || []);\n            if...<omitted>... } could not be cloned.\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftokens%2Ftokens.html&isDark=true&t=1793482851181:591:27\n    at new Oi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:2543)\n    at Object.request (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftokens%2Ftokens.html&isDark=true&t=1793482851181:571:30)\n    at Object.findSWR (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftokens%2Ftokens.html&isDark=true&t=1793482851181:643:35)\n    at loadTokens (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftokens%2Ftokens.html&isDark=true&t=1793482851181:1719:27)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "components",
+      "title": "FOUNDATIONS",
+      "route": "components",
+      "file": "pages/components.html",
+      "consoleErrors": [
+        "DataCloneError: Failed to execute 'postMessage' on 'Window': (res) => {\n            const items = Array.isArray(res) ? res : (res?.items || res?.data || []);\n            if...<omitted>... } could not be cloned.\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fcomponents%2Fcomponents.html&isDark=true&t=1793482851061:601:27\n    at new Oi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:2543)\n    at Object.request (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fcomponents%2Fcomponents.html&isDark=true&t=1793482851061:581:30)\n    at Object.findSWR (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fcomponents%2Fcomponents.html&isDark=true&t=1793482851061:653:35)\n    at initComponentsPage (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fcomponents%2Fcomponents.html&isDark=true&t=1793482851061:2598:27)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 2,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "page-samples",
+      "title": "PAGE BLUEPRINTS",
+      "route": "page-samples",
+      "file": "pages/page-samples.html",
+      "consoleErrors": [
+        "DataCloneError: Failed to execute 'postMessage' on 'Window': (res) => {\n            const items = Array.isArray(res) ? res : (res?.items || res?.data || []);\n            if...<omitted>... } could not be cloned.\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fpage-samples%2Fpage-samples.html&isDark=true&t=1793482851113:606:27\n    at new Oi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:2543)\n    at Object.request (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fpage-samples%2Fpage-samples.html&isDark=true&t=1793482851113:586:30)\n    at Object.findSWR (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fpage-samples%2Fpage-samples.html&isDark=true&t=1793482851113:658:35)\n    at initPageSamples (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fpage-samples%2Fpage-samples.html&isDark=true&t=1793482851113:2348:27)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 2,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "table-patterns",
+      "title": "PAGE BLUEPRINTS",
+      "route": "table-patterns",
+      "file": "pages/table-patterns.html",
+      "consoleErrors": [
+        "DataCloneError: Failed to execute 'postMessage' on 'Window': (res) => {\n            const items = Array.isArray(res) ? res : (res?.items || res?.data || []);\n            if...<omitted>... } could not be cloned.\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftable-patterns%2Ftable-patterns.html&isDark=true&t=1793482851217:588:27\n    at new Oi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:2543)\n    at Object.request (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftable-patterns%2Ftable-patterns.html&isDark=true&t=1793482851217:568:30)\n    at Object.findSWR (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftable-patterns%2Ftable-patterns.html&isDark=true&t=1793482851217:640:35)\n    at initTablePatternsPage (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Ftable-patterns%2Ftable-patterns.html&isDark=true&t=1793482851217:1764:27)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "form-patterns",
+      "title": "PAGE BLUEPRINTS",
+      "route": "form-patterns",
+      "file": "pages/form-patterns.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "kanban-patterns",
+      "title": "PAGE BLUEPRINTS",
+      "route": "kanban-patterns",
+      "file": "pages/kanban-patterns.html",
+      "consoleErrors": [
+        "DataCloneError: Failed to execute 'postMessage' on 'Window': (res) => {\n            const items = Array.isArray(res) ? res : (res?.items || res?.data || []);\n            if...<omitted>... } could not be cloned.\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fkanban-patterns%2Fkanban-patterns.html&isDark=true&t=1793482851501:587:27\n    at new Oi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:2543)\n    at Object.request (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fkanban-patterns%2Fkanban-patterns.html&isDark=true&t=1793482851501:567:30)\n    at Object.findSWR (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fkanban-patterns%2Fkanban-patterns.html&isDark=true&t=1793482851501:639:35)\n    at initKanbanPatterns (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fkanban-patterns%2Fkanban-patterns.html&isDark=true&t=1793482851501:1860:27)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "sdk-architecture",
+      "title": "STANDARDS & QA",
+      "route": "sdk-architecture",
+      "file": "pages/sdk-architecture.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "best-practices",
+      "title": "STANDARDS & QA",
+      "route": "best-practices",
+      "file": "pages/best-practices.html",
+      "consoleErrors": [
+        "TypeError: callback is not a function\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:705:27\n    at Bn.invoke (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:9646)\n    at VCe.run (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:3850)\n    at http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:647\n    at Bn.invokeTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:10305)\n    at VCe.runTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:4549)\n    at Gs (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:12627)\n    at Rn.invokeTask [as invoke] (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:11626)\n    at Gi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:18721)\n    at Qi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:19185)",
+        "TypeError: callback is not a function\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:705:27\n    at Bn.invoke (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:9646)\n    at VCe.run (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:3850)\n    at http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:647\n    at Bn.invokeTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:10305)\n    at VCe.runTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:4549)\n    at Gs (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:12627)\n    at Rn.invokeTask [as invoke] (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:11626)\n    at Gi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:18721)\n    at Qi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:19185)",
+        "TypeError: callback is not a function\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:705:27\n    at Bn.invoke (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:9646)\n    at VCe.run (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:3850)\n    at http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:647\n    at Bn.invokeTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:10305)\n    at VCe.runTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:4549)\n    at Gs (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:12627)\n    at Rn.invokeTask [as invoke] (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:11626)\n    at Gi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:18721)\n    at Qi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:19185)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "builder-guide",
+      "title": "STANDARDS & QA",
+      "route": "builder-guide",
+      "file": "pages/builder-guide.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 2,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "component-detail",
+      "title": "FOUNDATIONS",
+      "route": "component-detail",
+      "file": "pages/component-detail.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 2,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "comp-buttons",
+      "title": "DESIGN ELEMENTS",
+      "route": "comp-buttons",
+      "file": "pages/comp-buttons.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "comp-typography",
+      "title": "DESIGN ELEMENTS",
+      "route": "comp-typography",
+      "file": "pages/comp-typography.html",
+      "consoleErrors": [
+        "DataCloneError: Failed to execute 'postMessage' on 'Window': (res, isCached) => {\n            const items = Array.isArray(res) ? res : (res?.items || res?.data || []);\n    ...<omitted>... } could not be cloned.\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fsdk-architecture%2Fsdk-architecture.html&isDark=true&t=1793482852236:577:27\n    at new Oi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:2543)\n    at Object.request (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fsdk-architecture%2Fsdk-architecture.html&isDark=true&t=1793482852236:557:30)\n    at Object.findSWR (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fsdk-architecture%2Fsdk-architecture.html&isDark=true&t=1793482852236:629:35)\n    at runLiveSwrProbe (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fsdk-architecture%2Fsdk-architecture.html&isDark=true&t=1793482852236:1352:27)\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Fsdk-architecture%2Fsdk-architecture.html&isDark=true&t=1793482852236:1493:7"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "comp-tags-badges",
+      "title": "DESIGN ELEMENTS",
+      "route": "comp-tags-badges",
+      "file": "pages/comp-tags-badges.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "comp-phone-inputs",
+      "title": "DESIGN ELEMENTS",
+      "route": "comp-phone-inputs",
+      "file": "pages/comp-phone-inputs.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "comp-cards-kpis",
+      "title": "DESIGN ELEMENTS",
+      "route": "comp-cards-kpis",
+      "file": "pages/comp-cards-kpis.html",
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    },
+    {
+      "id": "comp-modals-drawers",
+      "title": "DESIGN ELEMENTS",
+      "route": "comp-modals-drawers",
+      "file": "pages/comp-modals-drawers.html",
+      "consoleErrors": [
+        "TypeError: callback is not a function\n    at http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-designsystem-rapider-design-system&filePath=pages%2Foverview%2Foverview.html&isDark=true&t=1793482851015:705:27\n    at Bn.invoke (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:9646)\n    at VCe.run (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:3850)\n    at http://localhost:3300/assets/js/rapider-components.js?v=20261101:2:647\n    at Bn.invokeTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:10305)\n    at VCe.runTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:4549)\n    at Gs (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:12627)\n    at Rn.invokeTask [as invoke] (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:11626)\n    at Gi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:18721)\n    at Qi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:19185)"
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "issues": [],
+      "metrics": {
+        "scrollWidth": 1170,
+        "innerWidth": 1170,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true
+      }
+    }
+  ]
+}

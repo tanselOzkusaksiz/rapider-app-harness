@@ -125,51 +125,34 @@ class RappiderHarness {
       this.setTheme(true);
     }
 
-    // 1. Fetch available apps
-    await this.fetchApps();
-
-    // 2. Fetch projects or prompt login
-    // Auto-fill and AUTO-LOGIN from env
+    // 1. Authenticate and ensure project-scoped token BEFORE loading apps/iframes
     try {
-      const configRes = await fetch('/api/config');
-      const config = await configRes.json();
-      
-      if (config.HARNESS_TEST_EMAIL && config.HARNESS_TEST_PASSWORD) {
-          // Attempt silent login
+      if (window.apiClient.isAuthenticated() && window.apiClient.projectId && !this.isOfflineMode) {
+        this.populateProjectSelect();
+        this.updateAuthBadge();
+        this.closeAuthModal();
+      } else {
+        const configRes = await fetch('/api/config');
+        const config = await configRes.json();
+        
+        if (config.HARNESS_TEST_EMAIL && config.HARNESS_TEST_PASSWORD) {
           await window.apiClient.login(config.HARNESS_TEST_EMAIL, config.HARNESS_TEST_PASSWORD, config.BACKEND_URL || 'https://dev.api.rappider.com');
           if (config.HARNESS_TEST_PROJECT_ID) {
-              await window.apiClient.changeActiveProject(config.HARNESS_TEST_PROJECT_ID);
+            await window.apiClient.changeActiveProject(config.HARNESS_TEST_PROJECT_ID);
           }
           this.isOfflineMode = false;
           this.populateProjectSelect();
           this.updateAuthBadge();
           this.closeAuthModal();
-          
-          // Only attach hash listener and reload AFTER silent login
-          window.addEventListener('hashchange', () => this.handleHashChange());
-          this.handleHashChange();
-          return;
+        }
       }
     } catch (err) {
       console.warn('Silent login failed:', err);
     }
 
-    if (window.apiClient.isAuthenticated() && !this.isOfflineMode) {
-      try {
-        await window.apiClient.fetchUserProjects();
-        // Always refresh the project-scoped token on load
-        if (window.apiClient.projectId) {
-          await window.apiClient.changeActiveProject(window.apiClient.projectId);
-        }
-        this.populateProjectSelect();
-      } catch (err) {
-        console.warn('Failed to restore workspace session:', err);
-        this.openAuthModal();
-      }
-    } else if (!this.isOfflineMode) {
-      this.openAuthModal();
-    }
-    
+    // 2. Fetch available apps and load initial app/page
+    await this.fetchApps();
+
     // 3. Handle initial URL hash routing
     window.addEventListener('hashchange', () => this.handleHashChange());
   }

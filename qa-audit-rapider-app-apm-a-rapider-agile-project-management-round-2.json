@@ -2,7 +2,7 @@
   "app": "rapider-app-apm-a-rapider-agile-project-management",
   "appName": "Rapider Projects",
   "round": "2",
-  "timestamp": "2026-10-31T21:15:01.027Z",
+  "timestamp": "2026-10-31T21:40:19.221Z",
   "pages": [
     {
       "id": "dashboard",
@@ -85,8 +85,8 @@
         "scrollWidth": 1170,
         "innerWidth": 1170,
         "tableCount": 0,
-        "formCount": 2,
-        "hasDarkRules": true
+        "formCount": 0,
+        "hasDarkRules": false
       }
     },
     {
@@ -103,7 +103,7 @@
         "innerWidth": 1170,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": false
       }
     },
     {
@@ -118,9 +118,9 @@
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 1,
-        "hasDarkRules": true
+        "tableCount": 0,
+        "formCount": 0,
+        "hasDarkRules": false
       }
     },
     {
@@ -137,7 +137,7 @@
         "innerWidth": 1170,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": false
       }
     },
     {
@@ -145,15 +145,19 @@
       "title": "Project Detail",
       "route": "project-detail",
       "file": "pages/project-detail.html",
-      "consoleErrors": [],
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
+        "[RapiderBridge] API call failed for ApmProject (find): Error: CRITICAL: Operation rejected. Missing or invalid projectId.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24",
+        "Failed to load projects from backend: Error: CRITICAL: Operation rejected. Missing or invalid projectId.\n    at handler (http://localhost:3300/api/page-content?appPath=%2FUsers%2Ftansel%2FProjects%2Frapider%2F_rapider-monorepo%2Frapider-apps%2FAPPS%2Frapider-app-apm-a-rapider-agile-project-management&filePath=pages%2Fprojects.html&isDark=true&t=1793482819355:581:26)\n    at Bn.invokeTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:10305)\n    at VCe.runTask (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:4549)\n    at Rn.invokeTask [as invoke] (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:11594)\n    at Gi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:18721)\n    at Qi (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:19067)\n    at $a (http://localhost:3300/assets/js/rapider-components.js?v=20261101:1:19370)"
+      ],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
         "scrollWidth": 1170,
         "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 0,
+        "tableCount": 1,
+        "formCount": 1,
         "hasDarkRules": true
       }
     }

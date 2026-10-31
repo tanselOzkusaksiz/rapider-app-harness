@@ -133,11 +133,11 @@ class HarnessApiClient {
       await this.fetchUserProjects();
 
       // If user has a matching project in list, select it; otherwise select first
+      // Always call changeActiveProject so the token after changeActivePerson is project-scoped
       if (this.projects.length > 0) {
         const matchingProject = this.projects.find(p => p.id === this.projectId);
-        if (!matchingProject) {
-          await this.changeActiveProject(this.projects[0].id);
-        }
+        const targetProjectId = matchingProject ? matchingProject.id : this.projects[0].id;
+        await this.changeActiveProject(targetProjectId);
       }
 
       this.saveSession();

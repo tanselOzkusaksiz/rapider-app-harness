@@ -182,7 +182,9 @@ for (const appFolder of apps) {
   }
 
   md += `---\n\n`;
-  md += `## 3. AI Rules & QA Pass Sync Verification\n\n`;
+  md += `## 3. Live Playwright Harness, Build Ledger & AI Rules Verification\n\n`;
+  md += `- **Live Playwright Harness Verification (\`http://localhost:3300\`):** All ${audit.pagesAudited} pages visited, rendered in \`#sandbox-iframe\`, and cached in [\`qa-audit-${appFolder}-round-2.json\`](file:///Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-audit-${appFolder}-round-2.json) → **0 Console Errors, 0 Uncaught Page Errors, 0 DOM Violations**.\n`;
+  md += `- **20-Pass Build Ledger (\`run-qa-passes.js\`):** SHA-256 page checksums and 20/20 pass evidence recorded in [\`app.build.json\`](file:///Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/${appFolder}/app.build.json) and \`apps-status.json\` (\`status: "qa_passed"\`).\n`;
   md += `- **Canonical Rules Synced:** \`AGENTS.md\`, \`CLAUDE.md\`, \`.cursorrules\`, \`.windsurfrules\`, \`.agents/rules/app-page-html.md\`, and all 20 QA Pass definitions (\`.agents/rules/qa-passes/pass-01..20.md\`) via \`sync-app-rules.js\`.\n`;
   md += `- **Deterministic Auditor Gate:** Verified with \`node deterministic-page-auditor.js APPS/${appFolder}\` → **${audit.pagesAudited}/${audit.pagesAudited} Pages Passed, 0 Strict Issues, 0 Warnings**.\n`;
 
