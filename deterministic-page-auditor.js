@@ -634,6 +634,70 @@ function auditHtmlPage(pagePath, appDir, manifest) {
     });
   }
 
+  // ------------------------------------------------------------------------
+  // 14. RULE: Schema Payload Field Validation against app.manifest.json (Pass 3 & Pass 9)
+  // ------------------------------------------------------------------------
+  if (manifest && manifest.dataModels && typeof manifest.dataModels === 'object') {
+    const implicitSystemFields = new Set([
+      'id', '_id', 'isDeleted', 'createdDate', 'createdBy', 'createdById',
+      'updatedDate', 'updatedBy', 'updatedById', 'deletedDate', 'deletedBy', 'deletedById'
+    ]);
+
+    const extractTopLevelKeys = (objLiteralBody) => {
+      const keys = [];
+      let depth = 0;
+      const lines = objLiteralBody.split('\n');
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (depth === 0) {
+          const propMatch = trimmed.match(/^([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/);
+          if (propMatch) {
+            keys.push(propMatch[1]);
+          }
+        }
+        for (const ch of line) {
+          if (ch === '{' || ch === '[' || ch === '(') depth++;
+          else if (ch === '}' || ch === ']' || ch === ')') depth = Math.max(0, depth - 1);
+        }
+      }
+      return keys;
+    };
+
+    const verifyPayloadKeys = (entityName, objBody, callLabel) => {
+      const modelDef = manifest.dataModels[entityName];
+      if (!modelDef || !modelDef.fields) return;
+      const allowedFields = new Set([...Object.keys(modelDef.fields), ...implicitSystemFields]);
+      const keys = extractTopLevelKeys(objBody);
+      const invalidKeys = keys.filter((k) => !allowedFields.has(k));
+      if (invalidKeys.length > 0) {
+        issues.push({
+          rule: 'Pass 03 & Pass 09: Schema Payload Compatibility',
+          type: 'INVALID_SCHEMA_PAYLOAD_FIELD',
+          message: `${callLabel} for entity "${entityName}" sends field(s) [${invalidKeys.join(', ')}] not defined in app.manifest.json dataModels.${entityName}.fields (${Object.keys(modelDef.fields).join(', ')}). This causes HTTP 422 Unprocessable Entity errors.`,
+          snippet: `${callLabel}('${entityName}', { ${invalidKeys.join(', ')} ... })`
+        });
+      }
+    };
+
+    const createInlineRegex = /rapiderApi\.create\(\s*['"`]([A-Za-z0-9_]+)['"`]\s*,\s*\{([\s\S]*?)\}\s*\)/g;
+    let createMatch;
+    while ((createMatch = createInlineRegex.exec(combinedScript)) !== null) {
+      verifyPayloadKeys(createMatch[1], createMatch[2], 'rapiderApi.create');
+    }
+
+    const updateInlineRegex = /rapiderApi\.updateById\(\s*['"`]([A-Za-z0-9_]+)['"`]\s*,\s*[^,]+\s*,\s*\{([\s\S]*?)\}\s*\)/g;
+    let updateMatch;
+    while ((updateMatch = updateInlineRegex.exec(combinedScript)) !== null) {
+      verifyPayloadKeys(updateMatch[1], updateMatch[2], 'rapiderApi.updateById');
+    }
+
+    const namedPayloadCreateRegex = /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*\{([\s\S]*?)\};\s*(?:await\s+)?(?:window\.)?rapiderApi\.(create|updateById)\(\s*['"`]([A-Za-z0-9_]+)['"`]/g;
+    let namedMatch;
+    while ((namedMatch = namedPayloadCreateRegex.exec(combinedScript)) !== null) {
+      verifyPayloadKeys(namedMatch[4], namedMatch[2], `rapiderApi.${namedMatch[3]}`);
+    }
+  }
+
   return {
     pagePath: relativePagePath,
     passed: issues.length === 0,
