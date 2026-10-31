@@ -1,0 +1,215 @@
+{
+  "round": 2,
+  "timestamp": "2026-10-31T18:48:31.095Z",
+  "appSlug": "rapider-app-re-a-rapider-employees",
+  "appId": "7c424ecb-fee6-4c78-afdb-721256119a83",
+  "uiUrl": "http://localhost:4200",
+  "harnessUrl": "http://localhost:3300",
+  "uiReachable": true,
+  "totalPages": 12,
+  "pagesPassed": 12,
+  "pagesWithIssues": 0,
+  "totalIssuesFound": 0,
+  "pageReports": [
+    {
+      "route": "overview",
+      "name": "Overview",
+      "file": "pages/overview/overview.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/overview.png",
+      "issueCount": 0,
+      "passCount": 5,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 2: Overview Team growth chart dynamically hydrated from live HrEmployee records",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "directory",
+      "name": "Directory",
+      "file": "pages/directory/directory.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/directory.png",
+      "issueCount": 0,
+      "passCount": 5,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 4: Interactive column sorting enabled (5 sortable columns)",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "profile",
+      "name": "Profile",
+      "file": "pages/profile/profile.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/profile.png",
+      "issueCount": 0,
+      "passCount": 5,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "organization",
+      "name": "Organization",
+      "file": "pages/organization/organization.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/organization.png",
+      "issueCount": 0,
+      "passCount": 6,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 4: Interactive column sorting enabled (6 sortable columns)",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "lifecycle",
+      "name": "Lifecycle",
+      "file": "pages/lifecycle/lifecycle.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/lifecycle.png",
+      "issueCount": 0,
+      "passCount": 7,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 4: Interactive column sorting enabled (5 sortable columns)",
+        "Phase 4: Lifecycle bulk checkbox selection, filtered export, and Approve/Decline actions verified",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "documents",
+      "name": "Documents",
+      "file": "pages/documents/documents.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/documents.png",
+      "issueCount": 0,
+      "passCount": 7,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 4: Interactive column sorting enabled (6 sortable columns)",
+        "Phase 4: Documents bulk export accurately filters by selected checkboxes",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "reports",
+      "name": "Reports",
+      "file": "pages/reports/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/reports.png",
+      "issueCount": 0,
+      "passCount": 5,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 4: Interactive column sorting enabled (4 sortable columns)",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(35, 39, 52))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "import",
+      "name": "Import & Export",
+      "file": "pages/import/import.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/import.png",
+      "issueCount": 0,
+      "passCount": 4,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "settings",
+      "name": "Settings",
+      "file": "pages/settings/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/settings.png",
+      "issueCount": 0,
+      "passCount": 5,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "add-employee",
+      "name": "Add Employee",
+      "file": "pages/add-employee/add-employee.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/add-employee.png",
+      "issueCount": 0,
+      "passCount": 6,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 3: Employee form includes Job profile (#jobProfileId) selector",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "edit-employee",
+      "name": "Edit Employee",
+      "file": "pages/edit-employee/edit-employee.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/edit-employee.png",
+      "issueCount": 0,
+      "passCount": 6,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 3: Employee form includes Job profile (#jobProfileId) selector",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "change-employee",
+      "name": "Change Employee",
+      "file": "pages/change-employee/change-employee.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-2/change-employee.png",
+      "issueCount": 0,
+      "passCount": 6,
+      "issues": [],
+      "passes": [
+        "Phase 1: Dynamic workspace organization & user identity verified (no hardcoded ACME / Jamie Lee)",
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 3: Change Employee form includes Proposed location (#changeLocationSelect) bound to proposedLocationId",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(30, 41, 59))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    }
+  ],
+  "discoveredBugs": []
+}

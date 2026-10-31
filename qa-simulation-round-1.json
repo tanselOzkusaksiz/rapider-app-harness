@@ -1,0 +1,728 @@
+{
+  "round": 1,
+  "timestamp": "2026-10-31T18:37:54.421Z",
+  "appSlug": "rapider-app-re-a-rapider-employees",
+  "appId": "7c424ecb-fee6-4c78-afdb-721256119a83",
+  "uiUrl": "http://localhost:4200",
+  "harnessUrl": "http://localhost:3300",
+  "uiReachable": true,
+  "totalPages": 12,
+  "pagesPassed": 0,
+  "pagesWithIssues": 12,
+  "totalIssuesFound": 25,
+  "pageReports": [
+    {
+      "route": "overview",
+      "name": "Overview",
+      "file": "pages/overview/overview.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/overview.png",
+      "issueCount": 2,
+      "passCount": 3,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Overview Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 2: Empty State, Seed Data & Live Data Hydration",
+          "passRef": "Pass 02 / Pass 03",
+          "severity": "Medium",
+          "selector": "#overview-growth-chart",
+          "title": "[Overview Page] \"Team growth\" Q1–Q4 bar chart uses static hardcoded heights instead of live HrEmployee hire date data",
+          "actual": "#overview-growth-chart renders static hardcoded bar heights (60px, 75px, 90px, 110px) that do not update from live HrEmployee records.",
+          "expected": "#overview-growth-chart must dynamically compute quarterly headcount bars and labels from live HrEmployee start dates and mark data-hydrated=\"true\"."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "directory",
+      "name": "Directory",
+      "file": "pages/directory/directory.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/directory.png",
+      "issueCount": 2,
+      "passCount": 3,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Directory Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+          "passRef": "Pass 20",
+          "severity": "High",
+          "selector": "table thead th",
+          "title": "[Directory Page] Data table column headers do not support interactive ascending/descending sorting",
+          "actual": "Clicking <th> column headers on directory.html does nothing (0 th[data-sort] headers found).",
+          "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "profile",
+      "name": "Profile",
+      "file": "pages/profile/profile.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/profile.png",
+      "issueCount": 2,
+      "passCount": 3,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Profile Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie\n              Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 3: CRUD Lifecycle & Form Persistence",
+          "passRef": "Pass 02",
+          "severity": "Medium",
+          "selector": "form:not([data-save-form])",
+          "title": "[Profile Page] Mutation form(s) missing mandatory data-save-form attribute",
+          "actual": "Found 1 <form> element(s) without the data-save-form attribute (#inlineAiForm).",
+          "expected": "All mutation <form> elements must include the data-save-form attribute per Pass 02 SWR & Mutation conventions."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "organization",
+      "name": "Organization",
+      "file": "pages/organization/organization.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/organization.png",
+      "issueCount": 2,
+      "passCount": 4,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Organization Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+          "passRef": "Pass 20",
+          "severity": "High",
+          "selector": "table thead th",
+          "title": "[Organization Page] Data table column headers do not support interactive ascending/descending sorting",
+          "actual": "Clicking <th> column headers on organization.html does nothing (0 th[data-sort] headers found).",
+          "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "lifecycle",
+      "name": "Lifecycle",
+      "file": "pages/lifecycle/lifecycle.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/lifecycle.png",
+      "issueCount": 3,
+      "passCount": 4,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Lifecycle Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+          "passRef": "Pass 20",
+          "severity": "High",
+          "selector": "table thead th",
+          "title": "[Lifecycle Page] Data table column headers do not support interactive ascending/descending sorting",
+          "actual": "Clicking <th> column headers on lifecycle.html does nothing (0 th[data-sort] headers found).",
+          "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+        },
+        {
+          "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+          "passRef": "Pass 08 / Pass 20",
+          "severity": "High",
+          "selector": "#lifecycle-table-body, #bulk-bar",
+          "title": "[Lifecycle Page] Missing bulk checkbox selection handler (#bulk-bar), filtered CSV export, and Decline action on pending change requests",
+          "actual": "Checking [data-select-all] or [data-select-row] does not reveal #bulk-bar, export-selected exports all records instead of selected rows, and pending HrChangeRequest rows lack a Decline action.",
+          "expected": "Checking row/header checkboxes must toggle #bulk-bar, export-selected must export checked rows when selected, and pending requests must offer both Approve and Decline actions."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "documents",
+      "name": "Documents",
+      "file": "pages/documents/documents.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/documents.png",
+      "issueCount": 3,
+      "passCount": 4,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Documents Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+          "passRef": "Pass 20",
+          "severity": "High",
+          "selector": "table thead th",
+          "title": "[Documents Page] Data table column headers do not support interactive ascending/descending sorting",
+          "actual": "Clicking <th> column headers on documents.html does nothing (0 th[data-sort] headers found).",
+          "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+        },
+        {
+          "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+          "passRef": "Pass 20",
+          "severity": "Medium",
+          "selector": "#bulk-bar [data-action=\"export-selected\"]",
+          "title": "[Documents Page] Bulk \"Export selected\" action exports all documents instead of only checked rows",
+          "actual": "Clicking [data-action=\"export-selected\"] in #bulk-bar exports the entire state.documents array instead of filtering by checked [data-select-row] checkboxes.",
+          "expected": "[data-action=\"export-selected\"] must export only the checked document rows when rows are selected in #documents-table-body."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "reports",
+      "name": "Reports",
+      "file": "pages/reports/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/reports.png",
+      "issueCount": 2,
+      "passCount": 3,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Reports Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+          "passRef": "Pass 20",
+          "severity": "High",
+          "selector": "table thead th",
+          "title": "[Reports Page] Data table column headers do not support interactive ascending/descending sorting",
+          "actual": "Clicking <th> column headers on reports.html does nothing (0 th[data-sort] headers found).",
+          "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(35, 39, 52))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "import",
+      "name": "Import & Export",
+      "file": "pages/import/import.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/import.png",
+      "issueCount": 1,
+      "passCount": 3,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Import & Export Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "settings",
+      "name": "Settings",
+      "file": "pages/settings/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/settings.png",
+      "issueCount": 2,
+      "passCount": 3,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Settings Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 3: CRUD Lifecycle & Form Persistence",
+          "passRef": "Pass 02",
+          "severity": "Medium",
+          "selector": "form:not([data-save-form])",
+          "title": "[Settings Page] Mutation form(s) missing mandatory data-save-form attribute",
+          "actual": "Found 2 <form> element(s) without the data-save-form attribute (#settings-preferences-form, #locale-preferences-form).",
+          "expected": "All mutation <form> elements must include the data-save-form attribute per Pass 02 SWR & Mutation conventions."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "add-employee",
+      "name": "Add Employee",
+      "file": "pages/add-employee/add-employee.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/add-employee.png",
+      "issueCount": 2,
+      "passCount": 4,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Add Employee Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 3: CRUD Lifecycle & Schema Completeness",
+          "passRef": "Pass 03 / Pass 09",
+          "severity": "Medium",
+          "selector": "#addEmployeeForm",
+          "title": "[Add Employee Page] Employee form missing \"Job profile\" (jobProfileId) selector required for 100% Data Completeness",
+          "actual": "Form does not include a Job profile (#jobProfileId) selector, leaving jobProfileId unset on created/updated HrEmployee records.",
+          "expected": "Form must include a #jobProfileId dropdown populated from live HrJobProfile records and persist jobProfileId on save."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "edit-employee",
+      "name": "Edit Employee",
+      "file": "pages/edit-employee/edit-employee.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/edit-employee.png",
+      "issueCount": 2,
+      "passCount": 4,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Edit Employee Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 3: CRUD Lifecycle & Schema Completeness",
+          "passRef": "Pass 03 / Pass 09",
+          "severity": "Medium",
+          "selector": "#editEmployeeForm",
+          "title": "[Edit Employee Page] Employee form missing \"Job profile\" (jobProfileId) selector required for 100% Data Completeness",
+          "actual": "Form does not include a Job profile (#jobProfileId) selector, leaving jobProfileId unset on created/updated HrEmployee records.",
+          "expected": "Form must include a #jobProfileId dropdown populated from live HrJobProfile records and persist jobProfileId on save."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    },
+    {
+      "route": "change-employee",
+      "name": "Change Employee",
+      "file": "pages/change-employee/change-employee.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-app-harness/qa-screenshots/round-1/change-employee.png",
+      "issueCount": 2,
+      "passCount": 4,
+      "issues": [
+        {
+          "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+          "passRef": "Pass 03 / Pass 19",
+          "severity": "High",
+          "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+          "title": "[Change Employee Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+          "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+          "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+        },
+        {
+          "phase": "Phase 3: CRUD Lifecycle & Schema Completeness",
+          "passRef": "Pass 03 / Pass 09",
+          "severity": "Medium",
+          "selector": "#changeForm",
+          "title": "[Change Employee Page] Form missing \"Proposed location\" (proposedLocationId) selector despite HrChangeRequest schema support",
+          "actual": "loadChangePageData() fetches HrLocation records, but #changeForm has no Proposed location dropdown bound to proposedLocationId.",
+          "expected": "#changeForm must include a #changeLocationSelect dropdown populated with live HrLocation options and submit proposedLocationId in the HrChangeRequest payload."
+        }
+      ],
+      "passes": [
+        "Phase 1: Zero wireframe identity leaks (\"Amelia Brooks\" / \"EMP-0108\")",
+        "Phase 3: All mutation <form> elements include data-save-form",
+        "Phase 5: Dark Mode (html.dark / body.dark) surface parity verified (panel: rgb(28, 32, 42))",
+        "Phase 6: 0 Console Errors & 0 HTTP 4xx/5xx API Errors"
+      ]
+    }
+  ],
+  "discoveredBugs": [
+    {
+      "pageRoute": "overview",
+      "pageName": "Overview",
+      "file": "pages/overview/overview.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Overview Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "overview",
+      "pageName": "Overview",
+      "file": "pages/overview/overview.html",
+      "phase": "Phase 2: Empty State, Seed Data & Live Data Hydration",
+      "passRef": "Pass 02 / Pass 03",
+      "severity": "Medium",
+      "selector": "#overview-growth-chart",
+      "title": "[Overview Page] \"Team growth\" Q1–Q4 bar chart uses static hardcoded heights instead of live HrEmployee hire date data",
+      "actual": "#overview-growth-chart renders static hardcoded bar heights (60px, 75px, 90px, 110px) that do not update from live HrEmployee records.",
+      "expected": "#overview-growth-chart must dynamically compute quarterly headcount bars and labels from live HrEmployee start dates and mark data-hydrated=\"true\"."
+    },
+    {
+      "pageRoute": "directory",
+      "pageName": "Directory",
+      "file": "pages/directory/directory.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Directory Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "directory",
+      "pageName": "Directory",
+      "file": "pages/directory/directory.html",
+      "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+      "passRef": "Pass 20",
+      "severity": "High",
+      "selector": "table thead th",
+      "title": "[Directory Page] Data table column headers do not support interactive ascending/descending sorting",
+      "actual": "Clicking <th> column headers on directory.html does nothing (0 th[data-sort] headers found).",
+      "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+    },
+    {
+      "pageRoute": "profile",
+      "pageName": "Profile",
+      "file": "pages/profile/profile.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Profile Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie\n              Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "profile",
+      "pageName": "Profile",
+      "file": "pages/profile/profile.html",
+      "phase": "Phase 3: CRUD Lifecycle & Form Persistence",
+      "passRef": "Pass 02",
+      "severity": "Medium",
+      "selector": "form:not([data-save-form])",
+      "title": "[Profile Page] Mutation form(s) missing mandatory data-save-form attribute",
+      "actual": "Found 1 <form> element(s) without the data-save-form attribute (#inlineAiForm).",
+      "expected": "All mutation <form> elements must include the data-save-form attribute per Pass 02 SWR & Mutation conventions."
+    },
+    {
+      "pageRoute": "organization",
+      "pageName": "Organization",
+      "file": "pages/organization/organization.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Organization Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "organization",
+      "pageName": "Organization",
+      "file": "pages/organization/organization.html",
+      "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+      "passRef": "Pass 20",
+      "severity": "High",
+      "selector": "table thead th",
+      "title": "[Organization Page] Data table column headers do not support interactive ascending/descending sorting",
+      "actual": "Clicking <th> column headers on organization.html does nothing (0 th[data-sort] headers found).",
+      "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+    },
+    {
+      "pageRoute": "lifecycle",
+      "pageName": "Lifecycle",
+      "file": "pages/lifecycle/lifecycle.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Lifecycle Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "lifecycle",
+      "pageName": "Lifecycle",
+      "file": "pages/lifecycle/lifecycle.html",
+      "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+      "passRef": "Pass 20",
+      "severity": "High",
+      "selector": "table thead th",
+      "title": "[Lifecycle Page] Data table column headers do not support interactive ascending/descending sorting",
+      "actual": "Clicking <th> column headers on lifecycle.html does nothing (0 th[data-sort] headers found).",
+      "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+    },
+    {
+      "pageRoute": "lifecycle",
+      "pageName": "Lifecycle",
+      "file": "pages/lifecycle/lifecycle.html",
+      "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+      "passRef": "Pass 08 / Pass 20",
+      "severity": "High",
+      "selector": "#lifecycle-table-body, #bulk-bar",
+      "title": "[Lifecycle Page] Missing bulk checkbox selection handler (#bulk-bar), filtered CSV export, and Decline action on pending change requests",
+      "actual": "Checking [data-select-all] or [data-select-row] does not reveal #bulk-bar, export-selected exports all records instead of selected rows, and pending HrChangeRequest rows lack a Decline action.",
+      "expected": "Checking row/header checkboxes must toggle #bulk-bar, export-selected must export checked rows when selected, and pending requests must offer both Approve and Decline actions."
+    },
+    {
+      "pageRoute": "documents",
+      "pageName": "Documents",
+      "file": "pages/documents/documents.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Documents Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "documents",
+      "pageName": "Documents",
+      "file": "pages/documents/documents.html",
+      "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+      "passRef": "Pass 20",
+      "severity": "High",
+      "selector": "table thead th",
+      "title": "[Documents Page] Data table column headers do not support interactive ascending/descending sorting",
+      "actual": "Clicking <th> column headers on documents.html does nothing (0 th[data-sort] headers found).",
+      "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+    },
+    {
+      "pageRoute": "documents",
+      "pageName": "Documents",
+      "file": "pages/documents/documents.html",
+      "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+      "passRef": "Pass 20",
+      "severity": "Medium",
+      "selector": "#bulk-bar [data-action=\"export-selected\"]",
+      "title": "[Documents Page] Bulk \"Export selected\" action exports all documents instead of only checked rows",
+      "actual": "Clicking [data-action=\"export-selected\"] in #bulk-bar exports the entire state.documents array instead of filtering by checked [data-select-row] checkboxes.",
+      "expected": "[data-action=\"export-selected\"] must export only the checked document rows when rows are selected in #documents-table-body."
+    },
+    {
+      "pageRoute": "reports",
+      "pageName": "Reports",
+      "file": "pages/reports/reports.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Reports Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "reports",
+      "pageName": "Reports",
+      "file": "pages/reports/reports.html",
+      "phase": "Phase 4: Search, Filtering, Column Sorting & Bulk Actions",
+      "passRef": "Pass 20",
+      "severity": "High",
+      "selector": "table thead th",
+      "title": "[Reports Page] Data table column headers do not support interactive ascending/descending sorting",
+      "actual": "Clicking <th> column headers on reports.html does nothing (0 th[data-sort] headers found).",
+      "expected": "Data table column headers must include data-sort attributes and click handlers that toggle ascending/descending sort order with visible ↑/↓ indicators."
+    },
+    {
+      "pageRoute": "import",
+      "pageName": "Import & Export",
+      "file": "pages/import/import.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Import & Export Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "settings",
+      "pageName": "Settings",
+      "file": "pages/settings/settings.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Settings Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "settings",
+      "pageName": "Settings",
+      "file": "pages/settings/settings.html",
+      "phase": "Phase 3: CRUD Lifecycle & Form Persistence",
+      "passRef": "Pass 02",
+      "severity": "Medium",
+      "selector": "form:not([data-save-form])",
+      "title": "[Settings Page] Mutation form(s) missing mandatory data-save-form attribute",
+      "actual": "Found 2 <form> element(s) without the data-save-form attribute (#settings-preferences-form, #locale-preferences-form).",
+      "expected": "All mutation <form> elements must include the data-save-form attribute per Pass 02 SWR & Mutation conventions."
+    },
+    {
+      "pageRoute": "add-employee",
+      "pageName": "Add Employee",
+      "file": "pages/add-employee/add-employee.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Add Employee Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "add-employee",
+      "pageName": "Add Employee",
+      "file": "pages/add-employee/add-employee.html",
+      "phase": "Phase 3: CRUD Lifecycle & Schema Completeness",
+      "passRef": "Pass 03 / Pass 09",
+      "severity": "Medium",
+      "selector": "#addEmployeeForm",
+      "title": "[Add Employee Page] Employee form missing \"Job profile\" (jobProfileId) selector required for 100% Data Completeness",
+      "actual": "Form does not include a Job profile (#jobProfileId) selector, leaving jobProfileId unset on created/updated HrEmployee records.",
+      "expected": "Form must include a #jobProfileId dropdown populated from live HrJobProfile records and persist jobProfileId on save."
+    },
+    {
+      "pageRoute": "edit-employee",
+      "pageName": "Edit Employee",
+      "file": "pages/edit-employee/edit-employee.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Edit Employee Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "edit-employee",
+      "pageName": "Edit Employee",
+      "file": "pages/edit-employee/edit-employee.html",
+      "phase": "Phase 3: CRUD Lifecycle & Schema Completeness",
+      "passRef": "Pass 03 / Pass 09",
+      "severity": "Medium",
+      "selector": "#editEmployeeForm",
+      "title": "[Edit Employee Page] Employee form missing \"Job profile\" (jobProfileId) selector required for 100% Data Completeness",
+      "actual": "Form does not include a Job profile (#jobProfileId) selector, leaving jobProfileId unset on created/updated HrEmployee records.",
+      "expected": "Form must include a #jobProfileId dropdown populated from live HrJobProfile records and persist jobProfileId on save."
+    },
+    {
+      "pageRoute": "change-employee",
+      "pageName": "Change Employee",
+      "file": "pages/change-employee/change-employee.html",
+      "phase": "Phase 1: Initial Load, Identity & Zero Mock Leaks",
+      "passRef": "Pass 03 / Pass 19",
+      "severity": "High",
+      "selector": ".sidebar .profile-link, .topbar .eyebrow, .sidebar .appbox",
+      "title": "[Change Employee Page] Hardcoded mock organization (\"ACME / EMPLOYEES\") and user identity (\"Jamie Lee\") instead of dynamic workspace/user resolution",
+      "actual": "Topbar eyebrow displays \"ACME / EMPLOYEES\", sidebar appbox displays \"Acme · People\", and sidebar footer displays \"Jamie Lee (Acme · People operations)\".",
+      "expected": "Organization name and logged-in user identity must be resolved dynamically from the active Rapider workspace/session or FinLegalEntity record, never hardcoded to \"ACME\" or \"Jamie Lee\"."
+    },
+    {
+      "pageRoute": "change-employee",
+      "pageName": "Change Employee",
+      "file": "pages/change-employee/change-employee.html",
+      "phase": "Phase 3: CRUD Lifecycle & Schema Completeness",
+      "passRef": "Pass 03 / Pass 09",
+      "severity": "Medium",
+      "selector": "#changeForm",
+      "title": "[Change Employee Page] Form missing \"Proposed location\" (proposedLocationId) selector despite HrChangeRequest schema support",
+      "actual": "loadChangePageData() fetches HrLocation records, but #changeForm has no Proposed location dropdown bound to proposedLocationId.",
+      "expected": "#changeForm must include a #changeLocationSelect dropdown populated with live HrLocation options and submit proposedLocationId in the HrChangeRequest payload."
+    }
+  ]
+}
