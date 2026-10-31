@@ -2,159 +2,196 @@
   "app": "rapider-app-assets-rapider-asset-management",
   "appName": "Rapider Asset Management",
   "round": "2",
-  "timestamp": "2026-10-31T21:40:25.329Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:02:42.008Z",
   "pages": [
     {
       "id": "home",
       "title": "Workspace & Operations",
       "route": "home",
-      "file": "pages/home.html",
+      "file": "pages/home/home.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/home.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "records",
       "title": "Workspace & Operations",
       "route": "records",
-      "file": "pages/records.html",
+      "file": "pages/records/records.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/records.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "operations",
       "title": "Workspace & Operations",
       "route": "operations",
-      "file": "pages/operations.html",
+      "file": "pages/operations/operations.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/operations.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 4,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "work",
       "title": "Reviews, Analytics & Settings",
       "route": "work",
-      "file": "pages/work.html",
+      "file": "pages/work/work.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/work.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "detail",
       "title": "Record Details",
       "route": "detail",
-      "file": "pages/detail.html",
+      "file": "pages/detail/detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "create",
       "title": "Create Record",
       "route": "create",
-      "file": "pages/create.html",
+      "file": "pages/create/create.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/create.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "edit",
       "title": "Edit Record",
       "route": "edit",
-      "file": "pages/edit.html",
+      "file": "pages/edit/edit.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/edit.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "reports",
       "title": "Reviews, Analytics & Settings",
       "route": "reports",
-      "file": "pages/reports.html",
+      "file": "pages/reports/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "settings",
       "title": "Reviews, Analytics & Settings",
       "route": "settings",
-      "file": "pages/settings.html",
+      "file": "pages/settings/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-assets-rapider-asset-management/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     }
   ]

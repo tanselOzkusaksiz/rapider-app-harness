@@ -2,26 +2,28 @@
   "app": "rapider-app-hrto-a1-hr-time-off",
   "appName": "Rapider HR Time Off",
   "round": "2",
-  "timestamp": "2026-10-31T21:41:24.227Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:03:42.019Z",
   "pages": [
     {
       "id": "overview",
       "title": "Time Off",
       "route": "overview",
       "file": "pages/overview/overview.html",
-      "consoleErrors": [
-        "Failed to load resource: the server responded with a status of 400 (Bad Request)",
-        "[RapiderBridge] API call failed for HrCase (find): Error: CRITICAL: Operation rejected. Missing or invalid projectId.\n    at HarnessApiClient.executeRawApiCall (http://localhost:3300/js/api-client.js:441:15)\n    at async HarnessApiClient.executeProjectDataManagerCall (http://localhost:3300/js/api-client.js:358:12)\n    at async http://localhost:3300/js/rapider-bridge.js:105:24"
-      ],
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/overview.png",
+      "dimensions": "1200x800",
+      "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -29,16 +31,20 @@
       "title": "Time Off",
       "route": "request",
       "file": "pages/request/request.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/request.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -46,16 +52,20 @@
       "title": "Time Off",
       "route": "requests",
       "file": "pages/requests/requests.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/requests.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -63,16 +73,20 @@
       "title": "Time Off",
       "route": "team-calendar",
       "file": "pages/team-calendar/team-calendar.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/team-calendar.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -80,16 +94,20 @@
       "title": "Administration",
       "route": "policies",
       "file": "pages/policies/policies.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/policies.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": false
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -97,16 +115,20 @@
       "title": "Administration",
       "route": "ledger",
       "file": "pages/ledger/ledger.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/ledger.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": false
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -114,16 +136,20 @@
       "title": "Administration",
       "route": "leave-case",
       "file": "pages/leave-case/leave-case.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/leave-case.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": false
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -131,16 +157,20 @@
       "title": "Administration",
       "route": "reports",
       "file": "pages/reports/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": false
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -148,16 +178,20 @@
       "title": "Administration",
       "route": "settings",
       "file": "pages/settings/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 2,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -165,16 +199,20 @@
       "title": "Time Off",
       "route": "request-detail",
       "file": "pages/request-detail/request-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/request-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
@@ -182,16 +220,20 @@
       "title": "Administration",
       "route": "policy-editor",
       "file": "pages/policy-editor/policy-editor.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrto-a1-hr-time-off/screenshots/policy-editor.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     }
   ]

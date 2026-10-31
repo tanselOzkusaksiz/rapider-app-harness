@@ -2,448 +2,553 @@
   "app": "rapider-app-learning-experience-skills-rapider-learning-experience-skills",
   "appName": "Rapider Learning Experience & Skills",
   "round": "2",
-  "timestamp": "2026-10-31T21:50:11.173Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:03:56.334Z",
   "pages": [
     {
       "id": "home",
       "title": "Overview & Core Workspace",
       "route": "home",
-      "file": "pages/home.html",
+      "file": "pages/home/home.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/home.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "discover",
       "title": "Overview & Core Workspace",
       "route": "discover",
-      "file": "pages/discover.html",
+      "file": "pages/discover/discover.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/discover.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "content",
       "title": "Overview & Core Workspace",
       "route": "content",
-      "file": "pages/content.html",
+      "file": "pages/content/content.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/content.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "compare",
       "title": "Overview & Core Workspace",
       "route": "compare",
-      "file": "pages/compare.html",
+      "file": "pages/compare/compare.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/compare.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "saved",
       "title": "Overview & Core Workspace",
       "route": "saved",
-      "file": "pages/saved.html",
+      "file": "pages/saved/saved.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/saved.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "paths",
       "title": "Operations & Execution",
       "route": "paths",
-      "file": "pages/paths.html",
+      "file": "pages/paths/paths.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/paths.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "path-detail",
       "title": "Operations & Execution",
       "route": "path-detail",
-      "file": "pages/path-detail.html",
+      "file": "pages/path-detail/path-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/path-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "path-builder",
       "title": "Operations & Execution",
       "route": "path-builder",
-      "file": "pages/path-builder.html",
+      "file": "pages/path-builder/path-builder.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/path-builder.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "goals",
       "title": "Operations & Execution",
       "route": "goals",
-      "file": "pages/goals.html",
+      "file": "pages/goals/goals.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/goals.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "goal-editor",
       "title": "Operations & Execution",
       "route": "goal-editor",
-      "file": "pages/goal-editor.html",
+      "file": "pages/goal-editor/goal-editor.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/goal-editor.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "skills",
       "title": "Management & Workflows",
       "route": "skills",
-      "file": "pages/skills.html",
+      "file": "pages/skills/skills.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/skills.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "skill-detail",
       "title": "Management & Workflows",
       "route": "skill-detail",
-      "file": "pages/skill-detail.html",
+      "file": "pages/skill-detail/skill-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/skill-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "evidence",
       "title": "Management & Workflows",
       "route": "evidence",
-      "file": "pages/evidence.html",
+      "file": "pages/evidence/evidence.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/evidence.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "evidence-submit",
       "title": "Management & Workflows",
       "route": "evidence-submit",
-      "file": "pages/evidence-submit.html",
+      "file": "pages/evidence-submit/evidence-submit.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/evidence-submit.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "circles",
       "title": "Analytics & Reporting",
       "route": "circles",
-      "file": "pages/circles.html",
+      "file": "pages/circles/circles.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/circles.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "circle-detail",
       "title": "Analytics & Reporting",
       "route": "circle-detail",
-      "file": "pages/circle-detail.html",
+      "file": "pages/circle-detail/circle-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/circle-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "opportunities",
       "title": "Analytics & Reporting",
       "route": "opportunities",
-      "file": "pages/opportunities.html",
+      "file": "pages/opportunities/opportunities.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/opportunities.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "activity",
       "title": "Analytics & Reporting",
       "route": "activity",
-      "file": "pages/activity.html",
+      "file": "pages/activity/activity.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/activity.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "ai-guide",
       "title": "Administration & Settings",
       "route": "ai-guide",
-      "file": "pages/ai-guide.html",
+      "file": "pages/ai-guide/ai-guide.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/ai-guide.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "manager",
       "title": "Administration & Settings",
       "route": "manager",
-      "file": "pages/manager.html",
+      "file": "pages/manager/manager.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/manager.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "curation",
       "title": "Administration & Settings",
       "route": "curation",
-      "file": "pages/curation.html",
+      "file": "pages/curation/curation.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/curation.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "catalog-admin",
       "title": "Administration & Settings",
       "route": "catalog-admin",
-      "file": "pages/catalog-admin.html",
+      "file": "pages/catalog-admin/catalog-admin.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/catalog-admin.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "taxonomy",
       "title": "Extended Modules",
       "route": "taxonomy",
-      "file": "pages/taxonomy.html",
+      "file": "pages/taxonomy/taxonomy.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/taxonomy.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "providers",
       "title": "Extended Modules",
       "route": "providers",
-      "file": "pages/providers.html",
+      "file": "pages/providers/providers.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/providers.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "insights",
       "title": "Extended Modules",
       "route": "insights",
-      "file": "pages/insights.html",
+      "file": "pages/insights/insights.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/insights.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "preferences",
       "title": "Extended Modules",
       "route": "preferences",
-      "file": "pages/preferences.html",
+      "file": "pages/preferences/preferences.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-learning-experience-skills-rapider-learning-experience-skills/screenshots/preferences.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     }
   ]

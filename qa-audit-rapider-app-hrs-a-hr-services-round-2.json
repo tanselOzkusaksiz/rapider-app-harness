@@ -2,210 +2,259 @@
   "app": "rapider-app-hrs-a-hr-services",
   "appName": "Rapider HR Services",
   "round": "2",
-  "timestamp": "2026-10-31T21:41:21.495Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:03:39.351Z",
   "pages": [
     {
       "id": "overview",
       "title": "Overview & Core Workspace",
       "route": "overview",
-      "file": "pages/overview.html",
+      "file": "pages/overview/overview.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/overview.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "help-center",
       "title": "Overview & Core Workspace",
       "route": "help-center",
-      "file": "pages/help-center.html",
+      "file": "pages/help-center/help-center.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/help-center.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "my-requests",
       "title": "Overview & Core Workspace",
       "route": "my-requests",
-      "file": "pages/my-requests.html",
+      "file": "pages/my-requests/my-requests.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/my-requests.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "new-request",
       "title": "Operations & Execution",
       "route": "new-request",
-      "file": "pages/new-request.html",
+      "file": "pages/new-request/new-request.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/new-request.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "cases",
       "title": "Operations & Execution",
       "route": "cases",
-      "file": "pages/cases.html",
+      "file": "pages/cases/cases.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/cases.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "knowledge",
       "title": "Operations & Execution",
       "route": "knowledge",
-      "file": "pages/knowledge.html",
+      "file": "pages/knowledge/knowledge.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/knowledge.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "services",
       "title": "Management & Workflows",
       "route": "services",
-      "file": "pages/services.html",
+      "file": "pages/services/services.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/services.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "reports",
       "title": "Management & Workflows",
       "route": "reports",
-      "file": "pages/reports.html",
+      "file": "pages/reports/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": false
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "settings",
       "title": "Management & Workflows",
       "route": "settings",
-      "file": "pages/settings.html",
+      "file": "pages/settings/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 3,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "case-detail",
       "title": "Case-detail",
       "route": "case-detail",
-      "file": "pages/case-detail.html",
+      "file": "pages/case-detail/case-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/case-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "article",
       "title": "Article",
       "route": "article",
-      "file": "pages/article.html",
+      "file": "pages/article/article.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/article.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "article-editor",
       "title": "Article-editor",
       "route": "article-editor",
-      "file": "pages/article-editor.html",
+      "file": "pages/article-editor/article-editor.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrs-a-hr-services/screenshots/article-editor.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     }
   ]

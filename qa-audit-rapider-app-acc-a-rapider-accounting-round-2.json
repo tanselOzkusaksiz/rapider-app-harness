@@ -2,23 +2,28 @@
   "app": "rapider-app-acc-a-rapider-accounting",
   "appName": "Rapider FNS Accounting",
   "round": "2",
-  "timestamp": "2026-10-31T21:40:07.852Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:02:23.400Z",
   "pages": [
     {
       "id": "suppliers",
       "title": "Suppliers",
       "route": "suppliers",
       "file": "pages/suppliers.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/suppliers.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -26,16 +31,20 @@
       "title": "Ledger",
       "route": "ledger",
       "file": "pages/ledger.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/ledger.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -43,16 +52,20 @@
       "title": "Cash",
       "route": "cash",
       "file": "pages/cash.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/cash.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -60,16 +73,20 @@
       "title": "Home",
       "route": "home",
       "file": "pages/home.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/home.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -77,16 +94,20 @@
       "title": "Receipt Allocation",
       "route": "receipt-allocation",
       "file": "pages/receipt-allocation.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/receipt-allocation.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -94,16 +115,20 @@
       "title": "Assets",
       "route": "assets",
       "file": "pages/assets.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/assets.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -111,16 +136,20 @@
       "title": "Work Item",
       "route": "work-item",
       "file": "pages/work-item.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/work-item.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -128,16 +157,20 @@
       "title": "Currency Revaluation",
       "route": "currency-revaluation",
       "file": "pages/currency-revaluation.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/currency-revaluation.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -145,16 +178,20 @@
       "title": "Consolidation",
       "route": "consolidation",
       "file": "pages/consolidation.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/consolidation.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -162,16 +199,20 @@
       "title": "Budgets",
       "route": "budgets",
       "file": "pages/budgets.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/budgets.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -179,16 +220,20 @@
       "title": "Tax Center",
       "route": "tax-center",
       "file": "pages/tax-center.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/tax-center.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 2,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -196,16 +241,20 @@
       "title": "Close Center",
       "route": "close-center",
       "file": "pages/close-center.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/close-center.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -213,16 +262,20 @@
       "title": "Payables",
       "route": "payables",
       "file": "pages/payables.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/payables.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -230,16 +283,20 @@
       "title": "Journals",
       "route": "journals",
       "file": "pages/journals.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/journals.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -247,16 +304,20 @@
       "title": "Trial Balance",
       "route": "trial-balance",
       "file": "pages/trial-balance.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/trial-balance.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -264,16 +325,20 @@
       "title": "Schedules",
       "route": "schedules",
       "file": "pages/schedules.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/schedules.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -281,16 +346,20 @@
       "title": "Depreciation Run",
       "route": "depreciation-run",
       "file": "pages/depreciation-run.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/depreciation-run.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -298,16 +367,20 @@
       "title": "Bank Matching",
       "route": "bank-matching",
       "file": "pages/bank-matching.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/bank-matching.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -315,16 +388,20 @@
       "title": "Receivables",
       "route": "receivables",
       "file": "pages/receivables.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/receivables.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -332,16 +409,20 @@
       "title": "Entities",
       "route": "entities",
       "file": "pages/entities.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/entities.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -349,16 +430,20 @@
       "title": "Bill New",
       "route": "bill-new",
       "file": "pages/bill-new.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/bill-new.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -366,16 +451,20 @@
       "title": "Close Task",
       "route": "close-task",
       "file": "pages/close-task.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/close-task.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -383,16 +472,20 @@
       "title": "Dimensions",
       "route": "dimensions",
       "file": "pages/dimensions.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/dimensions.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -400,16 +493,20 @@
       "title": "Chart Of Accounts",
       "route": "chart-of-accounts",
       "file": "pages/chart-of-accounts.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/chart-of-accounts.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -417,16 +514,20 @@
       "title": "Budget Analysis",
       "route": "budget-analysis",
       "file": "pages/budget-analysis.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/budget-analysis.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -434,16 +535,20 @@
       "title": "Account Detail",
       "route": "account-detail",
       "file": "pages/account-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/account-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -451,16 +556,20 @@
       "title": "Integrations",
       "route": "integrations",
       "file": "pages/integrations.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/integrations.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 3,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -468,16 +577,20 @@
       "title": "Tax Return",
       "route": "tax-return",
       "file": "pages/tax-return.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/tax-return.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -485,16 +598,20 @@
       "title": "Bill Detail",
       "route": "bill-detail",
       "file": "pages/bill-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/bill-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -502,16 +619,20 @@
       "title": "Payment Batches",
       "route": "payment-batches",
       "file": "pages/payment-batches.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/payment-batches.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -519,16 +640,20 @@
       "title": "Migration",
       "route": "migration",
       "file": "pages/migration.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/migration.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -536,16 +661,20 @@
       "title": "Journal Detail",
       "route": "journal-detail",
       "file": "pages/journal-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/journal-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -553,16 +682,20 @@
       "title": "Intercompany",
       "route": "intercompany",
       "file": "pages/intercompany.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/intercompany.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -570,16 +703,20 @@
       "title": "Audit Log",
       "route": "audit-log",
       "file": "pages/audit-log.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/audit-log.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -587,16 +724,20 @@
       "title": "Accounting Books",
       "route": "accounting-books",
       "file": "pages/accounting-books.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/accounting-books.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 2,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -604,16 +745,20 @@
       "title": "Journal New",
       "route": "journal-new",
       "file": "pages/journal-new.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/journal-new.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -621,16 +766,20 @@
       "title": "Reconciliation Detail",
       "route": "reconciliation-detail",
       "file": "pages/reconciliation-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/reconciliation-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -638,16 +787,20 @@
       "title": "Collections",
       "route": "collections",
       "file": "pages/collections.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/collections.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -655,16 +808,20 @@
       "title": "Financial Statements",
       "route": "financial-statements",
       "file": "pages/financial-statements.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/financial-statements.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -672,16 +829,20 @@
       "title": "Setup",
       "route": "setup",
       "file": "pages/setup.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/setup.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -689,16 +850,20 @@
       "title": "Design Collection",
       "route": "design-collection",
       "file": "pages/design-collection.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/design-collection.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -706,16 +871,20 @@
       "title": "Controls",
       "route": "controls",
       "file": "pages/controls.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/controls.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -723,16 +892,20 @@
       "title": "Country Packs",
       "route": "country-packs",
       "file": "pages/country-packs.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/country-packs.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -740,16 +913,20 @@
       "title": "Asset Detail",
       "route": "asset-detail",
       "file": "pages/asset-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/asset-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -757,16 +934,20 @@
       "title": "Reports",
       "route": "reports",
       "file": "pages/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -774,16 +955,20 @@
       "title": "Report Builder",
       "route": "report-builder",
       "file": "pages/report-builder.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-acc-a-rapider-accounting/screenshots/report-builder.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     }
   ]

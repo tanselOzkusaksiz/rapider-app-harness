@@ -2,23 +2,28 @@
   "app": "rapider-app-pce-a-payments-cash-execution",
   "appName": "Rapider FNS Payments & Cash Execution",
   "round": "2",
-  "timestamp": "2026-10-31T21:41:58.301Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:04:14.740Z",
   "pages": [
     {
       "id": "batch-detail",
       "title": "Overview & Core Workspace",
       "route": "batch-detail",
       "file": "pages/batch-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/batch-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -26,16 +31,20 @@
       "title": "Overview & Core Workspace",
       "route": "calendar",
       "file": "pages/calendar.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/calendar.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -43,16 +52,20 @@
       "title": "Overview & Core Workspace",
       "route": "directory",
       "file": "pages/directory.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/directory.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -60,16 +73,20 @@
       "title": "Overview & Core Workspace",
       "route": "exception-detail",
       "file": "pages/exception-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/exception-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -77,16 +94,20 @@
       "title": "Operations & Execution",
       "route": "exceptions",
       "file": "pages/exceptions.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/exceptions.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -94,16 +115,20 @@
       "title": "Operations & Execution",
       "route": "execution-monitor",
       "file": "pages/execution-monitor.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/execution-monitor.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -111,16 +136,20 @@
       "title": "Operations & Execution",
       "route": "home",
       "file": "pages/home.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/home.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -128,16 +157,20 @@
       "title": "Operations & Execution",
       "route": "methods",
       "file": "pages/methods.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/methods.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -145,16 +178,20 @@
       "title": "Management & Workflows",
       "route": "payment-detail",
       "file": "pages/payment-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/payment-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -162,16 +199,20 @@
       "title": "Management & Workflows",
       "route": "payment-edit",
       "file": "pages/payment-edit.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/payment-edit.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -179,16 +220,20 @@
       "title": "Management & Workflows",
       "route": "payment-new",
       "file": "pages/payment-new.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/payment-new.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -196,16 +241,20 @@
       "title": "Management & Workflows",
       "route": "payments",
       "file": "pages/payments.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/payments.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -213,16 +262,20 @@
       "title": "Analytics & Reporting",
       "route": "proposals",
       "file": "pages/proposals.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/proposals.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -230,16 +283,20 @@
       "title": "Analytics & Reporting",
       "route": "provider-detail",
       "file": "pages/provider-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/provider-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -247,16 +304,20 @@
       "title": "Analytics & Reporting",
       "route": "providers",
       "file": "pages/providers.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/providers.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -264,16 +325,20 @@
       "title": "Analytics & Reporting",
       "route": "reconciliation",
       "file": "pages/reconciliation.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/reconciliation.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 2,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -281,16 +346,20 @@
       "title": "Administration & Settings",
       "route": "reports",
       "file": "pages/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 2,
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -298,16 +367,20 @@
       "title": "Administration & Settings",
       "route": "return-detail",
       "file": "pages/return-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/return-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 2,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -315,16 +388,20 @@
       "title": "Administration & Settings",
       "route": "returns",
       "file": "pages/returns.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/returns.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -332,16 +409,20 @@
       "title": "Administration & Settings",
       "route": "settings",
       "file": "pages/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -349,16 +430,20 @@
       "title": "Extended Modules",
       "route": "settlement-detail",
       "file": "pages/settlement-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/settlement-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -366,16 +451,20 @@
       "title": "Extended Modules",
       "route": "settlements",
       "file": "pages/settlements.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/settlements.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
@@ -383,16 +472,20 @@
       "title": "Extended Modules",
       "route": "work-item",
       "file": "pages/work-item.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-pce-a-payments-cash-execution/screenshots/work-item.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     }
   ]

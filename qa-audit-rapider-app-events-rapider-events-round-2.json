@@ -2,431 +2,532 @@
   "app": "rapider-app-events-rapider-events",
   "appName": "Rapider Events",
   "round": "2",
-  "timestamp": "2026-10-31T21:41:01.050Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:03:18.491Z",
   "pages": [
     {
       "id": "home",
       "title": "Home",
       "route": "home",
-      "file": "pages/home.html",
+      "file": "pages/home/home.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/home.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "records",
       "title": "Events",
       "route": "records",
-      "file": "pages/records.html",
+      "file": "pages/records/records.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/records.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "detail",
       "title": "Event overview",
       "route": "detail",
-      "file": "pages/detail.html",
+      "file": "pages/detail/detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "create",
       "title": "Event editor",
       "route": "create",
-      "file": "pages/create.html",
+      "file": "pages/create/create.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/create.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "agenda",
       "title": "Agenda & speakers",
       "route": "agenda",
-      "file": "pages/agenda.html",
+      "file": "pages/agenda/agenda.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/agenda.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "attendees",
       "title": "Attendees",
       "route": "attendees",
-      "file": "pages/attendees.html",
+      "file": "pages/attendees/attendees.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/attendees.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "check-in",
       "title": "Check-in",
       "route": "check-in",
-      "file": "pages/check-in.html",
+      "file": "pages/check-in/check-in.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/check-in.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "registration",
       "title": "Public registration",
       "route": "registration",
-      "file": "pages/registration.html",
+      "file": "pages/registration/registration.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/registration.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "operations",
       "title": "Event operations",
       "route": "operations",
-      "file": "pages/operations.html",
+      "file": "pages/operations/operations.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/operations.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "reports",
       "title": "Performance",
       "route": "reports",
-      "file": "pages/reports.html",
+      "file": "pages/reports/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "work",
       "title": "Needs attention",
       "route": "work",
-      "file": "pages/work.html",
+      "file": "pages/work/work.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/work.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "settings",
       "title": "Settings",
       "route": "settings",
-      "file": "pages/settings.html",
+      "file": "pages/settings/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 1
       }
     },
     {
       "id": "guest-experience",
       "title": "Guest experience",
       "route": "guest-experience",
-      "file": "pages/guest-experience.html",
+      "file": "pages/guest-experience/guest-experience.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/guest-experience.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "formCount": 0,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "guest-profile",
       "title": "Guest details",
       "route": "guest-profile",
-      "file": "pages/guest-profile.html",
+      "file": "pages/guest-profile/guest-profile.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/guest-profile.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "staff-arrival",
       "title": "Arrival desk",
       "route": "staff-arrival",
-      "file": "pages/staff-arrival.html",
+      "file": "pages/staff-arrival/staff-arrival.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/staff-arrival.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "guest-welcome",
       "title": "Guest check-in",
       "route": "guest-welcome",
-      "file": "pages/guest-welcome.html",
+      "file": "pages/guest-welcome/guest-welcome.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/guest-welcome.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "my-event",
       "title": "My event",
       "route": "my-event",
-      "file": "pages/my-event.html",
+      "file": "pages/my-event/my-event.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/my-event.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "speakers",
       "title": "Speakers",
       "route": "speakers",
-      "file": "pages/speakers.html",
+      "file": "pages/speakers/speakers.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/speakers.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "speaker-brief",
       "title": "Speaker brief",
       "route": "speaker-brief",
-      "file": "pages/speaker-brief.html",
+      "file": "pages/speaker-brief/speaker-brief.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/speaker-brief.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "gifts",
       "title": "Gifts & welcome packs",
       "route": "gifts",
-      "file": "pages/gifts.html",
+      "file": "pages/gifts/gifts.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/gifts.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "accommodation",
       "title": "Accommodation",
       "route": "accommodation",
-      "file": "pages/accommodation.html",
+      "file": "pages/accommodation/accommodation.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/accommodation.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "travel-transfers",
       "title": "Travel & transfers",
       "route": "travel-transfers",
-      "file": "pages/travel-transfers.html",
+      "file": "pages/travel-transfers/travel-transfers.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/travel-transfers.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "meals",
       "title": "Meals & dietary needs",
       "route": "meals",
-      "file": "pages/meals.html",
+      "file": "pages/meals/meals.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/meals.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "payments",
       "title": "Charges & payments",
       "route": "payments",
-      "file": "pages/payments.html",
+      "file": "pages/payments/payments.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/payments.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "changes",
       "title": "Changes & follow-up",
       "route": "changes",
-      "file": "pages/changes.html",
+      "file": "pages/changes/changes.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-events-rapider-events/screenshots/changes.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 1,
-        "hasDarkRules": true
+        "formCount": 2,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     }
   ]

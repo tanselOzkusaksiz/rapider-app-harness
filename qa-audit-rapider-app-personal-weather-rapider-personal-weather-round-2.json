@@ -2,142 +2,175 @@
   "app": "rapider-app-personal-weather-rapider-personal-weather",
   "appName": "Rapider Personal Weather",
   "round": "2",
-  "timestamp": "2026-10-31T21:42:24.520Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:04:39.779Z",
   "pages": [
     {
       "id": "home",
       "title": "Overview & Core Workspace",
       "route": "home",
-      "file": "pages/home.html",
+      "file": "pages/home/home.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/home.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "forecast",
       "title": "Overview & Core Workspace",
       "route": "forecast",
-      "file": "pages/forecast.html",
+      "file": "pages/forecast/forecast.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/forecast.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "places",
       "title": "Overview & Core Workspace",
       "route": "places",
-      "file": "pages/places.html",
+      "file": "pages/places/places.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/places.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "map",
       "title": "Overview & Core Workspace",
       "route": "map",
-      "file": "pages/map.html",
+      "file": "pages/map/map.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/map.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "alerts",
       "title": "Operations & Execution",
       "route": "alerts",
-      "file": "pages/alerts.html",
+      "file": "pages/alerts/alerts.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/alerts.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "insights",
       "title": "Operations & Execution",
       "route": "insights",
-      "file": "pages/insights.html",
+      "file": "pages/insights/insights.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/insights.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "preferences",
       "title": "Operations & Execution",
       "route": "preferences",
-      "file": "pages/preferences.html",
+      "file": "pages/preferences/preferences.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/preferences.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "source",
       "title": "Operations & Execution",
       "route": "source",
-      "file": "pages/source.html",
+      "file": "pages/source/source.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-personal-weather-rapider-personal-weather/screenshots/source.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": false
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     }
   ]

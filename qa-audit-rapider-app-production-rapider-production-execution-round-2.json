@@ -2,23 +2,28 @@
   "app": "rapider-app-production-rapider-production-execution",
   "appName": "Rapider Production Execution",
   "round": "2",
-  "timestamp": "2026-10-31T21:42:41.116Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:04:57.337Z",
   "pages": [
     {
       "id": "dispatch",
       "title": "Overview & Core Workspace",
       "route": "dispatch",
       "file": "pages/dispatch.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/dispatch.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -26,16 +31,20 @@
       "title": "Overview & Core Workspace",
       "route": "exception",
       "file": "pages/exception.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/exception.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -43,16 +52,20 @@
       "title": "Overview & Core Workspace",
       "route": "genealogy",
       "file": "pages/genealogy.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/genealogy.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -60,16 +73,20 @@
       "title": "Overview & Core Workspace",
       "route": "materials",
       "file": "pages/materials.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/materials.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -77,16 +94,20 @@
       "title": "Operations & Execution",
       "route": "new-order",
       "file": "pages/new-order.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/new-order.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -94,16 +115,20 @@
       "title": "Arc chair · MO-0218",
       "route": "order",
       "file": "pages/order.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/order.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -111,16 +136,20 @@
       "title": "Operations & Execution",
       "route": "orders",
       "file": "pages/orders.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/orders.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -128,16 +157,20 @@
       "title": "Operations & Execution",
       "route": "overview",
       "file": "pages/overview.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/overview.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -145,16 +178,20 @@
       "title": "Operations & Execution",
       "route": "reports",
       "file": "pages/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -162,16 +199,20 @@
       "title": "Management & Workflows",
       "route": "schedule",
       "file": "pages/schedule.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/schedule.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 2,
-        "hasDarkRules": true
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -179,16 +220,20 @@
       "title": "Management & Workflows",
       "route": "settings",
       "file": "pages/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -196,16 +241,20 @@
       "title": "Management & Workflows",
       "route": "traveler",
       "file": "pages/traveler.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-production-rapider-production-execution/screenshots/traveler.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 1,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 2,
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     }
   ]

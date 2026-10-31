@@ -2,227 +2,280 @@
   "app": "rapider-app-hrp-a-rapider-hr-payroll",
   "appName": "Rapider HR Payroll",
   "round": "2",
-  "timestamp": "2026-10-31T21:41:16.287Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:03:33.945Z",
   "pages": [
     {
       "id": "overview",
       "title": "Overview & Core Workspace",
       "route": "overview",
-      "file": "pages/overview.html",
+      "file": "pages/overview/overview.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/overview.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "runs",
       "title": "Overview & Core Workspace",
       "route": "runs",
-      "file": "pages/runs.html",
+      "file": "pages/runs/runs.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/runs.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "exceptions",
       "title": "Overview & Core Workspace",
       "route": "exceptions",
-      "file": "pages/exceptions.html",
+      "file": "pages/exceptions/exceptions.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/exceptions.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "payments",
       "title": "Operations & Execution",
       "route": "payments",
-      "file": "pages/payments.html",
+      "file": "pages/payments/payments.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/payments.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "reconciliation",
       "title": "Operations & Execution",
       "route": "reconciliation",
-      "file": "pages/reconciliation.html",
+      "file": "pages/reconciliation/reconciliation.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/reconciliation.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "payslips",
       "title": "Operations & Execution",
       "route": "payslips",
-      "file": "pages/payslips.html",
+      "file": "pages/payslips/payslips.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/payslips.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": false
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "reports",
       "title": "Management & Workflows",
       "route": "reports",
-      "file": "pages/reports.html",
+      "file": "pages/reports/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "pay-groups",
       "title": "Management & Workflows",
       "route": "pay-groups",
-      "file": "pages/pay-groups.html",
+      "file": "pages/pay-groups/pay-groups.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/pay-groups.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 0,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": false
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "settings",
       "title": "Management & Workflows",
       "route": "settings",
-      "file": "pages/settings.html",
+      "file": "pages/settings/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 0,
-        "hasDarkRules": true
+        "formCount": 2,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "run-detail",
       "title": "Run-detail",
       "route": "run-detail",
-      "file": "pages/run-detail.html",
+      "file": "pages/run-detail/run-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/run-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "run-review",
       "title": "Run-review",
       "route": "run-review",
-      "file": "pages/run-review.html",
+      "file": "pages/run-review/run-review.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/run-review.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "payslip",
       "title": "Payslip",
       "route": "payslip",
-      "file": "pages/payslip.html",
+      "file": "pages/payslip/payslip.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/payslip.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 2,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "correction",
       "title": "Correction",
       "route": "correction",
-      "file": "pages/correction.html",
+      "file": "pages/correction/correction.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-hrp-a-rapider-hr-payroll/screenshots/correction.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
-        "formCount": 0,
-        "hasDarkRules": true
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     }
   ]

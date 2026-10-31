@@ -2,23 +2,28 @@
   "app": "rapider-app-mrp-rapider-material-requirements-planning",
   "appName": "Rapider Material Requirements Planning",
   "round": "2",
-  "timestamp": "2026-10-31T21:41:47.448Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:04:04.159Z",
   "pages": [
     {
       "id": "demand-supply",
       "title": "Overview & Core Workspace",
       "route": "demand-supply",
       "file": "pages/demand-supply.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/demand-supply.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -26,16 +31,20 @@
       "title": "Overview & Core Workspace",
       "route": "new-run",
       "file": "pages/new-run.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/new-run.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -43,16 +52,20 @@
       "title": "Overview & Core Workspace",
       "route": "overview",
       "file": "pages/overview.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/overview.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -60,16 +73,20 @@
       "title": "Overview & Core Workspace",
       "route": "pegging",
       "file": "pages/pegging.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/pegging.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -77,16 +94,20 @@
       "title": "Operations & Execution",
       "route": "proposals",
       "file": "pages/proposals.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/proposals.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -94,16 +115,20 @@
       "title": "Operations & Execution",
       "route": "reports",
       "file": "pages/reports.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/reports.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -111,16 +136,20 @@
       "title": "Operations & Execution",
       "route": "rules",
       "file": "pages/rules.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/rules.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
         "formCount": 2,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -128,16 +157,20 @@
       "title": "October production plan",
       "route": "run-detail",
       "file": "pages/run-detail.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/run-detail.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -145,16 +178,20 @@
       "title": "Management & Workflows",
       "route": "scenario",
       "file": "pages/scenario.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/scenario.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
-        "tableCount": 1,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
+        "tableCount": 0,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -162,16 +199,20 @@
       "title": "Management & Workflows",
       "route": "settings",
       "file": "pages/settings.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/settings.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 0,
-        "formCount": 2,
-        "hasDarkRules": true
+        "formCount": 1,
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     },
     {
@@ -179,16 +220,20 @@
       "title": "Management & Workflows",
       "route": "shortages",
       "file": "pages/shortages.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-mrp-rapider-material-requirements-planning/screenshots/shortages.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 1,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 2
       }
     }
   ]

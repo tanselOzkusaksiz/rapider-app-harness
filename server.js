@@ -1227,6 +1227,11 @@ app.all('/api/proxy/*', (req, res) => {
 
     // Write body if present
     if (['POST', 'PUT', 'PATCH'].includes(req.method) && req.body) {
+      if (typeof req.body === 'object' && !Array.isArray(req.body)) {
+        Object.keys(req.body).forEach(k => {
+          if (req.body[k] === null) delete req.body[k];
+        });
+      }
       const bodyData = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
       proxyReq.setHeader('Content-Type', 'application/json');
       proxyReq.setHeader('Content-Length', Buffer.byteLength(bodyData));

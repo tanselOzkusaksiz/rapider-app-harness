@@ -239,6 +239,58 @@ async function auditAndCaptureSinglePage(page, appFolder, appDir, p, isFirstPage
           (document.documentElement && document.documentElement.innerHTML.includes('dark:bg-'));
         metrics.hasDarkRules = hasDarkRules;
 
+        // Live <dialog> viewport centering / right-drawer docking verification
+        const dialogs = Array.from(document.querySelectorAll('dialog'));
+        metrics.dialogCount = dialogs.length;
+        for (const dlg of dialogs) {
+          const wasOpen = dlg.open;
+          try {
+            if (!wasOpen && typeof dlg.showModal === 'function') dlg.showModal();
+            const r = dlg.getBoundingClientRect();
+            if (r.width > 0) {
+              const isDrawer = dlg.classList.contains('drawer') || dlg.classList.contains('sheet');
+              if (isDrawer) {
+                const rightOffset = Math.abs(r.right - window.innerWidth);
+                if (rightOffset > 8) {
+                  findings.push({
+                    phase: 'Phase 1: Layout & Viewport',
+                    severity: 'HIGH',
+                    code: 'DRAWER_DIALOG_NOT_DOCKED_RIGHT',
+                    description: `<dialog id="${dlg.id || ''}" class="drawer"> is not docked to right edge (rightOffset=${Math.round(rightOffset)}px).`
+                  });
+                }
+              } else {
+                const centerOffset = Math.abs((r.left + r.width / 2) - (window.innerWidth / 2));
+                if (centerOffset > 8) {
+                  findings.push({
+                    phase: 'Phase 1: Layout & Viewport',
+                    severity: 'HIGH',
+                    code: 'DIALOG_NOT_CENTERED_IN_VIEWPORT',
+                    description: `<dialog id="${dlg.id || ''}"> is not centered horizontally (offset=${Math.round(centerOffset)}px).`
+                  });
+                }
+              }
+            }
+          } catch (_e) {} finally {
+            if (!wasOpen && dlg.open && typeof dlg.close === 'function') dlg.close();
+          }
+        }
+
+        // Live checkbox sizing inside .field verification
+        const checkboxes = Array.from(document.querySelectorAll('.field input[type="checkbox"], .field input[type="radio"]'));
+        for (const cb of checkboxes) {
+          const cs = window.getComputedStyle(cb);
+          const w = parseFloat(cs.width) || 0;
+          if (w > 32) {
+            findings.push({
+              phase: 'Phase 1: Layout & Viewport',
+              severity: 'HIGH',
+              code: 'OVERSIZED_CHECKBOX_IN_FIELD',
+              description: `Checkbox/radio inside .field has computed width ${Math.round(w)}px instead of ~16px.`
+            });
+          }
+        }
+
         return { findings, metrics };
       });
 

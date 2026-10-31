@@ -90,6 +90,12 @@ const ROOT_CAUSE_CATALOG = {
     pass1: 'Data tables rendered static `<th>` headers without `data-sort` click sorting, `<form>` elements lacked `id`/`data-save-form` attributes, `<dialog>` modals lacked `Escape`/backdrop dismissal, and `<header class="topbar">` used 73px height instead of the canonical 64px (`h-16`).',
     pass2: 'Pass 20 checked search/filter inputs but did not enforce `th[data-sort]` on every table header; Pass 06 warned on non-64px headers.',
     fix: 'Equipped all table `<th>` headers with `data-sort` and sort indicators (`↕`/`↑`/`↓`), injected universal `th[data-sort]` sorting + `Escape` modal dismissal + live `rapiderApi.create` form binding, and standardized 64px top header height (`0` warnings).'
+  },
+  DIALOG_AND_CHECKBOX_AND_SCHEMA_GUARD: {
+    title: 'Modal Viewport Centering (`DIALOG_NOT_CENTERED`), Checkbox Sizing (`UNSCOPED_CHECKBOX_INPUT_CSS`) & Schema Payload Coercion (`UNGUARDED_QA_BRIDGE_SUBMIT` — Pass 03, Pass 04, Pass 09 & Pass 19)',
+    pass1: '1) Under Tailwind v4 preflight (`* { margin: 0 }`), `<dialog>` CSS rules lacking `margin: auto;` caused modals to pin to the top-left corner (`left: 0; top: 0`). 2) Unscoped `.field input` rules (`display: block; width: 100%; min-height: 42px`) stretched `<input type="checkbox">` inside `.field` labels into giant full-width blocks. 3) Document-level `#rapider-qa-bridge` submit listeners lacked `if (e.defaultPrevented) return;`, firing duplicate unmapped `create` calls after page form handlers already submitted, and array-based `app.manifest.json` `dataModels` needed strict scalar type coercion (`string` vs `number` vs `boolean`) and `null`-stripping.',
+    pass2: 'Static checks did not previously verify `margin: auto` on `dialog`, `:not([type="checkbox"])` on `.field input`, `e.defaultPrevented` on fallback submit listeners, or array-based `manifest.dataModels` field/type compatibility in Rule 14.',
+    fix: 'Added `margin: auto;` to all `dialog` CSS blocks (Rule 28), scoped `.field input:not([type="checkbox"]):not([type="radio"])` with explicit `16px × 16px` inline-block checkbox styling (Rule 29), guarded `#rapider-qa-bridge` with `if (e.defaultPrevented) return;` and a manifest-driven `_sanitizePayload` normalizer (Rule 30), and made Rule 14 (`INVALID_SCHEMA_PAYLOAD_FIELD` / `SCHEMA_FIELD_TYPE_MISMATCH`) array-aware across all 62 apps.'
   }
 };
 
@@ -117,7 +123,7 @@ for (const appFolder of apps) {
   const base = baselineMap.get(appFolder) || { pages: audit.pagesAudited, issues: 0, manifestIssues: 0, types: [] };
 
   const r1StaticIssues = (base.issues || 0) + (base.manifestIssues || 0);
-  const r1Types = [...new Set([...(base.types || []), 'TABLE_AND_FORM_STANDARDIZATION'])];
+  const r1Types = [...new Set([...(base.types || []), 'TABLE_AND_FORM_STANDARDIZATION', 'DIALOG_AND_CHECKBOX_AND_SCHEMA_GUARD'])];
   grandTotalPages += audit.pagesAudited;
   grandTotalRound1Issues += r1StaticIssues;
 

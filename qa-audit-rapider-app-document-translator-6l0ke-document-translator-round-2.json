@@ -2,74 +2,91 @@
   "app": "rapider-app-document-translator-6l0ke-document-translator",
   "appName": "Document Translator",
   "round": "2",
-  "timestamp": "2026-10-31T21:40:54.298Z",
+  "viewport": "1200x800",
+  "timestamp": "2026-10-31T23:03:11.779Z",
   "pages": [
     {
       "id": "dashboard",
       "title": "Workspace & Operations",
       "route": "dashboard",
-      "file": "pages/dashboard.html",
+      "file": "pages/dashboard/dashboard.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-document-translator-6l0ke-document-translator/screenshots/dashboard.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "documents",
       "title": "Workspace & Operations",
       "route": "documents",
-      "file": "pages/documents.html",
+      "file": "pages/documents/documents.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-document-translator-6l0ke-document-translator/screenshots/documents.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "document-workspace",
       "title": "Workspace & Operations",
       "route": "document-workspace",
-      "file": "pages/document-workspace.html",
+      "file": "pages/document-workspace/document-workspace.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-document-translator-6l0ke-document-translator/screenshots/document-workspace.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 2,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     },
     {
       "id": "translation-jobs",
       "title": "Workspace & Operations",
       "route": "translation-jobs",
-      "file": "pages/translation-jobs.html",
+      "file": "pages/translation-jobs/translation-jobs.html",
+      "screenshot": "/Users/tansel/Projects/rapider/_rapider-monorepo/rapider-apps/APPS/rapider-app-document-translator-6l0ke-document-translator/screenshots/translation-jobs.png",
+      "dimensions": "1200x800",
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "issues": [],
       "metrics": {
-        "scrollWidth": 1170,
-        "innerWidth": 1170,
+        "scrollWidth": 1200,
+        "innerWidth": 1200,
+        "innerHeight": 800,
         "tableCount": 1,
         "formCount": 0,
-        "hasDarkRules": true
+        "hasDarkRules": true,
+        "dialogCount": 0
       }
     }
   ]

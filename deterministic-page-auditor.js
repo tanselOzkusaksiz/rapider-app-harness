@@ -74,6 +74,28 @@ function parseHtmlSections(htmlContent, htmlFilePath, appDir) {
     styles.push(styleMatch[1]);
   }
 
+  // Extract local external stylesheets (<link rel="stylesheet" href="...">)
+  const linkCssRegex = /<link\b[^>]*rel=["']stylesheet["'][^>]*href=["']([^"']+)["'][^>]*>/gi;
+  let linkMatch;
+  while ((linkMatch = linkCssRegex.exec(htmlContent)) !== null) {
+    const rawHref = linkMatch[1].split('?')[0].split('#')[0];
+    if (!rawHref.startsWith('http') && !rawHref.startsWith('//')) {
+      const candidates = [
+        path.resolve(path.dirname(htmlFilePath), rawHref),
+        path.resolve(appDir, rawHref.replace(/^\//, '')),
+        path.resolve(appDir, 'assets', path.basename(rawHref)),
+        path.resolve(appDir, 'pages/assets', path.basename(rawHref)),
+        path.resolve(appDir, 'assets/themes', path.basename(rawHref))
+      ];
+      for (const candidate of candidates) {
+        if (fs.existsSync(candidate) && fs.statSync(candidate).isFile()) {
+          styles.push(fs.readFileSync(candidate, 'utf8'));
+          break;
+        }
+      }
+    }
+  }
+
   // Strip scripts, styles, and HTML comments to get clean DOM-only HTML for parsing elements
   const cleanMarkup = htmlContent
     .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '')
@@ -299,7 +321,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
       const classAttr = attrs.match(/class=["']([^"']+)["']/i)[1];
       const classes = classAttr.split(/\s+/).filter(c => c && !c.startsWith('btn') && !c.startsWith('text-') && !c.startsWith('bg-'));
       for (const cls of classes) {
-        if (new RegExp(`['"\`.]${cls}['"\`]`, 'i').test(combinedScript)) {
+        if (new RegExp(`['"\`.]${cls}[\\b'"\`,\\s]`, 'i').test(combinedScript)) {
           isWiredInScript = true;
           break;
         }
@@ -650,55 +672,105 @@ function auditHtmlPage(pagePath, appDir, manifest) {
       'updatedDate', 'updatedBy', 'updatedById', 'deletedDate', 'deletedBy', 'deletedById'
     ]);
 
-    const extractTopLevelKeys = (objLiteralBody) => {
-      const keys = [];
-      let depth = 0;
-      const lines = objLiteralBody.split('\n');
-      for (const line of lines) {
-        const trimmed = line.trim();
-        if (depth === 0) {
-          const propMatch = trimmed.match(/^([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/);
-          if (propMatch) {
-            keys.push(propMatch[1]);
-          }
+    const manifestModelsMap = new Map();
+    const dmList = Array.isArray(manifest.dataModels)
+      ? manifest.dataModels
+      : Object.entries(manifest.dataModels).map(([k, v]) => ({ name: k, ...v }));
+    for (const dm of dmList) {
+      if (!dm || !dm.name) continue;
+      const fieldMap = {};
+      const rawFields = dm.fields || dm.properties || [];
+      if (Array.isArray(rawFields)) {
+        for (const f of rawFields) {
+          if (f && f.name) fieldMap[f.name] = f.type || 'string';
         }
-        for (const ch of line) {
-          if (ch === '{' || ch === '[' || ch === '(') depth++;
-          else if (ch === '}' || ch === ']' || ch === ')') depth = Math.max(0, depth - 1);
+      } else if (rawFields && typeof rawFields === 'object') {
+        for (const [fk, fv] of Object.entries(rawFields)) {
+          fieldMap[fk] = (fv && fv.type) ? fv.type : 'string';
         }
       }
-      return keys;
+      manifestModelsMap.set(dm.name, fieldMap);
+    }
+
+    const extractTopLevelProps = (objLiteralBody) => {
+      const props = [];
+      let depth = 0;
+      let inStr = null;
+      let cur = '';
+      const segments = [];
+      for (let i = 0; i < objLiteralBody.length; i++) {
+        const ch = objLiteralBody[i];
+        const prev = i > 0 ? objLiteralBody[i - 1] : '';
+        if (inStr) {
+          cur += ch;
+          if (ch === inStr && prev !== '\\') inStr = null;
+          continue;
+        }
+        if (ch === '"' || ch === "'" || ch === '`') {
+          inStr = ch;
+          cur += ch;
+          continue;
+        }
+        if (ch === '{' || ch === '[' || ch === '(') depth++;
+        else if (ch === '}' || ch === ']' || ch === ')') depth = Math.max(0, depth - 1);
+        if (ch === ',' && depth === 0) {
+          segments.push(cur);
+          cur = '';
+        } else {
+          cur += ch;
+        }
+      }
+      if (cur.trim()) segments.push(cur);
+      for (const seg of segments) {
+        const cleaned = seg.replace(/\/\/[^\n]*\n/g, '').trim();
+        const propMatch = cleaned.match(/^([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:\s*([\s\S]+)$/);
+        if (propMatch) {
+          props.push({ key: propMatch[1], expr: propMatch[2].trim() });
+        }
+      }
+      return props;
     };
 
     const verifyPayloadKeys = (entityName, objBody, callLabel) => {
-      const modelDef = manifest.dataModels[entityName];
-      if (!modelDef || !modelDef.fields) return;
-      const allowedFields = new Set([...Object.keys(modelDef.fields), ...implicitSystemFields]);
-      const keys = extractTopLevelKeys(objBody);
-      const invalidKeys = keys.filter((k) => !allowedFields.has(k));
+      const fieldMap = manifestModelsMap.get(entityName);
+      if (!fieldMap) return;
+      const allowedFields = new Set([...Object.keys(fieldMap), ...implicitSystemFields]);
+      const props = extractTopLevelProps(objBody);
+      const invalidKeys = props.map(p => p.key).filter((k) => !allowedFields.has(k));
       if (invalidKeys.length > 0) {
         issues.push({
           rule: 'Pass 03 & Pass 09: Schema Payload Compatibility',
           type: 'INVALID_SCHEMA_PAYLOAD_FIELD',
-          message: `${callLabel} for entity "${entityName}" sends field(s) [${invalidKeys.join(', ')}] not defined in app.manifest.json dataModels.${entityName}.fields (${Object.keys(modelDef.fields).join(', ')}). This causes HTTP 422 Unprocessable Entity errors.`,
+          message: `${callLabel} for entity "${entityName}" sends field(s) [${invalidKeys.join(', ')}] not defined in app.manifest.json dataModels.${entityName}.fields (${Object.keys(fieldMap).join(', ')}). This causes HTTP 400/422 errors.`,
           snippet: `${callLabel}('${entityName}', { ${invalidKeys.join(', ')} ... })`
         });
       }
+      for (const { key, expr } of props) {
+        const expectedType = fieldMap[key];
+        if (expectedType === 'string' && (/^(?:\d+|Number\(|parseInt\(|parseFloat\()/.test(expr) || /\?\s*\d+\s*:\s*\d+/.test(expr))) {
+          issues.push({
+            rule: 'Pass 03 & Pass 09: Schema Payload Type Compatibility',
+            type: 'SCHEMA_FIELD_TYPE_MISMATCH',
+            message: `${callLabel} for entity "${entityName}" passes numeric expression (${expr}) to string field "${key}". LoopBack 4 rejects number values for string columns with HTTP 400 Bad Request.`,
+            snippet: `${key}: ${expr}`
+          });
+        }
+      }
     };
 
-    const createInlineRegex = /rapiderApi\.create\(\s*['"`]([A-Za-z0-9_]+)['"`]\s*,\s*\{([\s\S]*?)\}\s*\)/g;
+    const createInlineRegex = /rapiderApi\.create\(\s*['"`]([A-Za-z0-9_]+)['"`]\s*,\s*\{([\s\S]{1,1200}?)\}\s*\)/g;
     let createMatch;
     while ((createMatch = createInlineRegex.exec(combinedScript)) !== null) {
       verifyPayloadKeys(createMatch[1], createMatch[2], 'rapiderApi.create');
     }
 
-    const updateInlineRegex = /rapiderApi\.updateById\(\s*['"`]([A-Za-z0-9_]+)['"`]\s*,\s*[^,]+\s*,\s*\{([\s\S]*?)\}\s*\)/g;
+    const updateInlineRegex = /rapiderApi\.updateById\(\s*['"`]([A-Za-z0-9_]+)['"`]\s*,\s*[^,]+\s*,\s*\{([\s\S]{1,1200}?)\}\s*\)/g;
     let updateMatch;
     while ((updateMatch = updateInlineRegex.exec(combinedScript)) !== null) {
       verifyPayloadKeys(updateMatch[1], updateMatch[2], 'rapiderApi.updateById');
     }
 
-    const namedPayloadCreateRegex = /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*\{([\s\S]*?)\};\s*(?:await\s+)?(?:window\.)?rapiderApi\.(create|updateById)\(\s*['"`]([A-Za-z0-9_]+)['"`]/g;
+    const namedPayloadCreateRegex = /const\s+([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*\{([\s\S]{1,1200}?)\};\s*(?:await\s+)?(?:window\.)?rapiderApi\.(create|updateById)\(\s*['"`]([A-Za-z0-9_]+)['"`]/g;
     let namedMatch;
     while ((namedMatch = namedPayloadCreateRegex.exec(combinedScript)) !== null) {
       verifyPayloadKeys(namedMatch[4], namedMatch[2], `rapiderApi.${namedMatch[3]}`);
@@ -909,7 +981,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   // ------------------------------------------------------------------------
   // 28. RULE: Native <dialog> Modal Centering Under Tailwind v4 Preflight (Pass 04 & 19)
   // ------------------------------------------------------------------------
-  if (/\bdialog\s*\{[^}]*\}/i.test(rawHtml) && !/\bdialog[^{]*\{[^}]*margin\s*:\s*auto/i.test(rawHtml)) {
+  if (/\bdialog\s*\{[^}]*\}/i.test(combinedStyle) && !/\bdialog[^{]*\{[^}]*margin\s*:\s*auto/i.test(combinedStyle)) {
     issues.push({
       rule: 'Pass 04: Modals & Pass 19: UI Standards (Dialog Viewport Centering)',
       type: 'DIALOG_NOT_CENTERED',
@@ -920,7 +992,7 @@ function auditHtmlPage(pagePath, appDir, manifest) {
   // ------------------------------------------------------------------------
   // 29. RULE: Scoped .field input CSS for Checkboxes and Radios (Pass 05 & 19)
   // ------------------------------------------------------------------------
-  if (/\.field\s+input\s*,\s*\n?\s*\.field\s+select/i.test(rawHtml) && !/\.field\s+input\[type=["']checkbox["']\]|\.field\s+input:not\(\[type=["']checkbox["']\]\)/i.test(rawHtml)) {
+  if (/\.field\s+input\s*,\s*\n?\s*\.field\s+select/i.test(combinedStyle) && !/\.field\s+input\[type=["']checkbox["']\]|\.field\s+input:not\(\[type=["']checkbox["']\]\)/i.test(combinedStyle)) {
     issues.push({
       rule: 'Pass 05: Forms & Pass 19: UI Standards (Checkbox Input Sizing)',
       type: 'UNSCOPED_CHECKBOX_INPUT_CSS',
