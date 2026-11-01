@@ -1034,6 +1034,25 @@ function auditHtmlPage(pagePath, appDir, manifest) {
         message: 'Page sidebar is missing the collapsible sidebar mechanism, hover expand caret, or localStorage persistence.'
       });
     }
+
+    // Check for saturated primary blue on sidebar navigation items
+    if (/class=["'][^"']*\b(bg-primary|bg-blue-600|bg-blue-500)\b[^"']*\b(!text-white|text-white)\b[^"']*["'][^>]*>\s*<i\b[^>]*class=["'][^"']*\bfa-/i.test(rawHtml) && /<aside\b/i.test(rawHtml)) {
+      issues.push({
+        rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
+        type: 'FORBIDDEN_PRIMARY_BLUE_IN_SIDEBAR_NAV',
+        message: 'Sidebar navigation item uses saturated primary blue color (e.g. bg-primary text-white). Inactive items must be muted slate (#67728a), and active items must use subtle soft lavender/purple (#f3f0ff background with #53389e text).'
+      });
+    }
+
+    // Check for mobile menu hamburger button (Pass 06 & Pass 21)
+    const hasMobileMenuBtn = rawHtml.includes('mobile-menu') || rawHtml.includes('data-action="menu"') || rawHtml.includes('data-action=\'menu\'');
+    if (!hasMobileMenuBtn) {
+      warnings.push({
+        rule: 'Pass 06: Responsive Layouts & Pass 21: Sidebar Standards',
+        type: 'MISSING_MOBILE_MENU_TRIGGER',
+        message: 'Page has a sidebar but lacks a mobile hamburger menu button (.mobile-menu / data-action="menu") in the top header for mobile screens.'
+      });
+    }
   }
 
 
