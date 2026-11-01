@@ -1120,7 +1120,7 @@ function auditMicroapp(appDir) {
   // 3. Check for micro-header clutter in webPages (Pass 13: count >= 3 rule)
   const sectionGroups = new Map();
   for (const p of pages) {
-    const groupTitle = (p.title || p.group || '').trim();
+    const groupTitle = (p.sectionTitle || p.group || p.section || '').trim();
     if (groupTitle && p.displayOnMenu !== false && p.displayInMenu !== false) {
       const list = sectionGroups.get(groupTitle) || [];
       list.push(p.route || p.name);
