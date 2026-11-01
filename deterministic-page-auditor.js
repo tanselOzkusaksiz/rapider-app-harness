@@ -1011,6 +1011,31 @@ function auditHtmlPage(pagePath, appDir, manifest) {
     });
   }
 
+  // ------------------------------------------------------------------------
+  // 31. RULE: Suite Brand & Collapsible Sidebar Navigation Standards (Pass 21)
+  // ------------------------------------------------------------------------
+  const hasSidebar = /<aside\b[^>]*class=["'][^"']*sidebar/i.test(rawHtml) || /class=["'][^"']*\bsidebar\b/i.test(rawHtml);
+  if (hasSidebar) {
+    // Check for fake Rapider brandmarks in sidebar
+    if (/<span\s+class=["']brandmark["']>\s*r\s*<\/span>/i.test(rawHtml) || /class=["']brandlogo["']>\s*r\s*<\/span>/i.test(rawHtml) || /<span\s+class=["']brandsub["']>\s*rapider\s*ai\s*<\/span>/i.test(rawHtml)) {
+      issues.push({
+        rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
+        type: 'FAKE_RAPIDER_BRANDMARK_IN_SIDEBAR',
+        message: 'Page sidebar contains legacy fake purple "r" brandmark or "rapider ai" subtitle instead of authentic Suite Icon and Suite Title.'
+      });
+    }
+
+    // Check for collapsible sidebar script/mechanism
+    const hasCollapsibleScript = rawHtml.includes('data-collapsible-sidebar') || rawHtml.includes('rapider_sidebar_collapsed');
+    if (!hasCollapsibleScript) {
+      issues.push({
+        rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
+        type: 'MISSING_COLLAPSIBLE_SIDEBAR',
+        message: 'Page sidebar is missing the collapsible sidebar mechanism, hover expand caret, or localStorage persistence.'
+      });
+    }
+  }
+
 
   return {
     pagePath: relativePagePath,
