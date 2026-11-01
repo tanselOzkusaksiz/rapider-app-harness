@@ -1137,6 +1137,17 @@ function auditMicroapp(appDir) {
     }
   }
 
+  // 4. Check manifest status invariant (Pass 13: status must be at least "app-metadata-completed")
+  const validCompletedStatuses = ['app-metadata-completed', 'pages_implemented', 'qa_passed', 'completed'];
+  const manifestStatus = (manifest.status || '').trim();
+  if (manifestStatus && !validCompletedStatuses.includes(manifestStatus)) {
+    results.manifestChecks.push({
+      rule: 'Pass 13: Manifest Sync (Status Invariant)',
+      type: 'MANIFEST_IN_PROGRESS_STATUS_VIOLATION',
+      message: `app.manifest.json has status "${manifestStatus}". When building app pages, manifest status MUST be at least "app-metadata-completed" (or "pages_implemented", "qa_passed", "completed"). Leaving status as "${manifestStatus}" causes Rapider UI to display the unfinished App Builder wizard instead of the live application.`
+    });
+  }
+
   results.is100PercentCompliant = results.totalIssues === 0 && results.manifestChecks.length === 0;
   return results;
 }
