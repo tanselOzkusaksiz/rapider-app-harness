@@ -825,20 +825,73 @@ async function runSinglePageE2E(options) {
         stepResults.push({ step: stepResults.length + 1, name: 'Zero API HTTP Error Gate', action: 'runtime_gate', status: 'failed', error: msg });
       }
 
-      // Capture clean desktop screenshot of the rendered sandbox iframe after SWR data settles
+      // Capture clean Light Mode & Dark Mode desktop screenshots of the rendered sandbox iframe after SWR data settles
       await page.setViewportSize({ width: 1560, height: 980 });
       await page.evaluate((r) => {
+        if (window.harness && typeof window.harness.setTheme === 'function') {
+          window.harness.setTheme(false);
+        }
         if (window.harness) window.harness.navigate(r);
       }, cleanRoute);
       await page.waitForTimeout(2600);
-      const screenshotPath = path.join(outShotDir, `${cleanRoute.replace(/[^a-zA-Z0-9_-]/g, '_')}.png`);
+
+      const safeRouteName = cleanRoute.replace(/[^a-zA-Z0-9_-]/g, '_');
+      const screenshotPath = path.join(outShotDir, `${safeRouteName}.png`);
+      const darkScreenshotPath = path.join(outShotDir, `${safeRouteName}-dark.png`);
+
+      // 1. Light Mode Screenshot
+      await page.evaluate(() => {
+        const iframe = document.getElementById('sandbox-iframe');
+        if (iframe && iframe.contentDocument) {
+          iframe.contentDocument.documentElement.classList.remove('dark');
+          iframe.contentDocument.body?.classList.remove('dark');
+        }
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.postMessage({ type: 'RAPIDER_THEME_CHANGE', isDark: false, theme: 'light' }, '*');
+        }
+      });
+      await page.waitForTimeout(250);
       const iframeEl = await page.$('#sandbox-iframe');
       if (iframeEl) {
         await iframeEl.screenshot({ path: screenshotPath });
       } else {
         await page.screenshot({ path: screenshotPath });
       }
-      console.log(`  📸 Saved E2E screenshot: ${screenshotPath}`);
+      console.log(`  📸 Saved Light E2E screenshot: ${screenshotPath}`);
+
+      // 2. Dark Mode Screenshot
+      await page.evaluate(() => {
+        if (window.harness && typeof window.harness.setTheme === 'function') {
+          window.harness.setTheme(true);
+        }
+        const iframe = document.getElementById('sandbox-iframe');
+        if (iframe && iframe.contentDocument) {
+          iframe.contentDocument.documentElement.classList.add('dark');
+          iframe.contentDocument.body?.classList.add('dark');
+        }
+        if (iframe && iframe.contentWindow) {
+          iframe.contentWindow.postMessage({ type: 'RAPIDER_THEME_CHANGE', isDark: true, theme: 'dark' }, '*');
+        }
+      });
+      await page.waitForTimeout(350);
+      if (iframeEl) {
+        await iframeEl.screenshot({ path: darkScreenshotPath });
+      } else {
+        await page.screenshot({ path: darkScreenshotPath });
+      }
+      console.log(`  🌙 Saved Dark E2E screenshot:  ${darkScreenshotPath}`);
+
+      // Restore light mode default
+      await page.evaluate(() => {
+        if (window.harness && typeof window.harness.setTheme === 'function') {
+          window.harness.setTheme(false);
+        }
+        const iframe = document.getElementById('sandbox-iframe');
+        if (iframe && iframe.contentDocument) {
+          iframe.contentDocument.documentElement.classList.remove('dark');
+          iframe.contentDocument.body?.classList.remove('dark');
+        }
+      });
 
       suiteReports.push({
         route: cleanRoute,
@@ -848,6 +901,7 @@ async function runSinglePageE2E(options) {
         passedSteps: stepResults.filter(s => s.status === 'passed').length,
         failedSteps: stepResults.filter(s => s.status === 'failed').length,
         screenshotPath,
+        darkScreenshotPath,
         steps: stepResults
       });
     }
