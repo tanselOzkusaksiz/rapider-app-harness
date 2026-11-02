@@ -1,0 +1,22 @@
+{
+  "defaultTheme": "default",
+  "themes": [
+    {
+      "key": "default",
+      "name": "Default (Editorial)",
+      "file": "theme-default.css",
+      "primaryColor": "#6854df",
+      "density": "comfortable",
+      "description": "Spacious editorial layout with Rapider brand primary (#6854df), #252840 hero cards, and 14px geometry."
+    },
+    {
+      "key": "obsidian-compact",
+      "aliases": ["compact-black", "compact-obsidian"],
+      "name": "Obsidian Compact",
+      "file": "theme-obsidian-compact.css",
+      "primaryColor": "#252840",
+      "density": "compact",
+      "description": "High-density executive theme with #252840 Obsidian Slate primary, 8px architectural corners, and compact tables & KPIs."
+    }
+  ]
+}

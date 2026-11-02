@@ -1,0 +1,159 @@
+/* ==========================================================================
+   RAPIDER APPLICATION THEME — DEFAULT (EDITORIAL)
+   Theme Key : default
+   File Name : theme-default.css
+   Palette   : Primary #6854df · Secondary/Hero #252840 · Tertiary #0f766e
+   Density   : Comfortable Editorial (14px card radius, spacious KPIs & tables)
+   ========================================================================== */
+
+:root:root,
+html[data-rapider-theme="default"]:root {
+  color-scheme: light;
+  --ds-theme-name: 'default';
+
+  /* Primary Brand Role */
+  --primary-color: #6854df;
+  --primary-hover-color: #5844cc;
+  --primary-active-color: #4c39b8;
+  --primary-soft-bg: #eeeaff;
+  --primary-soft-subtle: #f0ecfc;
+  --primary-soft-border: #dfd8fb;
+  --primary-on-soft: #4f4670;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  /* Secondary Brand Role */
+  --secondary-color: #252840;
+  --secondary-hover-color: #1d2035;
+  --secondary-soft-bg: #eef0f7;
+  --secondary-soft-border: #d8dce9;
+  --secondary-on-soft: #252840;
+  --secondary-button-text-color: #172137;
+
+  /* Tertiary Brand Role */
+  --tertiary-color: #0f766e;
+  --tertiary-hover-color: #0d655e;
+  --tertiary-soft-bg: #e6f5f3;
+  --tertiary-soft-border: #c5e8e3;
+  --tertiary-on-soft: #0f766e;
+  --tertiary-button-text-color: #ffffff;
+
+  /* Hero KPI Card Surface Role */
+  --hero-surface-bg: #252840;
+  --hero-surface-border: #323654;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #b0b2cf;
+
+  /* Canvas & Card Surfaces */
+  --body-background-color: #f5f6fa;
+  --inner-layout-background-color: #f5f6fa;
+  --component-inner-background-color: #ffffff;
+  --component-header-background-color: #fafbfe;
+  --table-background-color: #ffffff;
+  --table-header-background-color: #fbfcfe;
+  --alternative-background-color: #fafbfe;
+  --alternative-bold-background-color: #f0f1f7;
+  --subtle-background-color: #f8f9fc;
+  --input-background-color: #fafbfe;
+  --button-background-color: #ffffff;
+
+  /* Typography & Borders */
+  --primary-text-color: #172137;
+  --text-color: #172137;
+  --heading-color: #172137;
+  --alternative-text-color: #344054;
+  --secondary-text-color: #758097;
+  --muted-text-color: #8b93a6;
+  --eyebrow-text-color: #8b84a0;
+  --link-color: var(--primary-color);
+  --primary-border-color: #e9ecf3;
+  --secondary-border-color: #dfe3ed;
+  --subtle-border-color: #eff1f5;
+
+  /* Comfortable Editorial Geometry & Density */
+  --radius: 14px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --radius-tag: 5px;
+  --ds-shell-pad: 34px 36px 48px;
+  --ds-shell-gap: 22px;
+  --ds-title-size: 30px;
+  --ds-subtitle-size: 14px;
+  --ds-btn-min-h: 41px;
+  --ds-btn-pad: 10px 16px;
+  --ds-btn-font: 13px;
+  --ds-input-min-h: 41px;
+  --ds-input-pad: 9px 12px;
+  --ds-input-font: 13px;
+  --ds-kpi-gap: 18px;
+  --ds-kpi-pad: 24px 26px;
+  --ds-kpi-min-h: 158px;
+  --ds-kpi-val-size: 36px;
+  --ds-panel-head-pad: 18px 22px;
+  --ds-panel-body-pad: 20px 22px;
+  --ds-toolbar-pad: 18px 22px;
+  --ds-th-pad: 13px 20px;
+  --ds-td-pad: 16px 20px;
+  --ds-td-font: 13px;
+
+  /* Legacy Variable Bridges (CRM & HR Suite compatibility) */
+  --purple: var(--primary-color);
+  --crm-purple: var(--primary-color);
+  --soft: var(--primary-soft-bg);
+  --crm-soft: var(--primary-soft-bg);
+  --dark: var(--hero-surface-bg);
+  --bg: var(--body-background-color);
+  --crm-bg: var(--body-background-color);
+  --ink: var(--primary-text-color);
+  --crm-ink: var(--primary-text-color);
+  --muted: var(--secondary-text-color);
+  --crm-muted: var(--secondary-text-color);
+  --line: var(--primary-border-color);
+  --crm-line: var(--primary-border-color);
+}
+
+html.dark:root,
+html body.dark,
+html[data-rapider-theme="default"].dark:root,
+html[data-rapider-theme="default"] body.dark {
+  color-scheme: dark;
+  --primary-color: #7c6ae8;
+  --primary-hover-color: #6854df;
+  --primary-active-color: #5b46d6;
+  --primary-soft-bg: rgba(124, 106, 232, 0.18);
+  --primary-soft-subtle: rgba(124, 106, 232, 0.16);
+  --primary-soft-border: rgba(124, 106, 232, 0.36);
+  --primary-on-soft: #dcd6fc;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  --hero-surface-bg: #252840;
+  --hero-surface-border: #363b5e;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #b0b2cf;
+
+  --body-background-color: #12141a;
+  --inner-layout-background-color: #12141a;
+  --component-inner-background-color: #1c202a;
+  --component-header-background-color: #161922;
+  --table-background-color: #1c202a;
+  --table-header-background-color: #161922;
+  --alternative-background-color: #161922;
+  --input-background-color: #161922;
+  --button-background-color: #1c202a;
+
+  --primary-text-color: #f0f4f8;
+  --text-color: #f0f4f8;
+  --heading-color: #ffffff;
+  --alternative-text-color: #cbd5e1;
+  --secondary-text-color: #9aa5be;
+  --muted-text-color: #8b95ab;
+  --eyebrow-text-color: #a59ec4;
+  --link-color: #a799f7;
+  --primary-border-color: #2a2e3d;
+  --secondary-border-color: #343a4d;
+  --subtle-border-color: #242836;
+
+  --purple: var(--primary-color);
+  --crm-purple: var(--primary-color);
+}

@@ -689,12 +689,23 @@ async function runSinglePageE2E(options) {
                 };
                 const issues = [];
                 // Primary & danger buttons must maintain bright/white foreground text
-                const btns = Array.from(document.querySelectorAll('button.bg-primary, button.bg-danger, button.bg-red-600'));
+                const btns = Array.from(
+                  document.querySelectorAll(
+                    'button.bg-primary, .btn.primary, .btn-primary, button.primary, button.bg-danger, .btn.danger, .btn-danger, button.bg-red-600'
+                  )
+                );
                 for (const b of btns) {
                   if (b.offsetWidth === 0 && b.offsetHeight === 0) continue;
                   const fg = parseRgb(getComputedStyle(b).color);
                   if (fg && lum(fg) < 0.5) {
                     issues.push(`Saturated button '${(b.innerText || '').trim().slice(0, 30)}' has dark unreadable text (${getComputedStyle(b).color}) in ${dark ? 'dark' : 'light'} mode`);
+                  }
+                  // Reject legacy un-themed Ant Design #1890ff (rgb(24, 144, 255)) fallback on primary CTA
+                  if (!dark && (b.classList.contains('primary') || b.classList.contains('btn-primary') || b.classList.contains('bg-primary'))) {
+                    const bg = parseRgb(getComputedStyle(b).backgroundColor);
+                    if (bg && Math.abs(bg[0] - 24) <= 2 && Math.abs(bg[1] - 144) <= 2 && Math.abs(bg[2] - 255) <= 2) {
+                      issues.push(`Primary button '${(b.innerText || '').trim().slice(0, 30)}' computed legacy un-themed #1890ff (${getComputedStyle(b).backgroundColor}) instead of active Rapider semantic --primary-color token`);
+                    }
                   }
                 }
                 const h1 = document.querySelector('h1');
@@ -742,8 +753,9 @@ async function runSinglePageE2E(options) {
                   return `Horizontal document overflow at ${w}px viewport (scrollWidth=${docEl.scrollWidth}, clientWidth=${docEl.clientWidth})`;
                 }
                 if (w <= 375) {
+                  const hasInnerSidebar = Boolean(document.querySelector('aside.sidebar, aside#suiteSidebar'));
                   const mobBtn = document.querySelector('.mobile-menu, [data-action="menu"]');
-                  if (!mobBtn) {
+                  if (hasInnerSidebar && !mobBtn) {
                     return `Missing .mobile-menu hamburger toggle at 375px mobile viewport`;
                   }
                 }
@@ -758,10 +770,19 @@ async function runSinglePageE2E(options) {
             await page.waitForTimeout(200);
           } else if (step.action === 'validate_layout') {
             const layoutIssue = await frame.evaluate(() => {
-              const main = document.querySelector('main');
-              if (!main) return 'Missing <main> container element';
+              const main = document.querySelector('main, .ds-main, .crm-shell');
+              if (!main) return 'Missing <main> or .ds-main container element';
               const h1 = document.querySelector('h1');
               if (!h1 || !(h1.innerText || '').trim()) return 'Missing or empty <h1> heading';
+              // Check for horizontally truncated KPI card labels at desktop width
+              const kpiLabels = Array.from(
+                document.querySelectorAll('.metric-card .kicker, .metric-card .metric-label, .metric-card h3, [data-kpi-label]')
+              );
+              for (const lbl of kpiLabels) {
+                if (lbl.offsetWidth > 0 && lbl.scrollWidth > lbl.clientWidth + 3) {
+                  return `Truncated KPI label detected: "${(lbl.innerText || '').trim()}" (scrollWidth=${lbl.scrollWidth} > clientWidth=${lbl.clientWidth})`;
+                }
+              }
               return null;
             });
             if (layoutIssue) throw new Error(layoutIssue);

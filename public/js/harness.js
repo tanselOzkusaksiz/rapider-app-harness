@@ -36,6 +36,23 @@ class RappiderHarness {
     this.isDarkTheme = true;
     this.isOfflineMode = false;
     this.viewportMode = 'desktop'; // desktop, tablet, mobile
+    this.availableAppThemes = [
+      {
+        key: 'default',
+        name: 'Default (Editorial)',
+        primaryColor: '#6854df',
+        density: 'spacious',
+        description: 'Spacious editorial layout with Indigo Violet (#6854df) primary actions.'
+      },
+      {
+        key: 'obsidian-compact',
+        name: 'Obsidian Compact',
+        primaryColor: '#252840',
+        density: 'compact',
+        description: 'Compact high-density workspace with Midnight Obsidian (#252840) primary controls.'
+      }
+    ];
+    this.activeAppTheme = 'default';
 
     // DOM Elements
     this.dom = {
@@ -45,6 +62,10 @@ class RappiderHarness {
       appDesc: document.getElementById('app-description'),
       appSelectorBtn: document.getElementById('app-selector-btn'),
       appSelectorMenu: document.getElementById('app-selector-menu'),
+      appThemeSelectorBtn: document.getElementById('app-theme-selector-btn'),
+      appThemeSelectorMenu: document.getElementById('app-theme-selector-menu'),
+      appThemeDot: document.getElementById('app-theme-dot'),
+      appThemeLabel: document.getElementById('app-theme-label'),
       projectBadge: document.getElementById('project-badge'),
       projectStatusDot: document.getElementById('project-status-dot'),
       projectNameText: document.getElementById('project-name-text'),
@@ -114,6 +135,7 @@ class RappiderHarness {
   async init() {
     this.bindEvents();
     this.setupDevToolsListeners();
+    this.renderAppThemeSelector();
 
     this.updateAuthBadge();
 
@@ -239,6 +261,9 @@ class RappiderHarness {
 
       // Register with Rapider Bridge
       window.rapiderBridge.setManifest(this.manifest);
+
+      // Load available app themes & resolve initial theme for this app
+      await this.loadAppThemesForActiveApp();
 
       // Update Header
       if (this.dom.appName) this.dom.appName.innerText = this.manifest.name || app.name;
@@ -519,10 +544,11 @@ class RappiderHarness {
       }
     }
     const hashSuffix = `#/${route}${fullRoute.includes('?') ? '?' + fullRoute.split('?')[1] : ''}`;
-    const iframeUrl = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}${paramQuery}&t=${Date.now()}${hashSuffix}`;
+    const iframeUrl = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&appTheme=${encodeURIComponent(this.activeAppTheme || 'default')}${paramQuery}&t=${Date.now()}${hashSuffix}`;
     
     const iframe = this.dom.sandboxIframe;
     iframe.src = iframeUrl;
+    window.rapiderBridge.registerIframe(iframe);
 
     // Track iframe in bridge
     iframe.onload = () => {
@@ -581,7 +607,7 @@ class RappiderHarness {
     this.dom.modalOverlay.querySelector('.modal-dialog').style.width = typeof width === 'number' ? `${width}px` : width;
     
     const htmlFilePath = this.resolveHtmlPathForRoute(route);
-    let src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&t=${Date.now()}`;
+    let src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&appTheme=${encodeURIComponent(this.activeAppTheme || 'default')}&t=${Date.now()}`;
     
     if (config.payload && Object.keys(config.payload).length > 0) {
       Object.keys(config.payload).forEach(key => {
@@ -624,7 +650,7 @@ class RappiderHarness {
     this.dom.drawerPanel.style.width = typeof width === 'number' ? `${width}px` : width;
 
     const htmlFilePath = this.resolveHtmlPathForRoute(route);
-    let src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&t=${Date.now()}`;
+    let src = `/api/page-content?appPath=${encodeURIComponent(this.activeApp.absolutePath)}&filePath=${encodeURIComponent(htmlFilePath)}&isDark=${this.isDarkTheme}&appTheme=${encodeURIComponent(this.activeAppTheme || 'default')}&t=${Date.now()}`;
     
     if (config.payload && Object.keys(config.payload).length > 0) {
       Object.keys(config.payload).forEach(key => {
@@ -1057,6 +1083,156 @@ class RappiderHarness {
     this.setTheme(!this.isDarkTheme);
   }
 
+  normalizeAppThemeKey(raw) {
+    if (!raw || typeof raw !== 'string') return 'default';
+    const cleaned = raw.trim().toLowerCase().replace(/^theme-/, '').replace(/\.css$/, '');
+    if (!cleaned || cleaned === 'default') return 'default';
+    if (cleaned === 'compact-black' || cleaned === 'compact-obsidian') return 'obsidian-compact';
+    return cleaned.replace(/[^a-z0-9-_]/g, '') || 'default';
+  }
+
+  getActiveAppStorageKey() {
+    const key = this.manifest?.key || this.activeApp?.key || this.activeApp?.folderName || 'global';
+    return `rappider_harness_app_theme_${key}`;
+  }
+
+  async resolveWorkspaceSavedAppTheme() {
+    try {
+      if (!window.apiClient || !window.apiClient.isAuthenticated() || !window.apiClient.projectId || this.isOfflineMode) {
+        return null;
+      }
+      const filter = { where: { key: 'project-applications' }, limit: 1 };
+      const res = await fetch(
+        `/api/proxy/projects/${encodeURIComponent(window.apiClient.projectId)}/definitions?filter=${encodeURIComponent(JSON.stringify(filter))}`,
+        {
+          headers: {
+            'Authorization': window.apiClient.token,
+            'x-target-backend-url': window.apiClient.backendUrl
+          }
+        }
+      );
+      if (!res.ok) return null;
+      const defs = await res.json();
+      const registry = Array.isArray(defs) ? defs[0] : null;
+      const apps = registry?.definition?.applications;
+      if (!Array.isArray(apps)) return null;
+
+      const targetKey = (this.manifest?.key || this.activeApp?.key || '').toLowerCase();
+      const targetName = (this.manifest?.name || this.activeApp?.name || '').toLowerCase();
+      const matched = apps.find(entry => {
+        const entryKey = String(entry?.key || entry?.value?.key || entry?.id || '').toLowerCase();
+        const entryName = String(entry?.name || entry?.value?.name || '').toLowerCase();
+        return (targetKey && entryKey === targetKey) || (targetName && entryName === targetName);
+      });
+      const savedTheme = matched?.theme || matched?.value?.theme;
+      return savedTheme ? this.normalizeAppThemeKey(savedTheme) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async loadAppThemesForActiveApp() {
+    try {
+      const appPathParam = this.activeApp?.absolutePath ? `?appPath=${encodeURIComponent(this.activeApp.absolutePath)}` : '';
+      const res = await fetch(`/api/themes${appPathParam}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data.themes) && data.themes.length > 0) {
+          this.availableAppThemes = data.themes;
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load /api/themes catalog, using defaults:', e);
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryTheme = urlParams.get('appTheme') || urlParams.get('theme');
+    const storedLocal = localStorage.getItem(this.getActiveAppStorageKey());
+    const workspaceTheme = await this.resolveWorkspaceSavedAppTheme();
+    const manifestTheme = this.manifest?.theme;
+
+    const initialKey = this.normalizeAppThemeKey(
+      queryTheme || storedLocal || workspaceTheme || manifestTheme || 'default'
+    );
+    this.activeAppTheme = initialKey;
+    this.renderAppThemeSelector();
+  }
+
+  renderAppThemeSelector() {
+    const activeOpt =
+      this.availableAppThemes.find(t => t.key === this.activeAppTheme) ||
+      this.availableAppThemes[0] ||
+      { key: 'default', name: 'Default (Editorial)', primaryColor: '#6854df', density: 'spacious' };
+
+    if (this.dom.appThemeDot) {
+      this.dom.appThemeDot.style.background = activeOpt.primaryColor || '#6854df';
+    }
+    if (this.dom.appThemeLabel) {
+      this.dom.appThemeLabel.innerText = activeOpt.name || activeOpt.key;
+    }
+
+    if (!this.dom.appThemeSelectorMenu) return;
+    this.dom.appThemeSelectorMenu.innerHTML = '';
+
+    const header = document.createElement('div');
+    header.className = 'theme-menu-header';
+    header.innerText = 'Application Design Theme';
+    this.dom.appThemeSelectorMenu.appendChild(header);
+
+    this.availableAppThemes.forEach(theme => {
+      const isSelected = theme.key === this.activeAppTheme;
+      const item = document.createElement('div');
+      item.className = `app-option-item${isSelected ? ' selected' : ''}`;
+      item.dataset.themeKey = theme.key;
+
+      item.innerHTML = `
+        <div class="theme-option-row">
+          <div class="theme-option-left">
+            <span class="app-theme-dot" style="background: ${escapeHtml(theme.primaryColor || '#6854df')};"></span>
+            <span class="app-option-title">${escapeHtml(theme.name || theme.key)}</span>
+          </div>
+          <span class="theme-density-pill">${escapeHtml(theme.density || 'spacious')}</span>
+        </div>
+        <div class="app-option-desc" style="margin-top: 3px; white-space: normal;">${escapeHtml(theme.description || '')}</div>
+      `;
+
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.dom.appThemeSelectorMenu.classList.remove('active');
+        this.selectAppTheme(theme.key);
+      });
+
+      this.dom.appThemeSelectorMenu.appendChild(item);
+    });
+  }
+
+  async selectAppTheme(rawKey) {
+    const normalized = this.normalizeAppThemeKey(rawKey);
+    this.activeAppTheme = normalized;
+    try {
+      localStorage.setItem(this.getActiveAppStorageKey(), normalized);
+    } catch (e) {}
+
+    this.renderAppThemeSelector();
+
+    try {
+      const appPathParam = this.activeApp?.absolutePath ? `&appPath=${encodeURIComponent(this.activeApp.absolutePath)}` : '';
+      const res = await fetch(`/api/theme-css?theme=${encodeURIComponent(normalized)}${appPathParam}`);
+      const data = res.ok ? await res.json() : { themeKey: normalized, css: '' };
+      if (window.rapiderBridge && typeof window.rapiderBridge.syncAppTheme === 'function') {
+        window.rapiderBridge.syncAppTheme(data.themeKey || normalized, data.css || '');
+      }
+      const opt = this.availableAppThemes.find(t => t.key === normalized);
+      this.showToast({
+        type: 'info',
+        message: `Applied theme: ${opt ? opt.name : normalized}`
+      });
+    } catch (err) {
+      console.error('Failed to live-apply app theme:', err);
+      this.reloadCurrentPage();
+    }
+  }
+
   setViewportMode(mode) {
     this.viewportMode = mode;
     const container = this.dom.viewportContainer;
@@ -1084,11 +1260,27 @@ class RappiderHarness {
       this.dom.appSelectorBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         this.dom.appSelectorMenu.classList.toggle('active');
+        if (this.dom.appThemeSelectorMenu) this.dom.appThemeSelectorMenu.classList.remove('active');
+        if (this.dom.projectSelectorMenu) this.dom.projectSelectorMenu.classList.remove('active');
+      });
+    }
+
+    // Application Theme selector dropdown toggle
+    if (this.dom.appThemeSelectorBtn) {
+      this.dom.appThemeSelectorBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (this.dom.appThemeSelectorMenu) {
+          const willOpen = !this.dom.appThemeSelectorMenu.classList.contains('active');
+          this.dom.appThemeSelectorMenu.classList.toggle('active', willOpen);
+        }
+        if (this.dom.appSelectorMenu) this.dom.appSelectorMenu.classList.remove('active');
+        if (this.dom.projectSelectorMenu) this.dom.projectSelectorMenu.classList.remove('active');
       });
     }
 
     document.addEventListener('click', () => {
       if (this.dom.appSelectorMenu) this.dom.appSelectorMenu.classList.remove('active');
+      if (this.dom.appThemeSelectorMenu) this.dom.appThemeSelectorMenu.classList.remove('active');
     });
 
     // Theme toggle

@@ -216,6 +216,14 @@ class RapiderBridge {
     });
   }
 
+  syncAppTheme(themeKey, themeCss) {
+    this.broadcastToAllIframes({
+      type: 'SET_APP_THEME',
+      themeKey: themeKey || 'default',
+      themeCss: themeCss || ''
+    });
+  }
+
   generateMockResponse(operation, entityName, payload) {
     switch (operation) {
       case 'find':

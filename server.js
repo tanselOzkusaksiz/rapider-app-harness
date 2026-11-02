@@ -31,7 +31,7 @@ const getArg = (name, fallback) => {
   return arg ? arg.split('=')[1] : fallback;
 };
 
-const PORT = parseInt(process.env.PORT || getArg('port', '3300'), 10);
+const PORT = parseInt(getArg('port', '') || process.env.PORT || '3300', 10);
 const DEFAULT_BACKEND = process.env.BACKEND_URL || process.env.RAPIDER_TEST_API_URL || getArg('backend', 'https://dev.api.rappider.com');
 const RAPIDER_APPS_ROOT = path.resolve(__dirname, '../rapider-apps');
 
@@ -149,6 +149,123 @@ const themeCssPath = path.join(__dirname, 'public/assets/themes/rapider-tailwind
 if (fs.existsSync(themeCssPath)) {
   cachedThemeCss = fs.readFileSync(themeCssPath, 'utf8');
 }
+
+function normalizeAppThemeKey(raw) {
+  if (!raw || typeof raw !== 'string') return 'default';
+  const cleaned = raw.trim().toLowerCase().replace(/^theme-/, '').replace(/\.css$/, '');
+  if (!cleaned || cleaned === 'default') return 'default';
+  if (cleaned === 'compact-black' || cleaned === 'compact-obsidian') return 'obsidian-compact';
+  return cleaned.replace(/[^a-z0-9-_]/g, '') || 'default';
+}
+
+function readThemesCatalog(targetDir) {
+  const defaultCatalog = [
+    {
+      key: 'default',
+      name: 'Default (Editorial)',
+      file: 'theme-default.css',
+      primaryColor: '#6854df',
+      heroSurfaceColor: '#252840',
+      density: 'spacious',
+      description: 'Spacious editorial layout with Indigo Violet (#6854df) primary actions and Midnight Obsidian (#252840) hero surfaces.'
+    },
+    {
+      key: 'obsidian-compact',
+      aliases: ['compact-black', 'compact-obsidian'],
+      name: 'Obsidian Compact',
+      file: 'theme-obsidian-compact.css',
+      primaryColor: '#252840',
+      heroSurfaceColor: '#16192b',
+      density: 'compact',
+      description: 'High-density executive workspace with Midnight Obsidian (#252840) primary controls, tighter spacing, and crisp 8px geometry.'
+    }
+  ];
+
+  const byKey = new Map();
+  defaultCatalog.forEach(t => byKey.set(t.key, t));
+
+  const candidateFiles = [
+    path.join(__dirname, 'public/assets/themes/themes.json'),
+    targetDir ? path.join(targetDir, 'assets/themes/themes.json') : null
+  ].filter(Boolean);
+
+  for (const file of candidateFiles) {
+    if (fs.existsSync(file)) {
+      try {
+        const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+        const list = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.themes) ? parsed.themes : []);
+        list.forEach(item => {
+          if (item && item.key) {
+            byKey.set(item.key, { ...(byKey.get(item.key) || {}), ...item });
+          }
+        });
+      } catch (e) {
+        console.warn('[Harness] Failed reading themes.json at', file, e.message);
+      }
+    }
+  }
+
+  return Array.from(byKey.values());
+}
+
+function loadAppThemeCss(targetDir, rawThemeKey) {
+  const themeKey = normalizeAppThemeKey(rawThemeKey);
+  if (themeKey === 'default') {
+    return { themeKey: 'default', css: '' };
+  }
+  const fileName = `theme-${themeKey}.css`;
+  const candidates = [
+    targetDir ? path.join(targetDir, 'assets/themes', fileName) : null,
+    path.join(__dirname, 'public/assets/themes', fileName)
+  ].filter(Boolean);
+
+  for (const file of candidates) {
+    if (fs.existsSync(file)) {
+      try {
+        return { themeKey, css: fs.readFileSync(file, 'utf8') };
+      } catch (e) {
+        console.warn('[Harness] Error reading theme file:', file, e.message);
+      }
+    }
+  }
+  return { themeKey: 'default', css: '' };
+}
+
+/**
+ * List available application themes (default + compact / custom themes)
+ */
+app.get('/api/themes', (req, res) => {
+  try {
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.query.appPath) {
+      targetDir = resolveAppDir(req.query.appPath);
+    } else if (req.query.app) {
+      targetDir = resolveAppDir(req.query.app);
+    }
+    const themes = readThemesCatalog(targetDir);
+    res.json({ defaultTheme: 'default', themes });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+/**
+ * Fetch raw CSS for a given application theme key so the harness can live-swap without reloading
+ */
+app.get('/api/theme-css', (req, res) => {
+  try {
+    let targetDir = DEFAULT_APP_DIR;
+    if (req.query.appPath) {
+      targetDir = resolveAppDir(req.query.appPath);
+    } else if (req.query.app) {
+      targetDir = resolveAppDir(req.query.app);
+    }
+    const { themeKey, css } = loadAppThemeCss(targetDir, req.query.theme || 'default');
+    res.json({ themeKey, css });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 
 /**
  * Scan ../rapider-apps and ../rapider-apps/APPS to discover all available applications
@@ -399,12 +516,14 @@ app.get('/api/page-content', (req, res) => {
       } catch (e) { }
     }
     for (const key in req.query) {
-      if (!['appPath', 'filePath', 'isDark', 'routeParams', 't'].includes(key)) {
+      if (!['appPath', 'filePath', 'isDark', 'appTheme', 'routeParams', 't'].includes(key)) {
         routeParams[key] = req.query[key];
       }
     }
 
-    const builtHtml = buildSandboxHtml(rawHtml, cachedThemeCss, isDark, routeParams);
+    const { themeKey: resolvedThemeKey, css: appThemeCss } = loadAppThemeCss(targetDir, req.query.appTheme || 'default');
+
+    const builtHtml = buildSandboxHtml(rawHtml, cachedThemeCss, isDark, routeParams, resolvedThemeKey, appThemeCss);
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.send(builtHtml);
   } catch (error) {
@@ -424,7 +543,8 @@ function getDailyCacheVersion() {
   return `${year}${month}${day}`;
 }
 
-function buildSandboxHtml(rawCode, themeCss, isDark = false, routeParams = {}) {
+function buildSandboxHtml(rawCode, themeCss, isDark = false, routeParams = {}, appThemeKey = 'default', appThemeCss = '') {
+  const safeThemeKey = normalizeAppThemeKey(appThemeKey);
   const activeClassMode = isDark ? 'class="dark"' : '';
   const tailwindCdnUrl = 'https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4';
   const ngZorroCdnUrl = 'https://cdn.jsdelivr.net/npm/ng-zorro-antd@21.2.1/ng-zorro-antd.min.css';
@@ -1062,6 +1182,23 @@ ${themeCss}
           window.dispatchEvent(new CustomEvent('themechange', { detail: { isDark } }));
         }
 
+        // Application Theme Override from Harness / Workspace Settings
+        if (event.data.type === 'SET_APP_THEME') {
+          const nextThemeKey = String(event.data.themeKey || 'default').trim() || 'default';
+          const nextThemeCss = typeof event.data.themeCss === 'string' ? event.data.themeCss : '';
+          document.documentElement.setAttribute('data-rapider-theme', nextThemeKey);
+          let styleEl = document.getElementById('rapider-active-app-theme');
+          if (!styleEl) {
+            styleEl = document.createElement('style');
+            styleEl.id = 'rapider-active-app-theme';
+            styleEl.setAttribute('data-rapider-injected', 'true');
+            document.head.appendChild(styleEl);
+          }
+          styleEl.setAttribute('data-theme-key', nextThemeKey);
+          styleEl.textContent = nextThemeCss;
+          window.dispatchEvent(new CustomEvent('rapider:appthemechange', { detail: { themeKey: nextThemeKey } }));
+        }
+
         // Cross-Iframe Broadcasts from Harness Broker
         if (event.data.type === 'RAPIDER_BROADCAST_RECEIVE') {
           const callbacks = window.rapiderApi.listeners[event.data.eventName] || [];
@@ -1128,16 +1265,19 @@ ${themeCss}
     </script>
   `;
 
+  const appThemeStyleTag = `<style data-rapider-injected="true" id="rapider-active-app-theme" data-theme-key="${safeThemeKey}">\n${appThemeCss || ''}\n</style>`;
+
   // Inject into document
   if (!completeHtml.includes('<head>')) {
     completeHtml = `
       <!DOCTYPE html>
-      <html ${activeClassMode} lang="en">
+      <html data-rapider-theme="${safeThemeKey}" ${activeClassMode} lang="en">
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           ${injectedHeadAssets}
           ${rapiderSdkScript}
+          ${appThemeStyleTag}
         </head>
         <body class="bg-body-background text-primary-text min-h-screen">
           ${completeHtml}
@@ -1145,7 +1285,7 @@ ${themeCss}
       </html>
     `;
   } else {
-    completeHtml = completeHtml.replace('</head>', `${injectedHeadAssets}\n${rapiderSdkScript}\n</head>`);
+    completeHtml = completeHtml.replace('</head>', `${injectedHeadAssets}\n${rapiderSdkScript}\n${appThemeStyleTag}\n</head>`);
     if (activeClassMode) {
       if (completeHtml.includes('<html')) {
         if (!completeHtml.includes('class="dark"')) {
@@ -1156,6 +1296,13 @@ ${themeCss}
       }
     } else {
       completeHtml = completeHtml.replace(/<html[^>]*class=["'][^"']*dark[^"']*["'][^>]*>/i, match => match.replace('dark', '').trim());
+    }
+
+    if (completeHtml.includes('<html')) {
+      completeHtml = completeHtml.replace(/<html([^>]*)>/i, (match, attrs) => {
+        const cleanedAttrs = attrs.replace(/\s*data-rapider-theme=["'][^"']*["']/gi, '');
+        return `<html data-rapider-theme="${safeThemeKey}"${cleanedAttrs}>`;
+      });
     }
 
     // Align with production viewer: replace local assets/ paths to absolute /assets/ so base tag doesn't double them

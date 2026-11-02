@@ -1,32 +1,16 @@
-
-
-
-
-
-
 /* ==========================================================================
-   UNIVERJS SPREADSHEET STYLES
-   Required for the spreadsheet UI, ribbon, and grid to render correctly
-   ========================================================================== */
-
-
-
-
-
-
-
-/* ==========================================================================
-   1. TAILWIND V4 THEME CONFIGURATION
-   Mapping our custom CSS variables to Tailwind utilities.
+   TAILWIND V4 REAL-TIME BROWSER COMPILER — SEMANTIC MULTI-THEME BASE
+   Maps semantic CSS variables (Primary, Secondary, Tertiary, Hero, Surfaces,
+   Typography, Borders, and Status Roles) into native Tailwind utility classes.
 ========================================================================== */
-
 @theme {
-  /* Backgrounds */
+  /* Backgrounds & Surfaces */
   --color-body-background: var(--body-background-color);
   --color-component-header: var(--component-header-background-color);
   --color-component-inner: var(--component-inner-background-color);
   --color-alt-background: var(--alternative-background-color);
   --color-alt-bold-background: var(--alternative-bold-background-color);
+  --color-subtle-background: var(--subtle-background-color);
   --color-input-background: var(--input-background-color);
   --color-navbar-background: var(--navbar-background-color);
   --color-section-background: var(--section-background-color);
@@ -35,25 +19,28 @@
   --color-nav-layout-background: var(--navigation-layout-background-color);
   --color-inner-layout-background: var(--inner-layout-background-color);
   --color-active-pill-background: var(--active-pill-background-color);
+  --color-hero-surface: var(--hero-surface-bg);
 
   /* Borders */
   --color-primary-border: var(--primary-border-color);
   --color-secondary-border: var(--secondary-border-color);
+  --color-subtle-border: var(--subtle-border-color);
 
   /* Text */
   --color-text-main: var(--text-color);
   --color-primary-text: var(--primary-text-color);
   --color-secondary-text: var(--secondary-text-color);
+  --color-muted-text: var(--muted-text-color);
   --color-alt-text: var(--alternative-text-color);
+  --color-eyebrow: var(--eyebrow-text-color);
   --color-placeholder: var(--placeholder-color);
-  --color-heading: var(--h1-color) !important;
-  /* Unified heading color */
-  --color-h2: var(--h2-color) !important;
-  --color-h3: var(--h3-color) !important;
-  --color-h4: var(--h4-color) !important;
-  --color-h5: var(--h5-color) !important;
-  --color-h6: var(--h6-color) !important;
-  --color-link: var(--link-color) !important;
+  --color-heading: var(--h1-color);
+  --color-h2: var(--h2-color);
+  --color-h3: var(--h3-color);
+  --color-h4: var(--h4-color);
+  --color-h5: var(--h5-color);
+  --color-h6: var(--h6-color);
+  --color-link: var(--link-color);
 
   /* Buttons & Interactive */
   --color-button-bg: var(--button-background-color);
@@ -62,18 +49,31 @@
   --color-disabled-bg: var(--disabled-color);
   --color-disabled-text: var(--disabled-text-color);
 
-  /* Semantics & States */
+  /* Brand Hierarchy & Semantic States */
   --color-primary: var(--primary-color);
+  --color-primary-soft: var(--primary-soft-bg);
+  --color-secondary: var(--secondary-color);
+  --color-secondary-soft: var(--secondary-soft-bg);
+  --color-tertiary: var(--tertiary-color);
+  --color-tertiary-soft: var(--tertiary-soft-bg);
   --color-default: var(--default-color);
   --color-danger: var(--danger-color);
+  --color-danger-soft: var(--danger-soft-bg);
   --color-success: var(--success-color);
+  --color-success-soft: var(--success-soft-bg);
   --color-warning: var(--warning-color);
+  --color-warning-soft: var(--warning-soft-bg);
   --color-info: var(--info-color);
+  --color-info-soft: var(--info-soft-bg);
+  --color-neutral: var(--neutral-color);
+  --color-neutral-soft: var(--neutral-soft-bg);
   --color-progress: var(--progress-color);
 
   /* Hovers */
   --color-hover-default: var(--default-hover-color);
   --color-hover-primary: var(--primary-hover-color);
+  --color-hover-secondary: var(--secondary-hover-color);
+  --color-hover-tertiary: var(--tertiary-hover-color);
   --color-hover-danger: var(--danger-hover-color);
   --color-hover-success: var(--success-hover-color);
   --color-hover-warning: var(--warning-hover-color);
@@ -93,178 +93,194 @@
 }
 
 /* ==========================================================================
-   2. LIGHT MODE (DEFAULT VARIABLES)
+   LIGHT MODE DEFAULT SEMANTIC VALUES (Rapider Default Theme)
 ========================================================================== */
 :root {
   color-scheme: light;
-  /* Ensures native UI elements respect light mode */
 
-  --body-background-color: #f9fbfd;
-  --component-header-background-color: #f7f7f7;
+  --body-background-color: #f5f6fa;
+  --component-header-background-color: #fafbfe;
   --component-inner-background-color: #ffffff;
-  --alternative-background-color: #f4f5f7;
-  --alternative-bold-background-color: #f4f5f7;
-  --input-background-color: #ffffff;
-  --navbar-background-color: #f7f7f7;
+  --alternative-background-color: #fafbfe;
+  --alternative-bold-background-color: #f0f1f7;
+  --subtle-background-color: #f8f9fc;
+  --input-background-color: #fafbfe;
+  --navbar-background-color: #ffffff;
   --section-background-color: #ffffff;
-  --table-background-color: #fff;
-  --table-header-background-color: rgba(0, 0, 0, 0.02);
-  --navigation-layout-background-color: rgba(77, 107, 254, 0.05);
-  --inner-layout-background-color: #f9fbfd;
+  --table-background-color: #ffffff;
+  --table-header-background-color: #fbfcfe;
+  --navigation-layout-background-color: #ffffff;
+  --inner-layout-background-color: #f5f6fa;
+  --active-pill-background-color: #eeeaff;
 
-  --primary-border-color: #edf2f0;
-  --secondary-border-color: #dee2e6d5;
+  --primary-border-color: #e9ecf3;
+  --secondary-border-color: #dfe3ed;
+  --subtle-border-color: #eff1f5;
 
-  --text-color: #343a40;
-  --primary-text-color: #16181b;
-  --secondary-text-color: #6a7482;
-  --alternative-text-color: #343a40;
-  --placeholder-color: #bfbfbf;
-  --h1-color: #16181b;
-  --h2-color: #16181b;
-  --h3-color: #16181b;
-  --h4-color: #16181b;
-  --h5-color: #16181b;
-  --h6-color: #16181b;
-  --link-color: #16181b;
+  --text-color: #172137;
+  --primary-text-color: #172137;
+  --secondary-text-color: #758097;
+  --muted-text-color: #8b93a6;
+  --alternative-text-color: #344054;
+  --eyebrow-text-color: #8b84a0;
+  --placeholder-color: #939aac;
+  --h1-color: #172137;
+  --h2-color: #172137;
+  --h3-color: #172137;
+  --h4-color: #172137;
+  --h5-color: #172137;
+  --h6-color: #172137;
+  --link-color: var(--primary-color);
 
   --primary-button-text-color: #ffffff;
-  --secondary-button-text-color: #343a40;
-
+  --secondary-button-text-color: #172137;
   --button-background-color: #ffffff;
 
-  --disabled-color: #f5f5f5;
+  --disabled-color: #f5f6fa;
   --disabled-text-color: #00000040;
 
-  --primary-color: #1890ff;
+  --primary-color: #6854df;
+  --primary-hover-color: #5844cc;
+  --primary-soft-bg: #eeeaff;
+  --secondary-color: #252840;
+  --secondary-hover-color: #1d2035;
+  --secondary-soft-bg: #eef0f7;
+  --tertiary-color: #0f766e;
+  --tertiary-hover-color: #0d655e;
+  --tertiary-soft-bg: #e6f5f3;
+  --hero-surface-bg: #252840;
+
   --default-color: #ffffff;
-  --danger-color: #ff4d4f;
-  --success-color: #33cc33;
-  --warning-color: #ffcc00;
-  --info-color: #6495ed;
-  --progress-color: purple;
+  --danger-color: #dc2626;
+  --danger-soft-bg: #faeaf0;
+  --success-color: #26836b;
+  --success-soft-bg: #e7f3ec;
+  --warning-color: #aa7621;
+  --warning-soft-bg: #fff1e2;
+  --info-color: #3b6ea8;
+  --info-soft-bg: #e9f1fb;
+  --neutral-color: #67728a;
+  --neutral-soft-bg: #f1f3f7;
+  --progress-color: var(--primary-color);
 
-  --default-hover-color: #e6e6e6;
-  --primary-hover-color: #3aa0ff;
-  --danger-hover-color: #bd2837;
-  --success-hover-color: #23b623;
-  --warning-hover-color: #e9bf19;
-  --info-hover-color: #5682d4;
-  --table-hover-color: #fcfcfc;
-  --comment-hover-color: #e9e9e9;
-  --highlight-background-color: #e6f4ff;
-  --highlight-text-color: #16181b;
+  --default-hover-color: #fafbfe;
+  --danger-hover-color: #b91c1c;
+  --success-hover-color: #1e6b57;
+  --warning-hover-color: #8f6219;
+  --info-hover-color: #2f5b8c;
+  --table-hover-color: #fafbfe;
+  --comment-hover-color: #f0f1f7;
+  --highlight-background-color: #eeeaff;
+  --highlight-text-color: #172137;
 
-  --focus-color: rgba(63, 135, 245, 0.1);
-  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  --thick-box-shadow: 0 5px 15px rgba(206, 203, 203, 0.39);
-  --high-box-shadow: 0 2px 8px rgba(206, 203, 203, 0.39);
-
-  --border-radius-sm: 2px;
-  --border-radius: 4px;
-  --border-radius-lg: 10px;
-  --border-radius-xlg: 20px;
+  --focus-color: rgba(104, 84, 223, 0.22);
+  --box-shadow: none;
+  --thick-box-shadow: 0 12px 32px -4px rgba(23, 33, 55, 0.08);
+  --high-box-shadow: 0 4px 12px -2px rgba(23, 33, 55, 0.06);
 }
 
 /* ==========================================================================
-   3. DARK MODE VARIABLES
-   Activated automatically when <html class="dark"> is present.
+   DARK MODE DEFAULT SEMANTIC VALUES (Rapider Default Theme)
 ========================================================================== */
 .dark {
   color-scheme: dark;
-  /* Ensures native UI elements respect dark mode */
 
-  --body-background-color: #1f2126;
-  --component-header-background-color: #1f2126;
-  --component-inner-background-color: #25272c;
-  --alternative-background-color: #2d2f34;
-  --alternative-bold-background-color: #212226;
-  --input-background-color: #2d2f34;
-  --navbar-background-color: #2d2f34;
-  --section-background-color: #2d2f34;
-  --table-background-color: #1f2126;
-  --table-header-background-color: rgba(255, 255, 255, 0.02);
-  --navigation-layout-background-color: #3a3c3f;
-  --inner-layout-background-color: #1f2126;
+  --body-background-color: #12141a;
+  --component-header-background-color: #161922;
+  --component-inner-background-color: #1c202a;
+  --alternative-background-color: #161922;
+  --alternative-bold-background-color: #202431;
+  --subtle-background-color: #202431;
+  --input-background-color: #161922;
+  --navbar-background-color: #1c202a;
+  --section-background-color: #1c202a;
+  --table-background-color: #1c202a;
+  --table-header-background-color: #161922;
+  --navigation-layout-background-color: #161922;
+  --inner-layout-background-color: #12141a;
+  --active-pill-background-color: rgba(124, 106, 232, 0.2);
 
-  --primary-border-color: #3a3c3f;
-  --secondary-border-color: #3d4047;
+  --primary-border-color: #2a2e3d;
+  --secondary-border-color: #343a4d;
+  --subtle-border-color: #242836;
 
-  --text-color: #f0f0f0;
-  --primary-text-color: #f0f0f0;
-  --secondary-text-color: #c3c3c3;
-  --alternative-text-color: #f0f0f0;
-  --placeholder-color: #8c8c8c;
-  --h1-color: #f0f0f0;
-  --h2-color: #f0f0f0;
-  --h3-color: #f0f0f0;
-  --h4-color: #f0f0f0;
-  --h5-color: #f0f0f0;
-  --h6-color: #f0f0f0;
-  --link-color: #f0f0f0;
+  --text-color: #f0f4f8;
+  --primary-text-color: #f0f4f8;
+  --secondary-text-color: #9aa5be;
+  --muted-text-color: #8b95ab;
+  --alternative-text-color: #cbd5e1;
+  --eyebrow-text-color: #a59ec4;
+  --placeholder-color: #6e7891;
+  --h1-color: #ffffff;
+  --h2-color: #f0f4f8;
+  --h3-color: #f0f4f8;
+  --h4-color: #f0f4f8;
+  --h5-color: #f0f4f8;
+  --h6-color: #f0f4f8;
+  --link-color: #a594f9;
 
-  --primary-button-text-color: #f0f0f0;
-  --secondary-button-text-color: #f0f0f0;
-  --button-background-color: #3a3b3e;
-  --disabled-color: #3d4047;
-  --disabled-text-color: #f0f0f080;
+  --primary-button-text-color: #ffffff;
+  --secondary-button-text-color: #f0f4f8;
+  --button-background-color: #1c202a;
+  --disabled-color: #202431;
+  --disabled-text-color: #f0f4f880;
 
-  --primary-color: #1890ff;
-  --default-color: #3a3b3e;
-  --danger-color: #ff4d4f;
-  --success-color: #33cc33;
-  --warning-color: #ffcc00;
-  --info-color: #6495ed;
-  --progress-color: purple;
+  --primary-color: #7c6ae8;
+  --primary-hover-color: #6854df;
+  --primary-soft-bg: rgba(124, 106, 232, 0.2);
+  --secondary-color: #334155;
+  --secondary-hover-color: #475569;
+  --secondary-soft-bg: rgba(148, 163, 184, 0.16);
+  --tertiary-color: #2dd4bf;
+  --tertiary-hover-color: #14b8a6;
+  --tertiary-soft-bg: rgba(45, 212, 191, 0.16);
+  --hero-surface-bg: #252840;
 
-  --default-hover-color: #3d4047;
-  --primary-hover-color: #3aa0ff;
-  --danger-hover-color: #bd2837;
-  --success-hover-color: #23b623;
-  --warning-hover-color: #e9bf19;
-  --info-hover-color: #5682d4;
-  --table-hover-color: #2d2f34;
-  --comment-hover-color: #282a2e;
-  --highlight-background-color: #112a45;
-  --highlight-text-color: #f0f0f0;
+  --default-color: #1c202a;
+  --danger-color: #dc2626;
+  --danger-soft-bg: rgba(239, 68, 68, 0.16);
+  --success-color: #6ee7b7;
+  --success-soft-bg: rgba(16, 185, 129, 0.16);
+  --warning-color: #fcd34d;
+  --warning-soft-bg: rgba(245, 158, 11, 0.16);
+  --info-color: #93c5fd;
+  --info-soft-bg: rgba(59, 130, 246, 0.16);
+  --neutral-color: #cbd5e1;
+  --neutral-soft-bg: rgba(148, 163, 184, 0.16);
+  --progress-color: var(--primary-color);
 
-  --focus-color: rgba(63, 135, 245, 0.1);
-  --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-  --thick-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.9);
-  --high-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6) !important;
+  --default-hover-color: #232838;
+  --danger-hover-color: #b91c1c;
+  --success-hover-color: #34d399;
+  --warning-hover-color: #fbbf24;
+  --info-hover-color: #60a5fa;
+  --table-hover-color: #161922;
+  --comment-hover-color: #202431;
+  --highlight-background-color: rgba(124, 106, 232, 0.2);
+  --highlight-text-color: #f0f4f8;
 
-  --border-radius-sm: 2px;
-  --border-radius: 4px;
-  --border-radius-lg: 10px;
-  --border-radius-xlg: 20px;
+  --focus-color: rgba(124, 106, 232, 0.35);
+  --box-shadow: none;
+  --thick-box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --high-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45) !important;
 }
 
-/* ==========================================================================
-   4. GLOBAL SCROLLBAR CUSTOMIZATION
-   Ensures scrollbars respect the theme variables across all inputs and divs.
-========================================================================== */
-
-/* Firefox support */
+/* Embedded Scrollbar Styling inside the Sandbox */
 .custom-scrollbar {
   scrollbar-color: var(--secondary-border-color) transparent;
   scrollbar-width: thin;
 }
-
-/* WebKit global custom scrollbar utility */
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--secondary-border-color);
   border-radius: 10px;
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: var(--secondary-text-color);
 }

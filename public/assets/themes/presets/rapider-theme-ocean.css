@@ -1,0 +1,60 @@
+/* ==========================================================================
+   RAPIDER THEME PRESET — OCEAN COBALT (Semantic Override Sheet)
+   Load AFTER /assets/themes/rapider-design-system.css (or replace its :root /
+   .dark token block) to switch any app or user workspace to Ocean Cobalt.
+   ========================================================================== */
+
+:root:root {
+  --ds-theme-name: 'rapider-ocean';
+
+  /* Primary: Deep Cobalt Blue */
+  --primary-color: #1d4ed8;
+  --primary-hover-color: #1e40af;
+  --primary-active-color: #1e3a8a;
+  --primary-soft-bg: #eff6ff;
+  --primary-soft-subtle: #e0edff;
+  --primary-soft-border: #bfdbfe;
+  --primary-on-soft: #1e3a8a;
+  --primary-button-text-color: #ffffff;
+
+  /* Secondary: Midnight Navy */
+  --secondary-color: #0f172a;
+  --secondary-hover-color: #1e293b;
+  --secondary-soft-bg: #f1f5f9;
+  --secondary-soft-border: #cbd5e1;
+  --secondary-on-soft: #0f172a;
+
+  /* Tertiary: Cyan Accent */
+  --tertiary-color: #0284c7;
+  --tertiary-hover-color: #0369a1;
+  --tertiary-soft-bg: #e0f2fe;
+  --tertiary-soft-border: #bae6fd;
+  --tertiary-on-soft: #075985;
+
+  /* Hero KPI Card Surface */
+  --hero-surface-bg: #0f172a;
+  --hero-surface-border: #1e293b;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #94a3b8;
+
+  --eyebrow-text-color: #64748b;
+  --link-color: var(--primary-color);
+}
+
+html.dark:root,
+html body.dark {
+  --primary-color: #2563eb;
+  --primary-hover-color: #1d4ed8;
+  --primary-active-color: #1e40af;
+  --primary-on-soft: #dbeafe;
+  --primary-button-text-color: #ffffff;
+
+  --tertiary-color: #38bdf8;
+  --tertiary-hover-color: #0ea5e9;
+  --tertiary-on-soft: #bae6fd;
+
+  --hero-surface-bg: #0f172a;
+  --hero-surface-border: #1e293b;
+  --hero-surface-muted: #94a3b8;
+  --eyebrow-text-color: #94a3b8;
+}

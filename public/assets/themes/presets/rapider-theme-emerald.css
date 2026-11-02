@@ -1,0 +1,60 @@
+/* ==========================================================================
+   RAPIDER THEME PRESET — FOREST EMERALD (Semantic Override Sheet)
+   Load AFTER /assets/themes/rapider-design-system.css (or replace its :root /
+   .dark token block) to switch any app or user workspace to Forest Emerald.
+   ========================================================================== */
+
+:root:root {
+  --ds-theme-name: 'rapider-emerald';
+
+  /* Primary: Refined Forest Emerald */
+  --primary-color: #0f766e;
+  --primary-hover-color: #115e59;
+  --primary-active-color: #134e4a;
+  --primary-soft-bg: #ecfdf5;
+  --primary-soft-subtle: #e6f7f2;
+  --primary-soft-border: #a7f3d0;
+  --primary-on-soft: #065f46;
+  --primary-button-text-color: #ffffff;
+
+  /* Secondary: Deep Evergreen Charcoal */
+  --secondary-color: #142622;
+  --secondary-hover-color: #1d3530;
+  --secondary-soft-bg: #edf3f1;
+  --secondary-soft-border: #cddbd6;
+  --secondary-on-soft: #142622;
+
+  /* Tertiary: Warm Ochre Accent */
+  --tertiary-color: #b45309;
+  --tertiary-hover-color: #92400e;
+  --tertiary-soft-bg: #fef3c7;
+  --tertiary-soft-border: #fde68a;
+  --tertiary-on-soft: #92400e;
+
+  /* Hero KPI Card Surface */
+  --hero-surface-bg: #142622;
+  --hero-surface-border: #234039;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #9fc2b8;
+
+  --eyebrow-text-color: #5f7871;
+  --link-color: var(--primary-color);
+}
+
+html.dark:root,
+html body.dark {
+  --primary-color: #0d9488;
+  --primary-hover-color: #0f766e;
+  --primary-active-color: #115e59;
+  --primary-on-soft: #ccfbf1;
+  --primary-button-text-color: #ffffff;
+
+  --tertiary-color: #fbbf24;
+  --tertiary-hover-color: #f59e0b;
+  --tertiary-on-soft: #fde68a;
+
+  --hero-surface-bg: #142622;
+  --hero-surface-border: #25443d;
+  --hero-surface-muted: #9fc2b8;
+  --eyebrow-text-color: #8eb3a8;
+}

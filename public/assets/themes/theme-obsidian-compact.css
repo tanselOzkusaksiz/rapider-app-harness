@@ -1,0 +1,734 @@
+/* ==========================================================================
+   RAPIDER APPLICATION THEME — OBSIDIAN COMPACT
+   Theme Key : obsidian-compact (aliases: compact-black, compact-obsidian)
+   File Name : theme-obsidian-compact.css
+   Palette   : Primary #252840 · Hero #16192b · Secondary #475569 · Tertiary #0f766e
+   Density   : High-Density Executive (8px card radius, compact headers, KPIs,
+               toolbars, forms, kanban cards & data tables — ZERO HTML changes)
+   Supports  : Rapider Design System v2 (.ds-*), CRM (.crm-expense-design),
+               and HR / Suite Microapps (.layout, .page, .overview-top, .panel)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. LIGHT MODE SEMANTIC TOKENS & COMPACT GEOMETRY
+   -------------------------------------------------------------------------- */
+:root:root,
+html[data-rapider-theme="obsidian-compact"]:root,
+body.crm-expense-design {
+  color-scheme: light;
+  --ds-theme-name: 'obsidian-compact';
+
+  /* Primary Brand Role — Executive Obsidian (#252840) */
+  --primary-color: #252840;
+  --primary-hover-color: #191c30;
+  --primary-active-color: #111322;
+  --primary-soft-bg: #eaedf5;
+  --primary-soft-subtle: #eff1f7;
+  --primary-soft-border: #d2d7e5;
+  --primary-on-soft: #1e2136;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  /* Secondary Brand Role — Architectural Slate */
+  --secondary-color: #475569;
+  --secondary-hover-color: #334155;
+  --secondary-soft-bg: #f1f5f9;
+  --secondary-soft-border: #cbd5e1;
+  --secondary-on-soft: #1e293b;
+  --secondary-button-text-color: #141826;
+
+  /* Tertiary Brand Role — Precision Teal */
+  --tertiary-color: #0f766e;
+  --tertiary-hover-color: #0d5f58;
+  --tertiary-soft-bg: #e6f5f3;
+  --tertiary-soft-border: #bfe3de;
+  --tertiary-on-soft: #0f766e;
+  --tertiary-button-text-color: #ffffff;
+
+  /* Hero KPI Card Surface Role — Deep Midnight Obsidian */
+  --hero-surface-bg: #16192b;
+  --hero-surface-border: #2a2f4a;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #a3aac4;
+
+  /* Crisp Cool Canvas & Surface Tokens */
+  --body-background-color: #f2f4f8;
+  --inner-layout-background-color: #f2f4f8;
+  --component-inner-background-color: #ffffff;
+  --component-header-background-color: #f8f9fc;
+  --table-background-color: #ffffff;
+  --table-header-background-color: #f7f8fb;
+  --alternative-background-color: #f8f9fc;
+  --alternative-bold-background-color: #ebedf4;
+  --subtle-background-color: #f4f6fa;
+  --input-background-color: #f8f9fc;
+  --button-background-color: #ffffff;
+
+  /* Typography & Borders */
+  --primary-text-color: #141826;
+  --text-color: #141826;
+  --heading-color: #141826;
+  --alternative-text-color: #2b3448;
+  --secondary-text-color: #5e6980;
+  --muted-text-color: #78839a;
+  --eyebrow-text-color: #556078;
+  --link-color: #252840;
+  --primary-border-color: #dfe3ec;
+  --secondary-border-color: #cfd6e3;
+  --subtle-border-color: #e9ecf3;
+  --interactive-hover-border: #9ba5bc;
+  --focus-ring-color: rgba(37, 40, 64, 0.24);
+  --focus-color: var(--focus-ring-color);
+
+  /* High-Density Geometry Contract */
+  --radius: 8px;
+  --radius-md: 6px;
+  --radius-sm: 6px;
+  --radius-tag: 4px;
+  --ds-shell-pad: 18px 22px 26px;
+  --ds-shell-gap: 13px;
+  --ds-title-size: 22px;
+  --ds-subtitle-size: 12.5px;
+  --ds-btn-min-h: 32px;
+  --ds-btn-pad: 5px 12px;
+  --ds-btn-font: 12px;
+  --ds-input-min-h: 32px;
+  --ds-input-pad: 5px 10px;
+  --ds-input-font: 12px;
+  --ds-kpi-gap: 12px;
+  --ds-kpi-pad: 14px 16px;
+  --ds-kpi-min-h: 104px;
+  --ds-kpi-val-size: 25px;
+  --ds-panel-head-pad: 11px 16px;
+  --ds-panel-body-pad: 14px 16px;
+  --ds-toolbar-pad: 10px 14px;
+  --ds-th-pad: 8px 14px;
+  --ds-td-pad: 9px 14px;
+  --ds-td-font: 12px;
+  --shadow-primary-btn: 0 1px 2px rgba(20, 24, 38, 0.16);
+
+  /* Legacy Bridges (CRM & HR Employees zero-HTML-edit compatibility) */
+  --purple: #252840;
+  --crm-purple: #252840;
+  --soft: #eaedf5;
+  --crm-soft: #eaedf5;
+  --dark: #16192b;
+  --bg: #f2f4f8;
+  --crm-bg: #f2f4f8;
+  --ink: #141826;
+  --crm-ink: #141826;
+  --muted: #5e6980;
+  --crm-muted: #5e6980;
+  --line: #dfe3ec;
+  --crm-line: #dfe3ec;
+}
+
+/* --------------------------------------------------------------------------
+   2. DARK MODE SEMANTIC TOKENS
+   -------------------------------------------------------------------------- */
+html.dark:root,
+html body.dark,
+html.dark body.crm-expense-design,
+.dark body.crm-expense-design {
+  color-scheme: dark;
+  --primary-color: #363c5e;
+  --primary-hover-color: #464e78;
+  --primary-active-color: #2b304d;
+  --primary-soft-bg: rgba(148, 163, 196, 0.16);
+  --primary-soft-subtle: rgba(148, 163, 196, 0.14);
+  --primary-soft-border: rgba(148, 163, 196, 0.3);
+  --primary-on-soft: #e2e8f0;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  --hero-surface-bg: #181c2e;
+  --hero-surface-border: #2f3554;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #9aa5c4;
+
+  --body-background-color: #101218;
+  --inner-layout-background-color: #101218;
+  --component-inner-background-color: #181b24;
+  --component-header-background-color: #141720;
+  --table-background-color: #181b24;
+  --table-header-background-color: #141720;
+  --alternative-background-color: #141720;
+  --input-background-color: #141720;
+  --button-background-color: #181b24;
+
+  --primary-text-color: #eef2f7;
+  --text-color: #eef2f7;
+  --heading-color: #ffffff;
+  --alternative-text-color: #cbd5e1;
+  --secondary-text-color: #94a3b8;
+  --muted-text-color: #7c8aa0;
+  --eyebrow-text-color: #94a3b8;
+  --link-color: #cbd5f7;
+  --primary-border-color: #262b3a;
+  --secondary-border-color: #32394c;
+  --subtle-border-color: #1f2432;
+
+  --purple: var(--primary-color);
+  --crm-purple: var(--primary-color);
+  --soft: var(--primary-soft-bg);
+  --crm-soft: var(--primary-soft-bg);
+  --bg: var(--body-background-color);
+  --crm-bg: var(--body-background-color);
+  --ink: var(--primary-text-color);
+  --crm-ink: var(--primary-text-color);
+  --muted: var(--secondary-text-color);
+  --crm-muted: var(--secondary-text-color);
+  --line: var(--primary-border-color);
+  --crm-line: var(--primary-border-color);
+}
+
+/* --------------------------------------------------------------------------
+   3. HIGH-DENSITY STRUCTURAL & COLOR HARMONIZATION (ZERO HTML CHANGES)
+   Covers:
+   - Design System v2 (.ds-shell, .ds-main, .metric-card, .ds-table, .ds-toolbar)
+   - CRM Suite (.crm-expense-design, .crm-shell, .crm-metric, .crm-data-panel)
+   - HR Employees & Suite Apps (.layout, .sidebar, .topbar, .page, .overview-top)
+   -------------------------------------------------------------------------- */
+
+/* Primary Buttons & Hover Enforcement (#252840 in Light, Lifted Obsidian in Dark, Always #fff Text) */
+:root:root .primary,
+:root:root button.primary,
+:root:root .btn.primary,
+:root:root a.primary,
+:root:root a.btn.primary,
+:root:root .btn-primary,
+:root:root button.bg-primary,
+:root:root .crm-expense-design button.bg-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  box-shadow: var(--shadow-primary-btn) !important;
+}
+
+:root:root .primary:hover,
+:root:root button.primary:hover,
+:root:root .btn.primary:hover,
+:root:root a.primary:hover,
+:root:root a.btn.primary:hover,
+:root:root .btn-primary:hover,
+:root:root button.bg-primary:hover,
+:root:root .crm-expense-design button.bg-primary:hover {
+  background-color: var(--primary-hover-color) !important;
+  border-color: var(--primary-hover-color) !important;
+  color: #ffffff !important;
+}
+
+/* Secondary / Neutral Buttons */
+:root:root .btn:not(.primary):not(.danger),
+:root:root button.border,
+:root:root .crm-expense-design .crm-header button {
+  min-height: 32px !important;
+  padding: 5px 12px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .btn {
+  min-height: 32px !important;
+  padding: 5px 12px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+  gap: 6px !important;
+}
+
+:root:root .btn.sm,
+:root:root .btn.small,
+:root:root button.small {
+  min-height: 26px !important;
+  padding: 3px 9px !important;
+  font-size: 11px !important;
+  border-radius: 5px !important;
+}
+
+:root:root button:not(.primary):not(.danger):hover,
+:root:root .btn:not(.primary):not(.danger):hover,
+:root:root .crm-expense-design button.border:hover {
+  background-color: var(--alternative-bold-background-color) !important;
+  border-color: var(--interactive-hover-border) !important;
+}
+
+/* Compact Canvas & Main Containers */
+:root:root .ds-main,
+:root:root .crm-main,
+:root:root .crm-expense-design .crm-shell,
+:root:root .page {
+  padding: 18px 22px 26px !important;
+  gap: 13px !important;
+}
+
+:root:root .main {
+  padding: 0 22px 28px !important;
+}
+
+:root:root .heading {
+  padding: 18px 0 13px !important;
+  gap: 12px !important;
+}
+
+/* Legacy Embedded Sidebar & Topbar Compaction (e.g., HR Employees) */
+:root:root .layout:not(.sidebar-collapsed) {
+  grid-template-columns: 194px minmax(0, 1fr) !important;
+}
+
+:root:root .sidebar:not(.sidebar-collapsed) {
+  padding: 16px 12px 12px !important;
+  background: var(--component-inner-background-color) !important;
+  border-right-color: var(--primary-border-color) !important;
+}
+
+:root:root .sidebar.sidebar-collapsed {
+  background: var(--component-inner-background-color) !important;
+  border-right-color: var(--primary-border-color) !important;
+}
+
+:root:root .brand {
+  font-size: 18px !important;
+  padding: 0 8px 14px !important;
+}
+
+:root:root .brandmark {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  font-size: 15px !important;
+  background: var(--primary-color) !important;
+}
+
+:root:root .appbox {
+  padding: 9px 10px !important;
+  margin-bottom: 14px !important;
+  border-radius: 7px !important;
+  background: var(--primary-soft-bg) !important;
+  border-color: var(--primary-soft-border) !important;
+}
+
+:root:root .appicon {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+:root:root .nav a {
+  padding: 7px 10px !important;
+  font-size: 12.5px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .nav a.active {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+:root:root .navlabel {
+  margin: 14px 10px 4px !important;
+  font-size: 9.5px !important;
+}
+
+:root:root .topbar {
+  height: 48px !important;
+  padding: 0 22px !important;
+  background: var(--component-inner-background-color) !important;
+  border-bottom-color: var(--primary-border-color) !important;
+}
+
+/* Compact Editorial Headers */
+:root:root .page-head,
+:root:root .crm-expense-design .crm-header {
+  margin-bottom: 6px !important;
+  padding: 0 0 2px !important;
+  gap: 12px !important;
+}
+
+:root:root .eyebrow,
+:root:root .kicker,
+:root:root .crm-expense-design .crm-eyebrow {
+  font-size: 10px !important;
+  letter-spacing: 1.1px !important;
+  margin-bottom: 4px !important;
+  color: var(--eyebrow-text-color) !important;
+}
+
+:root:root .page-title,
+:root:root h1.ds-h1,
+:root:root .page-head h1,
+:root:root .heading h1,
+:root:root .crm-expense-design .crm-header h1 {
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.55px !important;
+  margin: 0 !important;
+  font-weight: 650 !important;
+}
+
+:root:root .subtitle,
+:root:root .page-head p,
+:root:root .heading p,
+:root:root .crm-expense-design .crm-header p {
+  font-size: 12.5px !important;
+  line-height: 1.45 !important;
+  margin-top: 4px !important;
+}
+
+/* Compact KPI Grids & Executive Cards */
+:root:root .metrics-grid-3,
+:root:root .metrics-grid-4,
+:root:root .crm-expense-design .crm-metrics,
+:root:root .overview-top,
+:root:root .grid.three,
+:root:root .grid.four {
+  gap: 12px !important;
+  margin-bottom: 4px !important;
+}
+
+:root:root .overview-top,
+:root:root .grid.space {
+  margin-bottom: 13px !important;
+}
+
+:root:root .metric-card,
+:root:root .metric,
+:root:root .crm-expense-design .crm-metric,
+:root:root .overview-top .hero,
+:root:root .overview-top .metric,
+:root:root .statbox {
+  padding: 13px 16px !important;
+  min-height: 98px !important;
+  border-radius: 8px !important;
+}
+
+:root:root .metric-card.hero,
+:root:root .metric-card.dark,
+:root:root .metric.dark,
+:root:root .crm-expense-design .crm-metric:first-child,
+:root:root .overview-top .hero {
+  background: var(--hero-surface-bg) !important;
+  border-color: var(--hero-surface-border) !important;
+  color: var(--hero-surface-text) !important;
+}
+
+:root:root .metric-value,
+:root:root .metric .value,
+:root:root .crm-expense-design .crm-metric p,
+:root:root .overview-top .metric strong,
+:root:root .statbox strong {
+  font-size: 24px !important;
+  letter-spacing: -0.8px !important;
+  margin-top: 6px !important;
+  line-height: 1.15 !important;
+}
+
+:root:root .overview-top .hero .amount {
+  font-size: 28px !important;
+  margin: 6px 0 4px !important;
+  line-height: 1.15 !important;
+}
+
+:root:root .overview-top .hero .amount small {
+  font-size: 14px !important;
+}
+
+:root:root .overview-top .hero-foot {
+  margin-top: 10px !important;
+  font-size: 11.5px !important;
+}
+
+:root:root .overview-top .sparkline {
+  top: 34px !important;
+  right: 16px !important;
+  width: 82px !important;
+  height: 34px !important;
+}
+
+:root:root .overview-top .sparkline path {
+  stroke: #94a3b8 !important;
+}
+
+:root:root .metric-icon {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  margin-bottom: 8px !important;
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+/* Compact Insight Banners & Callouts */
+:root:root .insight-strip,
+:root:root .insight,
+:root:root .portalbanner,
+:root:root .ai-inline {
+  background: var(--primary-soft-bg) !important;
+  border-color: var(--primary-soft-border) !important;
+  color: var(--primary-on-soft) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  font-size: 12px !important;
+  gap: 10px !important;
+}
+
+:root:root .insight {
+  margin-bottom: 13px !important;
+}
+
+:root:root .insight > .icon {
+  width: 18px !important;
+  height: 18px !important;
+  color: var(--link-color) !important;
+}
+
+:root:root .insight p,
+:root:root .insight b {
+  color: var(--primary-text-color) !important;
+}
+
+/* Compact Tabs (Underline & Segmented) */
+:root:root .ds-tabs,
+:root:root .tabs {
+  gap: 16px !important;
+  margin-bottom: 12px !important;
+}
+
+:root:root .ds-tab,
+:root:root .tabs a,
+:root:root .tabs button {
+  padding: 6px 2px 8px !important;
+  font-size: 12px !important;
+  min-height: 28px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs {
+  justify-content: flex-start !important;
+  margin: 0 0 8px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs > div {
+  border-radius: 7px !important;
+  padding: 3px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs button {
+  border-radius: 5px !important;
+  padding: 5px 14px !important;
+  font-size: 12px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs button.bg-primary {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+/* Compact Panels, Toolbars, Inputs & Grids */
+:root:root .panel,
+:root:root .crm-expense-design .crm-data-panel,
+:root:root .crm-expense-design .crm-pipelines,
+:root:root .crm-expense-design .bg-component-inner.rounded-lg,
+:root:root .crm-expense-design .bg-component-inner.rounded-xl {
+  border-radius: 8px !important;
+}
+
+:root:root .crm-expense-design .crm-pipelines,
+:root:root .crm-expense-design .grid > .bg-component-inner.p-6 {
+  padding: 14px 16px !important;
+}
+
+:root:root .overview-grid,
+:root:root .detail-grid,
+:root:root .rightstack,
+:root:root .grid {
+  gap: 13px !important;
+}
+
+:root:root .main .panel {
+  padding: 15px 18px !important;
+}
+
+:root:root .main .panel + .panel {
+  margin-top: 13px !important;
+}
+
+:root:root .panelhead {
+  margin-bottom: 12px !important;
+}
+
+:root:root .tablewrap {
+  margin: 0 -18px !important;
+  max-width: calc(100% + 36px) !important;
+}
+
+:root:root .panel-head {
+  padding: 11px 16px !important;
+}
+
+:root:root .panel-head h2,
+:root:root .crm-expense-design h2.text-lg {
+  font-size: 14px !important;
+  font-weight: 630 !important;
+}
+
+:root:root .panel-body {
+  padding: 13px 16px !important;
+}
+
+:root:root .panel-foot,
+:root:root .table-footer,
+:root:root .crm-expense-design .crm-data-panel > .border-t {
+  padding: 9px 14px !important;
+  font-size: 11px !important;
+}
+
+:root:root .ds-toolbar,
+:root:root .toolbar,
+:root:root .crm-expense-design .crm-toolbar {
+  padding: 10px 14px !important;
+  gap: 8px !important;
+  border-radius: 8px !important;
+}
+
+:root:root .crm-expense-design[data-crm-page] .crm-shell .crm-toolbar:has(+ .crm-data-panel) {
+  border-radius: 8px 8px 0 0 !important;
+  margin-bottom: -13px !important;
+}
+
+:root:root .crm-expense-design[data-crm-page] .crm-shell .crm-toolbar + .crm-data-panel {
+  border-radius: 0 0 8px 8px !important;
+}
+
+:root:root .ds-input,
+:root:root .ds-select,
+:root:root .field input,
+:root:root .field select,
+:root:root .toolbar select,
+:root:root .crm-expense-design :is(input:not([type=checkbox]):not([type=radio]), select) {
+  min-height: 32px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .search {
+  padding: 5px 9px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .ds-filter-pill,
+:root:root .crm-expense-design :is(.filter-tag, .filter-btn, .status-filter) {
+  padding: 4px 9px !important;
+  font-size: 11px !important;
+  border-radius: 5px !important;
+  border-color: var(--secondary-border-color) !important;
+}
+
+:root:root .ds-filter-pill.active,
+:root:root .crm-expense-design :is(.filter-tag, .filter-btn, .status-filter).bg-primary {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* High-Density Data Tables, Lists, Charts & Kanban Cards */
+:root:root table th,
+:root:root table.ds-table th,
+:root:root .crm-expense-design th {
+  padding: 8px 14px !important;
+  font-size: 10.5px !important;
+  background: var(--table-header-background-color) !important;
+}
+
+:root:root table td,
+:root:root table.ds-table td,
+:root:root .crm-expense-design td {
+  padding: 8.5px 14px !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+:root:root .primary-id-link,
+:root:root .crm-expense-design a,
+:root:root a.link {
+  color: var(--link-color) !important;
+}
+
+:root:root .list {
+  padding: 0 16px !important;
+}
+
+:root:root .listrow {
+  padding: 9px 0 !important;
+  gap: 10px !important;
+}
+
+:root:root .avatar {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 9.5px !important;
+}
+
+:root:root .avatar.purple {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+:root:root .barcol .bar {
+  background: #64748b !important;
+  border-radius: 3px 3px 0 0 !important;
+}
+
+:root:root .barcol:nth-last-child(1) .bar {
+  background: var(--primary-color) !important;
+}
+
+:root:root .donut {
+  width: 108px !important;
+  height: 108px !important;
+  background: conic-gradient(var(--primary-color) 0 60%, #64748b 60% 82%, #cbd5e1 82%) !important;
+}
+
+:root:root .donut span {
+  font-size: 20px !important;
+}
+
+:root:root .crm-expense-design :is(.kanban-card, [draggable=true]),
+:root:root .candidate-card {
+  padding: 10px 12px !important;
+  border-radius: 7px !important;
+}
+
+:root:root .tag {
+  padding: 2px 6px !important;
+  font-size: 10px !important;
+  border-radius: 4px !important;
+}
+
+:root:root .tag:not(.green):not(.amber):not(.red):not(.blue):not(.gray):not(.tag-success):not(.tag-warning):not(.tag-danger):not(.tag-info):not(.tag-neutral) {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+/* Harmonize unstyled AntD Reset Anchors (a { color: #1890ff }) into Obsidian Link Role */
+:root:root a:not(.btn):not(.primary):not(.brand):not(.nav-item):not([class*="bg-"]),
+:root:root .td-person b,
+:root:root .appbox b,
+:root:root .profile-link strong {
+  color: var(--link-color);
+}
+:root:root .hero a,
+:root:root .metric-card.hero a {
+  color: #ffffff !important;
+}
+:root:root .nav a:not(.active) {
+  color: var(--secondary-text-color) !important;
+}
+:root:root a:not(.btn):not(.primary):hover {
+  color: var(--primary-hover-color);
+}

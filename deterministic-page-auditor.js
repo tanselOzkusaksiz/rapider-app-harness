@@ -1056,6 +1056,59 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
   }
 
   // ------------------------------------------------------------------------
+  // 31b. RULE: Rapider Design System & Host-Integrated CRM Harmony (Pass 07 & Pass 21)
+  // ------------------------------------------------------------------------
+  const appHasDesignSystemCss = fs.existsSync(path.join(appDir, 'assets/themes/rapider-design-system.css'));
+  const isDesignSystemShowcaseApp = path.basename(appDir) === 'rapider-app-designsystem-rapider-design-system';
+  if (appHasDesignSystemCss) {
+    const linksDesignSystem =
+      /rapider-design-system\.css/i.test(rawHtml) || /crm-expenses-design\.css/i.test(rawHtml);
+    if (!linksDesignSystem) {
+      issues.push({
+        rule: 'Pass 07: Rapider Design System Theme & Token Harmony',
+        type: 'MISSING_DESIGN_SYSTEM_STYLESHEET',
+        message: 'Page <head> does not load "/assets/themes/rapider-design-system.css". Every microapp page MUST link rapider-design-system.css (after rapider-tailwind-theme.css) so brand purple (#6854df), deep slate ink (#172137), #f5f6fa canvas, and #252840 executive metric cards match Rapider CRM.'
+      });
+    }
+
+    if (!isDesignSystemShowcaseApp && /<aside\b[^>]*(?:class=["'][^"']*sidebar|id=["']suiteSidebar["'])/i.test(rawHtml)) {
+      issues.push({
+        rule: 'Pass 21: Host-Integrated Shell & Duplicate Sidebar Ban',
+        type: 'DUPLICATE_IN_PAGE_SIDEBAR',
+        message: 'Page embeds an inner <aside class="sidebar"> inside page HTML. Rapider host shell already renders navigation from app.manifest.json — wrap page content in .ds-shell / <main class="ds-main"> without a duplicate left sidebar (matching Rapider CRM).'
+      });
+    }
+
+    const inlineStylesOnly = (rawHtml.match(/<style\b[^>]*>([\s\S]*?)<\/style>/gi) || []).join('\n');
+    if (/#1890ff\b|#0070f3\b/i.test(inlineStylesOnly) || /\b(?:bg-blue-600|bg-purple-600|bg-indigo-600)\b/.test(cleanMarkup)) {
+      issues.push({
+        rule: 'Pass 07: Semantic Multi-Theme Token Contract',
+        type: 'NON_SEMANTIC_BRAND_COLOR_DETECTED',
+        message: 'Page uses hardcoded hue colors (#1890ff / #0070f3 / bg-blue-600 / bg-purple-600 / bg-indigo-600) instead of semantic multi-theme roles (.btn.primary / bg-primary / var(--primary-color) / var(--secondary-color) / var(--tertiary-color)).'
+      });
+    }
+
+    if (!isDesignSystemShowcaseApp && /rapider-design-system\.css/i.test(rawHtml)) {
+      const nonSemanticVarMatch = rawHtml.match(/var\(\s*--(?:purple|purple-hover|purple-deep|soft-purple|green|green-bg|amber|amber-bg|red|red-bg|blue|blue-bg|gray-tag-text|gray-tag-bg)\b/i);
+      if (nonSemanticVarMatch) {
+        issues.push({
+          rule: 'Pass 07: Semantic Multi-Theme Token Contract',
+          type: 'COLOR_NAMED_CSS_VARIABLE_DETECTED',
+          message: `Page references color-named token "${nonSemanticVarMatch[0]})" instead of semantic multi-theme roles (use var(--primary-color), var(--secondary-color), var(--tertiary-color), var(--success-color), var(--warning-color), var(--danger-color), var(--info-color), var(--neutral-color)).`
+        });
+      }
+    }
+
+    if (/(?:grid-cols-5|@lg:grid-cols-5|@xl:grid-cols-5|lg:grid-cols-5|xl:grid-cols-5|repeat\(\s*5\s*,)/i.test(rawHtml)) {
+      issues.push({
+        rule: 'Pass 07: Rapider Design System Metric Strip Density',
+        type: 'OVER_CROWDED_KPI_STRIP',
+        message: 'Page uses a 5-column KPI grid, which truncates card headings. Use .metrics-grid-3 (1.45fr 1fr 1fr) or .metrics-grid-4 (1.3fr 1fr 1fr 1fr) led by a semantic .metric-card.hero card.'
+      });
+    }
+  }
+
+  // ------------------------------------------------------------------------
   // 22. RULE: Pass 22 — Domain Fidelity, Spec Alignment & Anti-Boilerplate
   // ------------------------------------------------------------------------
   const bulkBoilerplateWatermarks = [

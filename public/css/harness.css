@@ -331,6 +331,65 @@ html, body {
   box-shadow: 0 0 8px var(--success);
 }
 
+/* Application Theme Selector */
+.app-theme-selector-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  gap: 7px;
+  border-radius: 20px;
+}
+
+.app-theme-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.app-theme-selector-menu {
+  z-index: 1003;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+}
+
+.theme-menu-header {
+  padding: 6px 10px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 2px;
+}
+
+.theme-option-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.theme-option-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.theme-density-pill {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
 /* Header Buttons */
 .btn-icon {
   width: 34px;
