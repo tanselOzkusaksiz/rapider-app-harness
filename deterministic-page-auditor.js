@@ -1076,6 +1076,28 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
     }
   }
 
+  // 22.0b Inline Mock Data Externalization Gate (All mock/seed data MUST live in sample-data.json, zero mocks in HTML/JS)
+  const inlineJsMockRegex = /\b(?:const|let|var)\s+(?:mock\w*|MOCK_\w*|fake\w*|FAKE_\w*|dummy\w*|fallback(?:Data|Records|Items|List|Rows)\w*|hardcoded\w*|static(?:Records|Rows|Items|Data)\w*)\s*=\s*\[\s*\{/i;
+  if (inlineJsMockRegex.test(combinedScript)) {
+    issues.push({
+      rule: 'Pass 12 & Pass 22: Mock Data Externalization to sample-data.json',
+      type: 'INLINE_JS_MOCK_DATA_DETECTED',
+      message: 'Inline mock/fallback entity array detected inside page <script>. Move all mock/seed records into sample-data.json and remove inline mocks from the HTML page so data loads cleanly via window.rapiderApi.findSWR.'
+    });
+  }
+  const tbodyBlocks = cleanMarkup.match(/<tbody\b[^>]*>([\s\S]*?)<\/tbody>/gi) || [];
+  for (const tb of tbodyBlocks) {
+    const trMatches = tb.match(/<tr\b[^>]*>/gi) || [];
+    if (trMatches.length >= 2) {
+      issues.push({
+        rule: 'Pass 12 & Pass 22: Mock Data Externalization to sample-data.json',
+        type: 'STATIC_TBODY_MOCK_ROWS_DETECTED',
+        message: `Static HTML <tbody> contains ${trMatches.length} hardcoded <tr> rows. Move mock data into sample-data.json, remove static mock rows from HTML, and render rows dynamically from window.rapiderApi.findSWR.`
+      });
+      break;
+    }
+  }
+
   if (pageSpec) {
     const devDetails = (pageSpec.developmentDetails || pageSpec.description || '').trim();
     if (devDetails.length >= 35) {
