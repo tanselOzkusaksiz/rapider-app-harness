@@ -246,6 +246,43 @@ async function runSinglePageE2E(options) {
     const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
     const page = await context.newPage();
 
+    // In isolated single-page mode (--route=<targetRoute>), sibling manifest pages (e.g. default #/dashboard on boot
+    // or #/<entity>-detail during Pillar 3 click-through navigation) may not have been built yet in the queue.
+    // Serve a clean 200 stub ONLY for valid manifest routes other than targetRoute that do not exist on disk yet;
+    // targetRoute itself, already-built sibling pages, and any invalid/typo routes hit the real server strictly.
+    if (targetRoute) {
+      const cleanTargetRoute = String(targetRoute).replace(/^#?\/?/, '').split('?')[0];
+      const targetWp = (manifest.webPages || []).find(wp => wp && wp.route === cleanTargetRoute);
+      const targetRelFilePath = (targetWp && targetWp.htmlFilePath) || `pages/${cleanTargetRoute}/${cleanTargetRoute}.html`;
+      const knownManifestPaths = new Set(
+        (manifest.webPages || [])
+          .filter(wp => wp && wp.route)
+          .map(wp => wp.htmlFilePath || `pages/${wp.route}/${wp.route}.html`)
+      );
+
+      await page.route('**/api/page-content**', async (route) => {
+        try {
+          const reqUrl = new URL(route.request().url());
+          const reqFilePath = reqUrl.searchParams.get('filePath') || '';
+          if (
+            reqFilePath &&
+            reqFilePath !== targetRelFilePath &&
+            knownManifestPaths.has(reqFilePath) &&
+            !fs.existsSync(path.join(appDir, reqFilePath))
+          ) {
+            const safeAttr = reqFilePath.replace(/[^a-zA-Z0-9_./-]/g, '');
+            await route.fulfill({
+              status: 200,
+              contentType: 'text/html; charset=utf-8',
+              body: `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"></head><body data-unbuilt-sibling-route="${safeAttr}"><div style="padding:24px;font-family:sans-serif;">Pending single-page queue build: ${safeAttr}</div></body></html>`
+            });
+            return;
+          }
+        } catch (_) {}
+        await route.continue();
+      });
+    }
+
     const runtimeErrors = [];
     const apiHttpErrors = [];
     const nativeDialogs = [];
