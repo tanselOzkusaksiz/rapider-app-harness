@@ -112,7 +112,7 @@ function parseHtmlSections(htmlContent, htmlFilePath, appDir) {
 /**
  * Audits a single HTML page deterministically.
  */
-function auditHtmlPage(pagePath, appDir, manifest) {
+function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
   const issues = [];
   const warnings = [];
   const metrics = {
@@ -1055,6 +1055,133 @@ function auditHtmlPage(pagePath, appDir, manifest) {
     }
   }
 
+  // ------------------------------------------------------------------------
+  // 22. RULE: Pass 22 — Domain Fidelity, Spec Alignment & Anti-Boilerplate
+  // ------------------------------------------------------------------------
+  const bulkBoilerplateWatermarks = [
+    { regex: /Sub-200ms target SLA/i, label: 'Sub-200ms target SLA' },
+    { regex: /Audit trail verified/i, label: 'Audit trail verified' },
+    { regex: /Passing policy checks/i, label: 'Passing policy checks' },
+    { regex: /Live SWR synchronized/i, label: 'Live SWR synchronized' },
+    { regex: /Enterprise Primary Record|Enterprise Operations Record|Enterprise Compliance Record/i, label: 'Enterprise Primary/Operations/Compliance Record boilerplate' },
+    { regex: />\s*METADATA\s*\/\s*CODE\s*</i, label: 'Generic METADATA / CODE table header' }
+  ];
+  for (const wm of bulkBoilerplateWatermarks) {
+    if (wm.regex.test(rawHtml)) {
+      issues.push({
+        rule: 'Pass 22: Domain Fidelity & Anti-Boilerplate',
+        type: 'BULK_TEMPLATE_WATERMARK_DETECTED',
+        message: `Page contains bulk boilerplate generator watermark ("${wm.label}"). Every page must be uniquely designed from the SOW and target dataModel schema.`
+      });
+    }
+  }
+
+  if (pageSpec) {
+    const devDetails = (pageSpec.developmentDetails || pageSpec.description || '').trim();
+    if (devDetails.length >= 35) {
+      // 22.1 Verbatim spec dump check
+      const normalizedDetails = devDetails.replace(/\s+/g, ' ').trim();
+      const visibleText = cleanMarkup.replace(/<[^>]+>/g, ' ').replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+      if (visibleText.includes(normalizedDetails)) {
+        issues.push({
+          rule: 'Pass 22: Domain Fidelity & Anti-Boilerplate',
+          type: 'VERBATIM_SPEC_DUMP_IN_UI',
+          message: `Page dumps raw manifest developmentDetails verbatim into user-facing UI ("${normalizedDetails.slice(0, 80)}..."). Implement the described UX instead of printing the developer prompt.`
+        });
+      }
+
+      // 22.2 Required custom element alignment with pageSpec
+      if (/rapider-kanban/i.test(devDetails) && !/<rapider-kanban\b/i.test(rawHtml)) {
+        issues.push({
+          rule: 'Pass 22: Domain Fidelity & Anti-Boilerplate',
+          type: 'MISSING_SPEC_KANBAN_COMPONENT',
+          message: `Page specification requires "<rapider-kanban>", but <rapider-kanban> is absent from "${relativePagePath}".`
+        });
+      }
+      if (/rapider-phone-input/i.test(devDetails) && !/<rapider-phone-input\b|RapiderPhoneInput/i.test(rawHtml)) {
+        issues.push({
+          rule: 'Pass 22: Domain Fidelity & Anti-Boilerplate',
+          type: 'MISSING_SPEC_PHONE_COMPONENT',
+          message: `Page specification requires "<rapider-phone-input>", but <rapider-phone-input> is absent from "${relativePagePath}".`
+        });
+      }
+
+      // 22.3 Target DataModel alignment with pageSpec
+      const domainKey = (manifest.domainKey || '').toLowerCase();
+      const specNamedModels = [];
+      for (const m of (manifest.dataModels || [])) {
+        if (!m || !m.name) continue;
+        const modelRegex = new RegExp(`\\b${m.name}\\b`);
+        if (modelRegex.test(devDetails)) {
+          specNamedModels.push(m.name);
+        }
+      }
+      // Prefer models belonging to the app's own domainKey if present in specNamedModels
+      const primarySpecModels = specNamedModels.filter(name => !domainKey || name.toLowerCase().startsWith(domainKey));
+      const expectedModelsToCheck = primarySpecModels.length > 0 ? primarySpecModels : specNamedModels;
+
+      if (expectedModelsToCheck.length > 0) {
+        const boundModelsInPage = new Set();
+        const boundRegex = /window\.rapiderApi\s*\.\s*(?:findSWR|countSWR|findById|create|update|updateById|delete|deleteById)\s*\(\s*['"`]([a-zA-Z0-9_]+)['"`]/g;
+        let bm;
+        while ((bm = boundRegex.exec(combinedScript)) !== null) {
+          boundModelsInPage.add(bm[1]);
+        }
+        const matchesAnyExpected = expectedModelsToCheck.some(em => boundModelsInPage.has(em));
+        if (!matchesAnyExpected) {
+          issues.push({
+            rule: 'Pass 22: Domain Fidelity & Anti-Boilerplate',
+            type: 'SPEC_DATA_MODEL_MISMATCH',
+            message: `Page specification explicitly targets [${expectedModelsToCheck.join(', ')}], but page binds [${Array.from(boundModelsInPage).join(', ') || 'NONE'}].`
+          });
+        }
+      }
+    }
+  }
+
+  // 22.4 Real Domain Schema Field Hydration Check
+  const GENERIC_SYSTEM_FIELDS = new Set([
+    'id', '_id', 'isDeleted', 'status', 'version', 'createdDate', 'updatedDate',
+    'createdBy', 'createdById', 'updatedBy', 'projectId', 'tenantId'
+  ]);
+  const boundReadWriteModels = new Set();
+  const rwRegex = /window\.rapiderApi\s*\.\s*(?:findSWR|findById|create|update|updateById)\s*\(\s*['"`]([a-zA-Z0-9_]+)['"`]/g;
+  let rwm;
+  while ((rwm = rwRegex.exec(combinedScript)) !== null) {
+    boundReadWriteModels.add(rwm[1]);
+  }
+  if (boundReadWriteModels.size > 0 && Array.isArray(manifest.dataModels)) {
+    let maxDomainFieldsMatched = 0;
+    let checkedModelWithEnoughFields = false;
+    for (const modelName of boundReadWriteModels) {
+      const modelDef = manifest.dataModels.find(m => m.name === modelName);
+      if (!modelDef || !Array.isArray(modelDef.fields)) continue;
+      const domainFields = modelDef.fields
+        .map(f => f.name)
+        .filter(fn => fn && !GENERIC_SYSTEM_FIELDS.has(fn));
+      if (domainFields.length >= 3) {
+        checkedModelWithEnoughFields = true;
+        let matched = 0;
+        for (const fn of domainFields) {
+          if (new RegExp(`\\b${fn}\\b`).test(rawHtml)) matched++;
+        }
+        if (matched > maxDomainFieldsMatched) maxDomainFieldsMatched = matched;
+      }
+    }
+    if (checkedModelWithEnoughFields && maxDomainFieldsMatched < 3) {
+      issues.push({
+        rule: 'Pass 22: Domain Fidelity & Anti-Boilerplate',
+        type: 'INSUFFICIENT_DOMAIN_FIELD_HYDRATION',
+        message: `Page binds [${Array.from(boundReadWriteModels).join(', ')}] but references only ${maxDomainFieldsMatched} domain-specific schema fields (minimum 3 required). Render real model attributes instead of generic placeholder fields.`
+      });
+    }
+  }
+
+  // Record structural fingerprint for cross-page anti-clone verification
+  const thHeaders = Array.from(cleanMarkup.matchAll(/<th\b[^>]*>([\s\S]*?)<\/th>/gi))
+    .map(m => m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().toLowerCase())
+    .filter(Boolean);
+  metrics.thSignature = thHeaders.join('|');
 
   return {
     pagePath: relativePagePath,
@@ -1068,25 +1195,34 @@ function auditHtmlPage(pagePath, appDir, manifest) {
 }
 
 /**
- * Audits an entire application across all its webPages.
+ * Audits an entire application across all its webPages (or a single targetRoute when building one-by-one).
  */
-function auditMicroapp(appDir) {
+function auditMicroapp(appDir, options = {}) {
   const resolvedAppDir = path.resolve(appDir);
   const manifestPath = path.join(resolvedAppDir, 'app.manifest.json');
+  const targetRoute = options.targetRoute || null;
 
   if (!fs.existsSync(manifestPath)) {
     throw new Error(`Manifest not found at ${manifestPath}`);
   }
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-  const pages = manifest.webPages || manifest.pages || [];
+  const allPages = manifest.webPages || manifest.pages || [];
+  const pages = targetRoute
+    ? allPages.filter(p => p.route === targetRoute)
+    : allPages;
+
+  if (targetRoute && pages.length === 0) {
+    throw new Error(`Target route "${targetRoute}" is not defined in app.manifest.json webPages.`);
+  }
 
   const results = {
     appName: manifest.name || path.basename(resolvedAppDir),
     appKey: manifest.key || '',
     appDir: resolvedAppDir,
+    targetRoute,
     timestamp: new Date().toISOString(),
-    totalPages: pages.length,
+    totalPages: allPages.length,
     pagesAudited: 0,
     pagesPassed: 0,
     pagesFailed: 0,
@@ -1096,12 +1232,12 @@ function auditMicroapp(appDir) {
     manifestChecks: []
   };
 
-  // 1. Audit manifest registered pages
+  // 1. Audit manifest registered pages (or single targetRoute)
   for (const p of pages) {
     const filePath = p.htmlFilePath || `pages/${p.route}/${p.route}.html`;
     const fullPath = path.join(resolvedAppDir, filePath);
 
-    const pageAudit = auditHtmlPage(fullPath, resolvedAppDir, manifest);
+    const pageAudit = auditHtmlPage(fullPath, resolvedAppDir, manifest, p);
     pageAudit.route = p.route;
     pageAudit.pageName = p.name;
 
@@ -1117,6 +1253,34 @@ function auditMicroapp(appDir) {
     results.pageResults.push(pageAudit);
   }
 
+  // 1b. Cross-page anti-clone check across all currently built pages on disk
+  const builtTableSignatures = new Map();
+  for (const p of allPages) {
+    if (p.displayInMenu === false || p.displayOnMenu === false) continue;
+    const fp = path.join(resolvedAppDir, p.htmlFilePath || `pages/${p.route}/${p.route}.html`);
+    if (!fs.existsSync(fp)) continue;
+    const raw = fs.readFileSync(fp, 'utf8');
+    const clean = raw.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, '').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, '');
+    const ths = Array.from(clean.matchAll(/<th\b[^>]*>([\s\S]*?)<\/th>/gi))
+      .map(m => m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().toLowerCase())
+      .filter(Boolean);
+    if (ths.length >= 4) {
+      const sig = ths.join('|');
+      if (builtTableSignatures.has(sig)) {
+        const otherRoute = builtTableSignatures.get(sig);
+        if (!targetRoute || targetRoute === p.route || targetRoute === otherRoute) {
+          results.manifestChecks.push({
+            rule: 'Pass 22: Domain Fidelity & Anti-Clone',
+            type: 'CROSS_PAGE_TABLE_CLONE_DETECTED',
+            message: `Routes "${otherRoute}" and "${p.route}" share identical 4+ column table headers ("${sig}"). Each page must implement its distinct domain layout and entity columns.`
+          });
+        }
+      } else {
+        builtTableSignatures.set(sig, p.route);
+      }
+    }
+  }
+
   // 2. Cross-check disk pages against manifest
   const pagesFolder = path.join(resolvedAppDir, 'pages');
   if (fs.existsSync(pagesFolder)) {
@@ -1124,7 +1288,7 @@ function auditMicroapp(appDir) {
     for (const sub of subdirs) {
       if (sub.isDirectory() && sub.name !== 'assets') {
         const expectedHtml = path.join(pagesFolder, sub.name, `${sub.name}.html`);
-        const isRegistered = pages.some(p => p.route === sub.name || (p.htmlFilePath && p.htmlFilePath.includes(sub.name)));
+        const isRegistered = allPages.some(p => p.route === sub.name || (p.htmlFilePath && p.htmlFilePath.includes(sub.name)));
         if (!isRegistered && fs.existsSync(expectedHtml)) {
           results.manifestChecks.push({
             rule: 'Pass 13: Manifest Sync',
@@ -1138,7 +1302,7 @@ function auditMicroapp(appDir) {
 
   // 3. Check for micro-header clutter in webPages (Pass 13: count >= 3 rule)
   const sectionGroups = new Map();
-  for (const p of pages) {
+  for (const p of allPages) {
     const groupTitle = (p.sectionTitle || p.group || p.section || '').trim();
     if (groupTitle && p.displayOnMenu !== false && p.displayInMenu !== false) {
       const list = sectionGroups.get(groupTitle) || [];
@@ -1220,10 +1384,13 @@ module.exports = {
 
 if (require.main === module) {
   const args = process.argv.slice(2);
-  const targetDir = args[0] ? path.resolve(args[0]) : process.cwd();
-  console.log(`Running deterministic QA auditor on: ${targetDir}`);
+  const routeArg = args.find(a => a.startsWith('--route='));
+  const targetRoute = routeArg ? routeArg.split('=')[1] : null;
+  const positional = args.filter(a => !a.startsWith('--'));
+  const targetDir = positional[0] ? path.resolve(positional[0]) : process.cwd();
+  console.log(`Running deterministic QA auditor on: ${targetDir}${targetRoute ? ` (route: ${targetRoute})` : ''}`);
   try {
-    const audit = auditMicroapp(targetDir);
+    const audit = auditMicroapp(targetDir, { targetRoute });
     console.log(formatAuditMarkdown(audit));
     process.exit(audit.is100PercentCompliant ? 0 : 1);
   } catch (e) {
