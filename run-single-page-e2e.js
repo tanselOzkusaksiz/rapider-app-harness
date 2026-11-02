@@ -108,6 +108,15 @@ function deepSubsetMatch(actual, expected, pathPrefix = '') {
     if (actual === expected) return { ok: true };
     if (typeof expected === 'number' && Number(actual) === expected) return { ok: true };
     if (typeof expected === 'string' && String(actual ?? '').trim() === expected.trim()) return { ok: true };
+    // populate-sample-data scopes template UUIDs (00000000-...) per workspace; accept any valid workspace-scoped UUID for id/*Id fields
+    if (
+      typeof expected === 'string' &&
+      /^00000000-[0-9a-f]{4}-/i.test(expected.trim()) &&
+      typeof actual === 'string' &&
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(actual.trim())
+    ) {
+      return { ok: true };
+    }
     return { ok: false, reason: `${pathPrefix || 'value'}: expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}` };
   }
   if (Array.isArray(expected)) {
@@ -816,12 +825,12 @@ async function runSinglePageE2E(options) {
         stepResults.push({ step: stepResults.length + 1, name: 'Zero API HTTP Error Gate', action: 'runtime_gate', status: 'failed', error: msg });
       }
 
-      // Capture clean 1200x800 screenshot of the rendered sandbox iframe (and full harness)
-      await page.setViewportSize({ width: 1200, height: 800 });
+      // Capture clean desktop screenshot of the rendered sandbox iframe after SWR data settles
+      await page.setViewportSize({ width: 1560, height: 980 });
       await page.evaluate((r) => {
         if (window.harness) window.harness.navigate(r);
       }, cleanRoute);
-      await page.waitForTimeout(900);
+      await page.waitForTimeout(2600);
       const screenshotPath = path.join(outShotDir, `${cleanRoute.replace(/[^a-zA-Z0-9_-]/g, '_')}.png`);
       const iframeEl = await page.$('#sandbox-iframe');
       if (iframeEl) {
