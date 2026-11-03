@@ -811,11 +811,13 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
 
   // ------------------------------------------------------------------------
   // 17. RULE: Header Fixed Height (h-16 / 64px) Discrepancy (Pass 06)
+  // Note: Modern Design System pages (.ds-shell with .page-head) use natural editorial height.
   // ------------------------------------------------------------------------
   const headerTagMatch = cleanMarkup.match(/<header\b([^>]*)>/i);
   if (headerTagMatch) {
     const headerAttrs = headerTagMatch[1];
-    if (!/\bh-16\b/i.test(headerAttrs) && !/style=["'][^"']*height:\s*64px/i.test(headerAttrs)) {
+    const isDsShellOrEditorial = /\b(?:ds-shell|page-head)\b/i.test(cleanMarkup);
+    if (!isDsShellOrEditorial && !/\bh-16\b/i.test(headerAttrs) && !/style=["'][^"']*height:\s*64px/i.test(headerAttrs)) {
       warnings.push({
         rule: 'Pass 06: Responsive Layouts (Header Alignment)',
         type: 'TOP_HEADER_HEIGHT_DISCREPANCY',
