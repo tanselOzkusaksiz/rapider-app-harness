@@ -313,7 +313,7 @@ async function runSinglePageE2E(options) {
           !text.includes('kit.fontawesome.com') &&
           !text.includes('net::ERR_BLOCKED_BY_CLIENT')
         ) {
-          runtimeErrors.push(`ConsoleError: ${text}`);
+          console.log('DEBUG 404 / ERROR URL:', text, msg.location()); runtimeErrors.push(`ConsoleError: ${text}`);
         }
       }
     });
