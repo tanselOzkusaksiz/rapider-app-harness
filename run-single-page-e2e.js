@@ -934,9 +934,43 @@ async function runSinglePageE2E(options) {
       }, shotDims);
       await page.waitForTimeout(300);
 
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const dayStamp = `${year}${month}${day}`; // e.g. 20261103
+
       const safeRouteName = cleanRoute.replace(/[^a-zA-Z0-9_-]/g, '_');
       const screenshotPath = path.join(outShotDir, `${safeRouteName}.png`);
+      const dayStampedScreenshotPath = path.join(outShotDir, `${safeRouteName}_${dayStamp}.png`);
       const darkScreenshotPath = path.join(outShotDir, `${safeRouteName}-dark.png`);
+      const dayStampedDarkScreenshotPath = path.join(outShotDir, `${safeRouteName}-dark_${dayStamp}.png`);
+
+      // Preserve existing canonical screenshots with day-stamp if from a previous day (NEVER DELETE)
+      if (fs.existsSync(screenshotPath)) {
+        try {
+          const prevStat = fs.statSync(screenshotPath);
+          const prevDate = new Date(prevStat.mtime);
+          const prevDayStamp = `${prevDate.getFullYear()}${String(prevDate.getMonth() + 1).padStart(2, '0')}${String(prevDate.getDate()).padStart(2, '0')}`;
+          const archivedPath = path.join(outShotDir, `${safeRouteName}_${prevDayStamp}.png`);
+          if (!fs.existsSync(archivedPath) && prevDayStamp !== dayStamp) {
+            fs.copyFileSync(screenshotPath, archivedPath);
+            console.log(`  📦 Preserved historical screenshot: ${archivedPath}`);
+          }
+        } catch (_) {}
+      }
+      if (fs.existsSync(darkScreenshotPath)) {
+        try {
+          const prevDarkStat = fs.statSync(darkScreenshotPath);
+          const prevDarkDate = new Date(prevDarkStat.mtime);
+          const prevDarkDayStamp = `${prevDarkDate.getFullYear()}${String(prevDarkDate.getMonth() + 1).padStart(2, '0')}${String(prevDarkDate.getDate()).padStart(2, '0')}`;
+          const archivedDarkPath = path.join(outShotDir, `${safeRouteName}-dark_${prevDarkDayStamp}.png`);
+          if (!fs.existsSync(archivedDarkPath) && prevDarkDayStamp !== dayStamp) {
+            fs.copyFileSync(darkScreenshotPath, archivedDarkPath);
+            console.log(`  📦 Preserved historical dark screenshot: ${archivedDarkPath}`);
+          }
+        } catch (_) {}
+      }
 
       // 1. Light Mode Screenshot (Pure Page Content, 12:8 Aspect Ratio)
       await page.evaluate(() => {
@@ -956,7 +990,10 @@ async function runSinglePageE2E(options) {
       } else {
         await page.screenshot({ path: screenshotPath });
       }
+      // Always save day-stamped copy for permanent folder history
+      fs.copyFileSync(screenshotPath, dayStampedScreenshotPath);
       console.log(`  📸 Saved Light E2E screenshot (${shotDims.targetWidth}x${shotDims.targetHeight}, 12:8 ratio): ${screenshotPath}`);
+      console.log(`  📅 Saved Day-Stamped Light screenshot: ${dayStampedScreenshotPath}`);
 
       // 2. Dark Mode Screenshot (Pure Page Content, 12:8 Aspect Ratio)
       await page.evaluate(() => {
@@ -978,7 +1015,10 @@ async function runSinglePageE2E(options) {
       } else {
         await page.screenshot({ path: darkScreenshotPath });
       }
+      // Always save day-stamped copy for permanent folder history
+      fs.copyFileSync(darkScreenshotPath, dayStampedDarkScreenshotPath);
       console.log(`  🌙 Saved Dark E2E screenshot (${shotDims.targetWidth}x${shotDims.targetHeight}, 12:8 ratio):  ${darkScreenshotPath}`);
+      console.log(`  📅 Saved Day-Stamped Dark screenshot:  ${dayStampedDarkScreenshotPath}`);
 
       // Restore harness light mode default and reset iframe overlay styles
       await page.evaluate(() => {
@@ -1023,7 +1063,9 @@ async function runSinglePageE2E(options) {
         passedSteps: stepResults.filter(s => s.status === 'passed').length,
         failedSteps: stepResults.filter(s => s.status === 'failed').length,
         screenshotPath,
+        dayStampedScreenshotPath,
         darkScreenshotPath,
+        dayStampedDarkScreenshotPath,
         steps: stepResults
       });
     }
