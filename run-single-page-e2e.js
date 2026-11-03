@@ -847,7 +847,9 @@ async function runSinglePageE2E(options) {
       }
 
       // Capture clean Light Mode & Dark Mode desktop screenshots of the rendered sandbox iframe after SWR data settles
-      await page.setViewportSize({ width: 1560, height: 980 });
+      // Target aspect ratio: 12:8 (1.5:1, e.g. 1200x800, 1290x860, 1440x960, 1500x1000)
+      // Pure content capture: find max height visible on headless browser, size width consistently, and capture pure iframe
+      await page.setViewportSize({ width: 1680, height: 1120 });
       await page.evaluate((r) => {
         if (window.harness && typeof window.harness.setTheme === 'function') {
           window.harness.setTheme(false);
@@ -856,11 +858,87 @@ async function runSinglePageE2E(options) {
       }, cleanRoute);
       await page.waitForTimeout(2600);
 
+      // Defensively close any open modal/drawer overlays before measuring & capturing pure content
+      await page.evaluate(() => {
+        const iframe = document.getElementById('sandbox-iframe');
+        if (iframe && iframe.contentDocument) {
+          const doc = iframe.contentDocument;
+          const openOverlays = doc.querySelectorAll('.modal:not(.hidden), [role="dialog"]:not(.hidden), #rapiderGlobalConfirmModal:not(.hidden)');
+          openOverlays.forEach(el => el.classList.add('hidden'));
+        }
+      });
+
+      // Dynamically measure pure page content height and compute consistent 12:8 (1.5:1) desktop aspect ratio
+      const shotDims = await page.evaluate(() => {
+        const iframe = document.getElementById('sandbox-iframe');
+        if (!iframe || !iframe.contentDocument) {
+          return { targetWidth: 1200, targetHeight: 800, contentHeight: 800 };
+        }
+        const doc = iframe.contentDocument;
+        const body = doc.body;
+        const docEl = doc.documentElement;
+
+        const main = doc.querySelector('.ds-main') || doc.querySelector('.ds-shell') || doc.querySelector('main');
+        let contentHeight = 0;
+        if (main) {
+          contentHeight = Math.max(contentHeight, main.scrollHeight, main.offsetHeight);
+        }
+        if (body) {
+          contentHeight = Math.max(contentHeight, body.scrollHeight, body.offsetHeight);
+          const children = Array.from(body.children).filter(el => {
+            const style = window.getComputedStyle(el);
+            return style.display !== 'none' && style.position !== 'fixed' && !el.id.includes('Modal');
+          });
+          if (children.length > 0) {
+            const lastChild = children[children.length - 1];
+            const rect = lastChild.getBoundingClientRect();
+            const bottom = rect.bottom + (doc.defaultView?.scrollY || 0);
+            if (bottom > contentHeight) contentHeight = Math.ceil(bottom);
+          }
+        }
+        if (docEl) {
+          contentHeight = Math.max(contentHeight, docEl.scrollHeight);
+        }
+
+        // Clamp height between 800px (canonical desktop minimum) and 1000px (maximum visible desktop view)
+        // Add 16px buffer to prevent edge clipping
+        const measuredWithBuffer = (contentHeight > 0 ? contentHeight + 16 : 800);
+        const targetHeight = Math.min(Math.max(measuredWithBuffer, 800), 1000);
+        // Consistent 12:8 aspect ratio (1.5:1) -> e.g. 800 -> 1200, 860 -> 1290, 960 -> 1440, 1000 -> 1500
+        const targetWidth = Math.round(targetHeight * 1.5);
+
+        return { targetWidth, targetHeight, contentHeight };
+      });
+
+      // Expand browser viewport and overlay iframe to exact targetWidth x targetHeight (aspect ratio 12:8)
+      await page.setViewportSize({ width: shotDims.targetWidth + 60, height: shotDims.targetHeight + 60 });
+      await page.evaluate(({ targetWidth, targetHeight }) => {
+        const iframe = document.getElementById('sandbox-iframe');
+        if (!iframe) return;
+        iframe.dataset.origStyle = iframe.getAttribute('style') || '';
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0px';
+        iframe.style.left = '0px';
+        iframe.style.width = `${targetWidth}px`;
+        iframe.style.height = `${targetHeight}px`;
+        iframe.style.zIndex = '999999';
+        iframe.style.border = 'none';
+        iframe.style.borderRadius = '0';
+        iframe.style.boxShadow = 'none';
+        iframe.style.margin = '0';
+        iframe.style.padding = '0';
+
+        if (iframe.contentDocument && iframe.contentDocument.documentElement) {
+          iframe.contentDocument.documentElement.style.overflow = 'hidden';
+        }
+      }, shotDims);
+      await page.waitForTimeout(300);
+
       const safeRouteName = cleanRoute.replace(/[^a-zA-Z0-9_-]/g, '_');
       const screenshotPath = path.join(outShotDir, `${safeRouteName}.png`);
       const darkScreenshotPath = path.join(outShotDir, `${safeRouteName}-dark.png`);
 
-      // 1. Light Mode Screenshot
+      // 1. Light Mode Screenshot (Pure Page Content, 12:8 Aspect Ratio)
       await page.evaluate(() => {
         const iframe = document.getElementById('sandbox-iframe');
         if (iframe && iframe.contentDocument) {
@@ -878,9 +956,9 @@ async function runSinglePageE2E(options) {
       } else {
         await page.screenshot({ path: screenshotPath });
       }
-      console.log(`  📸 Saved Light E2E screenshot: ${screenshotPath}`);
+      console.log(`  📸 Saved Light E2E screenshot (${shotDims.targetWidth}x${shotDims.targetHeight}, 12:8 ratio): ${screenshotPath}`);
 
-      // 2. Dark Mode Screenshot
+      // 2. Dark Mode Screenshot (Pure Page Content, 12:8 Aspect Ratio)
       await page.evaluate(() => {
         if (window.harness && typeof window.harness.setTheme === 'function') {
           window.harness.setTheme(true);
@@ -900,17 +978,40 @@ async function runSinglePageE2E(options) {
       } else {
         await page.screenshot({ path: darkScreenshotPath });
       }
-      console.log(`  🌙 Saved Dark E2E screenshot:  ${darkScreenshotPath}`);
+      console.log(`  🌙 Saved Dark E2E screenshot (${shotDims.targetWidth}x${shotDims.targetHeight}, 12:8 ratio):  ${darkScreenshotPath}`);
 
-      // Restore light mode default
+      // Restore harness light mode default and reset iframe overlay styles
       await page.evaluate(() => {
         if (window.harness && typeof window.harness.setTheme === 'function') {
           window.harness.setTheme(false);
         }
         const iframe = document.getElementById('sandbox-iframe');
-        if (iframe && iframe.contentDocument) {
-          iframe.contentDocument.documentElement.classList.remove('dark');
-          iframe.contentDocument.body?.classList.remove('dark');
+        if (iframe) {
+          if (iframe.dataset.origStyle !== undefined) {
+            iframe.setAttribute('style', iframe.dataset.origStyle);
+            delete iframe.dataset.origStyle;
+          } else {
+            iframe.style.position = '';
+            iframe.style.top = '';
+            iframe.style.left = '';
+            iframe.style.width = '';
+            iframe.style.height = '';
+            iframe.style.zIndex = '';
+            iframe.style.border = '';
+            iframe.style.borderRadius = '';
+            iframe.style.boxShadow = '';
+            iframe.style.margin = '';
+            iframe.style.padding = '';
+          }
+          if (iframe.contentDocument) {
+            if (iframe.contentDocument.documentElement) {
+              iframe.contentDocument.documentElement.classList.remove('dark');
+              iframe.contentDocument.documentElement.style.overflow = '';
+            }
+            if (iframe.contentDocument.body) {
+              iframe.contentDocument.body.classList.remove('dark');
+            }
+          }
         }
       });
 
