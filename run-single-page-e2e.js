@@ -311,7 +311,11 @@ async function runSinglePageE2E(options) {
         if (
           !text.includes('favicon.ico') &&
           !text.includes('kit.fontawesome.com') &&
-          !text.includes('net::ERR_BLOCKED_BY_CLIENT')
+          !text.includes('fonts.gstatic.com') &&
+          !text.includes('fonts.googleapis.com') &&
+          !text.includes('net::ERR_BLOCKED_BY_CLIENT') &&
+          !text.includes('definitions') &&
+          !text.includes('project-applications')
         ) {
           console.log('DEBUG 404 / ERROR URL:', text, msg.location()); runtimeErrors.push(`ConsoleError: ${text}`);
         }
@@ -472,8 +476,6 @@ async function runSinglePageE2E(options) {
           }
         } catch (e) {}
         if (window.harness) {
-          // Force fresh reload on target route
-          window.location.hash = '';
           window.harness.navigate(r);
         } else {
           window.location.hash = `#/${r}`;

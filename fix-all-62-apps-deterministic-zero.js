@@ -318,3 +318,4 @@ for (const appName of fs.readdirSync(APPS_DIR).sort()) {
 }
 
 console.log(`Updated ${filesUpdated} HTML files across 62 apps.`);
+
