@@ -147,6 +147,14 @@ class RappiderHarness {
       this.setTheme(true);
     }
 
+    // Check if user has saved sidebar collapsed preference
+    try {
+      if (localStorage.getItem('rapider_sidebar_collapsed') === 'true') {
+        this.dom.appShell?.classList.add('sidebar-collapsed');
+        this.dom.sidebarToggleBtn?.setAttribute('title', 'Expand Sidebar');
+      }
+    } catch (e) {}
+
     // 1. Authenticate and ensure project-scoped token BEFORE loading apps/iframes
     try {
       if (window.apiClient.isAuthenticated() && window.apiClient.projectId && !this.isOfflineMode) {
@@ -315,7 +323,7 @@ class RappiderHarness {
 
     const groupedPages = {};
     visiblePages.forEach(page => {
-      const groupTitle = page.title || '';
+      const groupTitle = page.title || page.group || page.sectionTitle || '';
       if (!groupedPages[groupTitle]) {
         groupedPages[groupTitle] = [];
       }
@@ -336,6 +344,7 @@ class RappiderHarness {
         item.className = 'nav-item';
         item.href = `#/${page.route}`;
         item.dataset.route = page.route;
+        item.title = page.name || page.route;
 
         const iconValue = page.icon || this.inferPageIcon(page.name, page.route);
         const iconHtml = iconValue.startsWith('<svg') ? iconValue : `<i class="${iconValue}"></i>`;
@@ -1292,6 +1301,11 @@ class RappiderHarness {
     if (this.dom.sidebarToggleBtn) {
       this.dom.sidebarToggleBtn.addEventListener('click', () => {
         this.dom.appShell.classList.toggle('sidebar-collapsed');
+        const isCollapsed = this.dom.appShell.classList.contains('sidebar-collapsed');
+        this.dom.sidebarToggleBtn.setAttribute('title', isCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar');
+        try {
+          localStorage.setItem('rapider_sidebar_collapsed', isCollapsed ? 'true' : 'false');
+        } catch (e) {}
       });
     }
 
