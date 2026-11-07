@@ -323,7 +323,7 @@ class RappiderHarness {
 
     const groupedPages = {};
     visiblePages.forEach(page => {
-      const groupTitle = page.title || page.group || page.sectionTitle || '';
+      const groupTitle = page.group || page.sectionTitle || (page.title && page.title !== page.name ? page.title : '') || '';
       if (!groupedPages[groupTitle]) {
         groupedPages[groupTitle] = [];
       }

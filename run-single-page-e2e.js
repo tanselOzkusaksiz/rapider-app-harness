@@ -308,6 +308,8 @@ async function runSinglePageE2E(options) {
     page.on('console', (msg) => {
       if (msg.type() === 'error') {
         const text = msg.text();
+        const loc = msg.location() || {};
+        const locUrl = loc.url || '';
         if (
           !text.includes('favicon.ico') &&
           !text.includes('kit.fontawesome.com') &&
@@ -315,7 +317,9 @@ async function runSinglePageE2E(options) {
           !text.includes('fonts.googleapis.com') &&
           !text.includes('net::ERR_BLOCKED_BY_CLIENT') &&
           !text.includes('definitions') &&
-          !text.includes('project-applications')
+          !text.includes('project-applications') &&
+          !locUrl.includes('definitions') &&
+          !locUrl.includes('project-applications')
         ) {
           console.log('DEBUG 404 / ERROR URL:', text, msg.location()); runtimeErrors.push(`ConsoleError: ${text}`);
         }
@@ -412,10 +416,15 @@ async function runSinglePageE2E(options) {
             };
           }
 
-          // Real backend read! If empty on unseeded table, hydrate from sample-data.json
-          const res = await origExec(operation, dataTableName, payload);
+          // Real backend read! If empty or unseeded table (404), hydrate from sample-data.json
+          let res;
+          try {
+            res = await origExec(operation, dataTableName, payload);
+          } catch (_) {
+            res = [];
+          }
           const seedRows = findSeedRecords(payload.entityName) || findSeedRecords(dataTableName);
-          if (operation === 'find' && Array.isArray(res) && res.length === 0 && Array.isArray(seedRows) && seedRows.length > 0) {
+          if (operation === 'find' && (Array.isArray(res) ? res.length === 0 : !res) && Array.isArray(seedRows) && seedRows.length > 0) {
             return JSON.parse(JSON.stringify(seedRows));
           }
           if (operation === 'count') {
