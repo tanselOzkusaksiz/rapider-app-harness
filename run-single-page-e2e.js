@@ -867,7 +867,13 @@ async function runSinglePageE2E(options) {
         }
         if (window.harness) window.harness.navigate(r);
       }, cleanRoute);
-      await page.waitForTimeout(2600);
+      await page.waitForTimeout(1500);
+      try {
+        frame = await getSandboxFrame(8000);
+        await frame.waitForLoadState('domcontentloaded', { timeout: 5000 });
+        await frame.waitForFunction(() => document.body && document.body.innerText.trim().length > 0, { timeout: 5000 });
+      } catch (_) {}
+      await page.waitForTimeout(1000);
 
       // Defensively close any open modal/drawer overlays before measuring & capturing pure content
       await page.evaluate(() => {
