@@ -298,7 +298,7 @@ class RappiderHarness {
     const filterText = (this.dom.sidebarSearchInput?.value || '').toLowerCase().trim();
 
     const visiblePages = webPages.filter(page => {
-      if (page.displayInMenu === false || page.displayOnMenu === false) {
+      if (page.displayInMenu === false || page.displayOnMenu === false || page.enabled === false) {
         return false;
       }
       if (filterText && !page.name.toLowerCase().includes(filterText) && !page.route.toLowerCase().includes(filterText)) {
