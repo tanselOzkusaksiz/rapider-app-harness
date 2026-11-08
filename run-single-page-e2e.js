@@ -339,6 +339,16 @@ async function runSinglePageE2E(options) {
 
     await ensureAuthenticated(page, folderName);
 
+    // Ensure any auth modal overlay is defensively dismissed and cannot intercept clicks
+    await page.evaluate(() => {
+      const modal = document.getElementById('auth-modal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.style.setProperty('display', 'none', 'important');
+        modal.style.setProperty('pointer-events', 'none', 'important');
+      }
+    });
+
     // Install Test-Mode SDK Spy & Safe Mutation Interceptor + Unseeded Sample-Data Fallback
     await page.evaluate(({ seedData, manifestModels }) => {
       window.__e2eApiLog = [];

@@ -141,7 +141,11 @@ async function ensureAuthenticated(page, appKey = 'rapider-app-hrs-a-hr-services
   // Ensure auth-modal is completely hidden so it never blocks tests
   await page.evaluate(() => {
     const modal = document.getElementById('auth-modal');
-    if (modal) modal.classList.add('hidden');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.style.setProperty('display', 'none', 'important');
+      modal.style.setProperty('pointer-events', 'none', 'important');
+    }
     if (window.harness && typeof window.harness.closeAuthModal === 'function') {
       window.harness.closeAuthModal();
     }
