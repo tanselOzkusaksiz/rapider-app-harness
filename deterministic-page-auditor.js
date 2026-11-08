@@ -1285,9 +1285,12 @@ function auditMicroapp(appDir, options = {}) {
 
   const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
   const allPages = manifest.webPages || manifest.pages || [];
+  // Skip draft pages (`enabled: false`) in full-app mode while keeping them in app.manifest.json
+  const enabledPages = allPages.filter(p => p && p.enabled !== false && p.value?.enabled !== false && p.draft !== true && p.isDraft !== true);
+  const draftPagesCount = allPages.length - enabledPages.length;
   const pages = targetRoute
     ? allPages.filter(p => p.route === targetRoute)
-    : allPages;
+    : enabledPages;
 
   if (targetRoute && pages.length === 0) {
     throw new Error(`Target route "${targetRoute}" is not defined in app.manifest.json webPages.`);
@@ -1299,7 +1302,9 @@ function auditMicroapp(appDir, options = {}) {
     appDir: resolvedAppDir,
     targetRoute,
     timestamp: new Date().toISOString(),
-    totalPages: allPages.length,
+    totalPages: enabledPages.length,
+    totalManifestPages: allPages.length,
+    draftPagesSkipped: draftPagesCount,
     pagesAudited: 0,
     pagesPassed: 0,
     pagesFailed: 0,
@@ -1330,9 +1335,9 @@ function auditMicroapp(appDir, options = {}) {
     results.pageResults.push(pageAudit);
   }
 
-  // 1b. Cross-page anti-clone check across all currently built pages on disk
+  // 1b. Cross-page anti-clone check across all currently built & enabled pages on disk
   const builtTableSignatures = new Map();
-  for (const p of allPages) {
+  for (const p of enabledPages) {
     if (p.displayInMenu === false || p.displayOnMenu === false) continue;
     const fp = path.join(resolvedAppDir, p.htmlFilePath || `pages/${p.route}/${p.route}.html`);
     if (!fs.existsSync(fp)) continue;
@@ -1377,9 +1382,9 @@ function auditMicroapp(appDir, options = {}) {
     }
   }
 
-  // 3. Check for micro-header clutter in webPages (Pass 13: count >= 3 rule)
+  // 3. Check for micro-header clutter in enabled webPages (Pass 13: count >= 3 rule; draft pages are excluded from sidebar menus)
   const sectionGroups = new Map();
-  for (const p of allPages) {
+  for (const p of enabledPages) {
     const groupTitle = (p.sectionTitle || p.group || p.section || '').trim();
     if (groupTitle && p.displayOnMenu !== false && p.displayInMenu !== false) {
       const list = sectionGroups.get(groupTitle) || [];

@@ -39,22 +39,27 @@ async function ensureAuthenticated(page, appKey = 'rapider-app-hrs-a-hr-services
 
   const appUrl = `http://localhost:3300/?app=${appKey}`;
   await page.goto(appUrl, { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(1500);
-
-  // 1. Check if token already exists in localStorage or window.apiClient
-  let isAuth = await page.evaluate(() => {
-    try {
-      if (window.apiClient && typeof window.apiClient.isAuthenticated === 'function') {
-        if (window.apiClient.isAuthenticated()) return true;
-      }
-      const sessionStr = localStorage.getItem('rappider_harness_session');
-      if (sessionStr) {
-        const session = JSON.parse(sessionStr);
-        if (session && session.token && session.projectId) return true;
-      }
-    } catch (e) {}
-    return false;
-  });
+  // 1. Wait for silent login in harness.js or existing session (up to 8s)
+  const authTimeout = 8000;
+  const startAuthWait = Date.now();
+  let isAuth = false;
+  while (Date.now() - startAuthWait < authTimeout) {
+    isAuth = await page.evaluate(() => {
+      try {
+        if (window.apiClient && typeof window.apiClient.isAuthenticated === 'function') {
+          if (window.apiClient.isAuthenticated()) return true;
+        }
+        const sessionStr = localStorage.getItem('rappider_harness_session');
+        if (sessionStr) {
+          const session = JSON.parse(sessionStr);
+          if (session && session.token && session.projectId) return true;
+        }
+      } catch (e) {}
+      return false;
+    });
+    if (isAuth) break;
+    await page.waitForTimeout(500);
+  }
 
   if (isAuth) {
     console.log('  ✅ Active session and token verified. User is already authenticated.');
