@@ -1047,8 +1047,21 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
       });
     }
 
-    // Check for saturated primary blue on sidebar navigation items (scoped strictly to <aside> sidebar markup)
+    // Check that .brand inside .brand-row is a <button data-action="expand-sidebar"> (never an <a href> link)
+    // and that <script data-collapsible-sidebar> uses a window capture-phase click listener so host iframe anchor
+    // interceptors never block expanding the collapsed sidebar.
     const sidebarOnlyMarkup = (rawHtml.match(/<aside\b[^>]*(?:class=["'][^"']*sidebar|id=["'](?:suiteSidebar|apm-sidebar)["'])[^>]*>[\s\S]*?<\/aside>/gi) || []).join('\n');
+    const hasAnchorBrandInSidebar = /<a\b[^>]*\bclass=["'][^"']*\bbrand\b[^"']*["'][^>]*\bhref=/i.test(sidebarOnlyMarkup);
+    const hasCaptureExpandListener = /window\.addEventListener\(\s*["']click["'][\s\S]{0,1200}?setCollapsed\(\s*false\s*\)[\s\S]{0,250}?,\s*true\s*\)/i.test(rawHtml);
+    if (hasAnchorBrandInSidebar || !hasCaptureExpandListener) {
+      issues.push({
+        rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
+        type: 'SIDEBAR_EXPAND_INTERCEPT_VULNERABILITY',
+        message: 'Sidebar .brand header MUST use `<button type="button" class="brand" data-action="expand-sidebar">` (never `<a class="brand" href="...">`) AND `<script data-collapsible-sidebar>` MUST bind a `window.addEventListener("click", ..., true)` capture-phase listener so the Rapider iframe host anchor interceptor never blocks expanding the collapsed sidebar.'
+      });
+    }
+
+    // Check for saturated primary blue on sidebar navigation items (scoped strictly to <aside> sidebar markup)
     if (/class=["'][^"']*\b(bg-primary|bg-blue-600|bg-blue-500)\b[^"']*\b(!text-white|text-white)\b[^"']*["'][^>]*>\s*<i\b[^>]*class=["'][^"']*\bfa-/i.test(sidebarOnlyMarkup)) {
       issues.push({
         rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
@@ -1057,13 +1070,13 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
       });
     }
 
-    // Check for mobile menu hamburger button (Pass 06 & Pass 21)
-    const hasMobileMenuBtn = rawHtml.includes('mobile-menu') || rawHtml.includes('data-action="menu"') || rawHtml.includes('data-action=\'menu\'');
+    // Check for mobile menu hamburger button in markup (Pass 06 & Pass 21)
+    const hasMobileMenuBtn = /<button\b[^>]*\bmobile-menu\b|<button\b[^>]*data-action=["']menu["']/i.test(rawHtml);
     if (!hasMobileMenuBtn) {
-      warnings.push({
+      issues.push({
         rule: 'Pass 06: Responsive Layouts & Pass 21: Sidebar Standards',
         type: 'MISSING_MOBILE_MENU_TRIGGER',
-        message: 'Page has a sidebar but lacks a mobile hamburger menu button (.mobile-menu / data-action="menu") in the top header for mobile screens.'
+        message: 'Page has a sidebar (<aside class="sidebar">) but lacks a `<button class="... mobile-menu" data-action="menu">` hamburger toggle in the top header for 375px mobile viewports.'
       });
     }
   }

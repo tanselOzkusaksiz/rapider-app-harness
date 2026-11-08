@@ -785,6 +785,37 @@ async function runSinglePageE2E(options) {
               if (!main) return 'Missing <main> or .ds-main container element';
               const h1 = document.querySelector('h1');
               if (!h1 || !(h1.innerText || '').trim()) return 'Missing or empty <h1> heading';
+              // Check for Collapsible Suite Left Sidebar (<aside class="sidebar">)
+              const sidebar = document.querySelector('aside.sidebar, aside#suiteSidebar');
+              if (!sidebar) return 'Missing Collapsible Suite Left Sidebar (<aside class="sidebar" id="suiteSidebar">)';
+              const collapseBtn = sidebar.querySelector('.sidebar-collapse-btn');
+              const brandRow = sidebar.querySelector('.brand-row');
+              if (!collapseBtn || !brandRow) {
+                return 'Sidebar missing .sidebar-collapse-btn or .brand-row header';
+              }
+              // Actively test collapsing & expanding the sidebar (disable transition briefly for synchronous width measurement)
+              const prevTransition = sidebar.style.transition;
+              sidebar.style.transition = 'none';
+              try {
+                const wasCollapsed = sidebar.classList.contains('sidebar-collapsed');
+                if (wasCollapsed) {
+                  brandRow.click();
+                }
+                collapseBtn.click();
+                if (!sidebar.classList.contains('sidebar-collapsed')) {
+                  return 'Clicking .sidebar-collapse-btn did not add .sidebar-collapsed to aside.sidebar';
+                }
+                const collapsedWidth = sidebar.getBoundingClientRect().width;
+                if (collapsedWidth > 80) {
+                  return `Collapsed sidebar width expected <= 72px, got ${Math.round(collapsedWidth)}px`;
+                }
+                brandRow.click();
+                if (sidebar.classList.contains('sidebar-collapsed')) {
+                  return 'Clicking .brand-row when collapsed did not expand aside.sidebar';
+                }
+              } finally {
+                sidebar.style.transition = prevTransition;
+              }
               // Check for horizontally truncated KPI card labels at desktop width
               const kpiLabels = Array.from(
                 document.querySelectorAll('.metric-card .kicker, .metric-card .metric-label, .metric-card h3, [data-kpi-label]')
