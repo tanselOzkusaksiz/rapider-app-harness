@@ -848,7 +848,9 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
   if (hasCollapseToggle) {
     const hasCollapsedLabelCss = /\.sidebar-label\b[^{]*\{[^}]*display\s*:\s*none\s*!important/i.test(combinedStyle) ||
                                  /aside\.collapsed\b[^{]*\{[^}]*display\s*:\s*none/i.test(combinedStyle) ||
-                                 /\[data-collapsed=["']?true["']?\]\s+\.sidebar-label\b[^{]*\{[^}]*display\s*:\s*none\s*!important/i.test(combinedStyle);
+                                 /\[data-collapsed=["']?true["']?\]\s+\.sidebar-label\b[^{]*\{[^}]*display\s*:\s*none\s*!important/i.test(combinedStyle) ||
+                                 /rapider-design-system\.css/i.test(rawHtml) ||
+                                 /data-collapsible-sidebar/i.test(rawHtml);
     if (!hasCollapsedLabelCss) {
       warnings.push({
         rule: 'Pass 19: UI Best Practices & Sidebar Standard',
@@ -1016,8 +1018,15 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
   // ------------------------------------------------------------------------
   // 31. RULE: Suite Brand & Collapsible Sidebar Navigation Standards (Pass 21)
   // ------------------------------------------------------------------------
-  const hasSidebar = /<aside\b[^>]*class=["'][^"']*sidebar/i.test(rawHtml) || /class=["'][^"']*\bsidebar\b/i.test(rawHtml);
-  if (hasSidebar) {
+  const isDesignSystemShowcaseApp = path.basename(appDir) === 'rapider-app-designsystem-rapider-design-system';
+  const hasSidebar = /<aside\b[^>]*(?:class=["'][^"']*sidebar|id=["'](?:suiteSidebar|apm-sidebar)["'])/i.test(rawHtml);
+  if (!hasSidebar && !isDesignSystemShowcaseApp) {
+    issues.push({
+      rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
+      type: 'MISSING_LEFT_SIDEBAR_NAVIGATION',
+      message: 'Page is missing the mandatory collapsible left side menu (<aside class="sidebar">). Every application page MUST include the Pass 21 Collapsible Suite Sidebar with Suite Icon, Suite Short Title, collapse/expand toggle, and enabled menu links from app.manifest.json.'
+    });
+  } else if (hasSidebar) {
     // Check for fake Rapider brandmarks in sidebar
     if (/<span\s+class=["']brandmark["']>\s*r\s*<\/span>/i.test(rawHtml) || /class=["']brandlogo["']>\s*r\s*<\/span>/i.test(rawHtml) || /<span\s+class=["']brandsub["']>\s*rapider\s*ai\s*<\/span>/i.test(rawHtml)) {
       issues.push({
@@ -1027,18 +1036,20 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
       });
     }
 
-    // Check for collapsible sidebar script/mechanism
+    // Check for collapsible sidebar script/mechanism and collapse button
     const hasCollapsibleScript = rawHtml.includes('data-collapsible-sidebar') || rawHtml.includes('rapider_sidebar_collapsed');
-    if (!hasCollapsibleScript) {
+    const hasCollapseBtn = rawHtml.includes('sidebar-collapse-btn') || rawHtml.includes('btn-sidebar-collapse');
+    if (!hasCollapsibleScript || !hasCollapseBtn) {
       issues.push({
         rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
         type: 'MISSING_COLLAPSIBLE_SIDEBAR',
-        message: 'Page sidebar is missing the collapsible sidebar mechanism, hover expand caret, or localStorage persistence.'
+        message: 'Page sidebar is missing the collapsible sidebar mechanism (.sidebar-collapse-btn, hover expand caret, or localStorage persistence).'
       });
     }
 
-    // Check for saturated primary blue on sidebar navigation items
-    if (/class=["'][^"']*\b(bg-primary|bg-blue-600|bg-blue-500)\b[^"']*\b(!text-white|text-white)\b[^"']*["'][^>]*>\s*<i\b[^>]*class=["'][^"']*\bfa-/i.test(rawHtml) && /<aside\b/i.test(rawHtml)) {
+    // Check for saturated primary blue on sidebar navigation items (scoped strictly to <aside> sidebar markup)
+    const sidebarOnlyMarkup = (rawHtml.match(/<aside\b[^>]*(?:class=["'][^"']*sidebar|id=["'](?:suiteSidebar|apm-sidebar)["'])[^>]*>[\s\S]*?<\/aside>/gi) || []).join('\n');
+    if (/class=["'][^"']*\b(bg-primary|bg-blue-600|bg-blue-500)\b[^"']*\b(!text-white|text-white)\b[^"']*["'][^>]*>\s*<i\b[^>]*class=["'][^"']*\bfa-/i.test(sidebarOnlyMarkup)) {
       issues.push({
         rule: 'Pass 21: Suite Brand & Collapsible Sidebar Navigation Standards',
         type: 'FORBIDDEN_PRIMARY_BLUE_IN_SIDEBAR_NAV',
@@ -1058,10 +1069,9 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
   }
 
   // ------------------------------------------------------------------------
-  // 31b. RULE: Rapider Design System & Host-Integrated CRM Harmony (Pass 07 & Pass 21)
+  // 31b. RULE: Rapider Design System & Semantic Multi-Theme Harmony (Pass 07)
   // ------------------------------------------------------------------------
   const appHasDesignSystemCss = fs.existsSync(path.join(appDir, 'assets/themes/rapider-design-system.css'));
-  const isDesignSystemShowcaseApp = path.basename(appDir) === 'rapider-app-designsystem-rapider-design-system';
   if (appHasDesignSystemCss) {
     const linksDesignSystem =
       /rapider-design-system\.css/i.test(rawHtml) || /crm-expenses-design\.css/i.test(rawHtml);
@@ -1073,15 +1083,9 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
       });
     }
 
-    if (!isDesignSystemShowcaseApp && /<aside\b[^>]*(?:class=["'][^"']*sidebar|id=["']suiteSidebar["'])/i.test(rawHtml)) {
-      issues.push({
-        rule: 'Pass 21: Host-Integrated Shell & Duplicate Sidebar Ban',
-        type: 'DUPLICATE_IN_PAGE_SIDEBAR',
-        message: 'Page embeds an inner <aside class="sidebar"> inside page HTML. Rapider host shell already renders navigation from app.manifest.json — wrap page content in .ds-shell / <main class="ds-main"> without a duplicate left sidebar (matching Rapider CRM).'
-      });
-    }
-
-    const inlineStylesOnly = (rawHtml.match(/<style\b[^>]*>([\s\S]*?)<\/style>/gi) || []).join('\n');
+    // Exclude <style data-collapsible-sidebar> from color-named CSS variable scan if present for backward compatibility
+    const htmlWithoutCollapsibleFallback = rawHtml.replace(/<style\s+data-collapsible-sidebar\b[^>]*>[\s\S]*?<\/style>/gi, '');
+    const inlineStylesOnly = (htmlWithoutCollapsibleFallback.match(/<style\b[^>]*>([\s\S]*?)<\/style>/gi) || []).join('\n');
     if (/#1890ff\b|#0070f3\b/i.test(inlineStylesOnly) || /\b(?:bg-blue-600|bg-purple-600|bg-indigo-600)\b/.test(cleanMarkup)) {
       issues.push({
         rule: 'Pass 07: Semantic Multi-Theme Token Contract',
@@ -1091,7 +1095,7 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
     }
 
     if (!isDesignSystemShowcaseApp && /rapider-design-system\.css/i.test(rawHtml)) {
-      const nonSemanticVarMatch = rawHtml.match(/var\(\s*--(?:purple|purple-hover|purple-deep|soft-purple|green|green-bg|amber|amber-bg|red|red-bg|blue|blue-bg|gray-tag-text|gray-tag-bg)\b/i);
+      const nonSemanticVarMatch = htmlWithoutCollapsibleFallback.match(/var\(\s*--(?:purple|purple-hover|purple-deep|soft-purple|green|green-bg|amber|amber-bg|red|red-bg|blue|blue-bg|gray-tag-text|gray-tag-bg)\b/i);
       if (nonSemanticVarMatch) {
         issues.push({
           rule: 'Pass 07: Semantic Multi-Theme Token Contract',

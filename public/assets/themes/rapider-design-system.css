@@ -306,7 +306,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Host-Integrated Responsive Container Shell (NO duplicate in-page left sidebar) */
+/* Responsive App Shell with Collapsible Suite Left Sidebar (Pass 21 Standard) */
 .ds-shell,
 .crm-shell {
   container-type: inline-size;
@@ -316,14 +316,490 @@ body {
   color: var(--primary-text-color);
 }
 
+.layout,
+.ds-shell.layout,
+.ds-shell:has(> aside.sidebar),
+.ds-shell:has(> #suiteSidebar),
+.ds-shell:has(> #apm-sidebar) {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 1fr);
+  min-height: 100vh;
+  width: 100%;
+  background: var(--body-background-color);
+  color: var(--primary-text-color);
+  transition: grid-template-columns 0.2s ease;
+}
+
+.layout.sidebar-collapsed,
+.ds-shell.sidebar-collapsed,
+.ds-shell:has(> aside.sidebar.sidebar-collapsed),
+.ds-shell:has(> #suiteSidebar.sidebar-collapsed),
+.ds-shell:has(> #apm-sidebar.sidebar-collapsed) {
+  grid-template-columns: 68px minmax(0, 1fr) !important;
+}
+
 .ds-main,
-.crm-main {
+.crm-main,
+.layout > main,
+.ds-shell > main {
+  container-type: inline-size;
+  min-width: 0;
+  width: 100%;
   padding: 34px 36px 48px;
   max-width: 1510px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 22px;
+}
+
+/* ==========================================================================
+   COLLAPSIBLE SUITE SIDEBAR PRIMITIVES (Pass 21 — Semantic & Multi-Theme)
+   ========================================================================== */
+aside.sidebar,
+aside#suiteSidebar,
+aside#apm-sidebar {
+  background: var(--component-inner-background-color);
+  border-right: 1px solid var(--primary-border-color);
+  padding: 22px 14px 16px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 30;
+  width: 232px;
+  min-width: 232px;
+  max-width: 232px;
+  transition: width 0.2s ease, min-width 0.2s ease, max-width 0.2s ease, padding 0.2s ease;
+  color: var(--primary-text-color);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 8px 18px;
+  position: relative;
+  min-height: 34px;
+  gap: 8px;
+}
+
+.brand-row .brand,
+a.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 720;
+  letter-spacing: -0.5px;
+  color: var(--primary-text-color);
+  text-decoration: none !important;
+  min-width: 0;
+  flex: 1;
+}
+
+.suite-icon-container {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--primary-soft-bg);
+  color: var(--primary-color);
+  flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.suite-icon-container .suite-icon {
+  font-size: 14px;
+  color: var(--primary-color);
+  transition: transform 0.15s ease;
+}
+
+.suite-icon-container .suite-expand-icon {
+  display: none !important;
+  font-size: 13px;
+  color: var(--primary-color);
+}
+
+.suite-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--primary-text-color);
+}
+
+.sidebar-collapse-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 5px 7px;
+  border-radius: 6px;
+  color: var(--secondary-text-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  min-height: 28px;
+  min-width: 28px;
+  line-height: 1;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.sidebar-collapse-btn:hover {
+  background: var(--primary-soft-bg);
+  color: var(--primary-color);
+  border-color: var(--primary-soft-border);
+}
+
+.appbox {
+  padding: 11px 12px;
+  background: var(--primary-soft-subtle);
+  border: 1px solid var(--primary-soft-border);
+  border-radius: 10px;
+  margin: 0 0 18px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-decoration: none !important;
+  color: var(--primary-text-color);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.appbox:hover {
+  border-color: var(--interactive-hover-border);
+}
+
+.appicon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-soft-bg);
+  color: var(--primary-color);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.appbox-meta {
+  min-width: 0;
+  flex: 1;
+}
+
+.appbox b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 650;
+  color: var(--primary-text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.appbox small {
+  display: block;
+  color: var(--secondary-text-color);
+  font-size: 11px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.35;
+}
+
+aside.sidebar .nav {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+aside.sidebar .nav a,
+aside.sidebar .nav .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 11px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--secondary-text-color);
+  border-radius: 8px;
+  text-decoration: none !important;
+  transition: background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+aside.sidebar .nav a i,
+aside.sidebar .nav a .nav-icon,
+aside.sidebar .nav a svg {
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--secondary-text-color);
+  transition: color 0.15s ease;
+}
+
+aside.sidebar .nav a:hover {
+  background: var(--subtle-background-color);
+  color: var(--primary-text-color);
+}
+
+aside.sidebar .nav a:hover i,
+aside.sidebar .nav a:hover .nav-icon,
+aside.sidebar .nav a:hover svg {
+  color: var(--primary-text-color);
+}
+
+aside.sidebar .nav a.active,
+aside.sidebar .nav a[aria-current="page"] {
+  background: var(--primary-soft-bg);
+  color: var(--primary-on-soft);
+  font-weight: 650;
+}
+
+aside.sidebar .nav a.active i,
+aside.sidebar .nav a.active .nav-icon,
+aside.sidebar .nav a.active svg,
+aside.sidebar .nav a[aria-current="page"] i,
+aside.sidebar .nav a[aria-current="page"] .nav-icon,
+aside.sidebar .nav a[aria-current="page"] svg {
+  color: var(--primary-color);
+}
+
+aside.sidebar .navlabel {
+  font-size: 10px;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--muted-text-color);
+  margin: 16px 11px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+aside.sidebar .side-bottom {
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+aside.sidebar .profile-link {
+  border-top: 1px solid var(--primary-border-color);
+  padding: 14px 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
+  color: var(--primary-text-color);
+}
+
+aside.sidebar .sidebar-avatar,
+aside.sidebar .profile-link .avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--primary-soft-bg);
+  color: var(--primary-color);
+  font-size: 11px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+aside.sidebar .profile-link strong {
+  font-size: 12px;
+  font-weight: 600;
+  display: block;
+  color: var(--primary-text-color);
+  line-height: 1.3;
+}
+
+aside.sidebar .profile-link small {
+  font-size: 11px;
+  color: var(--secondary-text-color);
+  display: block;
+  line-height: 1.3;
+}
+
+/* Collapsed State (68px Compact Rail) */
+aside.sidebar.sidebar-collapsed,
+aside#suiteSidebar.sidebar-collapsed,
+aside#apm-sidebar.sidebar-collapsed,
+.sidebar-collapsed aside.sidebar {
+  width: 68px !important;
+  min-width: 68px !important;
+  max-width: 68px !important;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+aside.sidebar.sidebar-collapsed .brand-row,
+.sidebar-collapsed aside.sidebar .brand-row {
+  justify-content: center !important;
+  padding: 0 0 18px 0 !important;
+  width: 100% !important;
+}
+
+aside.sidebar.sidebar-collapsed .brand-row .brand,
+.sidebar-collapsed aside.sidebar .brand-row .brand {
+  justify-content: center !important;
+  flex: none !important;
+  cursor: pointer;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+aside.sidebar.sidebar-collapsed .suite-title,
+aside.sidebar.sidebar-collapsed .sidebar-collapse-btn,
+aside.sidebar.sidebar-collapsed .appbox-meta,
+aside.sidebar.sidebar-collapsed .appbox span:not(.appicon),
+aside.sidebar.sidebar-collapsed .appbox b,
+aside.sidebar.sidebar-collapsed .appbox small,
+aside.sidebar.sidebar-collapsed .sidebar-label,
+aside.sidebar.sidebar-collapsed .navlabel,
+aside.sidebar.sidebar-collapsed .profile-meta,
+aside.sidebar.sidebar-collapsed .profile-link strong,
+aside.sidebar.sidebar-collapsed .profile-link small,
+.sidebar-collapsed aside.sidebar .suite-title,
+.sidebar-collapsed aside.sidebar .sidebar-collapse-btn,
+.sidebar-collapsed aside.sidebar .appbox-meta,
+.sidebar-collapsed aside.sidebar .appbox span:not(.appicon),
+.sidebar-collapsed aside.sidebar .appbox b,
+.sidebar-collapsed aside.sidebar .appbox small,
+.sidebar-collapsed aside.sidebar .sidebar-label,
+.sidebar-collapsed aside.sidebar .navlabel,
+.sidebar-collapsed aside.sidebar .profile-meta,
+.sidebar-collapsed aside.sidebar .profile-link strong,
+.sidebar-collapsed aside.sidebar .profile-link small {
+  display: none !important;
+}
+
+aside.sidebar.sidebar-collapsed .appbox,
+.sidebar-collapsed aside.sidebar .appbox {
+  justify-content: center !important;
+  padding: 8px 4px !important;
+  margin-bottom: 16px !important;
+}
+
+aside.sidebar.sidebar-collapsed .nav a,
+.sidebar-collapsed aside.sidebar .nav a {
+  justify-content: center !important;
+  padding: 10px 0 !important;
+  width: 44px !important;
+  margin: 0 auto 3px auto !important;
+  font-size: 0 !important;
+}
+
+aside.sidebar.sidebar-collapsed .nav a i,
+aside.sidebar.sidebar-collapsed .nav a .nav-icon,
+aside.sidebar.sidebar-collapsed .nav a svg,
+.sidebar-collapsed aside.sidebar .nav a i,
+.sidebar-collapsed aside.sidebar .nav a .nav-icon,
+.sidebar-collapsed aside.sidebar .nav a svg {
+  font-size: 15px !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+}
+
+aside.sidebar.sidebar-collapsed .profile-link,
+.sidebar-collapsed aside.sidebar .profile-link {
+  justify-content: center !important;
+  padding: 12px 0 0 !important;
+}
+
+/* Hover Expand Caret on Top Suite Icon in Collapsed State */
+aside.sidebar.sidebar-collapsed:hover .brand-row .suite-icon,
+.sidebar-collapsed aside.sidebar:hover .brand-row .suite-icon,
+aside.sidebar.sidebar-collapsed .brand-row:hover .suite-icon {
+  display: none !important;
+}
+
+aside.sidebar.sidebar-collapsed:hover .brand-row .suite-expand-icon,
+.sidebar-collapsed aside.sidebar:hover .brand-row .suite-expand-icon,
+aside.sidebar.sidebar-collapsed .brand-row:hover .suite-expand-icon {
+  display: inline-flex !important;
+  cursor: pointer;
+  animation: pulse-caret 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse-caret {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(2px); }
+}
+
+.shade {
+  display: none;
+}
+
+.mobile-menu {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .layout,
+  .ds-shell.layout,
+  .ds-shell:has(> aside.sidebar),
+  .ds-shell:has(> #suiteSidebar),
+  .ds-shell:has(> #apm-sidebar) {
+    display: block !important;
+  }
+
+  aside.sidebar,
+  aside#suiteSidebar,
+  aside#apm-sidebar {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    width: 260px !important;
+    min-width: 260px !important;
+    max-width: 260px !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    z-index: 50 !important;
+  }
+
+  body.navopen aside.sidebar,
+  body.navopen aside#suiteSidebar,
+  body.navopen aside#apm-sidebar,
+  .navopen aside.sidebar {
+    transform: translateX(0) !important;
+    box-shadow: var(--shadow-elevated) !important;
+  }
+
+  body.navopen .shade,
+  .navopen .shade {
+    display: block !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(15, 23, 42, 0.48) !important;
+    z-index: 45 !important;
+  }
+
+  .mobile-menu {
+    display: inline-flex !important;
+  }
+
+  .sidebar-collapse-btn {
+    display: none !important;
+  }
 }
 
 /* Editorial Page Header Archetype */
