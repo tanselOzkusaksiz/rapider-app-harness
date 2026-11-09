@@ -55,6 +55,13 @@ class HarnessApiClient {
         this.projectId = session.projectId || null;
         this.projectApiUrl = session.projectApiUrl || null;
         this.user = session.user || null;
+
+        if (this.token) {
+          const payload = this.decodeJwtPayload(this.token);
+          if (payload && payload.exp && payload.exp * 1000 < Date.now()) {
+            this.clearSession();
+          }
+        }
       }
     } catch (e) {
       console.warn('Failed to parse stored harness session:', e);
@@ -70,7 +77,13 @@ class HarnessApiClient {
   }
 
   isAuthenticated() {
-    return !!this.token && !!this.projectId;
+    if (!this.token || !this.projectId) return false;
+    const payload = this.decodeJwtPayload(this.token);
+    if (payload && payload.exp && payload.exp * 1000 < Date.now()) {
+      this.clearSession();
+      return false;
+    }
+    return true;
   }
 
   /**

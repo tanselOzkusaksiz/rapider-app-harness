@@ -52,7 +52,19 @@ async function ensureAuthenticated(page, appKey = 'rapider-app-hrs-a-hr-services
         const sessionStr = localStorage.getItem('rappider_harness_session');
         if (sessionStr) {
           const session = JSON.parse(sessionStr);
-          if (session && session.token && session.projectId) return true;
+          if (session && session.token && session.projectId) {
+            try {
+              const parts = session.token.split('.');
+              if (parts.length === 3) {
+                const payload = JSON.parse(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')));
+                if (payload && payload.exp && payload.exp * 1000 < Date.now()) {
+                  localStorage.removeItem('rappider_harness_session');
+                  return false;
+                }
+              }
+            } catch (_) {}
+            return true;
+          }
         }
       } catch (e) {}
       return false;
