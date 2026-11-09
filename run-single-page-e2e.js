@@ -835,6 +835,32 @@ async function runSinglePageE2E(options) {
                   return `Truncated KPI label detected: "${(lbl.innerText || '').trim()}" (scrollWidth=${lbl.scrollWidth} > clientWidth=${lbl.clientWidth})`;
                 }
               }
+
+              // Check for raw UUID strings rendered in visible UI text (e.g., unresolved supplierId / policyId foreign keys)
+              const uuidRegex = /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/i;
+              const visibleCheckEls = Array.from(main.querySelectorAll('td, th, .tag, .badge, h1, h2, h3, h4, p, span, div'));
+              for (const el of visibleCheckEls) {
+                if (el.children.length > 0) continue; // check leaf text nodes
+                if (el.offsetWidth === 0 || el.offsetHeight === 0) continue;
+                const txt = (el.innerText || el.textContent || '').trim();
+                if (uuidRegex.test(txt)) {
+                  return `Raw unresolved UUID rendered in visible UI ("${txt.slice(0, 60)}"). Resolve foreign keys (e.g. supplierId, policyId, accountId, ownerId) via findSWR lookup maps or human-readable display fields instead of printing raw UUIDs!`;
+                }
+              }
+
+              // Check for multiple '0' KPI cards caused by mismatched status/enum filter strings
+              const kpiValueEls = Array.from(main.querySelectorAll('.metric-card .metric-value, [data-kpi-value]')).filter(
+                el => el.offsetWidth > 0 && el.offsetHeight > 0
+              );
+              if (kpiValueEls.length >= 3) {
+                const zeroKpis = kpiValueEls.filter(el => {
+                  const rawVal = (el.innerText || el.textContent || '').trim();
+                  return /^[$€£]?\s*0(?:\.0+)?%?$/.test(rawVal);
+                });
+                if (zeroKpis.length >= 2) {
+                  return `${zeroKpis.length} of ${kpiValueEls.length} KPI cards evaluate to "0" because JS status/category filter strings do not match sample-data.json records. Align KPI & tab calculations with actual sample-data.json field values!`;
+                }
+              }
               return null;
             });
             if (layoutIssue) throw new Error(layoutIssue);
