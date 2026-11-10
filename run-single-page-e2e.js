@@ -252,7 +252,7 @@ async function runSinglePageE2E(options) {
 
   try {
     browser = await chromium.launch({ headless: true });
-    const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
+    const context = await browser.newContext({ viewport: { width: 1500, height: 1000 } });
     const page = await context.newPage();
 
     // In isolated single-page mode (--route=<targetRoute>), sibling manifest pages (e.g. default #/dashboard on boot
@@ -783,11 +783,11 @@ async function runSinglePageE2E(options) {
                 return null;
               }, width);
               if (respIssue) {
-                await page.setViewportSize({ width: 1280, height: 800 });
+                await page.setViewportSize({ width: 1500, height: 1000 });
                 throw new Error(respIssue);
               }
             }
-            await page.setViewportSize({ width: 1200, height: 800 });
+            await page.setViewportSize({ width: 1500, height: 1000 });
             await page.waitForTimeout(200);
           } else if (step.action === 'validate_layout') {
             const layoutIssue = await frame.evaluate(() => {
@@ -859,6 +859,19 @@ async function runSinglePageE2E(options) {
                 });
                 if (zeroKpis.length >= 2) {
                   return `${zeroKpis.length} of ${kpiValueEls.length} KPI cards evaluate to "0" because JS status/category filter strings do not match sample-data.json records. Align KPI & tab calculations with actual sample-data.json field values!`;
+                }
+              }
+
+              // Check for horizontally clipped tables at desktop width (where rightmost Status or Actions column is cut off)
+              // When the iframe itself is at desktop width (>= 1150px) or relative to a 1500px full-page desktop frame (~1180px main table area)
+              const visibleTables = Array.from(main.querySelectorAll('table')).filter(
+                t => t.offsetWidth > 0 && t.offsetHeight > 0
+              );
+              for (const tbl of visibleTables) {
+                const wrap = tbl.parentElement || tbl;
+                const effectiveDesktopContainer = Math.max(wrap.clientWidth, 1180);
+                if (tbl.scrollWidth > effectiveDesktopContainer + 12) {
+                  return `Table (#${tbl.id || 'data-table'}) overflows horizontally at desktop width (scrollWidth=${tbl.scrollWidth}px > desktopContainer=${effectiveDesktopContainer}px), clipping right-hand columns! Override or reduce th/td horizontal padding (e.g. #myTable th, #myTable td { padding: 11px 12px !important; }) or consolidate columns so all columns fit cleanly.`;
                 }
               }
               return null;
