@@ -10,9 +10,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
   
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="/css/slideshow.css">
+  <link rel="stylesheet" href="/css/slideshow.css?v=4">
 </head>
-<body class="dark-theme">
+<body class="light-theme">
 
   <!-- ==========================================================================
        TOP NAVIGATION HEADER
@@ -23,7 +23,7 @@
       <button id="btn-toggle-sidebar" class="btn-sidebar-toggle" title="Menüyü Aç/Kapat (Kısayol: M)">
         <i class="fas fa-bars"></i>
         <span>Menü</span>
-        <span class="badge-count" id="sidebar-count-badge" style="background:#6366f1; color:#fff; font-size:10px; padding:1px 6px; border-radius:10px;">53</span>
+        <span class="badge-count" id="sidebar-count-badge">53</span>
       </button>
 
       <div class="brand-badge">
@@ -67,12 +67,36 @@
       </div>
     </div>
 
-    <!-- Header Right: Language Switcher, Workspace Selector & Auth -->
+    <!-- Header Right: Report & Request Button, Active App Selector, Language, Theme, Workspace -->
     <div class="header-right">
+      <!-- Report & Request Button (Same as Rapider UI App Builder) -->
+      <button id="btn-report-request" class="btn-report-request" title="Report Bug & Request Feature (Tasks Panel)">
+        <i class="fas fa-lightbulb"></i>
+        <span>Report &amp; Request</span>
+        <span id="header-tasks-count-badge" class="tasks-count-pill">0</span>
+      </button>
+
+      <!-- Active Harness App Selector -->
+      <div class="app-selector-wrapper" id="active-app-selector-wrapper">
+        <button id="active-app-badge" class="project-badge app-target-badge" title="Yorumların Kaydedileceği Aktif Uygulama (Active App)">
+          <i class="fas fa-cube" style="color: var(--accent-primary); font-size: 11px;"></i>
+          <span id="active-app-name-text">App: Loading...</span>
+          <i class="fas fa-chevron-down" style="font-size: 9px; opacity: 0.6; margin-left: 2px;"></i>
+        </button>
+        <div id="active-app-selector-menu" class="app-selector-menu">
+          <!-- Populated dynamically with Workspace & Harness Apps -->
+        </div>
+      </div>
+
       <!-- Language Switcher -->
       <button id="btn-toggle-lang" class="btn-toggle-lang" title="Dili Değiştir (TR / EN) [Kısayol: L]">
         <span id="lang-flag">🇹🇷</span>
         <span id="lang-label">TR</span>
+      </button>
+
+      <!-- Theme Toggle (Light Default / Dark) -->
+      <button id="btn-toggle-theme" class="btn-icon" title="Temayı Değiştir (Açık / Koyu Tema)">
+        <i id="theme-icon" class="fas fa-moon"></i>
       </button>
 
       <!-- Rapider Workspace Selector Dropdown -->
@@ -109,7 +133,7 @@
       <div class="sidebar-header">
         <div class="sidebar-title-row">
           <div class="sidebar-title">
-            <i class="fas fa-book-open" style="color: #6366f1; margin-right: 6px;"></i>
+            <i class="fas fa-book-open" style="color: var(--accent-primary); margin-right: 6px;"></i>
             <span>53 Ekran Rehberi</span>
           </div>
           <button id="btn-close-sidebar" class="btn-icon" style="width: 28px; height: 28px;" title="Menüyü Kapat">
@@ -179,13 +203,13 @@
       <!-- Image Viewport Stage -->
       <div id="viewport-stage" class="viewport-stage">
         <div id="image-canvas-wrapper" class="image-canvas-wrapper">
-          <img id="main-image" class="main-image" src="" alt="Screen Capture" draggable="false" />
+          <img id="main-image" class="main-image" src="" alt="Screen Capture" crossorigin="anonymous" draggable="false" />
         </div>
 
         <!-- Loading Overlay -->
         <div id="image-loading-overlay" class="image-loading-overlay">
           <div class="spinner"></div>
-          <span style="font-size: 12px; color: #94a3b8; font-weight: 500;">Görsel yükleniyor...</span>
+          <span style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Görsel yükleniyor...</span>
         </div>
 
         <!-- Floating Hint -->
@@ -201,37 +225,244 @@
     <div id="splitter" title="Genişliği ayarlamak için sürükleyin / Sıfırlamak için çift tıklayın"></div>
 
     <!-- ======================================================================
-         RIGHT PANEL (RENDERED MARKDOWN DOCUMENTATION)
+         RIGHT PANEL (MARKDOWN GUIDE VIEW + REPORT & REQUEST TASKS PANEL)
          ====================================================================== -->
     <aside id="right-panel">
-      <!-- Right Panel Header -->
-      <div class="right-panel-header">
-        <div class="panel-header-left">
-          <span id="guide-file-badge" class="guide-file-badge">guide.md</span>
-          <span id="route-pill" class="route-pill">/Route</span>
+      <!-- Top Mode Switcher Bar: Guide Markdown vs Report & Request -->
+      <div class="right-panel-mode-tabs">
+        <button id="tab-btn-guide" class="panel-mode-tab active" type="button">
+          <i class="fas fa-book-open"></i>
+          <span>Ekran Rehberi (Markdown)</span>
+        </button>
+        <button id="tab-btn-tasks" class="panel-mode-tab" type="button">
+          <i class="fas fa-lightbulb"></i>
+          <span>Report &amp; Request</span>
+          <span id="panel-tab-tasks-badge" class="panel-tab-badge">0</span>
+        </button>
+      </div>
+
+      <!-- ====================================================================
+           VIEW 1: GUIDE MARKDOWN VIEW
+           ==================================================================== -->
+      <div id="right-panel-guide-view" class="right-panel-view active" style="display: flex; flex-direction: column; flex: 1 1 0%; min-height: 0; overflow: hidden;">
+        <!-- Right Panel Sub-Header -->
+        <div class="right-panel-header" style="flex-shrink: 0;">
+          <div class="panel-header-left">
+            <span id="guide-file-badge" class="guide-file-badge">guide.md</span>
+            <span id="route-pill" class="route-pill">/Route</span>
+          </div>
+
+          <div class="panel-header-actions">
+            <button id="btn-view-manual" class="btn-nav-link" title="TourXel El Kitabı İlgili Bölümü Aç">
+              <i class="fas fa-book-reader"></i>
+              <span>El Kitabı</span>
+            </button>
+
+            <button id="btn-toggle-raw-md" class="btn-icon" style="width: auto; padding: 4px 10px; font-size: 11px;" title="Ham Markdown Görünümüne Geç">
+              <i class="fas fa-code"></i>
+              <span style="margin-left: 4px;">Raw</span>
+            </button>
+
+            <button id="btn-copy-md" class="btn-icon" title="Markdown İçeriğini Kopyala">
+              <i class="fas fa-copy"></i>
+            </button>
+          </div>
         </div>
 
-        <div class="panel-header-actions">
-          <button id="btn-view-manual" class="btn-nav-link" style="color: #818cf8; border-color: rgba(99, 102, 241, 0.3);" title="TourXel El Kitabı İlgili Bölümü Aç">
-            <i class="fas fa-book-reader"></i>
-            <span>El Kitabı</span>
-          </button>
-
-          <button id="btn-toggle-raw-md" class="btn-icon" style="width: auto; padding: 4px 10px; font-size: 11px;" title="Ham Markdown Görünümüne Geç">
-            <i class="fas fa-code"></i>
-            <span style="margin-left: 4px;">Raw</span>
-          </button>
-
-          <button id="btn-copy-md" class="btn-icon" title="Markdown İçeriğini Kopyala">
-            <i class="fas fa-copy"></i>
-          </button>
+        <!-- Right Panel Markdown Body -->
+        <div id="markdown-scroll-body" class="right-panel-body" style="flex: 1 1 0%; min-height: 0; overflow-y: auto; overflow-x: hidden;">
+          <div id="markdown-container" class="markdown-body"></div>
+          <textarea id="raw-markdown-view" readonly></textarea>
         </div>
       </div>
 
-      <!-- Right Panel Content -->
-      <div class="right-panel-body">
-        <div id="markdown-container" class="markdown-body"></div>
-        <textarea id="raw-markdown-view" readonly></textarea>
+      <!-- ====================================================================
+           VIEW 2: REPORT & REQUEST (TASKS) PANEL (Rapider UI App Builder Clone)
+           ==================================================================== -->
+      <div id="right-panel-tasks-view" class="right-panel-view">
+        <!-- Tasks Sub-Header -->
+        <div class="tasks-panel-header">
+          <div class="tasks-header-title">
+            <i class="fas fa-tasks" style="color: var(--accent-primary);"></i>
+            <span>Tasks</span>
+            <span id="tasks-active-app-pill" class="tasks-app-pill" title="Target Application for Comments">App</span>
+          </div>
+          <div class="tasks-header-actions">
+            <button id="btn-refresh-tasks" class="btn-icon" style="width: 28px; height: 28px;" title="Refresh Tasks">
+              <i id="refresh-tasks-icon" class="fas fa-sync-alt" style="font-size: 11px;"></i>
+            </button>
+            <button id="btn-close-tasks-panel" class="btn-icon" style="width: 28px; height: 28px;" title="Back to Guide Markdown">
+              <i class="fas fa-times" style="font-size: 12px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- A. TASKS LIST VIEW -->
+        <div id="tasks-list-section" class="tasks-section-container">
+          <!-- Top Controls Area -->
+          <div class="tasks-controls-area">
+            <!-- Primary Action Buttons: Screen Capture Only (No Bubble Reporting) -->
+            <div class="tasks-primary-actions">
+              <button id="btn-report-bug" type="button" class="btn-task-action btn-report-bug" style="color: #ffffff !important;">
+                <i class="fas fa-camera"></i>
+                <span>Report Bug</span>
+              </button>
+              <button id="btn-request-feature" type="button" class="btn-task-action btn-request-feature" style="color: #ffffff !important;">
+                <i class="fas fa-lightbulb"></i>
+                <span>Request Feature</span>
+              </button>
+            </div>
+
+            <!-- Summary Filter Cards (Total / Bug / Feature) -->
+            <div class="tasks-summary-grid">
+              <div id="stat-card-all" class="task-stat-card active" data-type="ALL">
+                <span class="stat-label">Total</span>
+                <span id="stat-count-all" class="stat-value">0</span>
+              </div>
+              <div id="stat-card-bug" class="task-stat-card stat-bug" data-type="Bug">
+                <div class="stat-label-row">
+                  <i class="fas fa-bug"></i>
+                  <span class="stat-label">Bug</span>
+                </div>
+                <span id="stat-count-bug" class="stat-value">0</span>
+              </div>
+              <div id="stat-card-feature" class="task-stat-card stat-feature" data-type="Feature">
+                <div class="stat-label-row">
+                  <i class="fas fa-lightbulb"></i>
+                  <span class="stat-label">Feature</span>
+                </div>
+                <span id="stat-count-feature" class="stat-value">0</span>
+              </div>
+            </div>
+
+            <!-- Search & Filter Button Row -->
+            <div class="tasks-search-row">
+              <div class="tasks-search-input-wrap">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="task-search-input" placeholder="Search tasks by title or ID..." />
+                <button id="btn-clear-task-search" type="button" class="btn-clear-search" style="display: none;">
+                  <i class="fas fa-times-circle"></i>
+                </button>
+              </div>
+
+              <div class="task-filter-dropdown-wrap">
+                <button id="btn-task-filter-dropdown" type="button" class="btn-task-filter">
+                  <i class="fas fa-sliders-h"></i>
+                  <span>Filter</span>
+                  <span id="task-filter-count-badge" class="filter-badge" style="display: none;">0</span>
+                  <i class="fas fa-chevron-down" style="font-size: 9px; opacity: 0.7;"></i>
+                </button>
+
+                <!-- Filter Popover Menu -->
+                <div id="task-filter-menu" class="task-filter-menu">
+                  <div class="filter-menu-section">
+                    <label class="filter-checkbox-row">
+                      <input type="checkbox" id="filter-reported-by-me" />
+                      <span><i class="fas fa-user-check" style="color: var(--accent-primary); margin-right: 4px;"></i> Reported by Me</span>
+                    </label>
+                  </div>
+                  <div class="filter-menu-section">
+                    <div class="filter-section-title">Quick Presets</div>
+                    <div class="filter-presets-row">
+                      <button type="button" id="btn-preset-attention" class="btn-preset">
+                        <i class="fas fa-bolt" style="color: #f59e0b;"></i> Needs Attention
+                      </button>
+                      <button type="button" id="btn-preset-done" class="btn-preset">
+                        <i class="fas fa-check-double" style="color: #10b981;"></i> Done
+                      </button>
+                    </div>
+                  </div>
+                  <div class="filter-menu-section">
+                    <div class="filter-section-title">Statuses</div>
+                    <div id="filter-status-list" class="filter-status-list">
+                      <!-- Status checkboxes populated by JS -->
+                    </div>
+                  </div>
+                  <div class="filter-menu-footer">
+                    <button type="button" id="btn-reset-all-task-filters" class="btn-reset-filters">
+                      <i class="fas fa-undo"></i> Clear All Filters
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Page Scope Segmented Toggle: Current Page vs All Pages -->
+            <div class="tasks-page-scope-bar">
+              <div class="scope-label">
+                <i class="fas fa-layer-group"></i>
+                <span>Page Scope</span>
+              </div>
+              <div class="scope-segmented">
+                <button type="button" id="btn-scope-current" class="scope-btn">
+                  <span>Current Slide</span>
+                  <span id="scope-count-current" class="scope-count">0</span>
+                </button>
+                <button type="button" id="btn-scope-all" class="scope-btn active">
+                  <span>All Pages</span>
+                  <span id="scope-count-all" class="scope-count">0</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Active Filter Chips Bar -->
+            <div id="task-active-filters-bar" class="task-active-filters-bar" style="display: none;">
+              <span class="active-filters-label">Active:</span>
+              <div id="task-active-filter-chips" class="active-filter-chips"></div>
+              <button type="button" id="btn-clear-active-filters" class="btn-clear-all-chips">Clear all</button>
+            </div>
+          </div>
+
+          <!-- Scrollable Task Cards Container -->
+          <div id="tasks-list-container" class="tasks-list-container">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+
+        <!-- B. IN-PANEL TASK DETAIL VIEW (When a task is clicked) -->
+        <div id="task-detail-section" class="tasks-section-container" style="display: none;">
+          <!-- Detail Header Bar -->
+          <div class="task-detail-header">
+            <button type="button" id="btn-back-to-tasks" class="btn-back-tasks">
+              <i class="fas fa-arrow-left"></i>
+              <span>Back to Tasks</span>
+            </button>
+            <div class="task-detail-header-actions">
+              <button type="button" id="btn-detail-edit-task" class="btn-detail-action" title="Edit Task">
+                <i class="fas fa-edit"></i>
+                <span>Edit</span>
+              </button>
+              <button type="button" id="btn-detail-delete-task" class="btn-detail-action btn-detail-danger" title="Delete Task">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Detail Scrollable Body -->
+          <div id="task-detail-body" class="task-detail-body">
+            <!-- Populated dynamically -->
+          </div>
+
+          <!-- Sticky Reply Composer Footer -->
+          <div class="task-reply-composer">
+            <label class="reply-composer-label">
+              <span>Post a Reply</span>
+              <span class="reply-md-hint"><i class="fab fa-markdown"></i> Markdown supported</span>
+            </label>
+            <textarea id="task-reply-input" rows="2" placeholder="Write a comment, implementation note, or update..."></textarea>
+            <div id="reply-attached-screenshots" class="reply-attached-screenshots" style="display: none;"></div>
+            <div class="reply-composer-actions">
+              <button type="button" id="btn-reply-screen-capture" class="btn-reply-capture" title="Capture and annotate current screen for reply">
+                <i class="fas fa-camera"></i>
+                <span>Screen Capture</span>
+              </button>
+              <button type="button" id="btn-send-reply" class="btn-primary" style="color: #ffffff !important; padding: 6px 14px; font-size: 11px;">
+                <i class="fas fa-paper-plane"></i>
+                <span>Send Reply</span>
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </aside>
 
@@ -241,13 +472,226 @@
        MODALS & OVERLAYS
        ========================================================================== -->
 
-  <!-- 1. RAPIDER AUTH MODAL (Connect & Login) -->
+  <!-- 1. FULL-SCREEN SCREEN CAPTURE & ANNOTATION MODAL (Rapider UI App Builder Standard) -->
+  <div id="screen-capture-modal" class="capture-modal-overlay">
+    <!-- Top Drawing Toolbar -->
+    <div class="capture-modal-topbar">
+      <div class="capture-topbar-left">
+        <div class="capture-icon-badge">
+          <i class="fas fa-camera-retro"></i>
+        </div>
+        <div class="capture-title-group">
+          <span id="capture-modal-title" class="capture-modal-title">Annotate Screen Capture &amp; Report Task</span>
+          <span class="capture-modal-subtitle">Draw arrows, boxes, numbered markers, or freehand notes on the captured screen</span>
+        </div>
+      </div>
+
+      <!-- Center Drawing Tools -->
+      <div class="capture-drawing-toolbar">
+        <!-- Source Image Quick Switcher (Annotated vs Raw Slide) -->
+        <div class="capture-source-switch" title="Choose which slide image to capture">
+          <button type="button" id="btn-capture-src-current" class="capture-src-btn active">Current View</button>
+          <button type="button" id="btn-capture-src-raw" class="capture-src-btn">Raw Picture</button>
+          <button type="button" id="btn-capture-src-annotated" class="capture-src-btn">Annotated Picture</button>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <!-- Tool Buttons: Pen, Arrow, Rect, Number -->
+        <div class="draw-tools-group">
+          <button type="button" class="draw-tool-btn" data-tool="pen" title="Freehand Pen">
+            <i class="fas fa-pen"></i>
+            <span>Draw</span>
+          </button>
+          <button type="button" class="draw-tool-btn active" data-tool="arrow" title="Directional Arrow">
+            <i class="fas fa-long-arrow-alt-right"></i>
+            <span>Arrow</span>
+          </button>
+          <button type="button" class="draw-tool-btn" data-tool="rect" title="Highlight Box / Rectangle">
+            <i class="far fa-square"></i>
+            <span>Rectangle</span>
+          </button>
+          <button type="button" class="draw-tool-btn" data-tool="number" title="Sequential Circled Number (1, 2, 3...)">
+            <span id="draw-next-number-badge" class="draw-number-badge">1</span>
+            <span>Number</span>
+          </button>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <!-- Color Swatches -->
+        <div id="draw-color-swatches" class="draw-color-swatches">
+          <button type="button" class="color-swatch active" data-color="#ef4444" style="background: #ef4444;" title="Red"></button>
+          <button type="button" class="color-swatch" data-color="#f97316" style="background: #f97316;" title="Orange"></button>
+          <button type="button" class="color-swatch" data-color="#eab308" style="background: #eab308;" title="Yellow"></button>
+          <button type="button" class="color-swatch" data-color="#22c55e" style="background: #22c55e;" title="Green"></button>
+          <button type="button" class="color-swatch" data-color="#3b82f6" style="background: #3b82f6;" title="Blue"></button>
+          <button type="button" class="color-swatch" data-color="#a855f7" style="background: #a855f7;" title="Purple"></button>
+          <button type="button" class="color-swatch" data-color="#0f172a" style="background: #0f172a;" title="Dark Slate"></button>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <!-- Line Widths -->
+        <div class="draw-width-group">
+          <button type="button" class="width-btn" data-width="2" title="Thin">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: currentColor;"></span>
+          </button>
+          <button type="button" class="width-btn active" data-width="4" title="Medium">
+            <span style="width: 10px; height: 10px; border-radius: 50%; background: currentColor;"></span>
+          </button>
+          <button type="button" class="width-btn" data-width="7" title="Thick">
+            <span style="width: 14px; height: 14px; border-radius: 50%; background: currentColor;"></span>
+          </button>
+        </div>
+
+        <div class="toolbar-divider"></div>
+
+        <!-- Undo & Clear -->
+        <button type="button" id="btn-draw-undo" class="capture-action-btn" disabled title="Undo Last Shape">
+          <i class="fas fa-undo"></i>
+          <span>Undo</span>
+        </button>
+        <button type="button" id="btn-draw-clear" class="capture-action-btn capture-clear-btn" disabled title="Clear All Drawings">
+          <i class="fas fa-trash-alt"></i>
+          <span>Clear</span>
+        </button>
+      </div>
+
+      <button type="button" id="btn-close-capture-modal" class="capture-close-btn" title="Cancel &amp; Close">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <!-- Split Body: Left Annotated Canvas + Right Task / Reply Form -->
+    <div class="capture-modal-body">
+      <!-- Left: Scrollable 1:1 Image + Interactive Drawing Canvas -->
+      <div class="capture-canvas-scroll-area">
+        <div id="capture-canvas-stage" class="capture-canvas-stage">
+          <img id="capture-base-image" src="" alt="Captured Slide" draggable="false" />
+          <canvas id="screen-annotation-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Right: Task / Reply Form Panel -->
+      <div class="capture-form-panel">
+        <div class="capture-form-header">
+          <div class="capture-form-title">
+            <i id="capture-form-icon" class="fas fa-bug" style="color: #ef4444;"></i>
+            <span id="capture-form-heading">Bug Report Details</span>
+          </div>
+          <p id="capture-form-subtitle" class="capture-form-subtitle">
+            Your annotated screenshot will be uploaded and saved to the active application.
+          </p>
+          <div class="capture-context-badges">
+            <span id="capture-target-app-badge" class="capture-context-pill"><i class="fas fa-cube"></i> App</span>
+            <span id="capture-target-page-badge" class="capture-context-pill"><i class="fas fa-file-alt"></i> Slide #22</span>
+          </div>
+        </div>
+
+        <div class="capture-form-body">
+          <!-- Task Type Toggle (Visible in 'task' mode) -->
+          <div id="capture-task-type-group" class="capture-field-group">
+            <label class="capture-label">Task Type</label>
+            <div class="capture-type-grid">
+              <button type="button" id="btn-capture-type-bug" class="capture-type-btn active-bug">
+                <i class="fas fa-bug"></i>
+                <span>Bug Report</span>
+              </button>
+              <button type="button" id="btn-capture-type-feature" class="capture-type-btn">
+                <i class="fas fa-lightbulb"></i>
+                <span>Feature Request</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Title Input (Visible in 'task' mode) -->
+          <div id="capture-task-title-group" class="capture-field-group">
+            <label for="capture-task-title" class="capture-label">Title <span style="color: #ef4444;">*</span></label>
+            <input type="text" id="capture-task-title" class="capture-input" placeholder="e.g. Missing validation or layout issue on Entrance tab..." />
+          </div>
+
+          <!-- Markdown Description / Explanation -->
+          <div class="capture-field-group capture-desc-group">
+            <div class="capture-label-row">
+              <label for="capture-task-desc" id="capture-desc-label" class="capture-label">Explanation (Markdown)</label>
+              <div class="md-mini-toolbar">
+                <button type="button" class="md-tool-btn" data-md="bold" title="Bold"><i class="fas fa-bold"></i></button>
+                <button type="button" class="md-tool-btn" data-md="italic" title="Italic"><i class="fas fa-italic"></i></button>
+                <button type="button" class="md-tool-btn" data-md="code" title="Inline Code"><i class="fas fa-code"></i></button>
+                <button type="button" class="md-tool-btn" data-md="list" title="Bullet List"><i class="fas fa-list-ul"></i></button>
+                <button type="button" class="md-tool-btn" data-md="numref" title="Insert Numbered Marker Reference (1), (2)..."><i class="fas fa-list-ol"></i></button>
+              </div>
+            </div>
+            <textarea id="capture-task-desc" class="capture-textarea" placeholder="Describe the issue or feature request in detail. Reference numbered markers like (1), (2)..."></textarea>
+          </div>
+        </div>
+
+        <!-- Form Footer Actions -->
+        <div class="capture-form-footer">
+          <button type="button" id="btn-cancel-capture-task" class="btn-capture-cancel">Cancel</button>
+          <button type="button" id="btn-save-capture-task" class="btn-capture-submit" style="color: #ffffff !important;">
+            <i class="fas fa-check"></i>
+            <span id="btn-save-capture-label">Save Report</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. SCREENSHOT ZOOM PREVIEW MODAL -->
+  <div id="screenshot-preview-modal" class="modal-overlay">
+    <div class="modal-card modal-screenshot-zoom">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fas fa-image" style="color: var(--accent-primary);"></i>
+          <span>Annotated Screen Capture Preview</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <a id="screenshot-preview-open-tab" href="#" target="_blank" rel="noopener noreferrer" class="btn-nav-link">
+            <i class="fas fa-external-link-alt"></i> Open Original
+          </a>
+          <button id="screenshot-preview-close-btn" class="btn-icon" style="width:28px; height:28px;"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <div class="modal-body" style="display:flex; align-items:center; justify-content:center; background: #0f172a; padding: 16px;">
+        <img id="screenshot-preview-img" src="" alt="Annotated Screenshot" style="max-width: 100%; max-height: 78vh; object-fit: contain; border-radius: 8px;" />
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. DELETE TASK CONFIRMATION MODAL -->
+  <div id="delete-task-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 400px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+          <span>Delete Task?</span>
+        </div>
+        <button id="delete-task-close-btn" class="btn-icon" style="width:28px; height:28px;"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <p id="delete-task-message" style="font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px;">
+          Are you sure you want to permanently delete this task? This action cannot be undone.
+        </p>
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button type="button" id="btn-cancel-delete-task" class="btn-capture-cancel">Cancel</button>
+          <button type="button" id="btn-confirm-delete-task" class="btn-task-action btn-report-bug" style="color: #ffffff !important; padding: 7px 16px;">
+            <i class="fas fa-trash-alt"></i>
+            <span>Delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. RAPIDER AUTH MODAL (Connect & Login) -->
   <div id="auth-modal" class="modal-overlay">
     <div class="modal-card">
       <div class="modal-header">
         <div class="modal-title">
-          <i class="fas fa-lock" style="color: #6366f1;"></i>
-          <span>Rapider Backend Giriş & Workspace Seçimi</span>
+          <i class="fas fa-lock" style="color: var(--accent-primary);"></i>
+          <span>Rapider Backend Giriş &amp; Workspace Seçimi</span>
         </div>
         <button id="auth-close-btn" class="btn-icon" style="width:28px; height:28px;"><i class="fas fa-times"></i></button>
       </div>
@@ -270,20 +714,20 @@
             <label for="auth-password">Şifre</label>
             <input type="password" id="auth-password" class="form-control" placeholder="••••••••" required>
           </div>
-          <button type="submit" id="btn-submit-login" class="btn-primary" style="width: 100%; justify-content: center; padding: 10px; margin-top: 6px;">
-            Giriş Yap & Bağlan
+          <button type="submit" id="btn-submit-login" class="btn-primary" style="width: 100%; justify-content: center; padding: 10px; margin-top: 6px; color: #ffffff !important;">
+            Giriş Yap &amp; Bağlan
           </button>
         </form>
       </div>
     </div>
   </div>
 
-  <!-- 2. REFERENCE MANUAL MODAL -->
+  <!-- 5. REFERENCE MANUAL MODAL -->
   <div id="manual-modal" class="modal-overlay">
     <div class="modal-card modal-large">
       <div class="modal-header">
         <div id="manual-modal-title" class="modal-title">
-          <i class="fas fa-book-open" style="color: #6366f1;"></i>
+          <i class="fas fa-book-open" style="color: var(--accent-primary);"></i>
           <span>TourXel Resmi El Kitabı</span>
         </div>
         <button id="manual-modal-close-btn" class="btn-icon" style="width:28px; height:28px;"><i class="fas fa-times"></i></button>
@@ -292,12 +736,12 @@
     </div>
   </div>
 
-  <!-- 3. TOAST CONTAINER -->
+  <!-- 6. TOAST CONTAINER -->
   <div id="toast-container"></div>
 
   <!-- Client Application Scripts -->
-  <script src="/js/marked.min.js"></script>
-  <script src="/js/api-client.js"></script>
-  <script src="/js/slideshow.js"></script>
+  <script src="/js/marked.min.js?v=4"></script>
+  <script src="/js/api-client.js?v=4"></script>
+  <script src="/js/slideshow.js?v=4"></script>
 </body>
 </html>

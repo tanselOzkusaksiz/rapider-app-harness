@@ -1437,6 +1437,7 @@ app.use('/api/screen-guides', screenGuidesRouter);
 
 // Direct slideshow harness routes
 app.get(['/slideshow', '/screen-guides', '/guides'], (req, res) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.sendFile(path.join(__dirname, 'public/slideshow.html'));
 });
 

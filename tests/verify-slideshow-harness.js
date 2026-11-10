@@ -19,9 +19,13 @@ async function runVerification() {
 
   await page.goto(`${baseUrl}#/22`, { waitUntil: 'networkidle' });
 
-  // 1. Verify Page Title & Shell
+  // 1. Verify Page Title & Light Theme Default
   const title = await page.title();
-  console.log(`  ✅ Page Title: "${title}"`);
+  const isLightTheme = await page.evaluate(() => document.body.classList.contains('light-theme'));
+  console.log(`  ✅ Page Title: "${title}" | Light Theme Default: ${isLightTheme}`);
+  if (!isLightTheme) {
+    throw new Error('Expected Light Theme (body.light-theme) to be active by default');
+  }
 
   // 2. Verify Slide Indicator
   const currentNo = await page.locator('#current-slide-no').innerText();
@@ -83,7 +87,7 @@ async function runVerification() {
   await page.click('#mode-btn-annotated');
   await page.waitForTimeout(200);
 
-  // 7. Verify Right Panel Markdown Content
+  // 7. Verify Right Panel Markdown Content & Vertical Scrolling
   const guideBadgeText = await page.locator('#guide-file-badge').innerText();
   const routePillText = await page.locator('#route-pill').innerText();
   console.log(`  ✅ Right Panel Guide Badge: ${guideBadgeText}`);
@@ -101,9 +105,21 @@ async function runVerification() {
     throw new Error(`Expected markdown heading to contain Ören Yeri, got "${markdownHeading}"`);
   }
 
-  // Verify markdown table exists with numbered badges
-  const tableRowsCount = await page.locator('#markdown-container table tr').count();
-  console.log(`  ✅ Rendered Markdown Table Rows: ${tableRowsCount}`);
+  // Verify Markdown Scroll Container actually scrolls down!
+  const scrollMetrics = await page.evaluate(() => {
+    const body = document.getElementById('markdown-scroll-body') || document.querySelector('.right-panel-body');
+    const beforeTop = body.scrollTop;
+    const scrollHeight = body.scrollHeight;
+    const clientHeight = body.clientHeight;
+    body.scrollTop = 450;
+    const afterTop = body.scrollTop;
+    body.scrollTop = 0;
+    return { beforeTop, scrollHeight, clientHeight, afterTop };
+  });
+  console.log(`  ✅ Right Panel Markdown Scroll Check: clientHeight=${scrollMetrics.clientHeight}px, scrollHeight=${scrollMetrics.scrollHeight}px, scrolledTo=${scrollMetrics.afterTop}px`);
+  if (scrollMetrics.scrollHeight <= scrollMetrics.clientHeight || scrollMetrics.afterTop <= 0) {
+    throw new Error(`Markdown area on the right side is not scrollable! Metrics: ${JSON.stringify(scrollMetrics)}`);
+  }
 
   // 8. Test Next Navigation
   console.log('  ➡️ Clicking "Sonraki" (Next)...');
@@ -111,9 +127,7 @@ async function runVerification() {
   await page.waitForTimeout(300);
   const nextNo = await page.locator('#current-slide-no').innerText();
   const nextHeading = await page.locator('#markdown-container h1').innerText();
-  const nextImg = await page.locator('#main-image').getAttribute('src');
   console.log(`  ✅ After Next -> Slide No: ${nextNo} | Heading: "${nextHeading}"`);
-  console.log(`  ✅ Image: ${nextImg}`);
   if (nextNo !== '23') {
     throw new Error(`Expected slide 23 after next, got ${nextNo}`);
   }
@@ -133,58 +147,92 @@ async function runVerification() {
   await page.click('#btn-toggle-lang');
   await page.waitForTimeout(300);
   const enBadge = await page.locator('#guide-file-badge').innerText();
-  const enHeading = await page.locator('#markdown-container h1').innerText();
-  console.log(`  ✅ English Guide File: ${enBadge} | Heading: "${enHeading}"`);
+  console.log(`  ✅ English Guide File: ${enBadge}`);
   if (!enBadge.includes('22_operation_03_entrance_screen_guide.md') || enBadge.includes('_tr.md')) {
     throw new Error(`Expected English guide file, got ${enBadge}`);
   }
-
-  // Toggle back to TR
   await page.click('#btn-toggle-lang');
   await page.waitForTimeout(300);
 
-  // 11. Test Splitter Resizing
-  console.log('  ↔️ Testing Draggable Splitter...');
-  const initialWidth = await page.evaluate(() => {
-    return document.getElementById('right-panel').getBoundingClientRect().width;
-  });
-  console.log(`  ✅ Initial Right Panel Width: ${initialWidth}px`);
-
-  const splitterBox = await page.locator('#splitter').boundingBox();
-  if (splitterBox) {
-    await page.mouse.move(splitterBox.x + splitterBox.width / 2, splitterBox.y + splitterBox.height / 2);
-    await page.mouse.down();
-    await page.mouse.move(splitterBox.x - 100, splitterBox.y + splitterBox.height / 2, { steps: 5 });
-    await page.mouse.up();
-    await page.waitForTimeout(200);
-
-    const resizedWidth = await page.evaluate(() => {
-      return document.getElementById('right-panel').getBoundingClientRect().width;
-    });
-    console.log(`  ✅ Resized Right Panel Width: ${resizedWidth}px`);
-    if (Math.abs(resizedWidth - (initialWidth + 100)) > 15) {
-      console.warn(`  Note: Width changed from ${initialWidth} to ${resizedWidth}`);
-    }
+  // 11. Test Active App Badge & Report & Request Panel on Right Side
+  const activeAppText = await page.locator('#active-app-name-text').innerText();
+  console.log(`  ✅ Active App Badge: "${activeAppText}"`);
+  if (activeAppText.includes('Loading...')) {
+    throw new Error(`Expected Active App to be resolved, got "${activeAppText}"`);
   }
 
-  // 12. Test Rapider Workspace / Auth Integration
-  console.log('  🔐 Testing Rapider Workspace / Auth Integration...');
-  const authStatusText = await page.locator('#project-name-text').innerText();
-  console.log(`  ✅ Rapider Connection Status: "${authStatusText}"`);
+  console.log('  💡 Clicking "Report & Request" button in header...');
+  await page.click('#btn-report-request');
+  await page.waitForTimeout(250);
 
-  // Click project badge to open auth or workspace selector
-  await page.click('#project-badge');
-  await page.waitForTimeout(300);
-
-  const isModalOrMenuOpen = await page.evaluate(() => {
-    const modal = document.getElementById('auth-modal');
-    const menu = document.getElementById('project-selector-menu');
-    return modal.classList.contains('active') || menu.classList.contains('active');
+  const isTasksPanelVisible = await page.evaluate(() => {
+    const el = document.getElementById('right-panel-tasks-view');
+    return el && el.classList.contains('active') && getComputedStyle(el).display !== 'none';
   });
-  console.log(`  ✅ Workspace Menu or Auth Modal Opened: ${isModalOrMenuOpen}`);
+  console.log(`  ✅ Right-Side Report & Request Panel Opened: ${isTasksPanelVisible}`);
+  if (!isTasksPanelVisible) {
+    throw new Error('Expected #right-panel-tasks-view to be visible when Report & Request is clicked');
+  }
+
+  // 12. Test Screen Capture & Annotation Modal ("Report Bug")
+  console.log('  📸 Clicking "Report Bug" to open Screen Capture & Annotation Modal...');
+  await page.click('#btn-report-bug');
+  await page.waitForTimeout(400);
+
+  const isCaptureModalOpen = await page.evaluate(() => {
+    return document.getElementById('screen-capture-modal').classList.contains('open');
+  });
+  console.log(`  ✅ Screen Capture Modal Opened: ${isCaptureModalOpen}`);
+  if (!isCaptureModalOpen) {
+    throw new Error('Expected #screen-capture-modal to open when Report Bug is clicked');
+  }
+
+  // Draw an arrow and a numbered marker on the annotation canvas
+  const canvasBox = await page.locator('#screen-annotation-canvas').boundingBox();
+  if (canvasBox) {
+    await page.mouse.move(canvasBox.x + 80, canvasBox.y + 80);
+    await page.mouse.down();
+    await page.mouse.move(canvasBox.x + 220, canvasBox.y + 160, { steps: 5 });
+    await page.mouse.up();
+
+    // Switch to Number tool and place marker #1
+    await page.click('.draw-tool-btn[data-tool="number"]');
+    await page.mouse.click(canvasBox.x + 240, canvasBox.y + 170);
+  }
+
+  // Fill out Title and Markdown Description
+  const testTaskTitle = `Entrance Reservation Grid Alignment Check [Slide #22]`;
+  await page.fill('#capture-task-title', testTaskTitle);
+  await page.fill('#capture-task-desc', `Verified **(1)** entrance fee calculation column on \`/Operation/Operation#Entrance\`.`);
+
+  console.log('  💾 Saving annotated Bug Report to Active App...');
+  await page.click('#btn-save-capture-task');
+  await page.waitForTimeout(800);
+
+  const taskCardTitle = await page.locator('.task-card .task-card-title').first().innerText();
+  console.log(`  ✅ Created Task Card in Right Panel: "${taskCardTitle}"`);
+  if (taskCardTitle !== testTaskTitle) {
+    throw new Error(`Expected first task card title to be "${testTaskTitle}", got "${taskCardTitle}"`);
+  }
+
+  // Click the created task card to verify in-panel detail view & delete it cleanly afterwards
+  await page.locator('.task-card').first().click();
+  await page.waitForTimeout(250);
+  const detailTitle = await page.locator('.detail-task-title').innerText();
+  console.log(`  ✅ In-Panel Task Detail View Opened: "${detailTitle}"`);
+
+  // Clean up test task
+  await page.click('#btn-detail-delete-task');
+  await page.waitForTimeout(200);
+  await page.click('#btn-confirm-delete-task');
+  await page.waitForTimeout(400);
+
+  // Switch back to Guide Markdown tab
+  await page.click('#tab-btn-guide');
+  await page.waitForTimeout(200);
 
   console.log('\n===========================================================');
-  console.log('🎉 ALL 12 VERIFICATION TESTS PASSED FLAWLESSLY!');
+  console.log('🎉 ALL 12 SLIDESHOW + REPORT & REQUEST TESTS PASSED!');
   console.log('===========================================================');
 
   await browser.close();

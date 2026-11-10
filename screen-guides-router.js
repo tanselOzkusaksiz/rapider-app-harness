@@ -245,6 +245,150 @@ function createScreenGuidesRouter(customGuidesDir, customManualDir) {
   router.use('/images', express.static(path.join(guidesDir, 'images'), { maxAge: '1d' }));
   router.use('/raw_captures', express.static(path.join(guidesDir, 'raw_captures'), { maxAge: '1d' }));
 
+  // In-memory fallback store for captured screenshots when offline
+  const memoryCaptures = new Map();
+
+  router.get('/captures/:filename', (req, res) => {
+    const filename = path.basename(req.params.filename);
+    const buf = memoryCaptures.get(filename);
+    if (!buf) {
+      return res.status(404).json({ error: 'Capture not found' });
+    }
+    res.setHeader('Content-Type', 'image/png');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.send(buf);
+  });
+
+  // 5. Upload Annotated Screen Capture to S3 via Backend Presigned URL
+  router.post('/upload-capture', express.json({ limit: '50mb' }), async (req, res) => {
+    try {
+      const { dataUrl, fileName, appId } = req.body || {};
+      if (!dataUrl || typeof dataUrl !== 'string') {
+        return res.status(400).json({ error: 'Missing dataUrl in request body' });
+      }
+
+      const base64Match = dataUrl.match(/^data:image\/[a-zA-Z0-9.+-]+;base64,(.+)$/);
+      const base64Data = base64Match ? base64Match[1] : dataUrl;
+      const buffer = Buffer.from(base64Data, 'base64');
+      const safeFileName = path.basename(fileName || `app-screen-capture-${appId || 'app'}-${Date.now()}.png`);
+
+      // Store in memory cache as fallback
+      memoryCaptures.set(safeFileName, buffer);
+      if (memoryCaptures.size > 50) {
+        const oldestKey = memoryCaptures.keys().next().value;
+        memoryCaptures.delete(oldestKey);
+      }
+
+      const targetBaseUrl = (
+        req.headers['x-target-backend-url'] ||
+        process.env.BACKEND_URL ||
+        process.env.RAPIDER_TEST_API_URL ||
+        'https://dev.api.rappider.com'
+      ).replace(/\/$/, '');
+      const authHeader = req.headers['authorization'] || req.headers['Authorization'] || '';
+
+      if (authHeader) {
+        try {
+          const presignRes = await fetch(`${targetBaseUrl}/file-management/public-upload-url`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': authHeader
+            },
+            body: JSON.stringify({
+              fileName: safeFileName,
+              contentType: 'image/png',
+              type: 'task',
+              parentEntityId: appId || 'slideshow',
+              isProjectFile: false
+            })
+          });
+
+          if (presignRes.ok) {
+            const presignData = await presignRes.json();
+            if (presignData.uploadUrl && presignData.publicUrl) {
+              let putRes = await fetch(presignData.uploadUrl, {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'image/png',
+                  'x-amz-acl': 'public-read'
+                },
+                body: buffer
+              });
+              if (!putRes.ok) {
+                putRes = await fetch(presignData.uploadUrl, {
+                  method: 'PUT',
+                  headers: { 'Content-Type': 'image/png' },
+                  body: buffer
+                });
+              }
+              if (putRes.ok) {
+                return res.json({
+                  publicUrl: presignData.publicUrl,
+                  key: presignData.key,
+                  id: presignData.id,
+                  storage: 's3'
+                });
+              }
+            }
+          } else {
+            const errTxt = await presignRes.text().catch(() => '');
+            console.warn('[ScreenGuides] Presigned URL warning:', presignRes.status, errTxt);
+          }
+        } catch (s3Err) {
+          console.warn('[ScreenGuides] S3 upload fallback to local capture URL:', s3Err.message);
+        }
+      }
+
+      // Fallback URL served by this router
+      const host = req.get('host') || 'localhost:3300';
+      const protocol = req.protocol || 'http';
+      const fallbackUrl = `${protocol}://${host}/api/screen-guides/captures/${encodeURIComponent(safeFileName)}`;
+      return res.json({
+        publicUrl: fallbackUrl,
+        key: safeFileName,
+        storage: 'local'
+      });
+    } catch (err) {
+      console.error('[ScreenGuides] Upload capture error:', err);
+      return res.status(500).json({ error: 'Failed to upload capture', message: err.message });
+    }
+  });
+
+  // 6. Comment PATCH proxy that preserves null fields (e.g. isApproved: null when reopening a task)
+  router.patch('/comments/:id', express.json(), async (req, res) => {
+    try {
+      const commentId = req.params.id;
+      const targetBaseUrl = (
+        req.headers['x-target-backend-url'] ||
+        process.env.BACKEND_URL ||
+        process.env.RAPIDER_TEST_API_URL ||
+        'https://dev.api.rappider.com'
+      ).replace(/\/$/, '');
+      const authHeader = req.headers['authorization'] || req.headers['Authorization'] || '';
+
+      const backendRes = await fetch(`${targetBaseUrl}/comments/${encodeURIComponent(commentId)}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(authHeader ? { 'Authorization': authHeader } : {})
+        },
+        body: JSON.stringify(req.body || {})
+      });
+
+      const text = await backendRes.text();
+      res.status(backendRes.status);
+      try {
+        return res.json(text ? JSON.parse(text) : {});
+      } catch {
+        return res.send(text);
+      }
+    } catch (err) {
+      console.error('[ScreenGuides] Comment patch proxy error:', err);
+      return res.status(502).json({ error: 'Comment Patch Proxy Error', message: err.message });
+    }
+  });
+
   return router;
 }
 
