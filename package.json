@@ -6,6 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
+    "guides": "node slideshow-server.js",
+    "start:guides": "node slideshow-server.js",
     "start:crm": "node server.js --app=../rapider-apps/APPS/rapider-app-crm-sys-comprehensive-crm-system",
     "test:crm": "node run-crm-e2e.js",
     "start:expenses": "node server.js --app=../rapider-apps/APPS/rapider-app-re-xps-rapider-expenses",

@@ -1425,6 +1425,30 @@ app.get('/api/config', (req, res) => {
   });
 });
 
+// ==========================================================================
+// TOURXEL SCREEN GUIDES SLIDESHOW HARNESS ROUTES & STATIC MOUNTS
+// (Isolated namespace under /slideshow, /screen-guides, and /api/screen-guides)
+// ==========================================================================
+const { createScreenGuidesRouter, DEFAULT_GUIDES_DIR, DEFAULT_MANUAL_DIR } = require('./screen-guides-router');
+const guidesDirArg = getArg('guides-dir', null);
+const manualDirArg = getArg('manual-dir', null);
+const screenGuidesRouter = createScreenGuidesRouter(guidesDirArg, manualDirArg);
+app.use('/api/screen-guides', screenGuidesRouter);
+
+// Direct slideshow harness routes
+app.get(['/slideshow', '/screen-guides', '/guides'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/slideshow.html'));
+});
+
+// Scoped static paths for screen guide assets (isolated under /screen-guides/*)
+const resolvedGuidesDir = guidesDirArg || process.env.SCREEN_GUIDES_DIR || DEFAULT_GUIDES_DIR;
+if (fs.existsSync(path.join(resolvedGuidesDir, 'images'))) {
+  app.use('/screen-guides/images', express.static(path.join(resolvedGuidesDir, 'images'), { maxAge: '1d' }));
+}
+if (fs.existsSync(path.join(resolvedGuidesDir, 'raw_captures'))) {
+  app.use('/screen-guides/raw_captures', express.static(path.join(resolvedGuidesDir, 'raw_captures'), { maxAge: '1d' }));
+}
+
 // Fallback to index.html for client-side routing
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
@@ -1435,6 +1459,7 @@ app.listen(PORT, () => {
   console.log('================================================================');
   console.log(`🚀 Rappider Application Test Harness is running!`);
   console.log(`📡 URL: http://localhost:${PORT}`);
+  console.log(`🖼️ TourXel Screen Guides Slideshow: http://localhost:${PORT}/slideshow`);
   console.log(`🎯 Default App: ${DEFAULT_APP_DIR}`);
   console.log(`🔗 Target Backend: ${DEFAULT_BACKEND}`);
   console.log('================================================================');
