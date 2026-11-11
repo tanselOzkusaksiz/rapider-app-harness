@@ -287,8 +287,7 @@ app.get('/api/apps', (req, res) => {
               seenFolders.add(entry.name);
               try {
                 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
-                const hasSgManifest = fs.existsSync(path.join(appDir, 'screen-guide.manifest.json')) ||
-                                      fs.existsSync(path.join(appDir, 'documentation', 'screen_guides', 'screen-guide.manifest.json'));
+                const hasSgManifest = fs.existsSync(path.join(appDir, 'screen-guide.manifest.json'));
                 apps.push({
                   id: manifest.id || manifest.applicationDefinitionId || '',
                   applicationDefinitionId: manifest.applicationDefinitionId || manifest.id || '',

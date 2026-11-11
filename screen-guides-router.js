@@ -39,12 +39,8 @@ function discoverLocalAppRepos() {
       if (seenDirs.has(appDir)) continue;
 
       const appManifestPath = path.join(appDir, 'app.manifest.json');
-      const sgManifestCandidates = [
-        path.join(appDir, 'screen-guide.manifest.json'),
-        path.join(appDir, 'documentation', 'screen_guides', 'screen-guide.manifest.json'),
-        path.join(appDir, 'docs', 'screen_guides', 'screen-guide.manifest.json')
-      ];
-      const existingSgManifest = sgManifestCandidates.find(p => fs.existsSync(p)) || null;
+      const rootSgManifest = path.join(appDir, 'screen-guide.manifest.json');
+      const existingSgManifest = fs.existsSync(rootSgManifest) ? rootSgManifest : null;
 
       if (!fs.existsSync(appManifestPath) && !existingSgManifest) {
         continue;
@@ -167,9 +163,7 @@ function loadScreenGuideManifestForApp(appRepo) {
 
   const appDir = appRepo.appDir;
   const candidatePaths = [
-    path.join(appDir, 'screen-guide.manifest.json'),
-    path.join(appDir, 'documentation', 'screen_guides', 'screen-guide.manifest.json'),
-    path.join(appDir, 'docs', 'screen_guides', 'screen-guide.manifest.json')
+    path.join(appDir, 'screen-guide.manifest.json')
   ];
 
   const foundPath = candidatePaths.find(p => fs.existsSync(p));

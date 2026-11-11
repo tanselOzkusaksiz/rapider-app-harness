@@ -1,35 +1,34 @@
 /**
  * slideshow.js
- * Client-side controller for the TourXel Screen Guides Slideshow Harness.
+ * Client-side controller for the Rapider Screen Guide Harness (/screen-guide).
  *
  * Features:
- * - Light theme by default (with Light/Dark theme toggle)
- * - Collapsible left menu with all 53 screens grouped by 9 functional suites + search & module filtering
- * - Center image viewer with top toggle: Annotated Picture (numbered badges) vs Raw Picture + section zoom strips
- * - Interactive pan & zoom (mouse wheel zoom, drag pan, Spacebar hold for quick Raw comparison, fullscreen)
- * - Draggable vertical splitter to resize the right panel dynamically
- * - Right panel with dual mode:
- *     1. Ekran Rehberi (Markdown) — renders the screen guide Markdown (TR / EN)
- *     2. Report & Request (Tasks) — full Rapider UI App Builder clone (Screen Capture only, no bubble pinning)
- *        saving bug reports, feature requests, annotated screenshots, and replies into the current active app.
- * - Full Rapider Authentication & Workspace Selection integration via window.apiClient
+ * - English ('en') and Light theme ('light') by default, with full EN/TR UI & Markdown localization
+ * - Enforces required Rapider Login + Workspace Selection + App Selection
+ * - App-agnostic & Repo-agnostic: reads `<appDir>/screen-guide.manifest.json` for the selected App
+ * - Shows a clear Warning state if `screen-guide.manifest.json` is missing for the selected App
+ * - Collapsible left menu with modules & screens from `screen-guide.manifest.json`
+ * - Center image viewer with Annotated vs Raw toggle, section pills, and interactive pan/zoom
+ * - Draggable vertical splitter & scrollable right panel with Guide Markdown + Report & Request (Tasks)
  */
 
 class ScreenGuidesSlideshowApp {
   constructor() {
+    this.manifest = null;
     this.catalog = [];
     this.modules = [];
     this.currentIndex = 0;
-    this.language = localStorage.getItem('slideshow_lang') || 'tr'; // 'tr' | 'en'
+
+    // Default language = English ('en'), Default theme = Light ('light')
+    this.language = localStorage.getItem('screen_guide_lang') || 'en';
+    this.theme = localStorage.getItem('screen_guide_theme') || 'light';
+
     this.imageMode = 'annotated'; // 'annotated' | 'raw'
     this.activeSectionUrl = null; // null = main image, or section image url
     this.activeModuleFilter = 'ALL';
     this.searchQuery = '';
     this.showRawMarkdown = false;
     this.currentMarkdownRaw = '';
-
-    // Theme state (Light theme is default per user requirement)
-    this.theme = localStorage.getItem('slideshow_theme') || 'light';
 
     // Right panel mode ('guide' | 'tasks')
     this.rightPanelMode = 'guide';
@@ -49,7 +48,9 @@ class ScreenGuidesSlideshowApp {
 
     // Active App & Tasks ("Report & Request") state
     this.availableApps = [];
-    this.activeApp = null; // { id, name, appKey, source: 'workspace' | 'local' }
+    this.localRepoApps = [];
+    this.activeApp = null; // { id, name, appKey, folderName, hasScreenGuideManifest, source }
+    this.manifestFound = false;
     this.appTasks = [];
     this.isLoadingTasks = false;
     this.selectedTaskType = 'ALL'; // 'ALL' | 'Bug' | 'Feature'
@@ -91,23 +92,34 @@ class ScreenGuidesSlideshowApp {
     this.init();
   }
 
+  t(enText, trText) {
+    return this.language === 'tr' ? trText : enText;
+  }
+
   async init() {
+    // Normalize URL path to /screen-guide if opened via legacy /slideshow or /screen-guides
+    if (window.location.pathname === '/slideshow' || window.location.pathname === '/screen-guides') {
+      const targetUrl = `/screen-guide${window.location.search || ''}${window.location.hash || ''}`;
+      history.replaceState(null, '', targetUrl);
+    }
+
     this.cacheDOM();
     this.initTheme();
+    this.updateLanguageUI();
     this.applySavedRightPanelWidth();
     this.bindEvents();
     this.bindTasksEvents();
     this.bindScreenCaptureEvents();
     this.renderTaskFilterStatusCheckboxes();
 
-    // Load catalog first so slideshow is immediately interactive
-    await this.loadCatalog();
-
-    // Initialize Rapider Auth & Workspace connection in parallel
+    // 1. Initialize Rapider Auth & Workspace connection (Required)
     await this.initRapiderAuth();
 
-    // Discover Workspace & Harness Apps and load Tasks for the active app
+    // 2. Discover Workspace & Local Repo Apps and select Active App (Required)
     await this.loadActiveApps();
+
+    // 3. Evaluate required Login + Workspace + App gate and load `screen-guide.manifest.json`
+    await this.checkRequirementsAndLoadManifest();
   }
 
   cacheDOM() {
@@ -121,6 +133,34 @@ class ScreenGuidesSlideshowApp {
       sidebarSearchInput: document.getElementById('sidebar-search-input'),
       sidebarModulePills: document.getElementById('sidebar-module-pills'),
       sidebarNavList: document.getElementById('sidebar-nav-list'),
+
+      // UI Localization elements
+      uiMenuBtnLabel: document.getElementById('ui-menu-btn-label'),
+      brandTitleText: document.getElementById('brand-title-text'),
+      brandSubtitleText: document.getElementById('brand-subtitle-text'),
+      uiPrevBtnLabel: document.getElementById('ui-prev-btn-label'),
+      uiNextBtnLabel: document.getElementById('ui-next-btn-label'),
+      uiConnectBtnLabel: document.getElementById('ui-connect-btn-label'),
+      uiSidebarHeaderTitle: document.getElementById('ui-sidebar-header-title'),
+      uiSidebarFooterHint: document.getElementById('ui-sidebar-footer-hint'),
+      uiModeAnnotatedLabel: document.getElementById('ui-mode-annotated-label'),
+      uiModeRawLabel: document.getElementById('ui-mode-raw-label'),
+      uiImageLoadingText: document.getElementById('ui-image-loading-text'),
+      uiViewerFloatingHint: document.getElementById('ui-viewer-floating-hint'),
+      uiTabGuideLabel: document.getElementById('ui-tab-guide-label'),
+      uiManualBtnLabel: document.getElementById('ui-manual-btn-label'),
+
+      // State Overlays (Gate & Missing Manifest Warning)
+      gateOverlay: document.getElementById('screen-guide-gate-overlay'),
+      gateTitle: document.getElementById('gate-title'),
+      gateSubtitle: document.getElementById('gate-subtitle'),
+      gateStepsContainer: document.getElementById('gate-steps-container'),
+      warningOverlay: document.getElementById('screen-guide-warning-overlay'),
+      warningTitle: document.getElementById('warning-title'),
+      warningSubtitle: document.getElementById('warning-subtitle'),
+      warningDetailsBox: document.getElementById('warning-details-box'),
+      warningSwitchLabel: document.getElementById('warning-switch-label'),
+      warningQuickApps: document.getElementById('warning-quick-apps'),
 
       // Header Navigation
       btnPrev: document.getElementById('btn-prev'),
@@ -298,7 +338,7 @@ class ScreenGuidesSlideshowApp {
 
   applyTheme(theme) {
     this.theme = theme === 'dark' ? 'dark' : 'light';
-    localStorage.setItem('slideshow_theme', this.theme);
+    localStorage.setItem('screen_guide_theme', this.theme);
     if (this.theme === 'dark') {
       document.body.classList.remove('light-theme');
       document.body.classList.add('dark-theme');
@@ -317,7 +357,9 @@ class ScreenGuidesSlideshowApp {
   toggleTheme() {
     this.applyTheme(this.theme === 'light' ? 'dark' : 'light');
     this.showToast(
-      this.theme === 'light' ? 'Açık tema (Light Theme) aktif' : 'Koyu tema (Dark Theme) aktif',
+      this.theme === 'light'
+        ? this.t('Light Theme enabled', 'Açık tema (Light Theme) aktif')
+        : this.t('Dark Theme enabled', 'Koyu tema (Dark Theme) aktif'),
       'info'
     );
   }

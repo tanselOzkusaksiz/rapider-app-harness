@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TourXel Screen Guides Slideshow Harness | Rapider Monorepo</title>
+  <title>Screen Guide | Rapider App Harness</title>
   <link rel="icon" type="image/x-icon" href="/favicon.ico">
   
   <!-- FontAwesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous">
   
   <!-- Stylesheets -->
-  <link rel="stylesheet"
-        href="/css/slideshow.css?v=5">
+  <link rel="stylesheet" href="/css/slideshow.css?v=6">
 </head>
 <body class="light-theme">
 
@@ -21,23 +20,23 @@
   <header id="header-bar">
     <!-- Header Left: Sidebar Toggle, Brand & Back Link -->
     <div class="header-left">
-      <button id="btn-toggle-sidebar" class="btn-sidebar-toggle" title="Menüyü Aç/Kapat (Kısayol: M)">
+      <button id="btn-toggle-sidebar" class="btn-sidebar-toggle" title="Toggle Screen Menu (Shortcut: M)">
         <i class="fas fa-bars"></i>
-        <span>Menü</span>
-        <span class="badge-count" id="sidebar-count-badge">53</span>
+        <span id="ui-menu-btn-label">Menu</span>
+        <span class="badge-count" id="sidebar-count-badge">0</span>
       </button>
 
       <div class="brand-badge">
         <div class="brand-logo-icon">
-          <i class="fas fa-route"></i>
+          <i class="fas fa-book-open"></i>
         </div>
         <div class="brand-title-group">
-          <span class="brand-title">TourXel Screen Guides</span>
-          <span class="brand-subtitle">Ekran & Rehber Görsel Dizini</span>
+          <span id="brand-title-text" class="brand-title">Screen Guide</span>
+          <span id="brand-subtitle-text" class="brand-subtitle">Interactive Visual &amp; Markdown Guide</span>
         </div>
       </div>
 
-      <a href="/" class="btn-nav-link" title="Rapider App Harness Ana Sayfasına Git">
+      <a href="/" class="btn-nav-link" title="Go to Rapider App Harness">
         <i class="fas fa-cubes"></i>
         <span>App Harness</span>
       </a>
@@ -46,23 +45,23 @@
     <!-- Header Center: Prev / Next Navigation & Slide Quick Selector -->
     <div class="header-center">
       <div class="nav-cluster">
-        <button id="btn-prev" class="btn-nav" title="Önceki Ekran (Sol Ok / P)">
+        <button id="btn-prev" class="btn-nav" title="Previous Screen (Left Arrow / P)">
           <i class="fas fa-chevron-left"></i>
-          <span>Önceki</span>
+          <span id="ui-prev-btn-label">Prev</span>
         </button>
 
         <div class="slide-picker-wrapper">
           <div class="slide-number-pill">
             <span id="current-slide-no">--</span>
             <span style="opacity: 0.5;">/</span>
-            <span id="total-slides-count">53</span>
+            <span id="total-slides-count">0</span>
           </div>
 
-          <select id="slide-select" class="slide-select" title="Ekrana Hızlı Geçiş"></select>
+          <select id="slide-select" class="slide-select" title="Jump to Screen"></select>
         </div>
 
-        <button id="btn-next" class="btn-nav" title="Sonraki Ekran (Sağ Ok / N)">
-          <span>Sonraki</span>
+        <button id="btn-next" class="btn-nav" title="Next Screen (Right Arrow / N)">
+          <span id="ui-next-btn-label">Next</span>
           <i class="fas fa-chevron-right"></i>
         </button>
       </div>
@@ -71,17 +70,17 @@
     <!-- Header Right: Report & Request Button, Active App Selector, Language, Theme, Workspace -->
     <div class="header-right">
       <!-- Report & Request Button (Same as Rapider UI App Builder) -->
-      <button id="btn-report-request" class="btn-report-request" title="Report Bug & Request Feature (Tasks Panel)">
+      <button id="btn-report-request" class="btn-report-request" title="Report Bug &amp; Request Feature (Tasks Panel)">
         <i class="fas fa-lightbulb"></i>
         <span>Report &amp; Request</span>
         <span id="header-tasks-count-badge" class="tasks-count-pill">0</span>
       </button>
 
-      <!-- Active Harness App Selector -->
+      <!-- Active Harness App Selector (Required) -->
       <div class="app-selector-wrapper" id="active-app-selector-wrapper">
-        <button id="active-app-badge" class="project-badge app-target-badge" title="Yorumların Kaydedileceği Aktif Uygulama (Active App)">
+        <button id="active-app-badge" class="project-badge app-target-badge" title="Select Active Application">
           <i class="fas fa-cube" style="color: var(--accent-primary); font-size: 11px;"></i>
-          <span id="active-app-name-text">App: Loading...</span>
+          <span id="active-app-name-text">App: Select App</span>
           <i class="fas fa-chevron-down" style="font-size: 9px; opacity: 0.6; margin-left: 2px;"></i>
         </button>
         <div id="active-app-selector-menu" class="app-selector-menu">
@@ -89,22 +88,22 @@
         </div>
       </div>
 
-      <!-- Language Switcher -->
-      <button id="btn-toggle-lang" class="btn-toggle-lang" title="Dili Değiştir (TR / EN) [Kısayol: L]">
-        <span id="lang-flag">🇹🇷</span>
-        <span id="lang-label">TR</span>
+      <!-- Language Switcher (Default: EN) -->
+      <button id="btn-toggle-lang" class="btn-toggle-lang" title="Switch Language (EN / TR) [Shortcut: L]">
+        <span id="lang-flag">🇬🇧</span>
+        <span id="lang-label">EN</span>
       </button>
 
       <!-- Theme Toggle (Light Default / Dark) -->
-      <button id="btn-toggle-theme" class="btn-icon" title="Temayı Değiştir (Açık / Koyu Tema)">
+      <button id="btn-toggle-theme" class="btn-icon" title="Switch Theme (Light / Dark)">
         <i id="theme-icon" class="fas fa-moon"></i>
       </button>
 
-      <!-- Rapider Workspace Selector Dropdown -->
+      <!-- Rapider Workspace Selector Dropdown (Required) -->
       <div class="app-selector-wrapper" id="project-selector-wrapper">
-        <button id="project-badge" class="project-badge" title="Rapider Workspace Seç veya Bağlan">
+        <button id="project-badge" class="project-badge" title="Select Rapider Workspace or Connect">
           <div id="project-status-dot" class="status-dot"></div>
-          <span id="project-name-text">Checking Connection...</span>
+          <span id="project-name-text">Connecting...</span>
           <i class="fas fa-chevron-down" style="font-size: 9px; opacity: 0.6; margin-left: 4px;"></i>
         </button>
         <div id="project-selector-menu" class="app-selector-menu">
@@ -113,8 +112,8 @@
       </div>
 
       <!-- Manual Connect Button (if not authenticated) -->
-      <button id="btn-open-auth" class="btn-primary" style="display: none;" onclick="window.slideshowApp?.openAuthModal()">
-        <i class="fas fa-plug"></i> Connect
+      <button id="btn-open-auth" class="btn-primary" style="display: none; color: #ffffff !important;" onclick="window.slideshowApp?.openAuthModal()">
+        <i class="fas fa-plug"></i> <span id="ui-connect-btn-label">Sign In</span>
       </button>
     </div>
   </header>
@@ -123,6 +122,61 @@
        MAIN APP SHELL (SIDEBAR + CONTENT + SPLITTER + RIGHT PANEL)
        ========================================================================== -->
   <div id="app-shell">
+
+    <!-- ======================================================================
+         STATE OVERLAY 1: REQUIRED CONTEXT GATE (Login + Workspace + App)
+         ====================================================================== -->
+    <div id="screen-guide-gate-overlay" class="sg-state-overlay">
+      <div class="sg-state-card">
+        <div class="sg-state-icon-row">
+          <div class="sg-state-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div>
+            <h2 id="gate-title" class="sg-state-title">Rapider Workspace &amp; App Selection Required</h2>
+            <p id="gate-subtitle" class="sg-state-subtitle">
+              To view Screen Guides and submit Report &amp; Request items, please sign in to Rapider, select a Workspace, and choose an Application.
+            </p>
+          </div>
+        </div>
+
+        <div id="gate-steps-container" class="sg-steps-list">
+          <!-- Populated dynamically by slideshow.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================
+         STATE OVERLAY 2: MISSING `screen-guide.manifest.json` WARNING
+         ====================================================================== -->
+    <div id="screen-guide-warning-overlay" class="sg-state-overlay">
+      <div class="sg-state-card warning-card">
+        <div class="sg-state-icon-row">
+          <div class="sg-state-icon warning">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <div>
+            <h2 id="warning-title" class="sg-state-title">Screen Guide Manifest Not Found</h2>
+            <p id="warning-subtitle" class="sg-state-subtitle">
+              The selected application does not have a <code>screen-guide.manifest.json</code> file in its repository.
+            </p>
+          </div>
+        </div>
+
+        <div id="warning-details-box" class="sg-checked-paths">
+          <!-- Populated dynamically with checked paths -->
+        </div>
+
+        <div>
+          <div id="warning-switch-label" style="font-size: 12px; font-weight: 700; color: var(--text-secondary); margin-bottom: 8px;">
+            Switch to an Application with a Screen Guide Manifest:
+          </div>
+          <div id="warning-quick-apps" class="sg-quick-apps-row">
+            <!-- Populated dynamically with apps that have screen-guide.manifest.json -->
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Backdrop for collapsed sidebar on mobile / overlay -->
     <div id="sidebar-backdrop"></div>
@@ -135,16 +189,16 @@
         <div class="sidebar-title-row">
           <div class="sidebar-title">
             <i class="fas fa-book-open" style="color: var(--accent-primary); margin-right: 6px;"></i>
-            <span>53 Ekran Rehberi</span>
+            <span id="ui-sidebar-header-title">Screen Guides</span>
           </div>
-          <button id="btn-close-sidebar" class="btn-icon" style="width: 28px; height: 28px;" title="Menüyü Kapat">
+          <button id="btn-close-sidebar" class="btn-icon" style="width: 28px; height: 28px;" title="Close Menu">
             <i class="fas fa-times"></i>
           </button>
         </div>
 
         <div class="sidebar-search-box">
           <i class="fas fa-search" style="font-size: 11px; opacity: 0.5;"></i>
-          <input type="text" id="sidebar-search-input" placeholder="No, ekran adı veya rota ara..." />
+          <input type="text" id="sidebar-search-input" placeholder="Search by screen #, title, or route..." />
         </div>
       </div>
 
@@ -156,7 +210,7 @@
 
       <!-- Sidebar Footer -->
       <div class="sidebar-footer">
-        <span>Kısayollar: <strong>←</strong> Önceki • <strong>→</strong> Sonraki</span>
+        <span id="ui-sidebar-footer-hint">Shortcuts: <strong>←</strong> Prev • <strong>→</strong> Next</span>
         <i class="fas fa-keyboard" style="opacity: 0.5;"></i>
       </div>
     </aside>
@@ -169,13 +223,13 @@
       <div class="image-toolbar">
         <!-- Toggle: Annotated vs Raw Picture -->
         <div class="image-mode-toggle">
-          <button id="mode-btn-annotated" class="mode-btn active" title="Numaralı Rehber Görseli (Kısayol: T)">
+          <button id="mode-btn-annotated" class="mode-btn active" title="Numbered Annotated Screen Capture (Shortcut: T)">
             <i class="fas fa-tags"></i>
-            <span>Numaralı Görsel (Annotated)</span>
+            <span id="ui-mode-annotated-label">Annotated View</span>
           </button>
-          <button id="mode-btn-raw" class="mode-btn" title="Orijinal Ham Ekran Görüntüsü (Kısayol: T veya Space basılı tutun)">
+          <button id="mode-btn-raw" class="mode-btn" title="Original Raw Screen Capture (Shortcut: T or Hold Spacebar)">
             <i class="fas fa-image"></i>
-            <span>Ham Görsel (Raw)</span>
+            <span id="ui-mode-raw-label">Raw View</span>
           </button>
         </div>
 
@@ -184,18 +238,18 @@
 
         <!-- Meta Tag & Viewer Controls -->
         <div class="viewer-actions">
-          <span id="image-meta-pill" class="meta-pill">Yükleniyor...</span>
+          <span id="image-meta-pill" class="meta-pill">Loading...</span>
 
-          <button id="btn-zoom-in" class="btn-icon" title="Yakınlaştır (+)">
+          <button id="btn-zoom-in" class="btn-icon" title="Zoom In (+)">
             <i class="fas fa-search-plus"></i>
           </button>
-          <button id="btn-zoom-out" class="btn-icon" title="Uzaklaştır (-)">
+          <button id="btn-zoom-out" class="btn-icon" title="Zoom Out (-)">
             <i class="fas fa-search-minus"></i>
           </button>
-          <button id="btn-zoom-reset" class="btn-icon" title="Sıfırla (100% / Fit)">
+          <button id="btn-zoom-reset" class="btn-icon" title="Reset Zoom (100% / Fit)">
             <i class="fas fa-compress-arrows-alt"></i>
           </button>
-          <button id="btn-fullscreen" class="btn-icon" title="Tam Ekran (F)">
+          <button id="btn-fullscreen" class="btn-icon" title="Fullscreen (F)">
             <i class="fas fa-expand"></i>
           </button>
         </div>
@@ -210,12 +264,12 @@
         <!-- Loading Overlay -->
         <div id="image-loading-overlay" class="image-loading-overlay">
           <div class="spinner"></div>
-          <span style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Görsel yükleniyor...</span>
+          <span id="ui-image-loading-text" style="font-size: 12px; color: var(--text-secondary); font-weight: 500;">Loading screen image...</span>
         </div>
 
         <!-- Floating Hint -->
         <div class="viewer-floating-hint">
-          <span>İpucu: Yakınlaştırmak için fare tekerleğini kullanın • Ham görsel için <strong>Boşluk (Space)</strong> tuşuna basılı tutun</span>
+          <span id="ui-viewer-floating-hint">Tip: Use mouse wheel to zoom • Hold <strong>Spacebar</strong> to peek at Raw view</span>
         </div>
       </div>
     </main>
@@ -223,7 +277,7 @@
     <!-- ======================================================================
          DRAGGABLE SPLITTER
          ====================================================================== -->
-    <div id="splitter" title="Genişliği ayarlamak için sürükleyin / Sıfırlamak için çift tıklayın"></div>
+    <div id="splitter" title="Drag to resize panel / Double-click to reset width"></div>
 
     <!-- ======================================================================
          RIGHT PANEL (MARKDOWN GUIDE VIEW + REPORT & REQUEST TASKS PANEL)
@@ -233,7 +287,7 @@
       <div class="right-panel-mode-tabs">
         <button id="tab-btn-guide" class="panel-mode-tab active" type="button">
           <i class="fas fa-book-open"></i>
-          <span>Ekran Rehberi (Markdown)</span>
+          <span id="ui-tab-guide-label">Screen Guide (Markdown)</span>
         </button>
         <button id="tab-btn-tasks" class="panel-mode-tab" type="button">
           <i class="fas fa-lightbulb"></i>
@@ -254,17 +308,17 @@
           </div>
 
           <div class="panel-header-actions">
-            <button id="btn-view-manual" class="btn-nav-link" title="TourXel El Kitabı İlgili Bölümü Aç">
+            <button id="btn-view-manual" class="btn-nav-link" title="Open Reference Manual Chapter">
               <i class="fas fa-book-reader"></i>
-              <span>El Kitabı</span>
+              <span id="ui-manual-btn-label">Reference Manual</span>
             </button>
 
-            <button id="btn-toggle-raw-md" class="btn-icon" style="width: auto; padding: 4px 10px; font-size: 11px;" title="Ham Markdown Görünümüne Geç">
+            <button id="btn-toggle-raw-md" class="btn-icon" style="width: auto; padding: 4px 10px; font-size: 11px;" title="Toggle Raw Markdown Source">
               <i class="fas fa-code"></i>
               <span style="margin-left: 4px;">Raw</span>
             </button>
 
-            <button id="btn-copy-md" class="btn-icon" title="Markdown İçeriğini Kopyala">
+            <button id="btn-copy-md" class="btn-icon" title="Copy Markdown Content">
               <i class="fas fa-copy"></i>
             </button>
           </div>
@@ -586,7 +640,7 @@
           </p>
           <div class="capture-context-badges">
             <span id="capture-target-app-badge" class="capture-context-pill"><i class="fas fa-cube"></i> App</span>
-            <span id="capture-target-page-badge" class="capture-context-pill"><i class="fas fa-file-alt"></i> Slide #22</span>
+            <span id="capture-target-page-badge" class="capture-context-pill"><i class="fas fa-file-alt"></i> Slide #01</span>
           </div>
         </div>
 
@@ -692,7 +746,7 @@
       <div class="modal-header">
         <div class="modal-title">
           <i class="fas fa-lock" style="color: var(--accent-primary);"></i>
-          <span>Rapider Backend Giriş &amp; Workspace Seçimi</span>
+          <span id="ui-auth-modal-title">Rapider Sign In &amp; Workspace Selection</span>
         </div>
         <button id="auth-close-btn" class="btn-icon" style="width:28px; height:28px;"><i class="fas fa-times"></i></button>
       </div>
@@ -701,22 +755,22 @@
         <form id="auth-login-form">
           <div class="form-group">
             <label for="auth-backend-url">Backend Server URL</label>
-            <input type="text" id="auth-backend-url" class="form-control" value="" placeholder="Boş bırakılırsa varsayılan sunucu kullanılır">
+            <input type="text" id="auth-backend-url" class="form-control" value="" placeholder="Leave empty for default Rapider server">
           </div>
           <div class="form-group">
-            <label for="auth-project-id">Hedef Workspace / Project ID</label>
-            <input type="text" id="auth-project-id" class="form-control" placeholder="Opsiyonel - ilk aktif workspace seçilir">
+            <label for="auth-project-id">Target Workspace / Project ID</label>
+            <input type="text" id="auth-project-id" class="form-control" placeholder="Optional - selects first active workspace if empty">
           </div>
           <div class="form-group">
-            <label for="auth-username">Kullanıcı Adı / E-Posta</label>
+            <label for="auth-username">Email / Username</label>
             <input type="text" id="auth-username" class="form-control" placeholder="developer@rapider.ai" required>
           </div>
           <div class="form-group">
-            <label for="auth-password">Şifre</label>
+            <label for="auth-password">Password</label>
             <input type="password" id="auth-password" class="form-control" placeholder="••••••••" required>
           </div>
           <button type="submit" id="btn-submit-login" class="btn-primary" style="width: 100%; justify-content: center; padding: 10px; margin-top: 6px; color: #ffffff !important;">
-            Giriş Yap &amp; Bağlan
+            Sign In &amp; Connect
           </button>
         </form>
       </div>
@@ -729,7 +783,7 @@
       <div class="modal-header">
         <div id="manual-modal-title" class="modal-title">
           <i class="fas fa-book-open" style="color: var(--accent-primary);"></i>
-          <span>TourXel Resmi El Kitabı</span>
+          <span>Official Reference Manual</span>
         </div>
         <button id="manual-modal-close-btn" class="btn-icon" style="width:28px; height:28px;"><i class="fas fa-times"></i></button>
       </div>
@@ -741,8 +795,8 @@
   <div id="toast-container"></div>
 
   <!-- Client Application Scripts -->
-  <script src="/js/marked.min.js?v=5"></script>
-  <script src="/js/api-client.js?v=5"></script>
-  <script src="/js/slideshow.js?v=5"></script>
+  <script src="/js/marked.min.js?v=6"></script>
+  <script src="/js/api-client.js?v=6"></script>
+  <script src="/js/slideshow.js?v=6"></script>
 </body>
 </html>
