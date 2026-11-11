@@ -1243,6 +1243,16 @@ class ScreenGuidesSlideshowApp {
   // RAPIDER AUTHENTICATION & WORKSPACE SELECTION
   // ==========================================================================
 
+  getApiHeaders() {
+    const api = window.apiClient;
+    const headers = { 'Content-Type': 'application/json' };
+    if (api) {
+      if (api.token) headers['Authorization'] = api.token;
+      if (api.backendUrl) headers['x-target-backend-url'] = api.backendUrl;
+    }
+    return headers;
+  }
+
   async initRapiderAuth() {
     const api = window.apiClient;
     if (!api) return;
@@ -1250,11 +1260,11 @@ class ScreenGuidesSlideshowApp {
     this.updateProjectStatusUI('connecting', 'Workspace Bağlanıyor...');
 
     try {
-      const envRes = await fetch('/api/env-config');
+      const envRes = await fetch('/api/config');
       const envConfig = envRes.ok ? await envRes.json() : {};
 
-      if (envConfig.BACKEND_URL && !localStorage.getItem('rapider_backend_url')) {
-        api.setBackendUrl(envConfig.BACKEND_URL);
+      if (envConfig.BACKEND_URL && !api.backendUrl) {
+        api.backendUrl = envConfig.BACKEND_URL.replace(/\/$/, '');
       }
       if (this.dom.authBackendUrl) {
         this.dom.authBackendUrl.value = api.backendUrl || envConfig.BACKEND_URL || '';
@@ -1262,18 +1272,18 @@ class ScreenGuidesSlideshowApp {
 
       if (api.isAuthenticated()) {
         try {
-          await api.fetchProjects();
+          await api.fetchUserProjects();
           if (!api.projectId && envConfig.HARNESS_TEST_PROJECT_ID) {
-            api.setProject(envConfig.HARNESS_TEST_PROJECT_ID);
+            await api.changeActiveProject(envConfig.HARNESS_TEST_PROJECT_ID);
           } else if (!api.projectId && api.projects.length > 0) {
-            api.setProject(api.projects[0].id || api.projects[0]._id);
+            await api.changeActiveProject(api.projects[0].id || api.projects[0]._id);
           }
           const activeProj = api.projects.find((p) => (p.id || p._id) === api.projectId);
-          this.updateProjectStatusUI('connected', activeProj ? activeProj.name : `Workspace (${String(api.projectId).slice(0, 8)})`);
+          this.updateProjectStatusUI('connected', activeProj ? `Workspace: ${activeProj.name}` : `Workspace (${String(api.projectId).slice(0, 8)})`);
           this.renderProjectSelectorMenu();
           return;
         } catch {
-          api.logout();
+          api.clearSession();
         }
       }
 
@@ -1283,16 +1293,15 @@ class ScreenGuidesSlideshowApp {
           this.dom.authProjectId.value = envConfig.HARNESS_TEST_PROJECT_ID;
         }
 
-        await api.login(envConfig.HARNESS_TEST_EMAIL, envConfig.HARNESS_TEST_PASSWORD);
-        await api.fetchProjects();
+        await api.login(envConfig.HARNESS_TEST_EMAIL, envConfig.HARNESS_TEST_PASSWORD, api.backendUrl || envConfig.BACKEND_URL || '');
 
-        const targetProjId = envConfig.HARNESS_TEST_PROJECT_ID || (api.projects[0] && (api.projects[0].id || api.projects[0]._id));
-        if (targetProjId) {
-          api.setProject(targetProjId);
+        const targetProjId = envConfig.HARNESS_TEST_PROJECT_ID || api.projectId || (api.projects[0] && (api.projects[0].id || api.projects[0]._id));
+        if (targetProjId && targetProjId !== api.projectId) {
+          await api.changeActiveProject(targetProjId);
         }
 
         const activeProj = api.projects.find((p) => (p.id || p._id) === api.projectId);
-        this.updateProjectStatusUI('connected', activeProj ? activeProj.name : 'Connected Workspace');
+        this.updateProjectStatusUI('connected', activeProj ? `Workspace: ${activeProj.name}` : 'Connected Workspace');
         this.renderProjectSelectorMenu();
       } else {
         this.updateProjectStatusUI('disconnected', 'Giriş Yapılmadı (Connect)');
@@ -1362,9 +1371,9 @@ class ScreenGuidesSlideshowApp {
       item.addEventListener('click', async () => {
         const pid = item.getAttribute('data-project-id');
         if (!pid) return;
-        api.setProject(pid);
+        await api.changeActiveProject(pid);
         const selected = projects.find((p) => (p.id || p._id) === pid);
-        this.updateProjectStatusUI('connected', selected ? selected.name : pid);
+        this.updateProjectStatusUI('connected', selected ? `Workspace: ${selected.name}` : pid);
         this.renderProjectSelectorMenu();
         this.dom.projectMenu.classList.remove('open');
         this.showToast(`Aktif Workspace: ${selected ? selected.name : pid}`, 'success');
@@ -1403,7 +1412,7 @@ class ScreenGuidesSlideshowApp {
     if (!username || !password) return;
 
     if (backendUrl) {
-      api.setBackendUrl(backendUrl);
+      api.backendUrl = backendUrl.replace(/\/$/, '');
     }
 
     if (this.dom.btnSubmitLogin) {
@@ -1412,17 +1421,14 @@ class ScreenGuidesSlideshowApp {
     }
 
     try {
-      await api.login(username, password);
-      await api.fetchProjects();
+      await api.login(username, password, api.backendUrl);
 
-      if (targetProjectId) {
-        api.setProject(targetProjectId);
-      } else if (api.projects.length > 0) {
-        api.setProject(api.projects[0].id || api.projects[0]._id);
+      if (targetProjectId && targetProjectId !== api.projectId) {
+        await api.changeActiveProject(targetProjectId);
       }
 
       const activeProj = api.projects.find((p) => (p.id || p._id) === api.projectId);
-      this.updateProjectStatusUI('connected', activeProj ? activeProj.name : `Workspace (${String(api.projectId || '').slice(0, 8)})`);
+      this.updateProjectStatusUI('connected', activeProj ? `Workspace: ${activeProj.name}` : `Workspace (${String(api.projectId || '').slice(0, 8)})`);
       this.renderProjectSelectorMenu();
       this.closeAuthModal();
       this.showToast('Rapider sunucusuna başarıyla giriş yapıldı!', 'success');
@@ -1461,7 +1467,7 @@ class ScreenGuidesSlideshowApp {
         };
         const filterParam = encodeURIComponent(JSON.stringify(filterObj));
         const res = await fetch(`/api/proxy/definitions?filter=${filterParam}`, {
-          headers: api.getHeaders()
+          headers: this.getApiHeaders()
         });
         if (res.ok) {
           const defs = await res.json();
@@ -2007,7 +2013,7 @@ class ScreenGuidesSlideshowApp {
         };
         const filterParam = encodeURIComponent(JSON.stringify(filterObj));
         const res = await fetch(`/api/proxy/comments?filter=${filterParam}`, {
-          headers: api.getHeaders()
+          headers: this.getApiHeaders()
         });
         if (res.ok) {
           const comments = await res.json();
@@ -2209,9 +2215,9 @@ class ScreenGuidesSlideshowApp {
           ${
             task.screenshotUrl
               ? `
-                <div class="task-card-screenshot" onclick="event.stopPropagation();" data-preview-url="${this.escapeHtml(task.screenshotUrl)}">
+                <div class="task-card-screenshot">
                   <img src="${this.escapeHtml(task.screenshotUrl)}" alt="Annotated Capture" loading="lazy" />
-                  <span class="screenshot-zoom-badge"><i class="fas fa-search-plus"></i> View Capture</span>
+                  <span class="screenshot-zoom-badge" data-preview-url="${this.escapeHtml(task.screenshotUrl)}"><i class="fas fa-search-plus"></i> View Capture</span>
                 </div>
               `
               : ''
@@ -2515,7 +2521,7 @@ class ScreenGuidesSlideshowApp {
       try {
         const res = await fetch(`/api/screen-guides/comments/${encodeURIComponent(task.id)}`, {
           method: 'PATCH',
-          headers: api.getHeaders(),
+          headers: this.getApiHeaders(),
           body: JSON.stringify({ isApproved: approvedState, status: newStatus })
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -2548,7 +2554,7 @@ class ScreenGuidesSlideshowApp {
       try {
         const res = await fetch(`/api/screen-guides/comments/${encodeURIComponent(task.id)}`, {
           method: 'PATCH',
-          headers: api.getHeaders(),
+          headers: this.getApiHeaders(),
           body: JSON.stringify({ status: newStatus })
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -2591,7 +2597,7 @@ class ScreenGuidesSlideshowApp {
       try {
         await fetch(`/api/screen-guides/comments/${encodeURIComponent(task.id)}`, {
           method: 'PATCH',
-          headers: api.getHeaders(),
+          headers: this.getApiHeaders(),
           body: JSON.stringify({ content: updatedContent, metadata: updatedMetadata })
         });
       } catch (err) {
@@ -2635,7 +2641,7 @@ class ScreenGuidesSlideshowApp {
       try {
         await fetch(`/api/proxy/comments/${encodeURIComponent(task.id)}`, {
           method: 'DELETE',
-          headers: api.getHeaders()
+          headers: this.getApiHeaders()
         });
       } catch (err) {
         console.warn('[Slideshow] Backend delete warning:', err);
@@ -2710,7 +2716,7 @@ class ScreenGuidesSlideshowApp {
         try {
           const res = await fetch(`/api/proxy/comments/reply/${encodeURIComponent(task.id)}`, {
             method: 'POST',
-            headers: api.getHeaders(),
+            headers: this.getApiHeaders(),
             body: JSON.stringify({ content: finalContent })
           });
           if (res.ok) {
@@ -3187,24 +3193,28 @@ class ScreenGuidesSlideshowApp {
   }
 
   async uploadAnnotatedCapture(dataUrl) {
-    const api = window.apiClient;
-    const headers = api ? api.getHeaders() : { 'Content-Type': 'application/json' };
+    try {
+      const api = window.apiClient;
+      const headers = this.getApiHeaders();
 
-    const res = await fetch('/api/screen-guides/upload-capture', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        dataUrl,
-        appId: this.activeApp?.id || 'tourxel',
-        projectId: api?.projectId || ''
-      })
-    });
+      const res = await fetch('/api/screen-guides/upload-capture', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          dataUrl,
+          appId: this.activeApp?.id || 'tourxel',
+          projectId: api?.projectId || ''
+        })
+      });
 
-    if (!res.ok) {
-      throw new Error(`Upload failed (${res.status})`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.publicUrl) return data.publicUrl;
+      }
+    } catch (err) {
+      console.warn('[Slideshow] Upload capture fallback to inline dataUrl:', err);
     }
-    const data = await res.json();
-    return data.publicUrl;
+    return dataUrl;
   }
 
   async saveCaptureTaskOrReply() {
@@ -3295,7 +3305,7 @@ class ScreenGuidesSlideshowApp {
 
           const res = await fetch('/api/proxy/comments', {
             method: 'POST',
-            headers: api.getHeaders(),
+            headers: this.getApiHeaders(),
             body: JSON.stringify(payload)
           });
 

@@ -287,14 +287,21 @@ app.get('/api/apps', (req, res) => {
               seenFolders.add(entry.name);
               try {
                 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+                const hasSgManifest = fs.existsSync(path.join(appDir, 'screen-guide.manifest.json')) ||
+                                      fs.existsSync(path.join(appDir, 'documentation', 'screen_guides', 'screen-guide.manifest.json'));
                 apps.push({
+                  id: manifest.id || manifest.applicationDefinitionId || '',
+                  applicationDefinitionId: manifest.applicationDefinitionId || manifest.id || '',
                   folderName: entry.name,
                   absolutePath: appDir,
                   name: manifest.name || entry.name,
                   key: manifest.key || entry.name,
+                  domainKey: manifest.domainKey || '',
                   description: manifest.description || '',
                   iconUrl: manifest.iconUrl || manifest.icon || 'fas fa-cubes',
                   tags: manifest.tags || [],
+                  githubRepo: manifest.githubRepo || null,
+                  hasScreenGuideManifest: hasSgManifest,
                   webPagesCount: (manifest.webPages || manifest.uiPageImplementationPlan || manifest.pages || []).length
                 });
               } catch (err) {
@@ -1426,28 +1433,28 @@ app.get('/api/config', (req, res) => {
 });
 
 // ==========================================================================
-// TOURXEL SCREEN GUIDES SLIDESHOW HARNESS ROUTES & STATIC MOUNTS
-// (Isolated namespace under /slideshow, /screen-guides, and /api/screen-guides)
+// SCREEN GUIDE HARNESS ROUTES & STATIC MOUNTS
+// (Primary route: /screen-guide, API: /api/screen-guide & /api/screen-guides)
 // ==========================================================================
 const { createScreenGuidesRouter, DEFAULT_GUIDES_DIR, DEFAULT_MANUAL_DIR } = require('./screen-guides-router');
 const guidesDirArg = getArg('guides-dir', null);
 const manualDirArg = getArg('manual-dir', null);
 const screenGuidesRouter = createScreenGuidesRouter(guidesDirArg, manualDirArg);
-app.use('/api/screen-guides', screenGuidesRouter);
+app.use(['/api/screen-guide', '/api/screen-guides'], screenGuidesRouter);
 
-// Direct slideshow harness routes
-app.get(['/slideshow', '/screen-guides', '/guides'], (req, res) => {
+// Screen Guide harness routes (/screen-guide is canonical; /slideshow and /screen-guides supported)
+app.get(['/screen-guide', '/slideshow', '/screen-guides', '/guides'], (req, res) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.sendFile(path.join(__dirname, 'public/slideshow.html'));
 });
 
-// Scoped static paths for screen guide assets (isolated under /screen-guides/*)
+// Scoped static paths for screen guide assets
 const resolvedGuidesDir = guidesDirArg || process.env.SCREEN_GUIDES_DIR || DEFAULT_GUIDES_DIR;
 if (fs.existsSync(path.join(resolvedGuidesDir, 'images'))) {
-  app.use('/screen-guides/images', express.static(path.join(resolvedGuidesDir, 'images'), { maxAge: '1d' }));
+  app.use(['/screen-guide/images', '/screen-guides/images'], express.static(path.join(resolvedGuidesDir, 'images'), { maxAge: '1h' }));
 }
 if (fs.existsSync(path.join(resolvedGuidesDir, 'raw_captures'))) {
-  app.use('/screen-guides/raw_captures', express.static(path.join(resolvedGuidesDir, 'raw_captures'), { maxAge: '1d' }));
+  app.use(['/screen-guide/raw_captures', '/screen-guides/raw_captures'], express.static(path.join(resolvedGuidesDir, 'raw_captures'), { maxAge: '1h' }));
 }
 
 // Fallback to index.html for client-side routing
@@ -1460,7 +1467,7 @@ app.listen(PORT, () => {
   console.log('================================================================');
   console.log(`🚀 Rappider Application Test Harness is running!`);
   console.log(`📡 URL: http://localhost:${PORT}`);
-  console.log(`🖼️ TourXel Screen Guides Slideshow: http://localhost:${PORT}/slideshow`);
+  console.log(`🖼️ Screen Guide Harness: http://localhost:${PORT}/screen-guide`);
   console.log(`🎯 Default App: ${DEFAULT_APP_DIR}`);
   console.log(`🔗 Target Backend: ${DEFAULT_BACKEND}`);
   console.log('================================================================');

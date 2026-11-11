@@ -14,6 +14,13 @@ async function runVerification() {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
 
+  page.on('pageerror', (err) => console.error('  [Browser PageError]:', err.message));
+  page.on('console', (msg) => {
+    if (msg.type() === 'error' || msg.type() === 'warning') {
+      console.log(`  [Browser ${msg.type()}]:`, msg.text());
+    }
+  });
+
   const baseUrl = 'http://localhost:3300/slideshow';
   console.log(`🌐 Navigating to: ${baseUrl}#/22`);
 
