@@ -1496,16 +1496,15 @@ class ScreenGuidesSlideshowApp {
     const api = window.apiClient;
     const apps = [];
 
-    // 1. Fetch Workspace App Definitions from Rapider Backend if authenticated
-    if (api && api.isAuthenticated() && api.projectId) {
+    // 1. Fetch App Definitions globally across Rapider if authenticated (not scoped by workspace)
+    if (api && api.isAuthenticated()) {
       try {
         const filterObj = {
           where: {
-            and: [
-              { projectId: api.projectId },
-              { definitionType: 'App' }
-            ]
-          }
+            or: [{ type: 'App' }, { definitionType: 'App' }]
+          },
+          limit: 200,
+          order: ['updatedDate DESC']
         };
         const filterParam = encodeURIComponent(JSON.stringify(filterObj));
         const res = await fetch(`/api/proxy/definitions?filter=${filterParam}`, {
@@ -1521,7 +1520,7 @@ class ScreenGuidesSlideshowApp {
               apps.push({
                 id,
                 name,
-                appKey: d.key || d.slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+                appKey: d.key || d.slug || d.value?.key || d.value?.route || name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
                 source: 'workspace',
                 projectId: d.projectId || api.projectId
               });
@@ -1529,7 +1528,7 @@ class ScreenGuidesSlideshowApp {
           }
         }
       } catch (err) {
-        console.warn('[Slideshow] Could not fetch workspace App definitions:', err);
+        console.warn('[Slideshow] Could not fetch App definitions:', err);
       }
     }
 
@@ -2028,6 +2027,17 @@ class ScreenGuidesSlideshowApp {
     };
   }
 
+  getRelatedAppIds() {
+    const ids = new Set();
+    if (this.activeApp) {
+      if (this.activeApp.id) ids.add(this.activeApp.id);
+      if (this.activeApp.appKey) ids.add(this.activeApp.appKey);
+      if (this.activeApp.key) ids.add(this.activeApp.key);
+      if (this.activeApp.route) ids.add(this.activeApp.route);
+    }
+    return Array.from(ids).filter(Boolean);
+  }
+
   async fetchAppTasks(showSpinner = false) {
     const api = window.apiClient;
     const targetAppId = this.activeApp?.id;
@@ -2039,14 +2049,18 @@ class ScreenGuidesSlideshowApp {
     }
 
     let backendTasks = [];
-    if (api && api.isAuthenticated() && api.projectId) {
+    let fetchedFromBackend = false;
+    if (api && api.isAuthenticated()) {
       try {
+        const relatedAppIds = this.getRelatedAppIds();
         const filterObj = {
           where: {
             and: [
-              { projectId: api.projectId },
               { relatedEntityName: 'App' },
-              { relatedEntityId: targetAppId },
+              {
+                relatedEntityId:
+                  relatedAppIds.length === 1 ? relatedAppIds[0] : { inq: relatedAppIds }
+              },
               { or: [{ isDeleted: false }, { isDeleted: null }] }
             ]
           },
@@ -2060,6 +2074,7 @@ class ScreenGuidesSlideshowApp {
         if (res.ok) {
           const comments = await res.json();
           if (Array.isArray(comments)) {
+            fetchedFromBackend = true;
             const topLevel = comments.filter((c) => !c.parentCommentId && c.isDeleted !== true);
             backendTasks = topLevel.map((c) => this.mapCommentToTask(c));
           }
@@ -2069,25 +2084,20 @@ class ScreenGuidesSlideshowApp {
       }
     }
 
-    // Merge with any locally stored tasks for this app (that aren't already in backendTasks)
-    const localTasks = this.loadLocalBackupTasks(targetAppId).map((t) => ({
-      ...t,
-      createdDate: t.createdDate ? new Date(t.createdDate) : new Date()
-    }));
-
-    const mergedMap = new Map();
-    for (const bt of backendTasks) {
-      mergedMap.set(bt.id, bt);
+    if (fetchedFromBackend) {
+      this.appTasks = backendTasks.sort(
+        (a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+      );
+    } else {
+      // Offline / unauthenticated fallback only: load local backup tasks
+      const localTasks = this.loadLocalBackupTasks(targetAppId).map((t) => ({
+        ...t,
+        createdDate: t.createdDate ? new Date(t.createdDate) : new Date()
+      }));
+      this.appTasks = localTasks.sort(
+        (a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
+      );
     }
-    for (const lt of localTasks) {
-      if (!mergedMap.has(lt.id)) {
-        mergedMap.set(lt.id, lt);
-      }
-    }
-
-    this.appTasks = Array.from(mergedMap.values()).sort(
-      (a, b) => new Date(b.createdDate).getTime() - new Date(a.createdDate).getTime()
-    );
 
     this.isLoadingTasks = false;
     if (this.dom.refreshTasksIcon) {
@@ -3333,13 +3343,12 @@ class ScreenGuidesSlideshowApp {
       let createdTask = null;
       const api = window.apiClient;
 
-      if (api && api.isAuthenticated() && api.projectId) {
+      if (api && api.isAuthenticated()) {
         try {
           const payload = {
             content: `${title}\n\n${fullDescription}`,
             category: categoryLabel,
             status: 'Open',
-            projectId: api.projectId,
             relatedEntityName: 'App',
             relatedEntityId: targetAppId,
             metadata
