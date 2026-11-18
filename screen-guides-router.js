@@ -15,13 +15,62 @@ const DEFAULT_GUIDES_DIR = path.join(DEFAULT_TOURXEL_REPO, 'documentation', 'scr
 const DEFAULT_MANUAL_DIR = path.join(DEFAULT_TOURXEL_REPO, 'documentation', 'reference_manual');
 
 /**
- * Scan ../rapider-apps/APPS and ../rapider-apps for all local application repositories
+ * Scan explicit priority directories (from `--app` / `--manifest`) first, then
+ * `../rapider-apps/APPS` and `../rapider-apps`, for local application repositories.
  */
-function discoverLocalAppRepos() {
+function discoverLocalAppRepos(extraAppDirs = []) {
   const repos = [];
-  const baseDirs = [path.join(RAPIDER_APPS_ROOT, 'APPS'), RAPIDER_APPS_ROOT];
   const seenDirs = new Set();
 
+  const inspectAppDir = (appDir, fallbackFolderName) => {
+    if (!appDir) return;
+    const resolvedDir = path.resolve(appDir);
+    if (seenDirs.has(resolvedDir) || !fs.existsSync(resolvedDir)) return;
+
+    const appManifestPath = path.join(resolvedDir, 'app.manifest.json');
+    const rootSgManifest = path.join(resolvedDir, 'screen-guide.manifest.json');
+    const existingSgManifest = fs.existsSync(rootSgManifest) ? rootSgManifest : null;
+
+    if (!fs.existsSync(appManifestPath) && !existingSgManifest) {
+      return;
+    }
+
+    seenDirs.add(resolvedDir);
+    let appManifest = {};
+    if (fs.existsSync(appManifestPath)) {
+      try {
+        appManifest = JSON.parse(fs.readFileSync(appManifestPath, 'utf8'));
+      } catch (_) {}
+    }
+
+    let sgManifest = {};
+    if (existingSgManifest) {
+      try {
+        sgManifest = JSON.parse(fs.readFileSync(existingSgManifest, 'utf8'));
+      } catch (_) {}
+    }
+
+    const folderName = fallbackFolderName || path.basename(resolvedDir);
+    repos.push({
+      folderName,
+      appDir: resolvedDir,
+      appId: appManifest.id || appManifest.applicationDefinitionId || sgManifest.appId || sgManifest.applicationDefinitionId || '',
+      applicationDefinitionId: appManifest.applicationDefinitionId || appManifest.id || sgManifest.applicationDefinitionId || sgManifest.appId || '',
+      key: appManifest.key || sgManifest.appKey || folderName,
+      domainKey: appManifest.domainKey || sgManifest.appKey || '',
+      name: appManifest.name || sgManifest.appName || folderName,
+      description: appManifest.description || '',
+      githubRepo: appManifest.githubRepo || null,
+      hasScreenGuideManifest: Boolean(existingSgManifest),
+      screenGuideManifestPath: existingSgManifest
+    });
+  };
+
+  for (const extraDir of extraAppDirs) {
+    if (extraDir) inspectAppDir(extraDir);
+  }
+
+  const baseDirs = [path.join(RAPIDER_APPS_ROOT, 'APPS'), RAPIDER_APPS_ROOT];
   for (const baseDir of baseDirs) {
     if (!fs.existsSync(baseDir)) continue;
     let entries = [];
@@ -35,38 +84,7 @@ function discoverLocalAppRepos() {
       if (!entry.isDirectory() || entry.name.startsWith('.') || entry.name === 'APPS' || entry.name === 'node_modules') {
         continue;
       }
-      const appDir = path.join(baseDir, entry.name);
-      if (seenDirs.has(appDir)) continue;
-
-      const appManifestPath = path.join(appDir, 'app.manifest.json');
-      const rootSgManifest = path.join(appDir, 'screen-guide.manifest.json');
-      const existingSgManifest = fs.existsSync(rootSgManifest) ? rootSgManifest : null;
-
-      if (!fs.existsSync(appManifestPath) && !existingSgManifest) {
-        continue;
-      }
-
-      seenDirs.add(appDir);
-      let appManifest = {};
-      if (fs.existsSync(appManifestPath)) {
-        try {
-          appManifest = JSON.parse(fs.readFileSync(appManifestPath, 'utf8'));
-        } catch (_) {}
-      }
-
-      repos.push({
-        folderName: entry.name,
-        appDir,
-        appId: appManifest.id || appManifest.applicationDefinitionId || '',
-        applicationDefinitionId: appManifest.applicationDefinitionId || appManifest.id || '',
-        key: appManifest.key || entry.name,
-        domainKey: appManifest.domainKey || '',
-        name: appManifest.name || entry.name,
-        description: appManifest.description || '',
-        githubRepo: appManifest.githubRepo || null,
-        hasScreenGuideManifest: Boolean(existingSgManifest),
-        screenGuideManifestPath: existingSgManifest
-      });
+      inspectAppDir(path.join(baseDir, entry.name), entry.name);
     }
   }
 
@@ -77,8 +95,8 @@ function discoverLocalAppRepos() {
  * Resolve a requested application (by appId, appKey, appName, folderName, or repoUrl)
  * to its local repository folder.
  */
-function resolveAppRepo(query = {}) {
-  const repos = discoverLocalAppRepos();
+function resolveAppRepo(query = {}, extraAppDirs = []) {
+  const repos = discoverLocalAppRepos(extraAppDirs);
   const rawId = String(query.appId || query.applicationDefinitionId || '').trim().toLowerCase();
   const rawKey = String(query.appKey || query.key || '').trim().toLowerCase();
   const rawName = String(query.appName || query.name || '').trim().toLowerCase();
@@ -343,12 +361,35 @@ function resolveSafeAppFile(appDir, relOrFile, fallbackDirs = []) {
   return null;
 }
 
-function createScreenGuidesRouter(customGuidesDir, customManualDir) {
+function createScreenGuidesRouter(customGuidesDir, customManualDir, options = {}) {
   const router = express.Router();
-  const fallbackGuidesDir = customGuidesDir || process.env.SCREEN_GUIDES_DIR || DEFAULT_GUIDES_DIR;
-  const fallbackManualDir = customManualDir || process.env.MANUAL_DIR || DEFAULT_MANUAL_DIR;
+  const rawManifestOption = options.manifestPath || process.env.SCREEN_GUIDE_MANIFEST || '';
+  const resolvedManifestPath = rawManifestOption ? path.resolve(rawManifestOption) : '';
+  const manifestParentDir =
+    resolvedManifestPath && fs.existsSync(resolvedManifestPath)
+      ? path.dirname(resolvedManifestPath)
+      : '';
+  const rawAppDirOption = options.defaultAppDir || process.env.SCREEN_GUIDE_APP_DIR || '';
+  const priorityAppDir = manifestParentDir || (rawAppDirOption && fs.existsSync(path.resolve(rawAppDirOption)) ? path.resolve(rawAppDirOption) : '');
+  const extraAppDirs = [priorityAppDir].filter(Boolean);
+
+  const fallbackGuidesDir =
+    customGuidesDir ||
+    process.env.SCREEN_GUIDES_DIR ||
+    (priorityAppDir && fs.existsSync(path.join(priorityAppDir, 'documentation', 'screen_guides'))
+      ? path.join(priorityAppDir, 'documentation', 'screen_guides')
+      : DEFAULT_GUIDES_DIR);
+  const fallbackManualDir =
+    customManualDir ||
+    process.env.MANUAL_DIR ||
+    (priorityAppDir && fs.existsSync(path.join(priorityAppDir, 'documentation', 'reference_manual'))
+      ? path.join(priorityAppDir, 'documentation', 'reference_manual')
+      : DEFAULT_MANUAL_DIR);
 
   console.log(`[ScreenGuide] Initializing app-agnostic Screen Guide router:`);
+  if (priorityAppDir) {
+    console.log(`  Priority App Repo (--app / --manifest): ${priorityAppDir}`);
+  }
   console.log(`  Default TourXel Repo: ${DEFAULT_TOURXEL_REPO}`);
 
   /**
@@ -365,10 +406,16 @@ function createScreenGuidesRouter(customGuidesDir, customManualDir) {
     };
     const hasExplicitFilter = Boolean(query.appId || query.appKey || query.appName || query.folderName || query.appPath || query.repoUrl);
     if (hasExplicitFilter) {
-      return resolveAppRepo(query);
+      return resolveAppRepo(query, extraAppDirs);
     }
     if (allowFallbackToTourXel) {
-      return resolveAppRepo({ appKey: 'tourxel', folderName: 'TourXel' });
+      if (priorityAppDir) {
+        const priorityRepo = resolveAppRepo({ appPath: priorityAppDir }, extraAppDirs);
+        if (priorityRepo && priorityRepo.hasScreenGuideManifest) {
+          return priorityRepo;
+        }
+      }
+      return resolveAppRepo({ appKey: 'tourxel', folderName: 'TourXel' }, extraAppDirs);
     }
     return null;
   }
@@ -376,7 +423,7 @@ function createScreenGuidesRouter(customGuidesDir, customManualDir) {
   // 0. List local app repositories and whether they have a `screen-guide.manifest.json`
   router.get('/apps', (req, res) => {
     try {
-      const repos = discoverLocalAppRepos();
+      const repos = discoverLocalAppRepos(extraAppDirs);
       res.json({ apps: repos });
     } catch (err) {
       res.status(500).json({ error: 'Failed to scan local app repositories', message: err.message });

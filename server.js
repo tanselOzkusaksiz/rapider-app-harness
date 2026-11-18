@@ -1438,7 +1438,15 @@ app.get('/api/config', (req, res) => {
 const { createScreenGuidesRouter, DEFAULT_GUIDES_DIR, DEFAULT_MANUAL_DIR } = require('./screen-guides-router');
 const guidesDirArg = getArg('guides-dir', null);
 const manualDirArg = getArg('manual-dir', null);
-const screenGuidesRouter = createScreenGuidesRouter(guidesDirArg, manualDirArg);
+const manifestArg = getArg('manifest', process.env.SCREEN_GUIDE_MANIFEST || null);
+const resolvedManifestArgPath = manifestArg ? path.resolve(__dirname, manifestArg) : null;
+const priorityGuideAppDir = resolvedManifestArgPath
+  ? path.dirname(resolvedManifestArgPath)
+  : ((defaultAppArg || process.env.SCREEN_GUIDE_APP_DIR) ? resolveAppDir(defaultAppArg || process.env.SCREEN_GUIDE_APP_DIR) : null);
+const screenGuidesRouter = createScreenGuidesRouter(guidesDirArg, manualDirArg, {
+  defaultAppDir: priorityGuideAppDir,
+  manifestPath: resolvedManifestArgPath
+});
 app.use(['/api/screen-guide', '/api/screen-guides'], screenGuidesRouter);
 
 // Screen Guide harness routes (/screen-guide is canonical; /slideshow and /screen-guides supported)
@@ -1448,7 +1456,13 @@ app.get(['/screen-guide', '/slideshow', '/screen-guides', '/guides'], (req, res)
 });
 
 // Scoped static paths for screen guide assets
-const resolvedGuidesDir = guidesDirArg || process.env.SCREEN_GUIDES_DIR || DEFAULT_GUIDES_DIR;
+const priorityAppGuidesDir = priorityGuideAppDir
+  ? path.join(priorityGuideAppDir, 'documentation', 'screen_guides')
+  : null;
+const resolvedGuidesDir =
+  guidesDirArg ||
+  process.env.SCREEN_GUIDES_DIR ||
+  (priorityAppGuidesDir && fs.existsSync(priorityAppGuidesDir) ? priorityAppGuidesDir : DEFAULT_GUIDES_DIR);
 if (fs.existsSync(path.join(resolvedGuidesDir, 'images'))) {
   app.use(['/screen-guide/images', '/screen-guides/images'], express.static(path.join(resolvedGuidesDir, 'images'), { maxAge: '1h' }));
 }

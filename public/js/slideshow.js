@@ -638,13 +638,95 @@ class ScreenGuidesSlideshowApp {
   // CATALOG & SLIDESHOW METHODS
   // ==========================================================================
 
+  buildAppQueryString(app = this.activeApp) {
+    if (!app) return '';
+    const params = new URLSearchParams();
+    if (app.id) params.set('appId', app.id);
+    if (app.appKey) params.set('appKey', app.appKey);
+    if (app.name) params.set('appName', app.name);
+    if (app.folderName) params.set('folderName', app.folderName);
+    return params.toString();
+  }
+
+  async checkRequirementsAndLoadManifest() {
+    if (!this.activeApp) {
+      this.dom.gateOverlay?.classList.add('active');
+      this.dom.warningOverlay?.classList.remove('active');
+      return;
+    }
+
+    this.dom.gateOverlay?.classList.remove('active');
+    await this.loadCatalog();
+  }
+
+  renderMissingManifestWarning(data) {
+    this.manifestFound = false;
+    this.catalog = [];
+    this.modules = [];
+    if (this.dom.sidebarCountBadge) this.dom.sidebarCountBadge.textContent = '0';
+    if (this.dom.slideTotalBadge) this.dom.slideTotalBadge.textContent = '0';
+    if (this.dom.slideNumberBadge) this.dom.slideNumberBadge.textContent = '--';
+
+    if (this.dom.warningTitle) {
+      this.dom.warningTitle.textContent = this.t(
+        'Screen Guide Manifest Not Found',
+        'Ekran Rehberi Manifestosu Bulunamadı'
+      );
+    }
+    if (this.dom.warningSubtitle) {
+      this.dom.warningSubtitle.textContent =
+        data?.message ||
+        this.t(
+          `No screen-guide.manifest.json found for "${this.activeApp?.name || 'Selected App'}".`,
+          `"${this.activeApp?.name || 'Seçili Uygulama'}" için screen-guide.manifest.json bulunamadı.`
+        );
+    }
+    if (this.dom.warningDetailsBox) {
+      const checked = Array.isArray(data?.checkedPaths) ? data.checkedPaths : [];
+      this.dom.warningDetailsBox.innerHTML = checked
+        .map((p) => `<div style="font-family:var(--font-mono); font-size:12px;">• ${this.escapeHtml(p)}</div>`)
+        .join('');
+    }
+    if (this.dom.warningQuickApps) {
+      const guideApps = (this.availableApps || []).filter((a) => a.hasScreenGuideManifest);
+      this.dom.warningQuickApps.innerHTML = guideApps
+        .map(
+          (a) =>
+            `<button type="button" class="btn-primary" style="color:#ffffff !important;" data-quick-app-id="${this.escapeHtml(a.id)}"><i class="fas fa-book-open"></i> ${this.escapeHtml(a.name)}</button>`
+        )
+        .join('');
+      this.dom.warningQuickApps.querySelectorAll('[data-quick-app-id]').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const targetId = btn.getAttribute('data-quick-app-id');
+          const found = this.availableApps.find((a) => a.id === targetId);
+          if (found) {
+            await this.setActiveApp(found, true);
+          }
+        });
+      });
+    }
+    this.dom.warningOverlay?.classList.add('active');
+  }
+
   async loadCatalog() {
     try {
-      const res = await fetch('/api/screen-guides/catalog');
+      const qs = this.buildAppQueryString();
+      const res = await fetch(`/api/screen-guide/manifest${qs ? `?${qs}` : ''}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
+      if (data && data.found === false) {
+        this.renderMissingManifestWarning(data);
+        return;
+      }
+
+      this.dom.warningOverlay?.classList.remove('active');
+      this.dom.gateOverlay?.classList.remove('active');
+      this.manifestFound = true;
+      this.manifest = data.manifest || null;
+
       const rawScreens = data.screens || [];
       this.modules = data.modules || [];
+      const assetSuffix = qs ? `?${qs}` : '';
 
       // Normalize screen fields from screen-guides-router.js
       this.catalog = rawScreens.map((s) => {
@@ -653,10 +735,10 @@ class ScreenGuidesSlideshowApp {
         const guideEnFile = s.guideEnFile || s.enGuide || guideTrFile;
         const annotatedImageUrl =
           s.annotatedImageUrl ||
-          (s.annotatedImage ? `/api/screen-guides/image/annotated/${encodeURIComponent(s.annotatedImage)}` : '');
+          (s.annotatedImage ? `/api/screen-guides/image/annotated/${encodeURIComponent(s.annotatedImage)}${assetSuffix}` : '');
         const rawImageUrl =
           s.rawImageUrl ||
-          (s.rawImage ? `/api/screen-guides/image/raw/${encodeURIComponent(s.rawImage)}` : '');
+          (s.rawImage ? `/api/screen-guides/image/raw/${encodeURIComponent(s.rawImage)}${assetSuffix}` : '');
 
         const sectionImages = (s.sectionImages || []).map((sec, idx) => {
           if (typeof sec === 'string') {
@@ -664,7 +746,7 @@ class ScreenGuidesSlideshowApp {
             return {
               secNo: match ? match[1] : String(idx + 1),
               filename: sec,
-              url: `/api/screen-guides/image/annotated/${encodeURIComponent(sec)}`
+              url: `/api/screen-guides/image/annotated/${encodeURIComponent(sec)}${assetSuffix}`
             };
           }
           return sec;
@@ -702,7 +784,7 @@ class ScreenGuidesSlideshowApp {
       }
     } catch (err) {
       console.error('[Slideshow] Failed to load catalog:', err);
-      this.showToast(`Rehber kataloğu yüklenemedi: ${err.message}`, 'error');
+      this.showToast(`Screen guide catalog failed to load: ${err.message}`, 'error');
     }
   }
 
@@ -736,7 +818,7 @@ class ScreenGuidesSlideshowApp {
 
   renderModulePills() {
     if (!this.dom.sidebarModulePills) return;
-    const allLabel = this.language === 'tr' ? 'Tümü (53)' : 'All (53)';
+    const allLabel = this.language === 'tr' ? `Tümü (${this.catalog.length})` : `All (${this.catalog.length})`;
     let html = `<button class="module-pill ${this.activeModuleFilter === 'ALL' ? 'active' : ''}" data-mod="ALL">${allLabel}</button>`;
 
     for (const mod of this.modules) {
@@ -1061,7 +1143,7 @@ class ScreenGuidesSlideshowApp {
 
   toggleLanguage() {
     this.language = this.language === 'tr' ? 'en' : 'tr';
-    localStorage.setItem('slideshow_lang', this.language);
+    localStorage.setItem('screen_guide_lang', this.language);
     this.updateLanguageUI();
     this.renderModulePills();
     this.renderSidebarList();
@@ -1083,6 +1165,18 @@ class ScreenGuidesSlideshowApp {
     if (this.dom.langLabel) {
       this.dom.langLabel.textContent = this.language === 'tr' ? 'TR' : 'EN';
     }
+    if (this.dom.brandTitleText) {
+      const mTitle = this.manifest?.title;
+      this.dom.brandTitleText.textContent =
+        (mTitle && (this.language === 'tr' ? mTitle.tr || mTitle.en : mTitle.en || mTitle.tr)) ||
+        this.t('Screen Guide', 'Ekran Rehberi');
+    }
+    if (this.dom.brandSubtitleText) {
+      const mSub = this.manifest?.subtitle;
+      this.dom.brandSubtitleText.textContent =
+        (mSub && (this.language === 'tr' ? mSub.tr || mSub.en : mSub.en || mSub.tr)) ||
+        this.t('Interactive Visual & Markdown Guide', 'Etkileşimli Görsel & Markdown Rehberi');
+    }
   }
 
   async loadAndRenderMarkdown(screen) {
@@ -1092,12 +1186,13 @@ class ScreenGuidesSlideshowApp {
     this.dom.markdownContainer.innerHTML = `
       <div style="display:flex; align-items:center; gap:10px; padding:24px 0; color:var(--text-secondary);">
         <div class="spinner" style="width:18px; height:18px; border-width:2px;"></div>
-        <span>Rehber içeriği yükleniyor (${this.escapeHtml(filename)})...</span>
+        <span>${this.escapeHtml(this.t('Loading guide content', 'Rehber içeriği yükleniyor'))} (${this.escapeHtml(filename)})...</span>
       </div>
     `;
 
     try {
-      const res = await fetch(`/api/screen-guides/markdown/${encodeURIComponent(filename)}`);
+      const qs = this.buildAppQueryString();
+      const res = await fetch(`/api/screen-guides/markdown/${encodeURIComponent(filename)}${qs ? `?${qs}` : ''}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const contentType = res.headers.get('content-type') || '';
       if (contentType.includes('application/json')) {
@@ -1140,9 +1235,11 @@ class ScreenGuidesSlideshowApp {
 
   rewriteMarkdownPaths(markdownText) {
     if (!markdownText) return '';
+    const qs = this.buildAppQueryString();
+    const suffix = qs ? `?${qs}` : '';
     return markdownText
-      .replace(/!\[([^\]]*)\]\((?:\.\/)?images\/([^)]+)\)/g, '![$1](/screen-guides/images/$2)')
-      .replace(/!\[([^\]]*)\]\((?:\.\/)?raw_captures\/([^)]+)\)/g, '![$1](/screen-guides/raw_captures/$2)');
+      .replace(/!\[([^\]]*)\]\((?:\.\/)?images\/([^)]+)\)/g, `![$1](/api/screen-guides/image/annotated/$2${suffix})`)
+      .replace(/!\[([^\]]*)\]\((?:\.\/)?raw_captures\/([^)]+)\)/g, `![$1](/api/screen-guides/image/raw/$2${suffix})`);
   }
 
   bindMarkdownInternalLinks() {
@@ -1260,7 +1357,8 @@ class ScreenGuidesSlideshowApp {
     }
 
     try {
-      const res = await fetch(`/api/screen-guides/manual/${encodeURIComponent(filename)}`);
+      const qs = this.buildAppQueryString();
+      const res = await fetch(`/api/screen-guides/manual/${encodeURIComponent(filename)}${qs ? `?${qs}` : ''}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const contentType = res.headers.get('content-type') || '';
       const rawText = contentType.includes('application/json')
@@ -1545,6 +1643,38 @@ class ScreenGuidesSlideshowApp {
     }
 
     try {
+      const sgAppsRes = await fetch('/api/screen-guide/apps');
+      if (sgAppsRes.ok) {
+        const sgData = await sgAppsRes.json();
+        this.localRepoApps = Array.isArray(sgData.apps) ? sgData.apps : [];
+        for (const repo of this.localRepoApps) {
+          const existing = apps.find(
+            (a) =>
+              (repo.appId && a.id === repo.appId) ||
+              (repo.key && String(a.appKey).toLowerCase() === String(repo.key).toLowerCase()) ||
+              (repo.folderName && String(a.name).toLowerCase() === String(repo.folderName).toLowerCase())
+          );
+          if (existing) {
+            existing.folderName = existing.folderName || repo.folderName;
+            existing.hasScreenGuideManifest = Boolean(existing.hasScreenGuideManifest || repo.hasScreenGuideManifest);
+          } else if (repo.hasScreenGuideManifest || repo.key) {
+            apps.push({
+              id: repo.appId || repo.key || repo.folderName,
+              name: repo.name || repo.folderName,
+              appKey: repo.key || repo.folderName.toLowerCase(),
+              folderName: repo.folderName,
+              hasScreenGuideManifest: Boolean(repo.hasScreenGuideManifest),
+              source: 'local',
+              projectId: api?.projectId || 'local'
+            });
+          }
+        }
+      }
+    } catch (err) {
+      console.warn('[Slideshow] Could not fetch /api/screen-guide/apps:', err);
+    }
+
+    try {
       const localRes = await fetch('/api/apps');
       if (localRes.ok) {
         const localData = await localRes.json();
@@ -1571,9 +1701,11 @@ class ScreenGuidesSlideshowApp {
     // 3. Ensure there is always a fallback TourXel App option if list is empty
     if (apps.length === 0) {
       apps.push({
-        id: 'tourxel-screen-guides-app',
-        name: 'TourXel Tour Management',
+        id: '19be6eeb-64d6-4170-a9f3-94d20f2f6600',
+        name: 'TourXel',
         appKey: 'tourxel',
+        folderName: 'TourXel',
+        hasScreenGuideManifest: true,
         source: 'local',
         projectId: api?.projectId || 'local'
       });
@@ -1582,20 +1714,45 @@ class ScreenGuidesSlideshowApp {
     this.availableApps = apps;
 
     // 4. Resolve active app selection:
-    // Priority: URL ?appId= or ?app= -> saved localStorage -> TourXel app in workspace -> workspace app matching harness default -> first workspace app -> first local app
+    // Priority: URL ?appId= or ?app= -> harness default manifest app -> saved localStorage (preferring manifest-backed apps) -> TourXel / manifest-backed app -> first app
     const urlParams = new URLSearchParams(window.location.search);
-    const paramApp = urlParams.get('appId') || urlParams.get('app');
+    const paramApp = urlParams.get('appId') || urlParams.get('app') || urlParams.get('appKey');
     const savedAppId = localStorage.getItem('slideshow_active_app_id');
 
     let chosen = null;
     if (paramApp) {
-      chosen = apps.find((a) => a.id === paramApp || a.appKey === paramApp);
+      const normParam = paramApp.toLowerCase();
+      chosen = apps.find(
+        (a) =>
+          String(a.id).toLowerCase() === normParam ||
+          String(a.appKey).toLowerCase() === normParam ||
+          String(a.folderName || '').toLowerCase() === normParam ||
+          String(a.name || '').toLowerCase() === normParam
+      );
+    }
+    if (!chosen && defaultHarnessAppKey) {
+      const normDef = String(defaultHarnessAppKey).toLowerCase();
+      const defMatch = apps.find(
+        (a) =>
+          String(a.appKey).toLowerCase() === normDef ||
+          String(a.name).toLowerCase() === normDef ||
+          String(a.folderName || '').toLowerCase() === normDef
+      );
+      if (defMatch && defMatch.hasScreenGuideManifest) {
+        chosen = defMatch;
+      }
     }
     if (!chosen && savedAppId) {
-      chosen = apps.find((a) => a.id === savedAppId || a.appKey === savedAppId);
+      const savedMatch = apps.find((a) => a.id === savedAppId || a.appKey === savedAppId);
+      if (savedMatch && (savedMatch.hasScreenGuideManifest || !apps.some((x) => x.hasScreenGuideManifest))) {
+        chosen = savedMatch;
+      }
     }
     if (!chosen) {
-      chosen = apps.find((a) => a.source === 'workspace' && /tourxel|tour|quotation|operation/i.test(`${a.name} ${a.appKey}`));
+      chosen =
+        apps.find((a) => a.hasScreenGuideManifest && /tourxel/i.test(`${a.name} ${a.appKey} ${a.folderName || ''}`)) ||
+        apps.find((a) => a.hasScreenGuideManifest) ||
+        apps.find((a) => /tourxel|tour|quotation|operation/i.test(`${a.name} ${a.appKey}`));
     }
     if (!chosen && defaultHarnessAppKey) {
       chosen = apps.find((a) => a.appKey === defaultHarnessAppKey || a.name === defaultHarnessAppKey);
@@ -1604,10 +1761,10 @@ class ScreenGuidesSlideshowApp {
       chosen = apps.find((a) => a.source === 'workspace') || apps[0];
     }
 
-    await this.setActiveApp(chosen, false);
+    await this.setActiveApp(chosen, false, false);
   }
 
-  async setActiveApp(appObj, showNotification = true) {
+  async setActiveApp(appObj, showNotification = true, reloadManifest = true) {
     if (!appObj) return;
     this.activeApp = appObj;
     localStorage.setItem('slideshow_active_app_id', appObj.id);
@@ -1626,7 +1783,11 @@ class ScreenGuidesSlideshowApp {
     this.renderActiveAppSelectorMenu();
 
     if (showNotification) {
-      this.showToast(`Aktif Uygulama: ${appObj.name}`, 'info');
+      this.showToast(this.t(`Active Application: ${appObj.name}`, `Aktif Uygulama: ${appObj.name}`), 'info');
+    }
+
+    if (reloadManifest) {
+      await this.checkRequirementsAndLoadManifest();
     }
 
     // Fetch tasks/comments for the selected active app
