@@ -699,9 +699,13 @@ html.dark body.crm-expense-design,
 }
 
 :root:root .crm-expense-design :is(.kanban-card, [draggable=true]),
+:root:root rapider-kanban :is(.rapider-kanban-card, .cdk-drag),
+:root:root :is(.cdk-drag-preview.rapider-kanban-card, .cdk-drag-preview.cdk-drag),
 :root:root .candidate-card {
   padding: 10px 12px !important;
   border-radius: 7px !important;
+  background-color: var(--component-inner-background-color, #ffffff) !important;
+  border: 1px solid var(--secondary-border-color, #cfd6e3) !important;
 }
 
 :root:root .tag {

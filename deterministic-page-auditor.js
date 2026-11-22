@@ -232,7 +232,14 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
         routeKey = routeKey.substring(1);
       }
 
-      if (routeKey && manifestRoutes.size > 0 && !manifestRoutes.has(routeKey)) {
+      const baseRouteKey = routeKey.split('/')[0];
+      if (
+        routeKey &&
+        manifestRoutes.size > 0 &&
+        !manifestRoutes.has(routeKey) &&
+        !manifestRoutes.has(baseRouteKey) &&
+        !manifestRoutes.has(`${baseRouteKey}/:id`)
+      ) {
         // Also check if it's an asset download link
         if (!routeKey.startsWith('assets/')) {
           warnings.push({
@@ -258,6 +265,23 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
       type: 'SCRIPT_HTML_URL_VIOLATION',
       message: `Page script constructs .html URLs (e.g. href="\${file}.html" or location.href="...html") or hardcoded CDN URLs, which resolve against <base href> and break the Rapider host wrapper. Enforce clean route paths (e.g. "/roster") and window.rapiderApi.navigate('/roster').`,
       snippet: 'Script .html navigation detected'
+    });
+  }
+
+  // STRICT RULE: Entity detail/edit/profile links MUST use path segments (#/<route>/<id> or navigate(['<route>', id])), NEVER ?id=<id>
+  const scriptWithoutLineComments = combinedScript
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/^\s*\/\/.*$/gm, '');
+  const queryParamEntityRouteRe = /(?:href\s*=\s*["'`]|rapiderApi\s*\.\s*navigate\s*\(\s*["'`]|(?:window\.)?location\.hash\s*=\s*["'`]|history\.replaceState\s*\([^;\n]*?["'`]|["'`]#\/(?:[a-z0-9_-]+|\$\{[^}]+\}))(?:#?\/?)(?:[a-z0-9_-]+|\$\{[^}]+\})?(?:\.html)?\?id=/i;
+  const entityLinkViolationMatch =
+    cleanMarkup.match(/href\s*=\s*["']#?\/?[a-z0-9_-]+\?id=[^"']*/i) ||
+    scriptWithoutLineComments.match(queryParamEntityRouteRe);
+  if (entityLinkViolationMatch) {
+    issues.push({
+      rule: 'Pass 01: Routing & Events',
+      type: 'QUERY_PARAM_ENTITY_ID_VIOLATION',
+      message: `Entity detail/edit/profile route uses query parameter "?id=" ("${entityLinkViolationMatch[0].slice(0, 90)}"), which fails in rapider-ui host routing. Canonical Rapider routes expect /:pageKey/:entityId path segments: use href="#/<route>/\${encodeURIComponent(id)}" or window.rapiderApi.navigate(['<route>', id]). Trailing secondary flags like ?tab=history go after the ID (#/profile/\${encodeURIComponent(id)}?tab=history).`,
+      snippet: entityLinkViolationMatch[0].slice(0, 120)
     });
   }
 

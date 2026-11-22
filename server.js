@@ -150,11 +150,55 @@ if (fs.existsSync(themeCssPath)) {
   cachedThemeCss = fs.readFileSync(themeCssPath, 'utf8');
 }
 
+const APP_THEME_ALIAS_MAP = {
+  'default': 'default',
+  'editorial': 'default',
+  'obsidian-compact': 'obsidian-compact',
+  'compact-black': 'obsidian-compact',
+  'compact-obsidian': 'obsidian-compact',
+  'obsidian': 'obsidian-compact',
+  'sapphire-trust': 'sapphire-trust',
+  'sapphire': 'sapphire-trust',
+  'sapphire-enterprise': 'sapphire-trust',
+  'nordic-cyan': 'nordic-cyan',
+  'nordic': 'nordic-cyan',
+  'cyan': 'nordic-cyan',
+  'nordic-compact': 'nordic-cyan',
+  'teal-horizon': 'teal-horizon',
+  'teal': 'teal-horizon',
+  'emerald-ledger': 'emerald-ledger',
+  'emerald': 'emerald-ledger',
+  'emerald-fintech': 'emerald-ledger',
+  'sage-botanical': 'sage-botanical',
+  'sage': 'sage-botanical',
+  'olive': 'sage-botanical',
+  'forest': 'sage-botanical',
+  'amber-gold': 'amber-gold',
+  'amber': 'amber-gold',
+  'gold': 'amber-gold',
+  'bronze': 'amber-gold',
+  'terracotta-warm': 'terracotta-warm',
+  'terracotta': 'terracotta-warm',
+  'warm-terracotta': 'terracotta-warm',
+  'crimson-rose': 'crimson-rose',
+  'crimson': 'crimson-rose',
+  'crimson-executive': 'crimson-rose',
+  'plum-berry': 'plum-berry',
+  'plum': 'plum-berry',
+  'magenta': 'plum-berry',
+  'fuchsia': 'plum-berry',
+  'graphite-minimal': 'graphite-minimal',
+  'graphite': 'graphite-minimal',
+  'zinc': 'graphite-minimal',
+  'mono': 'graphite-minimal',
+  'minimal': 'graphite-minimal'
+};
+
 function normalizeAppThemeKey(raw) {
   if (!raw || typeof raw !== 'string') return 'default';
   const cleaned = raw.trim().toLowerCase().replace(/^theme-/, '').replace(/\.css$/, '');
-  if (!cleaned || cleaned === 'default') return 'default';
-  if (cleaned === 'compact-black' || cleaned === 'compact-obsidian') return 'obsidian-compact';
+  if (!cleaned) return 'default';
+  if (APP_THEME_ALIAS_MAP[cleaned]) return APP_THEME_ALIAS_MAP[cleaned];
   return cleaned.replace(/[^a-z0-9-_]/g, '') || 'default';
 }
 
@@ -162,22 +206,123 @@ function readThemesCatalog(targetDir) {
   const defaultCatalog = [
     {
       key: 'default',
+      aliases: ['editorial'],
       name: 'Default (Editorial)',
       file: 'theme-default.css',
       primaryColor: '#6854df',
       heroSurfaceColor: '#252840',
-      density: 'spacious',
-      description: 'Spacious editorial layout with Indigo Violet (#6854df) primary actions and Midnight Obsidian (#252840) hero surfaces.'
+      density: 'comfortable',
+      description: 'Spacious editorial layout with Rapider brand primary (#6854df), #252840 hero cards, and 14px geometry.'
     },
     {
       key: 'obsidian-compact',
-      aliases: ['compact-black', 'compact-obsidian'],
+      aliases: ['compact-black', 'compact-obsidian', 'obsidian'],
       name: 'Obsidian Compact',
       file: 'theme-obsidian-compact.css',
       primaryColor: '#252840',
       heroSurfaceColor: '#16192b',
       density: 'compact',
-      description: 'High-density executive workspace with Midnight Obsidian (#252840) primary controls, tighter spacing, and crisp 8px geometry.'
+      description: 'High-density executive theme with #252840 Obsidian Slate primary, 8px architectural corners, and compact tables & KPIs.'
+    },
+    {
+      key: 'sapphire-trust',
+      aliases: ['sapphire', 'sapphire-enterprise'],
+      name: 'Sapphire Enterprise',
+      file: 'theme-sapphire-trust.css',
+      primaryColor: '#1d4ed8',
+      heroSurfaceColor: '#0f172a',
+      density: 'comfortable',
+      description: 'Enterprise Cobalt Sapphire (#1d4ed8) with Midnight Navy (#0f172a) hero cards and crisp 12px geometry.'
+    },
+    {
+      key: 'nordic-cyan',
+      aliases: ['nordic', 'cyan', 'nordic-compact'],
+      name: 'Nordic Cyan Compact',
+      file: 'theme-nordic-cyan.css',
+      primaryColor: '#0e7490',
+      heroSurfaceColor: '#111f28',
+      density: 'compact',
+      description: 'Ultra-crisp Scandinavian cyan (#0e7490) with Arctic Deep (#111f28) hero cards and tight 6px compact geometry.'
+    },
+    {
+      key: 'teal-horizon',
+      aliases: ['teal'],
+      name: 'Teal Horizon',
+      file: 'theme-teal-horizon.css',
+      primaryColor: '#0f766e',
+      heroSurfaceColor: '#112224',
+      density: 'comfortable',
+      description: 'Balanced Horizon Teal (#0f766e) with Abyssal Teal (#112224) hero cards and spacious 14px editorial layout.'
+    },
+    {
+      key: 'emerald-ledger',
+      aliases: ['emerald', 'emerald-fintech'],
+      name: 'Emerald FinTech',
+      file: 'theme-emerald-ledger.css',
+      primaryColor: '#047857',
+      heroSurfaceColor: '#062c22',
+      density: 'compact',
+      description: 'High-density financial workspace with Precision Emerald (#047857), Deep Pine (#062c22) hero cards, and 8px geometry.'
+    },
+    {
+      key: 'sage-botanical',
+      aliases: ['sage', 'olive', 'forest'],
+      name: 'Sage Botanical',
+      file: 'theme-sage-botanical.css',
+      primaryColor: '#3f6212',
+      heroSurfaceColor: '#1c2614',
+      density: 'comfortable',
+      description: 'Organic Olive Sage (#3f6212) with Deep Woodland (#1c2614) hero cards and soft-rounded 16px geometry.'
+    },
+    {
+      key: 'amber-gold',
+      aliases: ['amber', 'gold', 'bronze'],
+      name: 'Amber Gold Compact',
+      file: 'theme-amber-gold.css',
+      primaryColor: '#b45309',
+      heroSurfaceColor: '#271d12',
+      density: 'compact',
+      description: 'High-density warm bronze-amber (#b45309) with Espresso (#271d12) hero cards and compact 8px geometry.'
+    },
+    {
+      key: 'terracotta-warm',
+      aliases: ['terracotta', 'warm-terracotta'],
+      name: 'Warm Terracotta',
+      file: 'theme-terracotta-warm.css',
+      primaryColor: '#c2410c',
+      heroSurfaceColor: '#29201b',
+      density: 'comfortable',
+      description: 'Warm Editorial Terracotta (#c2410c) on alabaster paper with Roasted Espresso (#29201b) hero cards and 16px radii.'
+    },
+    {
+      key: 'crimson-rose',
+      aliases: ['crimson', 'crimson-executive'],
+      name: 'Crimson Executive',
+      file: 'theme-crimson-rose.css',
+      primaryColor: '#be123c',
+      heroSurfaceColor: '#261420',
+      density: 'comfortable',
+      description: 'Executive Crimson (#be123c) with Deep Bordeaux (#261420) hero cards and balanced 14px editorial spacing.'
+    },
+    {
+      key: 'plum-berry',
+      aliases: ['plum', 'magenta', 'fuchsia'],
+      name: 'Plum Berry',
+      file: 'theme-plum-berry.css',
+      primaryColor: '#a21caf',
+      heroSurfaceColor: '#27132c',
+      density: 'comfortable',
+      description: 'Expressive Berry Plum (#a21caf) with Deep Aubergine (#27132c) hero cards and 14px editorial geometry.'
+    },
+    {
+      key: 'graphite-minimal',
+      aliases: ['graphite', 'zinc', 'mono', 'minimal'],
+      name: 'Graphite Minimal',
+      file: 'theme-graphite-minimal.css',
+      primaryColor: '#52525b',
+      heroSurfaceColor: '#18181b',
+      density: 'compact',
+      description: 'Monochrome architectural minimalism (#52525b) with Deep Carbon (#18181b) hero cards and ultra-crisp 6px geometry.'
     }
   ];
 

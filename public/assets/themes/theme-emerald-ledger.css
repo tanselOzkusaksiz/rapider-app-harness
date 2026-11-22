@@ -1,0 +1,911 @@
+/* ==========================================================================
+   RAPIDER APPLICATION THEME — EMERALD FINTECH
+   Theme Key : emerald-ledger (aliases: emerald, emerald-fintech)
+   File Name : theme-emerald-ledger.css
+   Palette   : Primary #047857 · Hero #062c22 · Secondary #334155 · Tertiary #b45309
+   Density   : High-Density Compact (8px card radius, 6px md/sm, 4px tag,
+               compact headers, KPIs, toolbars, forms, kanban cards & tables)
+   Supports  : Rapider Design System v2 (.ds-*), CRM (.crm-expense-design),
+               and HR / Suite Microapps (.layout, .page, .overview-top, .panel)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. LIGHT MODE SEMANTIC TOKENS & COMPACT GEOMETRY
+   -------------------------------------------------------------------------- */
+:root:root,
+html[data-rapider-theme="emerald-ledger"]:root,
+body.crm-expense-design {
+  color-scheme: light;
+  --ds-theme-name: 'emerald-ledger';
+
+  /* Primary Brand Role — Precision Emerald (#047857 · 5.48:1 on #fff) */
+  --primary-color: #047857;
+  --primary-hover-color: #065f46;
+  --primary-active-color: #064e3b;
+  --primary-soft-bg: #ecfdf5;
+  --primary-soft-subtle: #f2fcf7;
+  --primary-soft-border: #a7f3d0;
+  --primary-on-soft: #065f46;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  /* Secondary Brand Role — Slate Charcoal */
+  --secondary-color: #334155;
+  --secondary-hover-color: #1e293b;
+  --secondary-soft-bg: #eef2f5;
+  --secondary-soft-border: #cbd5e1;
+  --secondary-on-soft: #1e293b;
+  --secondary-button-text-color: #111c18;
+
+  /* Tertiary Brand Role — Ledger Amber */
+  --tertiary-color: #b45309;
+  --tertiary-hover-color: #92400e;
+  --tertiary-soft-bg: #fef3c7;
+  --tertiary-soft-border: #fde68a;
+  --tertiary-on-soft: #92400e;
+  --tertiary-button-text-color: #ffffff;
+
+  /* Hero KPI Card Surface Role — Deep Pine */
+  --hero-surface-bg: #062c22;
+  --hero-surface-border: #0f4737;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #99d5c0;
+
+  /* Canvas & Card Surfaces */
+  --body-background-color: #f3f6f4;
+  --inner-layout-background-color: #f3f6f4;
+  --component-inner-background-color: #ffffff;
+  --component-header-background-color: #f7faf8;
+  --section-background-color: #ffffff;
+  --table-background-color: #ffffff;
+  --table-header-background-color: #f7faf8;
+  --alternative-background-color: #f7faf8;
+  --alternative-bold-background-color: #e6ede9;
+  --subtle-background-color: #eff5f1;
+  --input-background-color: #f7faf8;
+  --button-background-color: #ffffff;
+  --navbar-background-color: #ffffff;
+  --navigation-layout-background-color: #ffffff;
+  --active-pill-background-color: #ecfdf5;
+
+  /* Typography & Borders */
+  --primary-text-color: #111c18;
+  --text-color: #111c18;
+  --heading-color: #111c18;
+  --h1-color: var(--primary-text-color);
+  --h2-color: var(--primary-text-color);
+  --h3-color: var(--primary-text-color);
+  --h4-color: var(--primary-text-color);
+  --h5-color: var(--primary-text-color);
+  --h6-color: var(--primary-text-color);
+  --alternative-text-color: #263a32;
+  --secondary-text-color: #52665e;
+  --muted-text-color: #6e8279;
+  --eyebrow-text-color: #4c635a;
+  --placeholder-color: #849990;
+  --link-color: #047857;
+  --primary-border-color: #dce5e0;
+  --secondary-border-color: #c7d4cd;
+  --subtle-border-color: #e8efeb;
+  --interactive-hover-border: #6ee7b7;
+  --focus-ring-color: rgba(4, 120, 87, 0.24);
+  --focus-color: var(--focus-ring-color);
+
+  /* High-Density Compact Geometry Contract */
+  --radius: 8px;
+  --radius-md: 6px;
+  --radius-sm: 6px;
+  --radius-tag: 4px;
+  --ds-shell-pad: 18px 22px 26px;
+  --ds-shell-gap: 13px;
+  --ds-title-size: 22px;
+  --ds-subtitle-size: 12.5px;
+  --ds-btn-min-h: 32px;
+  --ds-btn-pad: 5px 12px;
+  --ds-btn-font: 12px;
+  --ds-input-min-h: 32px;
+  --ds-input-pad: 5px 10px;
+  --ds-input-font: 12px;
+  --ds-kpi-gap: 12px;
+  --ds-kpi-pad: 14px 16px;
+  --ds-kpi-min-h: 104px;
+  --ds-kpi-val-size: 25px;
+  --ds-panel-head-pad: 11px 16px;
+  --ds-panel-body-pad: 14px 16px;
+  --ds-toolbar-pad: 10px 14px;
+  --ds-th-pad: 8px 14px;
+  --ds-td-pad: 9px 14px;
+  --ds-td-font: 12px;
+  --shadow-primary-btn: 0 1px 2px rgba(6, 44, 34, 0.16);
+
+  /* Legacy Bridges (CRM & HR Suite zero-HTML-edit compatibility) */
+  --purple: var(--primary-color);
+  --purple-hover: var(--primary-hover-color);
+  --purple-deep: var(--primary-active-color);
+  --crm-purple: var(--primary-color);
+  --soft: var(--primary-soft-bg);
+  --soft-purple: var(--primary-soft-subtle);
+  --crm-soft: var(--primary-soft-bg);
+  --dark: var(--hero-surface-bg);
+  --dark-muted: var(--hero-surface-muted);
+  --bg: var(--body-background-color);
+  --crm-bg: var(--body-background-color);
+  --surface: var(--component-inner-background-color);
+  --surface-alt: var(--alternative-background-color);
+  --surface-subtle: var(--subtle-background-color);
+  --ink: var(--primary-text-color);
+  --ink-secondary: var(--alternative-text-color);
+  --crm-ink: var(--primary-text-color);
+  --muted: var(--secondary-text-color);
+  --muted-light: var(--muted-text-color);
+  --crm-muted: var(--secondary-text-color);
+  --kicker: var(--eyebrow-text-color);
+  --line: var(--primary-border-color);
+  --line-strong: var(--secondary-border-color);
+  --line-subtle: var(--subtle-border-color);
+  --crm-line: var(--primary-border-color);
+  --focus-ring: var(--focus-ring-color);
+}
+
+/* --------------------------------------------------------------------------
+   2. DARK MODE SEMANTIC TOKENS
+   -------------------------------------------------------------------------- */
+html.dark:root,
+html body.dark,
+html[data-rapider-theme="emerald-ledger"].dark:root,
+html[data-rapider-theme="emerald-ledger"] body.dark,
+html.dark body.crm-expense-design,
+.dark body.crm-expense-design {
+  color-scheme: dark;
+
+  /* Primary Brand Role — #047857 base preserves >= 5.48:1 AA contrast with #ffffff */
+  --primary-color: #047857;
+  --primary-hover-color: #059669;
+  --primary-active-color: #065f46;
+  --primary-soft-bg: rgba(16, 185, 129, 0.16);
+  --primary-soft-subtle: rgba(16, 185, 129, 0.14);
+  --primary-soft-border: rgba(52, 211, 153, 0.32);
+  --primary-on-soft: #d1fae5;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  /* Secondary & Tertiary Brand Roles */
+  --secondary-color: #334155;
+  --secondary-hover-color: #475569;
+  --secondary-soft-bg: rgba(148, 163, 184, 0.16);
+  --secondary-soft-border: rgba(148, 163, 184, 0.28);
+  --secondary-on-soft: #e2e8f0;
+  --secondary-button-text-color: #ecfdf5;
+
+  --tertiary-color: #fbbf24;
+  --tertiary-hover-color: #f59e0b;
+  --tertiary-soft-bg: rgba(251, 191, 36, 0.16);
+  --tertiary-soft-border: rgba(251, 191, 36, 0.30);
+  --tertiary-on-soft: #fde68a;
+  --tertiary-button-text-color: #111c18;
+
+  /* Hero KPI Card Surface */
+  --hero-surface-bg: #07261d;
+  --hero-surface-border: #144536;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #99d5c0;
+
+  /* Canvas & Card Surfaces */
+  --body-background-color: #0c1411;
+  --inner-layout-background-color: #0c1411;
+  --component-inner-background-color: #131f1a;
+  --component-header-background-color: #0f1915;
+  --section-background-color: #131f1a;
+  --table-background-color: #131f1a;
+  --table-header-background-color: #0f1915;
+  --alternative-background-color: #0f1915;
+  --alternative-bold-background-color: #192922;
+  --subtle-background-color: #16241e;
+  --input-background-color: #0f1915;
+  --button-background-color: #131f1a;
+  --navbar-background-color: #131f1a;
+  --navigation-layout-background-color: #0f1915;
+  --active-pill-background-color: rgba(16, 185, 129, 0.20);
+
+  /* Typography & Borders */
+  --primary-text-color: #ecfdf5;
+  --text-color: #ecfdf5;
+  --heading-color: #ffffff;
+  --h1-color: #ffffff;
+  --h2-color: #ecfdf5;
+  --h3-color: #ecfdf5;
+  --h4-color: #ecfdf5;
+  --h5-color: #ecfdf5;
+  --h6-color: #ecfdf5;
+  --alternative-text-color: #cde5db;
+  --secondary-text-color: #8da69b;
+  --muted-text-color: #759084;
+  --eyebrow-text-color: #8da69b;
+  --placeholder-color: #627d71;
+  --link-color: #34d399;
+  --primary-border-color: #20332b;
+  --secondary-border-color: #2c443a;
+  --subtle-border-color: #1a2b24;
+  --interactive-hover-border: #10b981;
+  --focus-ring-color: rgba(52, 211, 153, 0.34);
+  --focus-color: var(--focus-ring-color);
+
+  /* Legacy Bridges */
+  --purple: var(--primary-color);
+  --crm-purple: var(--primary-color);
+  --soft: var(--primary-soft-bg);
+  --crm-soft: var(--primary-soft-bg);
+  --bg: var(--body-background-color);
+  --crm-bg: var(--body-background-color);
+  --ink: var(--primary-text-color);
+  --crm-ink: var(--primary-text-color);
+  --muted: var(--secondary-text-color);
+  --crm-muted: var(--secondary-text-color);
+  --line: var(--primary-border-color);
+  --crm-line: var(--primary-border-color);
+}
+
+/* --------------------------------------------------------------------------
+   3. HIGH-DENSITY STRUCTURAL & COLOR HARMONIZATION (ZERO HTML CHANGES)
+   -------------------------------------------------------------------------- */
+
+/* Primary Buttons & Hover Enforcement (Always #ffffff Text) */
+:root:root .primary,
+:root:root button.primary,
+:root:root .btn.primary,
+:root:root a.primary,
+:root:root a.btn.primary,
+:root:root .btn-primary,
+:root:root button.bg-primary,
+:root:root .crm-expense-design button.bg-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  box-shadow: var(--shadow-primary-btn) !important;
+}
+
+:root:root .primary:hover,
+:root:root button.primary:hover,
+:root:root .btn.primary:hover,
+:root:root a.primary:hover,
+:root:root a.btn.primary:hover,
+:root:root .btn-primary:hover,
+:root:root button.bg-primary:hover,
+:root:root .crm-expense-design button.bg-primary:hover {
+  background-color: var(--primary-hover-color) !important;
+  border-color: var(--primary-hover-color) !important;
+  color: #ffffff !important;
+}
+
+/* Secondary / Neutral Buttons */
+:root:root .btn:not(.primary):not(.danger),
+:root:root button.border,
+:root:root .crm-expense-design .crm-header button {
+  min-height: 32px !important;
+  padding: 5px 12px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .btn {
+  min-height: 32px !important;
+  padding: 5px 12px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+  gap: 6px !important;
+}
+
+:root:root .btn.sm,
+:root:root .btn.small,
+:root:root button.small {
+  min-height: 26px !important;
+  padding: 3px 9px !important;
+  font-size: 11px !important;
+  border-radius: 5px !important;
+}
+
+:root:root button:not(.primary):not(.danger):hover,
+:root:root .btn:not(.primary):not(.danger):hover,
+:root:root .crm-expense-design button.border:hover {
+  background-color: var(--alternative-bold-background-color) !important;
+  border-color: var(--interactive-hover-border) !important;
+}
+
+/* Compact Canvas & Main Containers */
+:root:root .ds-main,
+:root:root .crm-main,
+:root:root .crm-expense-design .crm-shell,
+:root:root .page {
+  padding: 18px 22px 26px !important;
+  gap: 13px !important;
+}
+
+:root:root .main {
+  padding: 0 22px 28px !important;
+}
+
+:root:root .heading {
+  padding: 18px 0 13px !important;
+  gap: 12px !important;
+}
+
+/* Compact Sidebar & Topbar (Desktop-guarded for Pass 21 mobile drawer compatibility) */
+@media (min-width: 769px) {
+  :root:root .layout:not(.sidebar-collapsed),
+  :root:root .ds-shell.layout:not(.sidebar-collapsed) {
+    grid-template-columns: 194px minmax(0, 1fr) !important;
+  }
+
+  :root:root aside.sidebar:not(.sidebar-collapsed),
+  :root:root aside#suiteSidebar:not(.sidebar-collapsed),
+  :root:root .sidebar:not(.sidebar-collapsed) {
+    width: 194px !important;
+    min-width: 194px !important;
+    max-width: 194px !important;
+    padding: 16px 12px 12px !important;
+    background: var(--component-inner-background-color) !important;
+    border-right-color: var(--primary-border-color) !important;
+  }
+}
+
+:root:root .sidebar.sidebar-collapsed,
+:root:root aside.sidebar.sidebar-collapsed {
+  background: var(--component-inner-background-color) !important;
+  border-right-color: var(--primary-border-color) !important;
+}
+
+:root:root .brand-row {
+  padding: 0 6px 12px !important;
+}
+
+:root:root .brand:not(button.brand) {
+  font-size: 18px !important;
+  padding: 0 8px 14px !important;
+}
+
+:root:root .brand-row .brand {
+  font-size: 15px !important;
+}
+
+:root:root .brandmark {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  font-size: 15px !important;
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+:root:root .suite-icon-container {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+  border-radius: 6px !important;
+}
+
+:root:root .suite-icon-container .suite-icon,
+:root:root .suite-icon-container .suite-expand-icon {
+  color: var(--link-color) !important;
+}
+
+:root:root .appbox {
+  padding: 9px 10px !important;
+  margin-bottom: 14px !important;
+  border-radius: 7px !important;
+  background: var(--primary-soft-bg) !important;
+  border-color: var(--primary-soft-border) !important;
+}
+
+:root:root .appicon {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 6px !important;
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+:root:root aside.sidebar:not(.sidebar-collapsed) .nav a,
+:root:root .sidebar:not(.sidebar-collapsed) .nav a {
+  padding: 7px 10px !important;
+  font-size: 12.5px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .nav a.active,
+:root:root aside.sidebar .nav a.active,
+:root:root aside.sidebar .nav a[aria-current="page"] {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+:root:root .nav a.active :is(i, .nav-icon, svg),
+:root:root aside.sidebar .nav a.active :is(i, .nav-icon, svg),
+:root:root aside.sidebar .nav a[aria-current="page"] :is(i, .nav-icon, svg) {
+  color: #ffffff !important;
+}
+
+:root:root .navlabel {
+  margin: 14px 10px 4px !important;
+  font-size: 9.5px !important;
+}
+
+:root:root .topbar {
+  height: 48px !important;
+  padding: 0 22px !important;
+  background: var(--component-inner-background-color) !important;
+  border-bottom-color: var(--primary-border-color) !important;
+}
+
+/* Compact Editorial Headers */
+:root:root .page-head,
+:root:root .crm-expense-design .crm-header {
+  margin-bottom: 6px !important;
+  padding: 0 0 2px !important;
+  gap: 12px !important;
+}
+
+:root:root .eyebrow,
+:root:root .kicker,
+:root:root .crm-expense-design .crm-eyebrow {
+  font-size: 10px !important;
+  letter-spacing: 1.1px !important;
+  margin-bottom: 4px !important;
+  color: var(--eyebrow-text-color) !important;
+}
+
+:root:root .page-title,
+:root:root h1.ds-h1,
+:root:root .page-head h1,
+:root:root .heading h1,
+:root:root .crm-expense-design .crm-header h1 {
+  font-size: 22px !important;
+  line-height: 1.2 !important;
+  letter-spacing: -0.55px !important;
+  margin: 0 !important;
+  font-weight: 650 !important;
+}
+
+:root:root .subtitle,
+:root:root .page-head p,
+:root:root .heading p,
+:root:root .crm-expense-design .crm-header p {
+  font-size: 12.5px !important;
+  line-height: 1.45 !important;
+  margin-top: 4px !important;
+}
+
+/* Compact KPI Grids & Executive Cards */
+:root:root .metrics-grid-3,
+:root:root .metrics-grid-4,
+:root:root .crm-expense-design .crm-metrics,
+:root:root .overview-top,
+:root:root .grid.three,
+:root:root .grid.four {
+  gap: 12px !important;
+  margin-bottom: 4px !important;
+}
+
+:root:root .overview-top,
+:root:root .grid.space {
+  margin-bottom: 13px !important;
+}
+
+:root:root .metric-card,
+:root:root .metric,
+:root:root .crm-expense-design .crm-metric,
+:root:root .overview-top .hero,
+:root:root .overview-top .metric,
+:root:root .hero-card,
+:root:root .kpi-card,
+:root:root .statbox {
+  padding: 13px 16px !important;
+  min-height: 98px !important;
+  border-radius: 8px !important;
+}
+
+:root:root .metric-card.hero,
+:root:root .metric-card.dark,
+:root:root .metric.dark,
+:root:root .hero-card,
+:root:root .crm-expense-design .crm-metric:first-child,
+:root:root .overview-top .hero {
+  background: var(--hero-surface-bg) !important;
+  border-color: var(--hero-surface-border) !important;
+  color: var(--hero-surface-text) !important;
+}
+
+:root:root .metric-value,
+:root:root .metric .value,
+:root:root .crm-expense-design .crm-metric p,
+:root:root .overview-top .metric strong,
+:root:root .kpi-card .metric-value,
+:root:root .statbox strong {
+  font-size: 24px !important;
+  letter-spacing: -0.8px !important;
+  margin-top: 6px !important;
+  line-height: 1.15 !important;
+}
+
+:root:root .overview-top .hero .amount,
+:root:root .hero-amount {
+  font-size: 28px !important;
+  margin: 6px 0 4px !important;
+  line-height: 1.15 !important;
+}
+
+:root:root .overview-top .hero .amount small,
+:root:root .hero-amount small {
+  font-size: 14px !important;
+}
+
+:root:root .overview-top .hero-foot,
+:root:root .hero-foot {
+  margin-top: 10px !important;
+  font-size: 11.5px !important;
+}
+
+:root:root .overview-top .sparkline,
+:root:root .hero-sparkline {
+  top: 30px !important;
+  right: 16px !important;
+  width: 82px !important;
+  height: 34px !important;
+}
+
+:root:root .overview-top .sparkline path,
+:root:root .hero-sparkline path {
+  stroke: var(--hero-surface-muted) !important;
+}
+
+:root:root .metric-icon,
+:root:root .metric-icon.tone-primary {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  margin-bottom: 8px !important;
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+/* Compact Insight Banners & Callouts */
+:root:root .insight-strip,
+:root:root .insight,
+:root:root .portalbanner,
+:root:root .ai-inline {
+  background: var(--primary-soft-bg) !important;
+  border-color: var(--primary-soft-border) !important;
+  color: var(--primary-on-soft) !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+  font-size: 12px !important;
+  gap: 10px !important;
+}
+
+:root:root .insight {
+  margin-bottom: 13px !important;
+}
+
+:root:root .insight > .icon {
+  width: 18px !important;
+  height: 18px !important;
+  color: var(--link-color) !important;
+}
+
+:root:root .insight p,
+:root:root .insight b,
+:root:root .insight-strip strong,
+:root:root .insight-copy strong {
+  color: var(--primary-text-color) !important;
+}
+
+/* Compact Tabs (Underline & Segmented) */
+:root:root .ds-tabs,
+:root:root .tabs {
+  gap: 16px !important;
+  margin-bottom: 12px !important;
+}
+
+:root:root .ds-tab,
+:root:root .tabs a,
+:root:root .tabs button {
+  padding: 6px 2px 8px !important;
+  font-size: 12px !important;
+  min-height: 28px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs {
+  justify-content: flex-start !important;
+  margin: 0 0 8px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs > div {
+  border-radius: 7px !important;
+  padding: 3px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs button {
+  border-radius: 5px !important;
+  padding: 5px 14px !important;
+  font-size: 12px !important;
+}
+
+:root:root .crm-expense-design .crm-dashboard-tabs button.bg-primary {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+/* Compact Panels, Toolbars, Inputs & Grids */
+:root:root .panel,
+:root:root .crm-expense-design .crm-data-panel,
+:root:root .crm-expense-design .crm-pipelines,
+:root:root .crm-expense-design .bg-component-inner.rounded-lg,
+:root:root .crm-expense-design .bg-component-inner.rounded-xl {
+  border-radius: 8px !important;
+}
+
+:root:root .crm-expense-design .crm-pipelines,
+:root:root .crm-expense-design .grid > .bg-component-inner.p-6 {
+  padding: 14px 16px !important;
+}
+
+:root:root .overview-grid,
+:root:root .detail-grid,
+:root:root .rightstack,
+:root:root .grid {
+  gap: 13px !important;
+}
+
+:root:root .main .panel {
+  padding: 15px 18px !important;
+}
+
+:root:root .main .panel + .panel {
+  margin-top: 13px !important;
+}
+
+:root:root .panelhead {
+  margin-bottom: 12px !important;
+}
+
+:root:root .tablewrap {
+  margin: 0 -18px !important;
+  max-width: calc(100% + 36px) !important;
+}
+
+:root:root .panel-head {
+  padding: 11px 16px !important;
+}
+
+:root:root .panel-head h2,
+:root:root .crm-expense-design h2.text-lg {
+  font-size: 14px !important;
+  font-weight: 630 !important;
+}
+
+:root:root .panel-body {
+  padding: 13px 16px !important;
+}
+
+:root:root .panel-foot,
+:root:root .table-footer,
+:root:root .crm-expense-design .crm-data-panel > .border-t {
+  padding: 9px 14px !important;
+  font-size: 11px !important;
+}
+
+:root:root .ds-toolbar,
+:root:root .toolbar,
+:root:root .crm-expense-design .crm-toolbar {
+  padding: 10px 14px !important;
+  gap: 8px !important;
+  border-radius: 8px !important;
+}
+
+:root:root .crm-expense-design[data-crm-page] .crm-shell .crm-toolbar:has(+ .crm-data-panel) {
+  border-radius: 8px 8px 0 0 !important;
+  margin-bottom: -13px !important;
+}
+
+:root:root .crm-expense-design[data-crm-page] .crm-shell .crm-toolbar + .crm-data-panel {
+  border-radius: 0 0 8px 8px !important;
+}
+
+:root:root .ds-input,
+:root:root .ds-select,
+:root:root .field input,
+:root:root .field select,
+:root:root .toolbar select,
+:root:root .crm-expense-design :is(input:not([type=checkbox]):not([type=radio]), select) {
+  min-height: 32px !important;
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+  font-size: 12px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .search {
+  padding: 5px 9px !important;
+  border-radius: 6px !important;
+}
+
+:root:root .ds-filter-pill,
+:root:root .crm-expense-design :is(.filter-tag, .filter-btn, .status-filter) {
+  padding: 4px 9px !important;
+  font-size: 11px !important;
+  border-radius: 5px !important;
+  border-color: var(--secondary-border-color) !important;
+}
+
+:root:root .ds-filter-pill.active,
+:root:root .crm-expense-design :is(.filter-tag, .filter-btn, .status-filter).bg-primary {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* High-Density Data Tables, Lists, Charts & Kanban Cards */
+:root:root table th,
+:root:root table.ds-table th,
+:root:root .crm-expense-design th {
+  padding: 8px 14px !important;
+  font-size: 10.5px !important;
+  background: var(--table-header-background-color) !important;
+}
+
+:root:root table td,
+:root:root table.ds-table td,
+:root:root .crm-expense-design td {
+  padding: 8.5px 14px !important;
+  font-size: 12px !important;
+  line-height: 1.35 !important;
+}
+
+:root:root .primary-id-link,
+:root:root .crm-expense-design a,
+:root:root a.link {
+  color: var(--link-color) !important;
+}
+
+:root:root .list {
+  padding: 0 16px !important;
+}
+
+:root:root .listrow {
+  padding: 7px 6px !important;
+  gap: 10px !important;
+}
+
+:root:root .avatar {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 9.5px !important;
+}
+
+:root:root .avatar.purple,
+:root:root .avatar-tone-primary {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+:root:root .barcol .bar {
+  background: var(--hero-surface-muted) !important;
+  border-radius: 3px 3px 0 0 !important;
+}
+
+:root:root .barcol:nth-last-child(1) .bar,
+:root:root .barcol.is-latest .bar {
+  background: var(--primary-color) !important;
+}
+
+:root:root .donut {
+  width: 108px !important;
+  height: 108px !important;
+}
+
+:root:root .donut:not([style*="conic-gradient"]) {
+  background: conic-gradient(var(--primary-color) 0 60%, var(--tertiary-color) 60% 82%, var(--hero-surface-muted) 82%) !important;
+}
+
+:root:root .donut span {
+  font-size: 20px !important;
+}
+
+:root:root .crm-expense-design :is(.kanban-card, [draggable=true]),
+:root:root rapider-kanban :is(.rapider-kanban-card, .cdk-drag),
+:root:root :is(.cdk-drag-preview.rapider-kanban-card, .cdk-drag-preview.cdk-drag),
+:root:root .candidate-card {
+  padding: 10px 12px !important;
+  border-radius: 7px !important;
+  background-color: var(--component-inner-background-color, #ffffff) !important;
+  border: 1px solid var(--secondary-border-color, #c7d4cd) !important;
+}
+
+:root:root .tag {
+  padding: 2px 6px !important;
+  font-size: 10px !important;
+  border-radius: 4px !important;
+}
+
+:root:root .tag:not(.green):not(.amber):not(.red):not(.blue):not(.gray):not(.tag-success):not(.tag-warning):not(.tag-danger):not(.tag-info):not(.tag-neutral) {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+/* Harmonize Unstyled Anchors & Navigation */
+:root:root a:not(.btn):not(.primary):not(.brand):not(.nav-item):not([class*="bg-"]),
+:root:root .td-person b,
+:root:root .appbox b,
+:root:root .profile-link strong {
+  color: var(--link-color);
+}
+
+:root:root .hero a,
+:root:root .hero-card a,
+:root:root .metric-card.hero a {
+  color: #ffffff !important;
+}
+
+:root:root .nav a:not(.active) {
+  color: var(--secondary-text-color) !important;
+}
+
+:root:root a:not(.btn):not(.primary):hover {
+  color: var(--primary-hover-color);
+}
+
+/* Dark Mode Surface Parity (Overrides generic sandbox dark fallbacks) */
+html.dark:root,
+html.dark:root body,
+html[data-rapider-theme="emerald-ledger"].dark,
+html[data-rapider-theme="emerald-ledger"].dark body {
+  background-color: var(--body-background-color) !important;
+  color: var(--primary-text-color) !important;
+}
+
+html.dark:root .ds-shell,
+html.dark:root .crm-shell,
+html[data-rapider-theme="emerald-ledger"].dark .ds-shell {
+  background: var(--body-background-color) !important;
+  color: var(--primary-text-color) !important;
+}
+
+html.dark:root :is(.panel, .card, .metric, .metric-card, .kpi-card, .crm-data-panel, .pagecard):not(.hero):not(.dark):not(.hero-card),
+html[data-rapider-theme="emerald-ledger"].dark :is(.panel, .card, .metric, .metric-card, .kpi-card, .crm-data-panel, .pagecard):not(.hero):not(.dark):not(.hero-card) {
+  background-color: var(--component-inner-background-color) !important;
+  border-color: var(--primary-border-color) !important;
+  color: var(--primary-text-color) !important;
+}
+
+html.dark:root :is(.metric-card.hero, .metric-card.dark, .metric.dark, .hero-card, .overview-top .hero, .crm-expense-design .crm-metric:first-child),
+html[data-rapider-theme="emerald-ledger"].dark :is(.metric-card.hero, .metric-card.dark, .metric.dark, .hero-card, .overview-top .hero, .crm-expense-design .crm-metric:first-child) {
+  background: var(--hero-surface-bg) !important;
+  border-color: var(--hero-surface-border) !important;
+  color: var(--hero-surface-text) !important;
+}
+
+html.dark:root :is(h1, h2, h3, h4, h5, h6),
+html[data-rapider-theme="emerald-ledger"].dark :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--heading-color) !important;
+}
+
+html.dark:root :is(table th, table.ds-table th, .crm-expense-design th),
+html[data-rapider-theme="emerald-ledger"].dark :is(table th, table.ds-table th, .crm-expense-design th) {
+  background-color: var(--table-header-background-color) !important;
+  color: var(--secondary-text-color) !important;
+  border-color: var(--primary-border-color) !important;
+}
+
+html.dark:root :is(table td, table.ds-table td, .crm-expense-design td),
+html[data-rapider-theme="emerald-ledger"].dark :is(table td, table.ds-table td, .crm-expense-design td) {
+  border-color: var(--subtle-border-color) !important;
+  color: var(--alternative-text-color) !important;
+}
+
+html.dark:root :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea, .ds-input, .ds-select, .ds-textarea),
+html[data-rapider-theme="emerald-ledger"].dark :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea, .ds-input, .ds-select, .ds-textarea) {
+  background-color: var(--input-background-color) !important;
+  border-color: var(--secondary-border-color) !important;
+  color: var(--primary-text-color) !important;
+}

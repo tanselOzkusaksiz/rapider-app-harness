@@ -1,0 +1,499 @@
+/* ==========================================================================
+   RAPIDER APPLICATION THEME — CRIMSON EXECUTIVE
+   Theme Key : crimson-rose (aliases: crimson, crimson-executive)
+   File Name : theme-crimson-rose.css
+   Palette   : Primary #be123c · Hero #261420 · Secondary #3f3f46 · Tertiary #4f46e5
+   Density   : Comfortable Editorial Executive (14px card radius, 10px md, 8px sm, 5px tag)
+   Supports  : Rapider Design System v2 (.ds-*), CRM (.crm-expense-design),
+               and HR / Suite Microapps (.layout, .overview-top, .panel)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. LIGHT MODE SEMANTIC TOKENS & COMFORTABLE GEOMETRY
+   -------------------------------------------------------------------------- */
+:root:root,
+html[data-rapider-theme="crimson-rose"]:root,
+body.crm-expense-design {
+  color-scheme: light;
+  --ds-theme-name: 'crimson-rose';
+
+  /* Primary Brand Role — Executive Crimson (#be123c · 6.29:1 on #fff) */
+  --primary-color: #be123c;
+  --primary-hover-color: #9f1239;
+  --primary-active-color: #881337;
+  --primary-soft-bg: #fff1f2;
+  --primary-soft-subtle: #fff6f7;
+  --primary-soft-border: #fecdd3;
+  --primary-on-soft: #881337;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  /* Secondary Brand Role — Graphite Zinc */
+  --secondary-color: #3f3f46;
+  --secondary-hover-color: #27272a;
+  --secondary-soft-bg: #f4f3f4;
+  --secondary-soft-border: #d4d4d8;
+  --secondary-on-soft: #27272a;
+  --secondary-button-text-color: #1f1519;
+
+  /* Tertiary Brand Role — Royal Indigo */
+  --tertiary-color: #4f46e5;
+  --tertiary-hover-color: #4338ca;
+  --tertiary-soft-bg: #eef2ff;
+  --tertiary-soft-border: #c7d2fe;
+  --tertiary-on-soft: #3730a3;
+  --tertiary-button-text-color: #ffffff;
+
+  /* Hero KPI Card Surface Role — Deep Plum Bordeaux */
+  --hero-surface-bg: #261420;
+  --hero-surface-border: #422337;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #cca8bb;
+
+  /* Canvas & Card Surfaces */
+  --body-background-color: #f7f5f6;
+  --inner-layout-background-color: #f7f5f6;
+  --component-inner-background-color: #ffffff;
+  --component-header-background-color: #fcfafb;
+  --section-background-color: #ffffff;
+  --table-background-color: #ffffff;
+  --table-header-background-color: #fcfafb;
+  --alternative-background-color: #fcfafb;
+  --alternative-bold-background-color: #efe9ec;
+  --subtle-background-color: #f7f2f4;
+  --input-background-color: #fcfafb;
+  --button-background-color: #ffffff;
+  --navbar-background-color: #ffffff;
+  --navigation-layout-background-color: #ffffff;
+  --active-pill-background-color: #fff1f2;
+
+  /* Typography & Borders */
+  --primary-text-color: #1f1519;
+  --text-color: #1f1519;
+  --heading-color: #1f1519;
+  --h1-color: var(--primary-text-color);
+  --h2-color: var(--primary-text-color);
+  --h3-color: var(--primary-text-color);
+  --h4-color: var(--primary-text-color);
+  --h5-color: var(--primary-text-color);
+  --h6-color: var(--primary-text-color);
+  --alternative-text-color: #3f2f36;
+  --secondary-text-color: #6e5f66;
+  --muted-text-color: #8a7981;
+  --eyebrow-text-color: #75626b;
+  --placeholder-color: #9e8d95;
+  --link-color: #be123c;
+  --primary-border-color: #e8e1e4;
+  --secondary-border-color: #d8ccd1;
+  --subtle-border-color: #f0eaed;
+  --interactive-hover-border: #fda4af;
+  --focus-ring-color: rgba(190, 18, 60, 0.24);
+  --focus-color: var(--focus-ring-color);
+
+  /* Comfortable Executive Geometry & Density */
+  --radius: 14px;
+  --radius-md: 10px;
+  --radius-sm: 8px;
+  --radius-tag: 5px;
+  --ds-shell-pad: 34px 36px 48px;
+  --ds-shell-gap: 22px;
+  --ds-title-size: 30px;
+  --ds-subtitle-size: 14px;
+  --ds-btn-min-h: 41px;
+  --ds-btn-pad: 10px 16px;
+  --ds-btn-font: 13px;
+  --ds-input-min-h: 41px;
+  --ds-input-pad: 9px 12px;
+  --ds-input-font: 13px;
+  --ds-kpi-gap: 18px;
+  --ds-kpi-pad: 24px 26px;
+  --ds-kpi-min-h: 158px;
+  --ds-kpi-val-size: 36px;
+  --ds-panel-head-pad: 18px 22px;
+  --ds-panel-body-pad: 20px 22px;
+  --ds-toolbar-pad: 18px 22px;
+  --ds-th-pad: 13px 20px;
+  --ds-td-pad: 16px 20px;
+  --ds-td-font: 13px;
+  --shadow-primary-btn: 0 2px 6px rgba(190, 18, 60, 0.20);
+
+  /* Legacy Variable Bridges (CRM & HR Suite compatibility) */
+  --purple: var(--primary-color);
+  --purple-hover: var(--primary-hover-color);
+  --purple-deep: var(--primary-active-color);
+  --crm-purple: var(--primary-color);
+  --soft: var(--primary-soft-bg);
+  --soft-purple: var(--primary-soft-subtle);
+  --crm-soft: var(--primary-soft-bg);
+  --dark: var(--hero-surface-bg);
+  --dark-muted: var(--hero-surface-muted);
+  --bg: var(--body-background-color);
+  --crm-bg: var(--body-background-color);
+  --surface: var(--component-inner-background-color);
+  --surface-alt: var(--alternative-background-color);
+  --surface-subtle: var(--subtle-background-color);
+  --ink: var(--primary-text-color);
+  --ink-secondary: var(--alternative-text-color);
+  --crm-ink: var(--primary-text-color);
+  --muted: var(--secondary-text-color);
+  --muted-light: var(--muted-text-color);
+  --crm-muted: var(--secondary-text-color);
+  --kicker: var(--eyebrow-text-color);
+  --line: var(--primary-border-color);
+  --line-strong: var(--secondary-border-color);
+  --line-subtle: var(--subtle-border-color);
+  --crm-line: var(--primary-border-color);
+  --focus-ring: var(--focus-ring-color);
+}
+
+/* --------------------------------------------------------------------------
+   2. DARK MODE SEMANTIC TOKENS
+   -------------------------------------------------------------------------- */
+html.dark:root,
+html body.dark,
+html[data-rapider-theme="crimson-rose"].dark:root,
+html[data-rapider-theme="crimson-rose"] body.dark,
+html.dark body.crm-expense-design,
+.dark body.crm-expense-design {
+  color-scheme: dark;
+
+  /* Primary Brand Role — #be123c preserves 6.29:1 AA contrast with #ffffff */
+  --primary-color: #be123c;
+  --primary-hover-color: #e11d48;
+  --primary-active-color: #9f1239;
+  --primary-soft-bg: rgba(244, 63, 94, 0.17);
+  --primary-soft-subtle: rgba(244, 63, 94, 0.14);
+  --primary-soft-border: rgba(251, 113, 133, 0.34);
+  --primary-on-soft: #ffe4e6;
+  --primary-button-text-color: #ffffff;
+  --color-primary-button-text-color: #ffffff;
+
+  /* Secondary & Tertiary Brand Roles */
+  --secondary-color: #3f3f46;
+  --secondary-hover-color: #52525b;
+  --secondary-soft-bg: rgba(161, 161, 170, 0.16);
+  --secondary-soft-border: rgba(161, 161, 170, 0.28);
+  --secondary-on-soft: #e4e4e7;
+  --secondary-button-text-color: #fdf2f8;
+
+  --tertiary-color: #818cf8;
+  --tertiary-hover-color: #6366f1;
+  --tertiary-soft-bg: rgba(129, 140, 248, 0.16);
+  --tertiary-soft-border: rgba(129, 140, 248, 0.30);
+  --tertiary-on-soft: #e0e7ff;
+  --tertiary-button-text-color: #151013;
+
+  /* Hero KPI Card Surface */
+  --hero-surface-bg: #291522;
+  --hero-surface-border: #47263b;
+  --hero-surface-text: #ffffff;
+  --hero-surface-muted: #cca8bb;
+
+  /* Canvas & Card Surfaces */
+  --body-background-color: #151013;
+  --inner-layout-background-color: #151013;
+  --component-inner-background-color: #20181d;
+  --component-header-background-color: #1a1317;
+  --section-background-color: #20181d;
+  --table-background-color: #20181d;
+  --table-header-background-color: #1a1317;
+  --alternative-background-color: #1a1317;
+  --alternative-bold-background-color: #2a2026;
+  --subtle-background-color: #251c21;
+  --input-background-color: #1a1317;
+  --button-background-color: #20181d;
+  --navbar-background-color: #20181d;
+  --navigation-layout-background-color: #1a1317;
+  --active-pill-background-color: rgba(244, 63, 94, 0.22);
+
+  /* Typography & Borders */
+  --primary-text-color: #fdf2f8;
+  --text-color: #fdf2f8;
+  --heading-color: #ffffff;
+  --h1-color: #ffffff;
+  --h2-color: #fdf2f8;
+  --h3-color: #fdf2f8;
+  --h4-color: #fdf2f8;
+  --h5-color: #fdf2f8;
+  --h6-color: #fdf2f8;
+  --alternative-text-color: #e3d3db;
+  --secondary-text-color: #a8969f;
+  --muted-text-color: #8f7d86;
+  --eyebrow-text-color: #ad99a3;
+  --placeholder-color: #77666f;
+  --link-color: #fb7185;
+  --primary-border-color: #35272f;
+  --secondary-border-color: #47353f;
+  --subtle-border-color: #2b2026;
+  --interactive-hover-border: #e11d48;
+  --focus-ring-color: rgba(251, 113, 133, 0.35);
+  --focus-color: var(--focus-ring-color);
+
+  /* Legacy Variable Bridges */
+  --purple: var(--primary-color);
+  --crm-purple: var(--primary-color);
+  --soft: var(--primary-soft-bg);
+  --crm-soft: var(--primary-soft-bg);
+  --bg: var(--body-background-color);
+  --crm-bg: var(--body-background-color);
+  --ink: var(--primary-text-color);
+  --crm-ink: var(--primary-text-color);
+  --muted: var(--secondary-text-color);
+  --crm-muted: var(--secondary-text-color);
+  --line: var(--primary-border-color);
+  --crm-line: var(--primary-border-color);
+}
+
+/* --------------------------------------------------------------------------
+   3. COLOR HARMONIZATION, GEOMETRY & DARK SURFACE PARITY
+   -------------------------------------------------------------------------- */
+
+/* Primary Buttons & Hover Enforcement (Always #ffffff Text) */
+:root:root .primary,
+:root:root button.primary,
+:root:root .btn.primary,
+:root:root a.primary,
+:root:root a.btn.primary,
+:root:root .btn-primary,
+:root:root button.bg-primary,
+:root:root .crm-expense-design button.bg-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: var(--shadow-primary-btn) !important;
+}
+
+:root:root .primary:hover,
+:root:root button.primary:hover,
+:root:root .btn.primary:hover,
+:root:root a.primary:hover,
+:root:root a.btn.primary:hover,
+:root:root .btn-primary:hover,
+:root:root button.bg-primary:hover,
+:root:root .crm-expense-design button.bg-primary:hover {
+  background-color: var(--primary-hover-color) !important;
+  border-color: var(--primary-hover-color) !important;
+  color: #ffffff !important;
+}
+
+/* Comfortable Executive Radii Harmonization */
+:root:root .panel,
+:root:root .metric-card,
+:root:root .metric,
+:root:root .hero-card,
+:root:root .kpi-card,
+:root:root .crm-expense-design .crm-data-panel,
+:root:root .crm-expense-design .crm-metric,
+:root:root .crm-expense-design .crm-pipelines {
+  border-radius: var(--radius) !important;
+}
+
+:root:root .btn,
+:root:root .ds-input,
+:root:root .ds-select,
+:root:root .ds-filter-pill {
+  border-radius: var(--radius-sm) !important;
+}
+
+:root:root .tag {
+  border-radius: var(--radius-tag) !important;
+}
+
+/* Navigation & Brand Harmonization */
+:root:root aside.sidebar,
+:root:root aside#suiteSidebar {
+  background: var(--component-inner-background-color) !important;
+  border-right-color: var(--primary-border-color) !important;
+}
+
+:root:root .brandmark,
+:root:root .appicon {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+}
+
+:root:root .suite-icon-container {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+:root:root .suite-icon-container .suite-icon,
+:root:root .suite-icon-container .suite-expand-icon {
+  color: var(--link-color) !important;
+}
+
+:root:root .appbox {
+  background: var(--primary-soft-subtle) !important;
+  border-color: var(--primary-soft-border) !important;
+}
+
+:root:root .nav a.active,
+:root:root aside.sidebar .nav a.active,
+:root:root aside.sidebar .nav a[aria-current="page"] {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+:root:root .nav a.active :is(i, .nav-icon, svg),
+:root:root aside.sidebar .nav a.active :is(i, .nav-icon, svg),
+:root:root aside.sidebar .nav a[aria-current="page"] :is(i, .nav-icon, svg) {
+  color: #ffffff !important;
+}
+
+:root:root .nav a:not(.active) {
+  color: var(--secondary-text-color) !important;
+}
+
+/* Hero KPI Cards, Metric Icons & Insight Banners */
+:root:root .metric-card.hero,
+:root:root .metric-card.dark,
+:root:root .metric.dark,
+:root:root .hero-card,
+:root:root .crm-expense-design .crm-metric:first-child,
+:root:root .overview-top .hero {
+  background: var(--hero-surface-bg) !important;
+  border-color: var(--hero-surface-border) !important;
+  color: var(--hero-surface-text) !important;
+}
+
+:root:root .overview-top .sparkline path {
+  stroke: var(--hero-surface-muted) !important;
+}
+
+:root:root .metric-icon,
+:root:root .metric-icon.tone-primary {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+:root:root .insight-strip,
+:root:root .insight,
+:root:root .portalbanner,
+:root:root .ai-inline {
+  background: var(--primary-soft-bg) !important;
+  border-color: var(--primary-soft-border) !important;
+  color: var(--primary-on-soft) !important;
+}
+
+:root:root .insight p,
+:root:root .insight b,
+:root:root .insight-strip strong,
+:root:root .insight-copy strong {
+  color: var(--primary-text-color) !important;
+}
+
+:root:root .insight > .icon {
+  color: var(--link-color) !important;
+}
+
+/* Tabs & Filter Pills */
+:root:root .crm-expense-design .crm-dashboard-tabs button.bg-primary,
+:root:root .ds-filter-pill.active,
+:root:root .crm-expense-design :is(.filter-tag, .filter-btn, .status-filter).bg-primary {
+  background: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color) !important;
+}
+
+/* Avatars, Charts & Tags */
+:root:root .avatar.purple,
+:root:root .avatar-tone-primary {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+:root:root .barcol .bar {
+  background: var(--hero-surface-muted) !important;
+}
+
+:root:root .barcol:nth-last-child(1) .bar,
+:root:root .barcol.is-latest .bar {
+  background: var(--primary-color) !important;
+}
+
+:root:root .donut:not([style*="conic-gradient"]) {
+  background: conic-gradient(var(--primary-color) 0 60%, var(--tertiary-color) 60% 82%, var(--hero-surface-muted) 82%) !important;
+}
+
+:root:root .tag:not(.green):not(.amber):not(.red):not(.blue):not(.gray):not(.tag-success):not(.tag-warning):not(.tag-danger):not(.tag-info):not(.tag-neutral) {
+  background: var(--primary-soft-bg) !important;
+  color: var(--link-color) !important;
+}
+
+/* Links */
+:root:root .primary-id-link,
+:root:root .crm-expense-design a,
+:root:root a.link,
+:root:root a:not(.btn):not(.primary):not(.brand):not(.nav-item):not([class*="bg-"]),
+:root:root .td-person b,
+:root:root .appbox b,
+:root:root .profile-link strong {
+  color: var(--link-color);
+}
+
+:root:root .hero a,
+:root:root .hero-card a,
+:root:root .metric-card.hero a {
+  color: #ffffff !important;
+}
+
+:root:root a:not(.btn):not(.primary):hover {
+  color: var(--primary-hover-color);
+}
+
+/* Dark Mode Surface Parity (Overrides generic sandbox dark fallbacks) */
+html.dark:root,
+html.dark:root body,
+html[data-rapider-theme="crimson-rose"].dark,
+html[data-rapider-theme="crimson-rose"].dark body {
+  background-color: var(--body-background-color) !important;
+  color: var(--primary-text-color) !important;
+}
+
+html.dark:root .ds-shell,
+html.dark:root .crm-shell,
+html[data-rapider-theme="crimson-rose"].dark .ds-shell {
+  background: var(--body-background-color) !important;
+  color: var(--primary-text-color) !important;
+}
+
+html.dark:root :is(.panel, .card, .metric, .metric-card, .kpi-card, .crm-data-panel, .pagecard):not(.hero):not(.dark):not(.hero-card),
+html[data-rapider-theme="crimson-rose"].dark :is(.panel, .card, .metric, .metric-card, .kpi-card, .crm-data-panel, .pagecard):not(.hero):not(.dark):not(.hero-card) {
+  background-color: var(--component-inner-background-color) !important;
+  border-color: var(--primary-border-color) !important;
+  color: var(--primary-text-color) !important;
+}
+
+html.dark:root :is(.metric-card.hero, .metric-card.dark, .metric.dark, .hero-card, .overview-top .hero, .crm-expense-design .crm-metric:first-child),
+html[data-rapider-theme="crimson-rose"].dark :is(.metric-card.hero, .metric-card.dark, .metric.dark, .hero-card, .overview-top .hero, .crm-expense-design .crm-metric:first-child) {
+  background: var(--hero-surface-bg) !important;
+  border-color: var(--hero-surface-border) !important;
+  color: var(--hero-surface-text) !important;
+}
+
+html.dark:root :is(h1, h2, h3, h4, h5, h6),
+html[data-rapider-theme="crimson-rose"].dark :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--heading-color) !important;
+}
+
+html.dark:root :is(table th, table.ds-table th, .crm-expense-design th),
+html[data-rapider-theme="crimson-rose"].dark :is(table th, table.ds-table th, .crm-expense-design th) {
+  background-color: var(--table-header-background-color) !important;
+  color: var(--secondary-text-color) !important;
+  border-color: var(--primary-border-color) !important;
+}
+
+html.dark:root :is(table td, table.ds-table td, .crm-expense-design td),
+html[data-rapider-theme="crimson-rose"].dark :is(table td, table.ds-table td, .crm-expense-design td) {
+  border-color: var(--subtle-border-color) !important;
+  color: var(--alternative-text-color) !important;
+}
+
+html.dark:root :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea, .ds-input, .ds-select, .ds-textarea),
+html[data-rapider-theme="crimson-rose"].dark :is(input:not([type="checkbox"]):not([type="radio"]), select, textarea, .ds-input, .ds-select, .ds-textarea) {
+  background-color: var(--input-background-color) !important;
+  border-color: var(--secondary-border-color) !important;
+  color: var(--primary-text-color) !important;
+}
