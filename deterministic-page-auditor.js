@@ -1271,6 +1271,36 @@ function auditHtmlPage(pagePath, appDir, manifest, pageSpec = null) {
     }
   }
 
+  // Pass 21 Table Actions Check: ban standalone "View" buttons in tables
+  if (/<table\b/i.test(cleanMarkup)) {
+    const standaloneViewRegex = /(?:<button\b[^>]*>|<a\b[^>]*class=["'][^"']*\bbtn\b[^"']*["'][^>]*>)(?:\s*<i\b[^>]*><\/i>)?\s*(?:<span\b[^>]*>)?\s*View\s*(?:<\/span>)?\s*<\/(?:button|a)>/i;
+    const eyeViewBtnRegex = /<button\b[^>]*(?:title|aria-label)=["']View["'][^>]*>\s*<i\b[^>]*fa-eye/i;
+    const viewMatch = cleanMarkup.match(standaloneViewRegex) || rawHtml.match(standaloneViewRegex) || cleanMarkup.match(eyeViewBtnRegex) || rawHtml.match(eyeViewBtnRegex);
+    if (viewMatch) {
+      issues.push({
+        rule: 'Pass 21: Table Actions & Row Navigation Standard',
+        type: 'TABLE_STANDALONE_VIEW_BUTTON_VIOLATION',
+        message: 'Data table renders a standalone "View" action button. Remove standalone "View" buttons: make the primary entity name a clickable link, keep an icon + text "Edit" button, and an icon-only Delete button.',
+        snippet: viewMatch[0].slice(0, 120)
+      });
+    }
+  }
+
+  // Pass 22 UUID Leak Check: ban sliced UUID fragments or hardcoded seed UUIDs in rendered UI
+  const slicedUuidExprRegex = /\$\{[^}]*(?:Id|_id|\.id)\b[^}]*\.(?:slice|substring)\(\s*0\s*,\s*(?:6|8|12)\s*\)/;
+  const refUuidExprRegex = /\b(?:Application|Candidate|Requisition|Interview|Offer|Record)\s+ref\s*:\s*\$\{/i;
+  const rawSeedUuidInDomRegex = /00000000-[0-9a-f]{4}-[0-9a-f]{4}/i;
+  const slicedMatch = rawHtml.match(slicedUuidExprRegex) || rawHtml.match(refUuidExprRegex);
+  const seedDomMatch = cleanMarkup.match(rawSeedUuidInDomRegex);
+  if (slicedMatch || seedDomMatch) {
+    issues.push({
+      rule: 'Pass 22: Domain Fidelity & Anti-Boilerplate',
+      type: 'SLICED_UUID_DISPLAY_LEAK',
+      message: 'Page displays raw or truncated UUID fragments (e.g. `.slice(0, 8)` or `Application ref: ...`) in visible UI. Resolve foreign keys to human-readable business codes (`REQ-104`, `CAN-042`), names, or titles.',
+      snippet: (slicedMatch ? slicedMatch[0] : seedDomMatch[0]).slice(0, 120)
+    });
+  }
+
   // Record structural fingerprint for cross-page anti-clone verification
   const thHeaders = Array.from(cleanMarkup.matchAll(/<th\b[^>]*>([\s\S]*?)<\/th>/gi))
     .map(m => m[1].replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim().toLowerCase())
